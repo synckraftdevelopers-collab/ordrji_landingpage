@@ -50,7 +50,11 @@ export default function CommandCenter() {
 
         // Chance of new order
         if (Math.random() > 0.4) {
-          const newId = `#10${Math.floor(Math.random() * 90) + 10}`;
+          const maxId = prev.reduce((max, o) => {
+            const num = parseInt(o.id.replace("#", ""), 10);
+            return !isNaN(num) && num > max ? num : max;
+          }, 1092);
+          const newId = `#${maxId + 1}`;
           const tables = ["T-01", "T-08", "T-15", "T-03", "T-11", "T-20", "Delivery"];
           const sources: ("QR" | "Waiter" | "Zomato" | "Swiggy")[] = ["QR", "Waiter", "Zomato"];
           const itemsList = [
