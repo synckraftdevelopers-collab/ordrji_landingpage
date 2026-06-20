@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, QrCode, Smartphone, Wifi, ChefHat, Bell, Receipt, CheckCircle, Gift, UserCheck, MessageSquare } from "lucide-react";
 
 interface JourneyStep {
@@ -110,6 +110,8 @@ const JOURNEY_STEPS: JourneyStep[] = [
 export default function OrderJourney() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -117,20 +119,78 @@ export default function OrderJourney() {
       const maxScroll = scrollWidth - clientWidth;
       const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
       setScrollProgress(progress);
+
+      // Calculate current active index based on scroll position
+      const card = scrollContainerRef.current.querySelector(".journey-card-wrapper");
+      if (card) {
+        const cardWidth = card.getBoundingClientRect().width;
+        const gap = 24; // 1.5rem gap
+        const step = cardWidth + gap;
+        const index = Math.round(scrollLeft / step);
+        setActiveIndex(Math.max(0, Math.min(index, JOURNEY_STEPS.length - 1)));
+      }
     }
   };
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -350, behavior: "smooth" });
+      const container = scrollContainerRef.current;
+      const card = container.querySelector(".journey-card-wrapper");
+      if (card) {
+        const cardWidth = card.getBoundingClientRect().width;
+        const gap = 24;
+        container.scrollBy({ left: -(cardWidth + gap), behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: -350, behavior: "smooth" });
+      }
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 350, behavior: "smooth" });
+      const container = scrollContainerRef.current;
+      const card = container.querySelector(".journey-card-wrapper");
+      if (card) {
+        const cardWidth = card.getBoundingClientRect().width;
+        const gap = 24;
+        container.scrollBy({ left: cardWidth + gap, behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: 350, behavior: "smooth" });
+      }
     }
   };
+
+  // Auto scroll effect
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        const card = container.querySelector(".journey-card-wrapper");
+        if (!card) return;
+
+        const cardWidth = card.getBoundingClientRect().width;
+        const gap = 24; // 1.5rem gap
+        const step = cardWidth + gap;
+
+        let nextIndex = activeIndex + 1;
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+        // If we are at the end, wrap around to index 0
+        if (nextIndex >= JOURNEY_STEPS.length || container.scrollLeft >= maxScrollLeft - 5) {
+          nextIndex = 0;
+        }
+
+        container.scrollTo({
+          left: nextIndex * step,
+          behavior: "smooth"
+        });
+      }
+    }, 2000); // changes every 2.0 seconds
+
+    return () => clearInterval(interval);
+  }, [activeIndex, isPaused]);
 
   return (
     <section className="journey-section" id="journey">
@@ -165,6 +225,10 @@ export default function OrderJourney() {
         className="journey-track" 
         ref={scrollContainerRef}
         onScroll={handleScroll}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
       >
         {JOURNEY_STEPS.map((step) => {
           const StepIcon = step.icon;
