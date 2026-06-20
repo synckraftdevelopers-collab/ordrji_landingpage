@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
@@ -15,17 +15,20 @@ import RoiCalculator from "@/components/RoiCalculator";
 import Pricing from "@/components/Pricing";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
+import BookDemoModal from "@/components/BookDemoModal";
 
 export default function Home() {
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+
   return (
     <>
       {/* Global Navigation */}
-      <Navbar />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
 
       {/* Main Sections Stack */}
       <main style={{ minHeight: "100vh" }}>
         {/* Section 1: Hero Visual Center */}
-        <Hero />
+        <Hero onBookDemo={() => setIsDemoModalOpen(true)} />
 
         {/* Section 2: Format Trust Bar Carousel */}
         <TrustBar />
@@ -73,6 +76,9 @@ export default function Home() {
 
       {/* Global Footer */}
       <Footer />
+
+      {/* Book Demo Lead Capture Form Modal */}
+      <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
     </>
   );
 }

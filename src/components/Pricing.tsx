@@ -163,7 +163,10 @@ export default function Pricing() {
                     )}
                   </div>
 
-                  <button 
+                  <a 
+                    href="https://pos.ordrji.com/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="btn-primary plan-cta-btn"
                     style={{ 
                       backgroundColor: plan.popular ? "var(--accent-orange)" : "rgba(0,0,0,0.02)",
@@ -172,7 +175,7 @@ export default function Pricing() {
                     }}
                   >
                     {plan.cta} <ArrowRight size={14} />
-                  </button>
+                  </a>
                 </div>
 
                 <div className="divider" style={{ margin: "1.5rem 0" }} />

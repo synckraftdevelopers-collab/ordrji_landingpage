@@ -11,7 +11,11 @@ const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1600"  // Restaurant owner viewing analytics
 ];
 
-export default function Hero() {
+interface HeroProps {
+  onBookDemo: () => void;
+}
+
+export default function Hero({ onBookDemo }: HeroProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -55,12 +59,12 @@ export default function Hero() {
             </p>
 
             <div className="hero-ctas">
-              <a href="https://ordrji.com/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
+              <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
                 Start Free Trial <ArrowRight size={18} />
               </a>
-              <a href="#demo" className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
+              <button onClick={onBookDemo} className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
                 <Play size={16} fill="currentColor" /> Book Demo
-              </a>
+              </button>
             </div>
 
             <div className="hero-metrics-summary">

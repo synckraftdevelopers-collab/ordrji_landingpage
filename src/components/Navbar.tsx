@@ -3,7 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Menu, X, Sparkles } from "lucide-react";
 
-export default function Navbar() {
+interface NavbarProps {
+  onBookDemo: () => void;
+}
+
+export default function Navbar({ onBookDemo }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -58,10 +62,10 @@ export default function Navbar() {
 
         {/* Action Buttons */}
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }} className="desktop-actions">
-          <a href="#demo" className="btn-secondary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
+          <button onClick={onBookDemo} className="btn-secondary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
             Book Demo
-          </a>
-          <a href="https://ordrji.com/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
+          </button>
+          <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
             Start Free Trial <ArrowRight size={14} />
           </a>
         </div>
@@ -106,10 +110,17 @@ export default function Navbar() {
           <a href="#roi" onClick={() => setIsMobileMenuOpen(false)}>ROI Calculator</a>
           <a href="#pricing" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1rem" }}>
-            <a href="#demo" className="btn-secondary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onBookDemo();
+              }}
+              className="btn-secondary"
+              style={{ justifyContent: "center" }}
+            >
               Book Demo
-            </a>
-            <a href="https://ordrji.com/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
+            </button>
+            <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
               Start Free Trial <ArrowRight size={14} />
             </a>
           </div>

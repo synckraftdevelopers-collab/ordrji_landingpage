@@ -40,8 +40,8 @@ export default function RoleExperience() {
                     <stop offset="100%" stopColor="var(--accent-orange)" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                <path d="M0 25 C 20 20, 40 28, 60 10, 80 15, 100 2 M100 30 L0 30 Z" fill="url(#orangeGlow)" />
-                <path d="M0 25 C 20 20, 40 28, 60 10, 80 15, 100 2" fill="none" stroke="var(--accent-orange)" strokeWidth="2" />
+                <path d="M0 25 C 20 20, 40 28, 60 10 S 80 15, 100 2 M100 30 L0 30 Z" fill="url(#orangeGlow)" />
+                <path d="M0 25 C 20 20, 40 28, 60 10 S 80 15, 100 2" fill="none" stroke="var(--accent-orange)" strokeWidth="2" />
               </svg>
             </div>
             <span className="widget-meta" style={{ color: "var(--accent-green)" }}>+18.4% compared to last Wednesday</span>
