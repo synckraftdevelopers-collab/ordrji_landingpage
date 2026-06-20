@@ -61,7 +61,7 @@ export default function Navbar() {
           <a href="#demo" className="btn-secondary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
             Book Demo
           </a>
-          <a href="#trial" className="btn-primary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
+          <a href="https://ordrji.com/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
             Start Free Trial <ArrowRight size={14} />
           </a>
         </div>
@@ -109,7 +109,7 @@ export default function Navbar() {
             <a href="#demo" className="btn-secondary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
               Book Demo
             </a>
-            <a href="#trial" className="btn-primary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
+            <a href="https://ordrji.com/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
               Start Free Trial <ArrowRight size={14} />
             </a>
           </div>

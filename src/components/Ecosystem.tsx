@@ -16,7 +16,7 @@ interface EcosystemNode {
 const NODES: EcosystemNode[] = [
   { id: "orders",    name: "Orders Engine",          desc: "Consolidate QR ordering, walk-ins, and aggregate delivery apps in one place.",        color: "#e30613", angle: 0,   stat: "3k+ orders/sec reconciled",    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=120" },
   { id: "kitchen",   name: "Kitchen Displays (KDS)", desc: "Transmit direct table orders to preparation queues without lag.",                      color: "#d97706", angle: 40,  stat: "Prep times reduced by 22%",     image: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=120" },
-  { id: "billing",   name: "Billing & Split",        desc: "Accept payments, print receipts, and split checks instantly.",                         color: "#059669", angle: 80,  stat: "Instant UPI reconciliation",    image: "https://images.unsplash.com/photo-1563013544-824ae1d704d3?auto=format&fit=crop&q=80&w=120" },
+  { id: "billing",   name: "Billing & Split",        desc: "Accept payments, print receipts, and split checks instantly.",                         color: "#059669", angle: 80,  stat: "Instant UPI reconciliation",    image: "/eco-billing.jpg" },
   { id: "inventory", name: "Inventory Intel",        desc: "Live recipe tracing, automated alerts, and raw materials stock indicators.",           color: "#dc2626", angle: 120, stat: "Zero manual inventory audits",  image: "https://images.unsplash.com/photo-1543083115-638c32cd3d58?auto=format&fit=crop&q=80&w=120" },
   { id: "crm",       name: "CRM Engines",            desc: "Collect customer profiles, dietary flags, and loyalty tiers.",                         color: "#0284c7", angle: 160, stat: "60k+ profiles managed",         image: "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?auto=format&fit=crop&q=80&w=120" },
   { id: "marketing", name: "Marketing Flows",        desc: "Trigger SMS/WhatsApp campaigns based on historical dining actions.",                   color: "#e30613", angle: 200, stat: "+14.8% customer retention",    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=120" },
@@ -107,8 +107,8 @@ export default function Ecosystem() {
               {/* Spoke lines */}
               {NODES.map((node, idx) => {
                 const rad = ((node.angle + rotation) * Math.PI) / 180;
-                const nx = CX + R * Math.cos(rad);
-                const ny = CY + R * Math.sin(rad);
+                const nx = parseFloat((CX + R * Math.cos(rad)).toFixed(4));
+                const ny = parseFloat((CY + R * Math.sin(rad)).toFixed(4));
                 return (
                   <line key={`spoke-${node.id}`}
                     x1={CX} y1={CY} x2={nx} y2={ny}
@@ -128,8 +128,8 @@ export default function Ecosystem() {
               {/* Orbital nodes */}
               {NODES.map((node, idx) => {
                 const rad = ((node.angle + rotation) * Math.PI) / 180;
-                const nx = CX + R * Math.cos(rad);
-                const ny = CY + R * Math.sin(rad);
+                const nx = parseFloat((CX + R * Math.cos(rad)).toFixed(4));
+                const ny = parseFloat((CY + R * Math.sin(rad)).toFixed(4));
                 const isActive = idx === activeIndex;
                 const isHov = hoveredIndex === idx;
 

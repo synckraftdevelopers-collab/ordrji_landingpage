@@ -55,7 +55,7 @@ export default function Hero() {
             </p>
 
             <div className="hero-ctas">
-              <a href="#trial" className="btn-primary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
+              <a href="https://ordrji.com/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
                 Start Free Trial <ArrowRight size={18} />
               </a>
               <a href="#demo" className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>

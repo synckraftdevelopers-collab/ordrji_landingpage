@@ -140,7 +140,7 @@ export default function RoiCalculator() {
                   <div className="output-title">
                     <IndianRupee size={14} color="var(--accent-orange)" /> EXTRA REVENUE
                   </div>
-                  <h3>₹{extraRevenue.toLocaleString()}</h3>
+                  <h3>₹{extraRevenue.toLocaleString('en-IN')}</h3>
                   <p>Generated via automated upsells and smart recommendations on QR menus.</p>
                 </div>
 
@@ -149,7 +149,7 @@ export default function RoiCalculator() {
                   <div className="output-title">
                     <CheckCircle size={14} color="var(--accent-green)" /> MONTHLY SAVINGS
                   </div>
-                  <h3>₹{monthlySavings.toLocaleString()}</h3>
+                  <h3>₹{monthlySavings.toLocaleString('en-IN')}</h3>
                   <p>Saved in paper, audit administration, and ingredient wastage alerts.</p>
                 </div>
 
@@ -158,7 +158,7 @@ export default function RoiCalculator() {
                   <div className="output-title">
                     <ShieldAlert size={14} color="var(--accent-amber)" /> ERRORS AVOIDED
                   </div>
-                  <h3>₹{reducedErrors.toLocaleString()}</h3>
+                  <h3>₹{reducedErrors.toLocaleString('en-IN')}</h3>
                   <p>Losses stopped by syncing checkouts directly with kitchen displays.</p>
                 </div>
 
@@ -177,7 +177,7 @@ export default function RoiCalculator() {
                 <div>
                   <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", fontWeight: 700 }}>COMBINED MONTHLY VALUE</span>
                   <h3 style={{ fontSize: "2.2rem", fontWeight: 800, color: "var(--accent-orange)" }}>
-                    ₹{(extraRevenue + monthlySavings + reducedErrors).toLocaleString()}
+                    ₹{(extraRevenue + monthlySavings + reducedErrors).toLocaleString('en-IN')}
                   </h3>
                 </div>
                 <div style={{ maxWidth: "250px", fontSize: "0.75rem", color: "var(--text-secondary)", lineHeight: "1.4" }}>
