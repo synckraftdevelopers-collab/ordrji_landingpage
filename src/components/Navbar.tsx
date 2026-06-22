@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowRight, Menu, X, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Menu, X } from "lucide-react";
 
 interface NavbarProps {
   onBookDemo: () => void;
@@ -51,13 +52,11 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav style={{ display: "flex", gap: "2rem", alignItems: "center" }} className="desktop-nav">
-          <a href="#features" className="nav-link">OS Platform</a>
-          <a href="#journey" className="nav-link">Order Journey</a>
-          <a href="#floor" className="nav-link">Live Floor</a>
-          <a href="#crm" className="nav-link">Growth Engine</a>
-          <a href="#roi" className="nav-link">ROI Calculator</a>
+        <nav style={{ display: "flex", gap: "1.75rem", alignItems: "center" }} className="desktop-nav">
+          <a href="/" className="nav-link">Home</a>
+          <a href="#features" className="nav-link">Features</a>
           <a href="#pricing" className="nav-link">Pricing</a>
+          <Link href="/contact" className="nav-link">Contact Us</Link>
         </nav>
 
         {/* Action Buttons */}
@@ -103,12 +102,13 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             backdropFilter: "blur(20px)"
           }}
         >
-          <a href="#features" onClick={() => setIsMobileMenuOpen(false)}>OS Platform</a>
-          <a href="#journey" onClick={() => setIsMobileMenuOpen(false)}>Order Journey</a>
-          <a href="#floor" onClick={() => setIsMobileMenuOpen(false)}>Live Floor</a>
-          <a href="#crm" onClick={() => setIsMobileMenuOpen(false)}>Growth Engine</a>
-          <a href="#roi" onClick={() => setIsMobileMenuOpen(false)}>ROI Calculator</a>
+          <a href="/" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600, color: "var(--text-secondary)" }}>Home</a>
+          <a href="#features" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
           <a href="#pricing" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
+          <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+          <Link href="/terms" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Terms & Conditions</Link>
+          <Link href="/privacy-policy" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Privacy Policy</Link>
+          <Link href="/refund-cancellation" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Refund & Cancellation</Link>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1rem" }}>
             <button
               onClick={() => {

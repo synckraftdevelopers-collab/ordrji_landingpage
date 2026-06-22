@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Globe, Mail, MessageSquare, Heart } from "lucide-react";
+import Link from "next/link";
+import { Globe, Mail, MessageSquare, Heart } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -84,9 +85,10 @@ export default function Footer() {
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               <li><a href="#" className="footer-link">About Us</a></li>
               <li><a href="#" className="footer-link">Success Stories</a></li>
-              <li><a href="#" className="footer-link">Careers</a></li>
-              <li><a href="#" className="footer-link">Privacy Policy</a></li>
-              <li><a href="#" className="footer-link">Terms of Service</a></li>
+              <li><Link href="/contact" className="footer-link">Contact Us</Link></li>
+              <li><Link href="/privacy-policy" className="footer-link">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="footer-link">Terms & Conditions</Link></li>
+              <li><Link href="/refund-cancellation" className="footer-link">Refund & Cancellation</Link></li>
             </ul>
           </div>
         </div>

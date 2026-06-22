@@ -117,7 +117,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
         }
 
         .hero-slide.active {
-          opacity: 0.55;
+          opacity: 0.68;
           animation: kenburns 7s ease-in-out forwards;
         }
 
@@ -131,8 +131,8 @@ export default function Hero({ onBookDemo }: HeroProps) {
           inset: 0;
           background: linear-gradient(
             to bottom,
-            rgba(253, 250, 244, 0.75) 0%,
-            rgba(253, 250, 244, 0.9) 60%,
+            rgba(253, 250, 244, 0.55) 0%,
+            rgba(253, 250, 244, 0.75) 60%,
             var(--bg-primary) 100%
           );
           z-index: 1;

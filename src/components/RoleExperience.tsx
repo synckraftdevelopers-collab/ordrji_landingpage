@@ -1,7 +1,84 @@
 "use client";
 
-import React, { useState } from "react";
-import { Sparkles, TrendingUp, BarChart2, Shield, Calendar, Users, AlertTriangle, Printer, CreditCard, ChevronRight, Play, CheckCircle } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Sparkles, TrendingUp, BarChart2, Shield, Calendar, Users, AlertTriangle, Printer, CreditCard, ChevronRight, Play, CheckCircle, User, Monitor } from "lucide-react";
+
+// ── Count-up hook (quartic ease-out, rAF) ──────────────────────────────────
+function useCountUp(target: number, duration = 1800, started = false): number {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!started) { setValue(0); return; }
+    let startTime: number | null = null;
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setValue(Math.floor(easeOutQuart(progress) * target));
+      if (progress < 1) requestAnimationFrame(step);
+      else setValue(target);
+    };
+    const raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, started]);
+  return value;
+}
+
+// ── Stat badge sub-component ───────────────────────────────────────────────
+interface ReStatBadgeProps {
+  icon: React.ReactNode;
+  displayValue: string;
+  label: string;
+  color: string;
+  started: boolean;
+  delay: number;
+}
+
+function ReStatBadge({ icon, displayValue, label, color, started, delay }: ReStatBadgeProps) {
+  return (
+    <div
+      className="re-stat-badge"
+      style={{
+        borderTopColor: color,
+        animationDelay: `${delay}ms`,
+        animationPlayState: started ? "running" : "paused",
+      }}
+    >
+      <div className="re-stat-icon" style={{ background: `${color}18` }}>
+        {React.cloneElement(icon as React.ReactElement<{ size: number; color: string }>, { size: 20, color })}
+      </div>
+      <div className="re-stat-num" style={{ background: `linear-gradient(135deg, var(--text-primary) 0%, ${color} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+        {displayValue}
+      </div>
+      <div className="re-stat-label">{label}</div>
+    </div>
+  );
+}
+
+// ── Count-up stat badge (uses hook internally) ─────────────────────────────
+interface ReCountStatBadgeProps {
+  icon: React.ReactNode;
+  value: number;
+  suffix: string;
+  label: string;
+  color: string;
+  started: boolean;
+  delay: number;
+}
+
+function ReCountStatBadge({ icon, value, suffix, label, color, started, delay }: ReCountStatBadgeProps) {
+  const count = useCountUp(value, 1800, started);
+  return (
+    <ReStatBadge
+      icon={icon}
+      displayValue={`${count}${suffix}`}
+      label={label}
+      color={color}
+      started={started}
+      delay={delay}
+    />
+  );
+}
 
 type RoleName = "Owner" | "Manager" | "Cashier" | "Kitchen" | "Waiter";
 
@@ -14,7 +91,34 @@ interface RoleConfig {
 }
 
 export default function RoleExperience() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [statsStarted, setStatsStarted] = useState(false);
+  const [tabsVisible, setTabsVisible] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
   const [activeRole, setActiveRole] = useState<RoleName>("Owner");
+
+  // IntersectionObserver
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !inView) {
+          setInView(true);
+          setTimeout(() => setHeaderVisible(true), 80);
+          setTimeout(() => setStatsStarted(true), 200);
+          setTimeout(() => setTabsVisible(true), 350);
+          setTimeout(() => setContentVisible(true), 500);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [inView]);
 
   const roles: RoleConfig[] = [
     {
@@ -24,7 +128,6 @@ export default function RoleExperience() {
       color: "var(--accent-orange)",
       widgets: (
         <div className="role-widgets-grid">
-          {/* Widget 1 */}
           <div className="role-widget glass-card hover-glow-orange">
             <div className="widget-header">
               <TrendingUp size={16} color="var(--accent-orange)" />
@@ -32,7 +135,6 @@ export default function RoleExperience() {
             </div>
             <h3 style={{ fontSize: "1.8rem", fontWeight: 800, margin: "0.5rem 0" }}>₹1,48,250</h3>
             <div className="widget-chart">
-              {/* Mini SVG area chart */}
               <svg viewBox="0 0 100 30" width="100%" height="40">
                 <defs>
                   <linearGradient id="orangeGlow" x1="0" y1="0" x2="0" y2="1">
@@ -47,11 +149,10 @@ export default function RoleExperience() {
             <span className="widget-meta" style={{ color: "var(--accent-green)" }}>+18.4% compared to last Wednesday</span>
           </div>
 
-          {/* Widget 2 */}
           <div className="role-widget glass-card hover-glow-orange">
             <div className="widget-header">
               <BarChart2 size={16} color="var(--accent-orange)" />
-              <span>ACQUISITION & CRM</span>
+              <span>ACQUISITION &amp; CRM</span>
             </div>
             <h3 style={{ fontSize: "1.8rem", fontWeight: 800, margin: "0.5rem 0" }}>142 <span style={{ fontSize: "0.9rem", color: "var(--text-secondary)", fontWeight: 400 }}>new profiles</span></h3>
             <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", lineHeight: "1.4" }}>
@@ -59,11 +160,10 @@ export default function RoleExperience() {
             </p>
           </div>
 
-          {/* Widget 3 */}
           <div className="role-widget glass-card hover-glow-orange">
             <div className="widget-header">
               <Shield size={16} color="var(--accent-orange)" />
-              <span>P&L INDEX</span>
+              <span>P&amp;L INDEX</span>
             </div>
             <h3 style={{ fontSize: "1.8rem", fontWeight: 800, margin: "0.5rem 0" }}>32.4%</h3>
             <span className="widget-meta">Net Operating Margin (optimal)</span>
@@ -78,7 +178,6 @@ export default function RoleExperience() {
       color: "var(--accent-blue)",
       widgets: (
         <div className="role-widgets-grid">
-          {/* Widget 1 */}
           <div className="role-widget glass-card hover-glow-blue">
             <div className="widget-header">
               <Calendar size={16} color="var(--accent-blue)" />
@@ -88,7 +187,6 @@ export default function RoleExperience() {
             <span className="widget-meta">2 kitchen prep | 4 front-of-house | 2 bar</span>
           </div>
 
-          {/* Widget 2 */}
           <div className="role-widget glass-card hover-glow-blue">
             <div className="widget-header">
               <Users size={16} color="var(--accent-blue)" />
@@ -98,7 +196,6 @@ export default function RoleExperience() {
             <span className="widget-meta" style={{ color: "var(--accent-amber)" }}>Peak hours loading: 75% capacity</span>
           </div>
 
-          {/* Widget 3 */}
           <div className="role-widget glass-card hover-glow-blue">
             <div className="widget-header">
               <AlertTriangle size={16} color="var(--accent-blue)" />
@@ -117,7 +214,6 @@ export default function RoleExperience() {
       color: "var(--accent-green)",
       widgets: (
         <div className="role-widgets-grid">
-          {/* Widget 1 */}
           <div className="role-widget glass-card hover-glow-green">
             <div className="widget-header">
               <Printer size={16} color="var(--accent-green)" />
@@ -129,7 +225,6 @@ export default function RoleExperience() {
             </div>
           </div>
 
-          {/* Widget 2 */}
           <div className="role-widget glass-card hover-glow-green">
             <div className="widget-header">
               <CreditCard size={16} color="var(--accent-green)" />
@@ -139,7 +234,6 @@ export default function RoleExperience() {
             <span className="widget-meta">UPI, cash, and card gateways matched</span>
           </div>
 
-          {/* Widget 3 */}
           <div className="role-widget glass-card hover-glow-green">
             <div className="widget-header">
               <CheckCircle size={16} color="var(--accent-green)" />
@@ -158,7 +252,6 @@ export default function RoleExperience() {
       color: "var(--accent-amber)",
       widgets: (
         <div className="role-widgets-grid">
-          {/* Widget 1 */}
           <div className="role-widget glass-card hover-glow-amber">
             <div className="widget-header">
               <Sparkles size={16} color="var(--accent-amber)" />
@@ -168,7 +261,6 @@ export default function RoleExperience() {
             <span className="widget-meta">Avg cooking timer: 11.2 mins</span>
           </div>
 
-          {/* Widget 2 */}
           <div className="role-widget glass-card hover-glow-amber">
             <div className="widget-header">
               <AlertTriangle size={16} color="var(--accent-amber)" />
@@ -178,7 +270,6 @@ export default function RoleExperience() {
             <span className="widget-meta">Fryer and Main stations balanced</span>
           </div>
 
-          {/* Widget 3 */}
           <div className="role-widget glass-card hover-glow-amber" style={{ display: "flex", flexDirection: "column" }}>
             <div className="widget-header">
               <span>UPCOMING ITEM</span>
@@ -198,7 +289,6 @@ export default function RoleExperience() {
       color: "var(--accent-blue)",
       widgets: (
         <div className="role-widgets-grid">
-          {/* Widget 1 */}
           <div className="role-widget glass-card hover-glow-blue">
             <div className="widget-header">
               <Users size={16} color="var(--accent-blue)" />
@@ -208,7 +298,6 @@ export default function RoleExperience() {
             <span className="widget-meta">Serving 8 active diners</span>
           </div>
 
-          {/* Widget 2 */}
           <div className="role-widget glass-card hover-glow-blue">
             <div className="widget-header">
               <AlertTriangle size={16} color="var(--accent-blue)" />
@@ -220,7 +309,6 @@ export default function RoleExperience() {
             </div>
           </div>
 
-          {/* Widget 3 */}
           <div className="role-widget glass-card hover-glow-blue">
             <div className="widget-header">
               <span>SERVICE TICKETS</span>
@@ -236,13 +324,13 @@ export default function RoleExperience() {
   const currentRoleConfig = roles.find((r) => r.role === activeRole)!;
 
   return (
-    <section className="roles-section" id="roles">
+    <section className="roles-section" id="roles" ref={sectionRef}>
       <div className="glow-spot glow-rose" style={{ top: "10%", left: "10%", width: "400px", height: "400px" }} />
       <div className="glow-spot glow-blue" style={{ bottom: "10%", right: "10%", width: "400px", height: "400px" }} />
 
       <div className="container">
         {/* Title Block */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+        <div className={`re-header${headerVisible ? " re-header-in" : ""}`} style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="badge animate-float" style={{ background: "rgba(227, 6, 19, 0.08)", borderColor: "rgba(227, 6, 19, 0.2)" }}>
             <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Multi-Role Architecture
           </div>
@@ -254,16 +342,27 @@ export default function RoleExperience() {
           </p>
         </div>
 
+        {/* Count-up stat row */}
+        <div className={`re-stats-row${statsStarted ? " re-stats-started" : ""}`}>
+          <ReCountStatBadge icon={<User />} value={5} suffix=" roles" label="Dedicated interfaces" color="#e30613" started={statsStarted} delay={0} />
+          {/* "0.2s" — hardcoded, no count-up */}
+          <ReStatBadge displayValue="0.2s" icon={<Sparkles />} label="Live sync delay" color="#059669" started={statsStarted} delay={120} />
+          <ReCountStatBadge icon={<Monitor />} value={100} suffix="%" label="Real-time data" color="#0284c7" started={statsStarted} delay={240} />
+          <ReCountStatBadge icon={<Shield />} value={99} suffix=".99%" label="Session uptime" color="#7c3aed" started={statsStarted} delay={360} />
+        </div>
+
         {/* Tab Buttons */}
-        <div className="role-tabs-bar glass-card">
-          {roles.map((r) => (
+        <div className={`role-tabs-bar glass-card re-tabs-slide${tabsVisible ? " re-tabs-in" : ""}`}>
+          {roles.map((r, idx) => (
             <button
               key={r.role}
               onClick={() => setActiveRole(r.role)}
-              className={`role-tab-btn ${activeRole === r.role ? "active" : ""}`}
+              className={`role-tab-btn re-tab-pop${activeRole === r.role ? " active" : ""}`}
               style={{
                 borderColor: activeRole === r.role ? r.color : "transparent",
-                color: activeRole === r.role ? "var(--accent-orange)" : "var(--text-secondary)"
+                color: activeRole === r.role ? "var(--accent-orange)" : "var(--text-secondary)",
+                animationDelay: tabsVisible ? `${idx * 60}ms` : "0ms",
+                animationPlayState: tabsVisible ? "running" : "paused",
               }}
             >
               {r.role}
@@ -272,7 +371,7 @@ export default function RoleExperience() {
         </div>
 
         {/* Role Content Details */}
-        <div className="role-content-display glass-card" style={{ borderTopColor: currentRoleConfig.color }}>
+        <div className={`role-content-display glass-card re-content-slide${contentVisible ? " re-content-in" : ""}`} style={{ borderTopColor: currentRoleConfig.color }}>
           <div className="role-info-sidebar">
             <span className="role-tag" style={{ color: currentRoleConfig.color }}>{currentRoleConfig.role} INTERFACE</span>
             <h2>{currentRoleConfig.title}</h2>
@@ -285,7 +384,6 @@ export default function RoleExperience() {
           </div>
 
           <div className="role-preview-window">
-            {/* Window Topbar */}
             <div className="role-window-bar">
               <div className="window-dots">
                 <span className="window-dot red" />
@@ -294,7 +392,6 @@ export default function RoleExperience() {
               </div>
               <span className="window-address">orderji_os_{currentRoleConfig.role.toLowerCase()}.app</span>
             </div>
-            {/* Widget layout render */}
             <div className="role-workspace-view">
               {currentRoleConfig.widgets}
             </div>
@@ -307,6 +404,111 @@ export default function RoleExperience() {
           padding: 8rem 0;
           background-color: var(--bg-primary);
           position: relative;
+        }
+
+        /* ── Header animation ── */
+        .re-header {
+          opacity: 0;
+          transform: translateY(28px);
+          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .re-header-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* ── Stat row ── */
+        .re-stats-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.25rem;
+          justify-content: center;
+          margin-bottom: 3rem;
+        }
+
+        .re-stat-badge {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 1.5rem 2rem;
+          border-radius: 14px;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-top: 3px solid;
+          min-width: 160px;
+          opacity: 0;
+          transform: translateY(28px);
+          animation: reStatUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-play-state: paused;
+        }
+
+        .re-stats-started .re-stat-badge {
+          animation-play-state: running;
+        }
+
+        @keyframes reStatUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .re-stat-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .re-stat-num {
+          font-size: 2rem;
+          font-weight: 800;
+          letter-spacing: -1px;
+          line-height: 1;
+        }
+
+        .re-stat-label {
+          font-size: 0.75rem;
+          color: var(--text-secondary);
+          text-align: center;
+          line-height: 1.3;
+        }
+
+        /* ── Tabs slide-up ── */
+        .re-tabs-slide {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .re-tabs-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* ── Tab button staggered pop ── */
+        .re-tab-pop {
+          opacity: 0;
+          animation: reTabPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-play-state: paused;
+        }
+        .re-tabs-in .re-tab-pop {
+          animation-play-state: running;
+        }
+        @keyframes reTabPop {
+          from { opacity: 0; transform: translateY(8px) scale(0.95); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ── Role content slide-up ── */
+        .re-content-slide {
+          opacity: 0;
+          transform: translateY(32px);
+          transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .re-content-in {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .role-tabs-bar {
@@ -342,7 +544,6 @@ export default function RoleExperience() {
           background: rgba(227, 6, 19, 0.05);
         }
 
-        /* Displays layout */
         .role-content-display {
           display: grid;
           grid-template-columns: 1fr;
@@ -459,7 +660,6 @@ export default function RoleExperience() {
           margin: 0.5rem 0;
         }
 
-        /* Cashier layout log style */
         .billing-log {
           display: flex;
           flex-direction: column;
@@ -480,7 +680,6 @@ export default function RoleExperience() {
         .p-success { color: var(--accent-green); font-weight: 700; }
         .p-pending { color: var(--accent-blue); font-weight: 700; }
 
-        /* Hover glows based on role */
         .hover-glow-orange:hover { border-color: var(--accent-orange); box-shadow: 0 0 10px rgba(227, 6, 19, 0.1); }
         .hover-glow-blue:hover { border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
         .hover-glow-green:hover { border-color: var(--accent-green); box-shadow: 0 0 10px rgba(5, 150, 105, 0.1); }

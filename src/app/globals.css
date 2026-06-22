@@ -251,3 +251,295 @@ a {
   background: linear-gradient(90deg, transparent, var(--border-color) 20%, var(--border-color) 80%, transparent);
   width: 100%;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   TRUSTBAR  —  Restroworks-style "trusted by" section
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── section shell ───────────────────────────────────────────────── */
+.tb-section {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 0 0;
+  background: var(--bg-primary);
+}
+
+/* subtle radial glow behind stats */
+.tb-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(227,6,19,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── eyebrow label ───────────────────────────────────────────────── */
+.tb-eyebrow {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  /* entrance */
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+/* ── rule line that slides in ────────────────────────────────────── */
+.tb-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color) 20%, var(--border-color) 80%, transparent);
+  margin: 0 auto 2.75rem;
+  max-width: 640px;
+  /* entrance — scaleX from 0 */
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s,
+              opacity 0.5s ease 0.15s;
+}
+
+/* ── shared "in" state ───────────────────────────────────────────── */
+.tb-eyebrow.tb-in,
+.tb-stats.tb-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tb-rule.tb-in {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ── stats row ───────────────────────────────────────────────────── */
+.tb-stats {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 3.5rem;
+  /* entrance */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ── single stat card ────────────────────────────────────────────── */
+.tb-stat-card {
+  flex: 1;
+  max-width: 200px;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.tb-stat-inner {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease calc(var(--tb-delay, 0s)),
+              transform 0.55s cubic-bezier(0.16,1,0.3,1) calc(var(--tb-delay, 0s));
+}
+
+.tb-stat-inner.tb-stat-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tb-stat-num {
+  display: block;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  /* subtle gradient tint */
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-orange) 120%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.tb-stat-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* vertical separator between stat cards */
+.tb-stat-sep {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(to bottom, transparent, var(--border-color) 20%, var(--border-color) 80%, transparent);
+  margin: 0.25rem 0;
+  flex-shrink: 0;
+}
+
+/* ── marquee belt ────────────────────────────────────────────────── */
+.tb-belt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 2rem 0 2.5rem;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+/* edge gradient fades */
+.tb-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 160px;
+  z-index: 2;
+  pointer-events: none;
+}
+.tb-fade-l {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-secondary), transparent);
+}
+.tb-fade-r {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-secondary), transparent);
+}
+
+/* ── marquee track ───────────────────────────────────────────────── */
+.tb-marquee-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+@keyframes tb-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes tb-scroll-rev {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.tb-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.85rem;
+  padding: 0 0.425rem;
+  animation: tb-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.tb-marquee-rev {
+  animation-name: tb-scroll-rev;
+  animation-duration: 36s;
+}
+
+/* pause on hover for UX */
+.tb-belt:hover .tb-marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── pill chip ───────────────────────────────────────────────────── */
+.tb-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.55rem 1rem 0.55rem 0.6rem;
+  border-radius: 9999px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+  cursor: default;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  flex-shrink: 0;
+}
+
+.tb-pill:hover {
+  border-color: color-mix(in srgb, var(--pill-color) 40%, transparent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--pill-color) 20%, transparent);
+}
+
+/* icon bubble */
+.tb-pill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+
+.tb-pill-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+/* ── responsive ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .tb-stat-card { padding: 0 1rem; }
+  .tb-stat-num  { font-size: 1.6rem; }
+  .tb-stat-sep  { display: none; }
+  .tb-stats     { flex-wrap: wrap; gap: 1.5rem; }
+  .tb-stat-card { max-width: 45%; flex: 0 0 45%; }
+  .tb-fade      { width: 60px; }
+}
+
+/* ── live-tick flash & dot (TrustBar dynamic additions) ────────────── */
+
+@keyframes tb-num-flash {
+  0%   { color: inherit; -webkit-text-fill-color: var(--accent-orange); }
+  40%  { -webkit-text-fill-color: var(--accent-orange); }
+  100% { -webkit-text-fill-color: transparent; }
+}
+
+.tb-flash {
+  animation: tb-num-flash 0.6s ease forwards;
+}
+
+/* live indicator — pulsing green dot */
+.tb-live-dot {
+  position: absolute;
+  top: 0.25rem;
+  right: -0.1rem;
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+.tb-live-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.tb-live-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid #22c55e;
+  animation: tb-ring-pulse 2s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes tb-ring-pulse {
+  0%   { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2);   opacity: 0;   }
+}
+
+/* stat card needs relative position for dot */
+.tb-stat-inner {
+  position: relative;
+}

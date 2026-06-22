@@ -1,7 +1,28 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Play, Sparkles, Clock, AlertCircle, ShoppingCart, User, CheckCircle2, ChevronRight } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Play, Sparkles, Clock, AlertCircle, ShoppingCart, User, CheckCircle2, ChevronRight, Layers, Users } from "lucide-react";
+
+// ── Count-up hook (quartic ease-out, rAF) ──────────────────────────────────
+function useCountUp(target: number, duration = 1800, started = false): number {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!started) { setValue(0); return; }
+    let startTime: number | null = null;
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setValue(Math.floor(easeOutQuart(progress) * target));
+      if (progress < 1) requestAnimationFrame(step);
+      else setValue(target);
+    };
+    const raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, started]);
+  return value;
+}
 
 // Types
 interface Order {
@@ -22,12 +43,71 @@ const INITIAL_ORDERS: Order[] = [
   { id: "#1088", table: "Delivery", items: "3x Butter Chicken, 3x Garlic Naan", time: "19 mins ago", amount: 2980, status: "Preparing", source: "Swiggy" }
 ];
 
+// ── Stat badge sub-component ───────────────────────────────────────────────
+interface StatBadgeProps {
+  icon: React.ReactNode;
+  value: number;
+  suffix: string;
+  label: string;
+  color: string;
+  started: boolean;
+  delay: number;
+}
+
+function CcStatBadge({ icon, value, suffix, label, color, started, delay }: StatBadgeProps) {
+  const count = useCountUp(value, 1800, started);
+  return (
+    <div
+      className="cc-stat-badge"
+      style={{
+        borderTopColor: color,
+        animationDelay: started ? `${delay}ms` : "0ms",
+        animationPlayState: started ? "running" : "paused",
+      }}
+    >
+      <div className="cc-stat-icon" style={{ background: `${color}18` }}>
+        {React.cloneElement(icon as React.ReactElement<{ size: number; color: string }>, { size: 20, color })}
+      </div>
+      <div className="cc-stat-num" style={{ background: `linear-gradient(135deg, var(--text-primary) 0%, ${color} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+        {count}{suffix}
+      </div>
+      <div className="cc-stat-label">{label}</div>
+    </div>
+  );
+}
+
 export default function CommandCenter() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [statsStarted, setStatsStarted] = useState(false);
+  const [dashboardVisible, setDashboardVisible] = useState(false);
+
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
   const [revenue, setRevenue] = useState(87420);
   const [kitchenDelay, setKitchenDelay] = useState(2);
   const [activeTab, setActiveTab] = useState<"feed" | "metrics">("feed");
   const [isAutoRotating, setIsAutoRotating] = useState(true);
+
+  // IntersectionObserver
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !inView) {
+          setInView(true);
+          setTimeout(() => setHeaderVisible(true), 80);
+          setTimeout(() => setStatsStarted(true), 200);
+          setTimeout(() => setDashboardVisible(true), 400);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [inView]);
 
   // Auto-rotate tabs every 6 seconds unless paused by interaction
   useEffect(() => {
@@ -40,15 +120,12 @@ export default function CommandCenter() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Simulate live incoming orders
       setOrders((prev) => {
-        // Increment times
         const updated = prev.map((o) => {
           const mins = parseInt(o.time.split(" ")[0]);
           return { ...o, time: `${mins + 1} mins ago` };
         });
 
-        // Chance of new order
         if (Math.random() > 0.4) {
           const maxId = prev.reduce((max, o) => {
             const num = parseInt(o.id.replace("#", ""), 10);
@@ -77,41 +154,36 @@ export default function CommandCenter() {
             source: sources[Math.floor(Math.random() * sources.length)]
           };
 
-          // Increment revenue
           setRevenue((r) => r + newOrder.amount);
-
           return [newOrder, ...updated.slice(0, 5)];
         }
 
-        // Chance of status transition
         return updated.map((o, i) => {
-          if (i === 1 && o.status === "Preparing") return { ...o, status: "Ready" };
-          if (i === 2 && o.status === "Ready") return { ...o, status: "Billing" };
+          if (i === 1 && o.status === "Preparing") return { ...o, status: "Ready" as const };
+          if (i === 2 && o.status === "Ready") return { ...o, status: "Billing" as const };
           return o;
         });
       });
 
-      // Fluctuate kitchen delay slightly
       setKitchenDelay((prev) => {
         const delta = Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0;
         const next = prev + delta;
         return next >= 0 && next <= 5 ? next : prev;
       });
-
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="commandcenter-section" id="features">
+    <section className="commandcenter-section" id="features" ref={sectionRef}>
       {/* Decorative glows */}
       <div className="glow-spot glow-blue" style={{ top: "10%", left: "5%", width: "400px", height: "400px" }} />
       <div className="glow-spot glow-rose" style={{ bottom: "10%", right: "5%", width: "500px", height: "500px" }} />
 
       <div className="container">
         {/* Header Block */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+        <div className={`cc-header${headerVisible ? " cc-header-in" : ""}`} style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="badge animate-float">
             <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Unified Command Center
           </div>
@@ -124,8 +196,16 @@ export default function CommandCenter() {
           </p>
         </div>
 
+        {/* Count-up stat row */}
+        <div className={`cc-stats-row${statsStarted ? " cc-stats-started" : ""}`}>
+          <CcStatBadge icon={<ShoppingCart />} value={3} suffix="k+" label="Orders reconciled/day" color="#e30613" started={statsStarted} delay={0} />
+          <CcStatBadge icon={<Clock />} value={99} suffix=".99%" label="Real-time sync uptime" color="#059669" started={statsStarted} delay={120} />
+          <CcStatBadge icon={<Layers />} value={9} suffix=" modules" label="Unified platform" color="#0284c7" started={statsStarted} delay={240} />
+          <CcStatBadge icon={<Users />} value={24} suffix="/7" label="Live monitoring" color="#d97706" started={statsStarted} delay={360} />
+        </div>
+
         {/* The Floating Dashboard Mockup */}
-        <div className="dashboard-frame glass-card animate-float-delayed">
+        <div className={`dashboard-frame glass-card animate-float-delayed cc-dash-slide${dashboardVisible ? " cc-dash-in" : ""}`}>
           {/* Dashboard Header Bar */}
           <div className="dashboard-topbar">
             <div className="window-dots">
@@ -136,7 +216,7 @@ export default function CommandCenter() {
             <div className="dashboard-title">
               <span>https://admin.orderji.io/dashboard</span>
             </div>
-            <div style={{ width: "60px" }} /> {/* spacer */}
+            <div style={{ width: "60px" }} />
           </div>
 
           <div className="dashboard-content-layout">
@@ -153,7 +233,7 @@ export default function CommandCenter() {
                 <span className="channel-indicator online" /> Kiosk Ordering
               </div>
               <div className="sidebar-item">
-                <span className="channel-indicator busy" /> Swiggy & Zomato
+                <span className="channel-indicator busy" /> Swiggy &amp; Zomato
               </div>
 
               <div className="sidebar-section-title" style={{ marginTop: "1.5rem" }}>SYSTEM INTEGRITY</div>
@@ -177,21 +257,15 @@ export default function CommandCenter() {
             <main className="dashboard-workspace">
               {/* Tabs */}
               <div className="workspace-tabs">
-                <button 
+                <button
                   className={`workspace-tab ${activeTab === "feed" ? "active" : ""}`}
-                  onClick={() => {
-                    setActiveTab("feed");
-                    setIsAutoRotating(false);
-                  }}
+                  onClick={() => { setActiveTab("feed"); setIsAutoRotating(false); }}
                 >
                   Live Order Feed <span className="counter-badge">{orders.length}</span>
                 </button>
-                <button 
+                <button
                   className={`workspace-tab ${activeTab === "metrics" ? "active" : ""}`}
-                  onClick={() => {
-                    setActiveTab("metrics");
-                    setIsAutoRotating(false);
-                  }}
+                  onClick={() => { setActiveTab("metrics"); setIsAutoRotating(false); }}
                 >
                   Operating KPIs
                 </button>
@@ -204,7 +278,6 @@ export default function CommandCenter() {
                     <span>Active Orders</span>
                     <span>Recent Activity</span>
                   </div>
-                  
                   <div className="orders-list">
                     {orders.map((order) => (
                       <div key={order.id} className="order-row glass-card">
@@ -234,14 +307,13 @@ export default function CommandCenter() {
               {activeTab === "metrics" && (
                 <div className="metrics-panel">
                   <div className="grid-3">
-                    {/* Gauge 1: Kitchen Delays */}
                     <div className="metric-radial glass-card">
                       <span className="metric-label">KITCHEN DELAYS</span>
                       <div className="radial-visual">
                         <svg width="100" height="100" viewBox="0 0 100 100">
                           <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--border-color)" strokeWidth="8" />
-                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--accent-rose)" strokeWidth="8" 
-                            strokeDasharray="251" strokeDashoffset={251 - (251 * (kitchenDelay / 5))} 
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--accent-rose)" strokeWidth="8"
+                            strokeDasharray="251" strokeDashoffset={251 - (251 * (kitchenDelay / 5))}
                             strokeLinecap="round" transform="rotate(-90 50 50)" />
                         </svg>
                         <div className="radial-inner">
@@ -252,14 +324,13 @@ export default function CommandCenter() {
                       <span className="radial-desc">Orders delayed &gt; 15 mins.</span>
                     </div>
 
-                    {/* Gauge 2: Inventory Health */}
                     <div className="metric-radial glass-card">
                       <span className="metric-label">INVENTORY HEALTH</span>
                       <div className="radial-visual">
                         <svg width="100" height="100" viewBox="0 0 100 100">
                           <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--border-color)" strokeWidth="8" />
-                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--accent-green)" strokeWidth="8" 
-                            strokeDasharray="251" strokeDashoffset={251 - (251 * 0.92)} 
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--accent-green)" strokeWidth="8"
+                            strokeDasharray="251" strokeDashoffset={251 - (251 * 0.92)}
                             strokeLinecap="round" transform="rotate(-90 50 50)" />
                         </svg>
                         <div className="radial-inner">
@@ -270,14 +341,13 @@ export default function CommandCenter() {
                       <span className="radial-desc">4 critical warnings pending.</span>
                     </div>
 
-                    {/* Gauge 3: Marketing Conversion */}
                     <div className="metric-radial glass-card">
                       <span className="metric-label">MARKETING ROI</span>
                       <div className="radial-visual">
                         <svg width="100" height="100" viewBox="0 0 100 100">
                           <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--border-color)" strokeWidth="8" />
-                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--accent-blue)" strokeWidth="8" 
-                            strokeDasharray="251" strokeDashoffset={251 - (251 * 0.78)} 
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--accent-blue)" strokeWidth="8"
+                            strokeDasharray="251" strokeDashoffset={251 - (251 * 0.78)}
                             strokeLinecap="round" transform="rotate(-90 50 50)" />
                         </svg>
                         <div className="radial-inner">
@@ -316,6 +386,86 @@ export default function CommandCenter() {
           background-color: var(--bg-primary);
           position: relative;
           overflow: hidden;
+        }
+
+        /* ── Header animation ── */
+        .cc-header {
+          opacity: 0;
+          transform: translateY(28px);
+          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cc-header-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* ── Stat row ── */
+        .cc-stats-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.25rem;
+          justify-content: center;
+          margin-bottom: 3rem;
+        }
+
+        .cc-stat-badge {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 1.5rem 2rem;
+          border-radius: 14px;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-top: 3px solid;
+          min-width: 160px;
+          opacity: 0;
+          transform: translateY(28px);
+          animation: ccStatUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-play-state: paused;
+        }
+
+        .cc-stats-started .cc-stat-badge {
+          animation-play-state: running;
+        }
+
+        @keyframes ccStatUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .cc-stat-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .cc-stat-num {
+          font-size: 2rem;
+          font-weight: 800;
+          letter-spacing: -1px;
+          line-height: 1;
+        }
+
+        .cc-stat-label {
+          font-size: 0.75rem;
+          color: var(--text-secondary);
+          text-align: center;
+          line-height: 1.3;
+        }
+
+        /* ── Dashboard slide-up ── */
+        .cc-dash-slide {
+          opacity: 0;
+          transform: translateY(32px);
+          transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cc-dash-in {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .dashboard-frame {
@@ -430,7 +580,6 @@ export default function CommandCenter() {
           color: var(--text-secondary);
         }
 
-        /* Workspace area */
         .dashboard-workspace {
           padding: 1.5rem;
           background: rgba(0, 0, 0, 0.005);
@@ -593,7 +742,6 @@ export default function CommandCenter() {
           text-align: right;
         }
 
-        /* Metrics tab grids */
         .metrics-panel {
           display: flex;
           flex-direction: column;
