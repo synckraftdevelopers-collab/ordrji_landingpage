@@ -158,7 +158,7 @@ export async function POST(request: Request) {
 
       // Send to Admin (notification)
       await transporter.sendMail({
-        from: `"${fullName}" <${email}>`,
+        from: `"Ordrji Leads" <${process.env.SMTP_USER}>`,
         to: "grow@synckraft.in",
         replyTo: email,
         subject: emailSubject,
