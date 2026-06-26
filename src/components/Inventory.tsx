@@ -203,13 +203,8 @@ export default function Inventory() {
         {/* ── DYNAMIC / STICKY HEADER (stays fixed at top while cards scroll) ── */}
         <div className={`inv-header-wrap ${inView ? "inv-hdr-in" : ""}`}>
 
-          {/* top row: badge + arrows */}
+          {/* top row: arrows only */}
           <div className="inv-hdr-toprow">
-            <div className="badge animate-float"
-              style={{ background: "rgba(227,6,19,0.08)", borderColor: "rgba(227,6,19,0.2)", marginBottom: 0 }}>
-              <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} />
-              Predictive Intelligence
-            </div>
             {/* navigation arrows */}
             <div className="inv-arrows">
               <button className="inv-arrow" onClick={prev} disabled={activeIdx === 0} aria-label="Previous">

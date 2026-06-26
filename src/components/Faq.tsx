@@ -45,9 +45,7 @@ export default function Faq() {
       <div className="container" style={{ maxWidth: "800px" }}>
         {/* Title Block */}
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <div className="badge animate-float">
-            <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Common Questions
-          </div>
+
           <h2 className="gradient-text" style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             Frequently Asked Questions
           </h2>

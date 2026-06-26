@@ -2,145 +2,339 @@
 
 import React from "react";
 import Link from "next/link";
-import { Globe, Mail, MessageSquare, Heart } from "lucide-react";
+import { Heart, Globe, Mail, MessageSquare, ArrowRight } from "lucide-react";
 
+/* ─── nav columns ─────────────────────────────────────────────────────────── */
+const NAV_COLS = [
+  {
+    heading: "Product",
+    links: [
+      { label: "Billing Engine",        href: "#features" },
+      { label: "QR Order Journey",      href: "#journey"  },
+      { label: "Kitchen Display (KDS)", href: "#features" },
+      { label: "Inventory Control",     href: "#features" },
+      { label: "Marketing Automation",  href: "#crm"      },
+      { label: "Analytics Suite",       href: "#features" },
+    ],
+  },
+  {
+    heading: "Solutions",
+    links: [
+      { label: "Fine Dining",         href: "#" },
+      { label: "Cafes & Bistros",     href: "#" },
+      { label: "Cloud Kitchens",      href: "#" },
+      { label: "Quick Service (QSR)", href: "#" },
+      { label: "Franchise Chains",    href: "#" },
+    ],
+  },
+  {
+    heading: "Company",
+    links: [
+      { label: "About Us",              href: "#",                   isLink: false },
+      { label: "Success Stories",       href: "#",                   isLink: false },
+      { label: "Contact Us",            href: "/contact",            isLink: true  },
+      { label: "Privacy Policy",        href: "/privacy-policy",     isLink: true  },
+      { label: "Terms & Conditions",    href: "/terms",              isLink: true  },
+      { label: "Refund & Cancellation", href: "/refund-cancellation",isLink: true  },
+    ],
+  },
+];
+
+const SOCIALS = [
+  { label: "Instagram", icon: Globe,         href: "#" },
+  { label: "LinkedIn",  icon: MessageSquare, href: "#" },
+  { label: "Twitter",   icon: Mail,          href: "#" },
+  { label: "YouTube",   icon: Globe,         href: "#" },
+];
+
+/* ─── component ───────────────────────────────────────────────────────────── */
 export default function Footer() {
   return (
-    <footer
-      style={{
-        background: "var(--bg-secondary)",
-        borderTop: "1px solid var(--border-color)",
-        padding: "5rem 0 3rem 0",
-        position: "relative",
-        overflow: "hidden",
-        zIndex: 10
-      }}
-    >
-      {/* Background glow */}
-      <div className="glow-spot glow-rose" style={{ bottom: "-100px", left: "10%", width: "300px", height: "300px" }} />
+    <footer className="ft-footer">
+      {/* top glow accent */}
+      <div className="ft-top-glow" aria-hidden />
 
       <div className="container">
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "3rem",
-            marginBottom: "4rem",
-          }}
-        >
-          {/* Brand Info */}
-          <div style={{ gridColumn: "span 2" }}>
-            <a href="#" style={{ display: "flex", alignItems: "center", gap: "0.25rem", marginBottom: "1.5rem" }}>
-              <img 
-                src="/logo.jpg" 
-                alt="ordrji Logo" 
-                style={{ 
-                  height: "54px", 
-                  width: "54px",
-                  objectFit: "contain",
-                  mixBlendMode: "multiply"
-                }} 
-              />
-              <span style={{ fontSize: "0.6rem", padding: "0.15rem 0.4rem", background: "rgba(227, 6, 19, 0.08)", border: "1px solid rgba(227, 6, 19, 0.2)", borderRadius: "4px", color: "var(--accent-orange)", fontWeight: 600, marginLeft: "0.25rem" }}>
-                OS
-              </span>
+
+        {/* ── main grid ──────────────────────────────────────────────── */}
+        <div className="ft-grid">
+
+          {/* brand column */}
+          <div className="ft-brand-col">
+            <a href="/" className="ft-logo-wrap" aria-label="OrderJi Home">
+              <img src="/logo.jpg" alt="OrderJi" className="ft-logo" />
             </a>
-            <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: "1.6", maxWidth: "320px", marginBottom: "1.5rem" }}>
-              The complete restaurant operating system designed to manage billing, operations, CRM, KDS, inventory, and analytics from a unified command center.
+
+            <p className="ft-tagline">
+              The complete restaurant operating system — billing, QR ordering,
+              KDS, inventory, CRM, and analytics unified in one command center.
             </p>
-            <div style={{ display: "flex", gap: "1rem" }}>
-              <a href="#" className="social-icon" aria-label="Website"><Globe size={18} /></a>
-              <a href="#" className="social-icon" aria-label="Contact"><Mail size={18} /></a>
-              <a href="#" className="social-icon" aria-label="Support"><MessageSquare size={18} /></a>
+
+            {/* social icons */}
+            <div className="ft-socials">
+              {SOCIALS.map(s => {
+                const Icon = s.icon;
+                return (
+                  <a key={s.label} href={s.href} className="ft-social-btn" aria-label={s.label}>
+                    <Icon size={16} />
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* trust badges */}
+            <div className="ft-trust-row">
+              <span className="ft-trust-badge">⭐ 4.8 / 5 Rating</span>
+              <span className="ft-trust-badge">🏆 3,500+ Restaurants</span>
             </div>
           </div>
 
-          {/* Column 1 - Modules */}
-          <div>
-            <h4 style={{ fontSize: "0.9rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-primary)", marginBottom: "1.25rem" }}>Modules</h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <li><a href="#features" className="footer-link">Billing Engine</a></li>
-              <li><a href="#journey" className="footer-link">QR Order Journey</a></li>
-              <li><a href="#floor" className="footer-link">Kitchen Display (KDS)</a></li>
-              <li><a href="#features" className="footer-link">Inventory Control</a></li>
-              <li><a href="#crm" className="footer-link">Marketing Automation</a></li>
-            </ul>
-          </div>
+          {/* nav columns */}
+          {NAV_COLS.map(col => (
+            <div key={col.heading} className="ft-nav-col">
+              <h4 className="ft-col-heading">{col.heading}</h4>
+              <ul className="ft-link-list">
+                {col.links.map(l => (
+                  <li key={l.label}>
+                    {"isLink" in l && l.isLink
+                      ? <Link href={l.href} className="ft-link">{l.label}</Link>
+                      : <a    href={l.href} className="ft-link">{l.label}</a>
+                    }
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
-          {/* Column 2 - Roles */}
-          <div>
-            <h4 style={{ fontSize: "0.9rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-primary)", marginBottom: "1.25rem" }}>Roles</h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <li><a href="#roles" className="footer-link">For Restaurant Owners</a></li>
-              <li><a href="#roles" className="footer-link">For Managers</a></li>
-              <li><a href="#roles" className="footer-link">For Chefs & Kitchens</a></li>
-              <li><a href="#roles" className="footer-link">For Waiters</a></li>
-              <li><a href="#roles" className="footer-link">For Cashiers</a></li>
-            </ul>
-          </div>
+          {/* newsletter column */}
+          <div className="ft-newsletter-col">
+            <h4 className="ft-col-heading">Stay in the loop</h4>
+            <p className="ft-newsletter-sub">
+              Product updates, restaurant industry insights, and new features —
+              direct to your inbox. No spam.
+            </p>
+            <form className="ft-email-form" onSubmit={e => e.preventDefault()}>
+              <input
+                type="email"
+                placeholder="your@restaurant.com"
+                className="ft-email-input"
+                aria-label="Email address"
+                required
+              />
+              <button type="submit" className="ft-email-btn" aria-label="Subscribe">
+                <ArrowRight size={15} />
+              </button>
+            </form>
 
-          {/* Column 3 - Enterprise */}
-          <div>
-            <h4 style={{ fontSize: "0.9rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-primary)", marginBottom: "1.25rem" }}>Company</h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <li><a href="#" className="footer-link">About Us</a></li>
-              <li><a href="#" className="footer-link">Success Stories</a></li>
-              <li><Link href="/contact" className="footer-link">Contact Us</Link></li>
-              <li><Link href="/privacy-policy" className="footer-link">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="footer-link">Terms & Conditions</Link></li>
-              <li><Link href="/refund-cancellation" className="footer-link">Refund & Cancellation</Link></li>
-            </ul>
+            <a
+              href="https://pos.ordrji.com/login"
+              target="_blank" rel="noopener noreferrer"
+              className="btn-primary btn-red ft-cta-btn"
+            >
+              Start Free Trial <ArrowRight size={14} />
+            </a>
           </div>
         </div>
 
-        <div className="divider" style={{ margin: "2rem 0" }} />
-
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "center",
-            color: "var(--text-muted)",
-            fontSize: "0.85rem",
-            gap: "1.5rem",
-          }}
-        >
-          <span>&copy; {new Date().getFullYear()} OrderJi. All rights reserved.</span>
-          <span style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-            Engineered with <Heart size={12} color="var(--accent-rose)" fill="var(--accent-rose)" /> for modern dining experiences.
+        {/* ── bottom bar ─────────────────────────────────────────────── */}
+        <div className="ft-bottom">
+          <span className="ft-copy">
+            &copy; {new Date().getFullYear()} OrderJi. All rights reserved.
           </span>
+          <span className="ft-made-with">
+            Engineered with <Heart size={11} style={{ color: "#e30613", fill: "#e30613" }} /> for modern dining
+          </span>
+          <div className="ft-bottom-links">
+            <Link href="/privacy-policy"      className="ft-bottom-link">Privacy</Link>
+            <Link href="/terms"               className="ft-bottom-link">Terms</Link>
+            <Link href="/refund-cancellation" className="ft-bottom-link">Refunds</Link>
+          </div>
         </div>
       </div>
 
       <style jsx global>{`
-        .footer-link {
-          color: var(--text-secondary);
-          font-size: 0.9rem;
-          transition: var(--transition-fast);
+
+        /* ── dark footer shell ─────────────────────────────────────── */
+        .ft-footer {
+          background: var(--bg-dark, #0f0e0c);
+          border-top: 1px solid rgba(255,255,255,0.06);
+          padding: 5rem 0 2.5rem;
+          position: relative;
+          overflow: hidden;
+          z-index: 10;
         }
-        .footer-link:hover {
-          color: var(--text-primary);
-          padding-left: 2px;
+
+        /* subtle red top-edge glow — Toast-style */
+        .ft-top-glow {
+          position: absolute;
+          top: 0; left: 50%;
+          transform: translateX(-50%);
+          width: 600px; height: 1px;
+          box-shadow: 0 0 80px 20px rgba(227,6,19,0.25);
+          pointer-events: none;
         }
-        .social-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.02);
-          border: 1px solid var(--border-color);
-          color: var(--text-secondary);
-          transition: var(--transition-fast);
+
+        /* ── main grid ───────────────────────────────────────────────── */
+        .ft-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 3rem;
+          margin-bottom: 4rem;
         }
-        .social-icon:hover {
-          background: rgba(0, 0, 0, 0.05);
-          border-color: var(--border-color-hover);
-          color: var(--text-primary);
+        @media (min-width: 640px)  { .ft-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .ft-grid { grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 2.5rem; } }
+
+        /* ── brand column ────────────────────────────────────────────── */
+        .ft-brand-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .ft-logo-wrap { display: inline-flex; }
+        .ft-logo {
+          height: 48px; width: auto;
+          object-fit: contain;
+          /* brighten on dark bg */
+          filter: brightness(0) invert(1);
+          opacity: 0.92;
+          transition: opacity 0.2s;
+        }
+        .ft-logo:hover { opacity: 1; }
+
+        .ft-tagline {
+          font-size: 0.85rem;
+          color: var(--text-dark-secondary, rgba(255,255,255,0.55));
+          line-height: 1.65;
+          max-width: 280px;
+        }
+
+        .ft-socials {
+          display: flex; gap: 0.6rem; flex-wrap: wrap;
+        }
+        .ft-social-btn {
+          width: 36px; height: 36px; border-radius: 8px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.05);
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(255,255,255,0.55);
+          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        .ft-social-btn:hover {
+          background: rgba(227,6,19,0.2);
+          border-color: rgba(227,6,19,0.4);
+          color: #fff;
           transform: translateY(-2px);
         }
+
+        .ft-trust-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .ft-trust-badge {
+          font-size: 0.72rem; font-weight: 600;
+          padding: 0.25rem 0.65rem; border-radius: 6px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.1);
+          color: rgba(255,255,255,0.55);
+          white-space: nowrap;
+        }
+
+        /* ── nav columns ─────────────────────────────────────────────── */
+        .ft-nav-col { display: flex; flex-direction: column; gap: 0; }
+
+        .ft-col-heading {
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 1.2px;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.4);
+          margin-bottom: 1.25rem;
+        }
+
+        .ft-link-list {
+          list-style: none;
+          display: flex; flex-direction: column; gap: 0.7rem;
+        }
+
+        .ft-link {
+          font-size: 0.88rem;
+          color: rgba(255,255,255,0.55);
+          transition: color 0.2s, padding-left 0.2s;
+          display: inline-block;
+        }
+        .ft-link:hover { color: #fff; padding-left: 3px; }
+
+        /* ── newsletter column ───────────────────────────────────────── */
+        .ft-newsletter-col { display: flex; flex-direction: column; gap: 1rem; }
+
+        .ft-newsletter-sub {
+          font-size: 0.82rem;
+          color: rgba(255,255,255,0.45);
+          line-height: 1.6;
+        }
+
+        .ft-email-form {
+          display: flex; align-items: center; gap: 0;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 10px;
+          overflow: hidden;
+          transition: border-color 0.2s;
+        }
+        .ft-email-form:focus-within { border-color: rgba(227,6,19,0.5); }
+
+        .ft-email-input {
+          flex: 1;
+          background: transparent;
+          border: none; outline: none;
+          padding: 0.65rem 0.85rem;
+          font-size: 0.82rem;
+          color: rgba(255,255,255,0.85);
+          font-family: var(--font-sans);
+        }
+        .ft-email-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .ft-email-btn {
+          width: 38px; height: 38px; flex-shrink: 0;
+          background: var(--accent-orange);
+          border: none; cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          color: #fff;
+          transition: background 0.2s;
+        }
+        .ft-email-btn:hover { background: #c4040f; }
+
+        .ft-cta-btn {
+          width: 100%;
+          justify-content: center;
+          font-size: 0.85rem;
+          padding: 0.65rem 1.25rem;
+          margin-top: 0.25rem;
+        }
+
+        /* ── bottom bar ──────────────────────────────────────────────── */
+        .ft-bottom {
+          border-top: 1px solid rgba(255,255,255,0.07);
+          padding-top: 1.75rem;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+
+        .ft-copy, .ft-made-with {
+          font-size: 0.8rem;
+          color: rgba(255,255,255,0.3);
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        .ft-bottom-links {
+          display: flex; gap: 1.5rem;
+        }
+        .ft-bottom-link {
+          font-size: 0.78rem;
+          color: rgba(255,255,255,0.3);
+          transition: color 0.2s;
+        }
+        .ft-bottom-link:hover { color: rgba(255,255,255,0.7); }
+
       `}</style>
     </footer>
   );

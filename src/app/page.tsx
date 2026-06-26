@@ -14,6 +14,7 @@ import SuccessStories from "@/components/SuccessStories";
 import Pricing from "@/components/Pricing";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
+import Integrations from "@/components/Integrations";
 import BookDemoModal from "@/components/BookDemoModal";
 
 export default function Home() {
@@ -43,6 +44,10 @@ export default function Home() {
 
         {/* Section 5: Glowing Ecosystem Nodes grid */}
         <Ecosystem />
+        <div className="divider" />
+
+        {/* Section 5b: Partners & Integrations orbital diagram */}
+        <Integrations />
         <div className="divider" />
 
         {/* Section 6: Modules Showcase Accordion Panels */}

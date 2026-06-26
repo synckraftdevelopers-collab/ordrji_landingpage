@@ -198,9 +198,6 @@ export default function OrderJourney() {
         {/* Header Block */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", gap: "2rem" }}>
           <div>
-            <div className="badge animate-float" style={{ background: "rgba(227, 6, 19, 0.08)", borderColor: "rgba(227, 6, 19, 0.2)" }}>
-              <Smartphone size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Connected Lifecycle
-            </div>
             <h2 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", margin: "0.5rem 0" }}>
               One Seamless Order Journey
             </h2>

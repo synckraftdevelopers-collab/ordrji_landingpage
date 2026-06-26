@@ -47,9 +47,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
         <div className="hero-grid">
           {/* Headline and CTAs */}
           <div className="hero-text-block">
-            <div className="badge animate-float">
-              <Sparkles size={12} style={{ color: "var(--accent-orange)" }} /> The Future of Restaurant Operations
-            </div>
+
             <h1 className="hero-title">
               The Restaurant <br />
               <span className="gradient-text">Operating System</span>
@@ -59,7 +57,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
             </p>
 
             <div className="hero-ctas">
-              <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
+              <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary btn-red" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
                 Start Free Trial <ArrowRight size={18} />
               </a>
               <button onClick={onBookDemo} className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
@@ -117,7 +115,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
         }
 
         .hero-slide.active {
-          opacity: 0.68;
+          opacity: 0.35;
           animation: kenburns 7s ease-in-out forwards;
         }
 

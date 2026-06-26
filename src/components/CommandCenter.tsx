@@ -184,9 +184,6 @@ export default function CommandCenter() {
       <div className="container">
         {/* Header Block */}
         <div className={`cc-header${headerVisible ? " cc-header-in" : ""}`} style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <div className="badge animate-float">
-            <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Unified Command Center
-          </div>
           <h2 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             The Mission Control of <br />
             Your Restaurant Operations

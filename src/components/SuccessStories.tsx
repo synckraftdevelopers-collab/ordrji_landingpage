@@ -132,13 +132,6 @@ export default function SuccessStories() {
           className={`ss-header ${inView ? "ss-fadein" : ""}`}
           style={{ textAlign: "center", marginBottom: "3.5rem" }}
         >
-          <div
-            className="badge animate-float"
-            style={{ background: "rgba(227, 6, 19, 0.08)", borderColor: "rgba(227, 6, 19, 0.2)" }}
-          >
-            <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} />
-            Success Stories
-          </div>
           <h2 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             Proven Operational Yield
           </h2>

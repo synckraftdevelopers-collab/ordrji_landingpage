@@ -91,7 +91,7 @@ const PANELS: PanelData[] = [
 ];
 
 export default function ModulesShowcase() {
-  const [activePanel, setActivePanel] = useState<number>(0);
+  const [activePanel, setActivePanel] = useState<number | null>(null);
   
   // Real-time ticking indicators
   const [liveOrdersCount, setLiveOrdersCount] = useState<number>(241);
@@ -220,9 +220,7 @@ export default function ModulesShowcase() {
 
       <div className="container">
         <div className="showcase-header">
-          <div className="badge animate-float">
-            <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> AI-Powered Modules OS
-          </div>
+
           <h2>One Single OS. Five Modules.</h2>
           <p>
             Replaced disconnected legacy software with a unified, AI-optimized restaurant engine. Visually explore the modules to see the OS interact.
@@ -248,8 +246,7 @@ export default function ModulesShowcase() {
                   damping: 17,
                   duration: 0.7
                 }}
-                onHoverStart={() => setActivePanel(panel.id)}
-                onClick={() => setActivePanel(panel.id)}
+                onClick={() => setActivePanel(activePanel === panel.id ? null : panel.id)}
                 className={`desktop-panel ${isActive ? "active" : "collapsed"}`}
                 style={{ background: panel.gradient }}
               >
@@ -372,7 +369,7 @@ export default function ModulesShowcase() {
               <motion.div
                 key={panel.id}
                 layout
-                onClick={() => setActivePanel(panel.id)}
+                onClick={() => setActivePanel(activePanel === panel.id ? null : panel.id)}
                 className={`tablet-panel ${isActive ? "col-span-2 active" : "col-span-1 collapsed"}`}
                 style={{ 
                   background: panel.gradient,
@@ -450,7 +447,7 @@ export default function ModulesShowcase() {
               <motion.div
                 key={panel.id}
                 layout
-                onClick={() => setActivePanel(panel.id)}
+                onClick={() => setActivePanel(activePanel === panel.id ? null : panel.id)}
                 className={`mobile-panel ${isActive ? "active" : "collapsed"}`}
                 style={{ background: panel.gradient }}
                 animate={{
@@ -622,8 +619,8 @@ export default function ModulesShowcase() {
         }
 
         .desktop-panel:hover {
-          border-color: rgba(0, 0, 0, 0.08);
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+          border-color: rgba(0, 0, 0, 0.12);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
         }
 
         .desktop-panel.active {

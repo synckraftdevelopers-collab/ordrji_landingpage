@@ -9,144 +9,312 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onBookDemo }: NavbarProps) {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled,        setIsScrolled]        = useState(false);
+  const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
+
+  /* ── Posiflex intro: logo starts centered, flies to top-left ── */
+  const [introPhase, setIntroPhase] = useState<"center" | "move" | "done">("center");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // phase 1: logo sits centered for 900ms
+    const t1 = setTimeout(() => setIntroPhase("move"),  900);
+    // phase 2: after transition completes, lock to normal navbar
+    const t2 = setTimeout(() => setIntroPhase("done"), 1700);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const navBg    = isScrolled ? "rgba(253,250,244,0.92)" : "transparent";
+  const navBlur  = isScrolled ? "blur(20px)"             : "none";
+  const navBorder= isScrolled ? "1px solid var(--border-color)" : "1px solid transparent";
+  const navPad   = isScrolled ? "0.85rem 0" : "1.25rem 0";
+
+  /* nav links hidden during intro center phase */
+  const linksVisible = introPhase !== "center";
+
   return (
-    <header
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        transition: "var(--transition-smooth)",
-        background: isScrolled ? "rgba(253, 250, 244, 0.85)" : "transparent",
-        backdropFilter: isScrolled ? "blur(20px)" : "none",
-        WebkitBackdropFilter: isScrolled ? "blur(20px)" : "none",
-        borderBottom: isScrolled ? "1px solid var(--border-color)" : "1px solid transparent",
-        padding: isScrolled ? "1rem 0" : "1.5rem 0",
-      }}
-    >
-      <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        {/* Logo */}
-        <a href="#" style={{ display: "flex", alignItems: "center" }}>
-          <img 
-            src="/logo-icon.jpg" 
-            alt="ordrji Logo" 
-            style={{ 
-              height: "72px", 
-              width: "72px",
-              objectFit: "contain",
-              borderRadius: "10px"
-            }} 
-          />
-        </a>
-
-        {/* Desktop Navigation Links */}
-        <nav style={{ display: "flex", gap: "1.75rem", alignItems: "center" }} className="desktop-nav">
-          <a href="/" className="nav-link">Home</a>
-          <a href="#features" className="nav-link">Features</a>
-          <a href="#pricing" className="nav-link">Pricing</a>
-          <Link href="/contact" className="nav-link">Contact Us</Link>
-        </nav>
-
-        {/* Action Buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }} className="desktop-actions">
-          <button onClick={onBookDemo} className="btn-secondary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
-            Book Demo
-          </button>
-          <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem" }}>
-            Start Free Trial <ArrowRight size={14} />
-          </a>
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "var(--text-primary)",
-            cursor: "pointer",
-            display: "none"
-          }}
-          className="mobile-menu-btn"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Panel */}
-      {isMobileMenuOpen && (
+    <>
+      {/* ── INTRO OVERLAY — full-screen centered logo ───────────────────
+          Visible only during "center" phase. Fades out once logo moves. */}
+      {introPhase !== "done" && (
         <div
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            background: "var(--bg-secondary)",
-            borderBottom: "1px solid var(--border-color)",
-            padding: "2rem 1.5rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "1.5rem",
-            backdropFilter: "blur(20px)"
-          }}
-        >
-          <a href="/" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600, color: "var(--text-secondary)" }}>Home</a>
-          <a href="#features" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
-          <a href="#pricing" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
-          <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
-          <Link href="/terms" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Terms & Conditions</Link>
-          <Link href="/privacy-policy" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Privacy Policy</Link>
-          <Link href="/refund-cancellation" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Refund & Cancellation</Link>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1rem" }}>
+          className={`pf-intro-overlay ${introPhase === "move" ? "pf-overlay-out" : ""}`}
+          aria-hidden
+        />
+      )}
+
+      <header
+        className={`pf-header ${introPhase === "done" ? "pf-header-settled" : ""}`}
+        style={{
+          background:     navBg,
+          backdropFilter: navBlur,
+          WebkitBackdropFilter: navBlur,
+          borderBottom:   navBorder,
+          padding:        navPad,
+        }}
+      >
+        <div className="container pf-nav-inner">
+
+          {/* ── LOGO ──────────────────────────────────────────────────── */}
+          {/* During "center" phase it renders in normal flow but is made
+              invisible; the ::before pseudo-overlay shows the centered logo.
+              We use a separate absolutely-positioned element for the animation. */}
+          <a
+            href="/"
+            className={`pf-logo-link ${introPhase}`}
+            aria-label="OrderJi Home"
+          >
+            <img
+              src="/logo-icon.jpg"
+              alt="OrderJi"
+              className="pf-logo-img"
+            />
+          </a>
+
+          {/* ── DESKTOP NAV ───────────────────────────────────────────── */}
+          <nav
+            className={`pf-nav ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}
+            aria-label="Main navigation"
+          >
+            <a href="/"         className="pf-nav-link">Home</a>
+            <a href="#features" className="pf-nav-link">Features</a>
+            <a href="#pricing"  className="pf-nav-link">Pricing</a>
+            <Link href="/contact" className="pf-nav-link">Contact Us</Link>
+          </nav>
+
+          {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
+          <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
             <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onBookDemo();
-              }}
-              className="btn-secondary"
-              style={{ justifyContent: "center" }}
+              onClick={onBookDemo}
+              className="btn-secondary pf-btn"
             >
               Book Demo
             </button>
-            <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ justifyContent: "center" }} onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              href="https://pos.ordrji.com/login"
+              target="_blank" rel="noopener noreferrer"
+              className="btn-primary btn-red pf-btn"
+            >
               Start Free Trial <ArrowRight size={14} />
             </a>
           </div>
-        </div>
-      )}
 
-      {/* Embedded styles for desktop vs mobile */}
+          {/* ── MOBILE HAMBURGER ──────────────────────────────────────── */}
+          <button
+            className="pf-hamburger"
+            onClick={() => setIsMobileMenuOpen(v => !v)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+
+        {/* ── MOBILE DRAWER ─────────────────────────────────────────────── */}
+        {isMobileMenuOpen && (
+          <div className="pf-mobile-drawer">
+            <a href="/"         className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
+            <a href="#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
+            <a href="#pricing"  className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
+            <Link href="/contact"           className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+            <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
+            <Link href="/privacy-policy"    className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
+            <Link href="/refund-cancellation" className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Refund & Cancellation</Link>
+            <div className="pf-mobile-ctas">
+              <button onClick={() => { setIsMobileMenuOpen(false); onBookDemo(); }} className="btn-secondary" style={{ justifyContent: "center" }}>
+                Book Demo
+              </button>
+              <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer"
+                className="btn-primary btn-red" style={{ justifyContent: "center" }}
+                onClick={() => setIsMobileMenuOpen(false)}>
+                Start Free Trial <ArrowRight size={14} />
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* ── ALL STYLES ────────────────────────────────────────────────── */}
       <style jsx global>{`
+
+        /* ── header shell ───────────────────────────────────────────── */
+        .pf-header {
+          position: fixed; top: 0; left: 0; right: 0;
+          z-index: 50;
+          transition: background 0.4s ease, padding 0.4s ease,
+                      border-color 0.4s ease, backdrop-filter 0.4s ease;
+        }
+
+        .pf-nav-inner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+
+        /* ── INTRO OVERLAY — dark wash behind centered logo ─────────── */
+        .pf-intro-overlay {
+          position: fixed; inset: 0; z-index: 60;
+          background: var(--bg-primary);
+          display: flex; align-items: center; justify-content: center;
+          transition: opacity 0.6s ease;
+          pointer-events: none;
+        }
+        .pf-overlay-out { opacity: 0; }
+
+        /* ── LOGO animation ─────────────────────────────────────────── */
+        /*
+          Phase "center": logo is absolutely centered in viewport (large)
+          Phase "move":   logo transitions to top-left navbar position (small)
+          Phase "done":   logo is in normal flow, no positioning override
+        */
+        .pf-logo-link {
+          display: flex; align-items: center; gap: 0.5rem;
+          text-decoration: none; flex-shrink: 0;
+          z-index: 70;
+          transition: transform 0.75s cubic-bezier(0.16,1,0.3,1),
+                      top 0.75s cubic-bezier(0.16,1,0.3,1),
+                      left 0.75s cubic-bezier(0.16,1,0.3,1),
+                      font-size 0.75s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        /* CENTER phase — fixed, centered, large */
+        .pf-logo-link.center {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        /* MOVE phase — animate to top-left */
+        .pf-logo-link.move {
+          position: fixed;
+          top: 1.1rem;
+          left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+          transform: translate(0, 0) scale(1);
+        }
+        /* DONE phase — back in normal flow */
+        .pf-logo-link.done {
+          position: relative;
+          top: auto; left: auto;
+          transform: none;
+        }
+
+        /* logo image */
+        .pf-logo-img {
+          object-fit: contain; border-radius: 10px;
+          transition: width 0.75s cubic-bezier(0.16,1,0.3,1),
+                      height 0.75s cubic-bezier(0.16,1,0.3,1);
+          /* center phase: large */
+          width: 120px; height: 120px;
+        }
+        .pf-logo-link.move  .pf-logo-img,
+        .pf-logo-link.done  .pf-logo-img {
+          width: 64px; height: 64px;
+        }
+
+        /* wordmark hidden */
+        .pf-logo-wordmark { display: none; }
+
+        /* ── NAV LINKS (Posiflex style: spaced, uppercase, tracked) ─── */
+        .pf-nav {
+          display: flex;
+          align-items: center;
+          gap: 2.5rem;
+        }
+
+        .pf-nav-link {
+          font-size: 0.88rem;
+          font-weight: 600;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+          color: var(--text-secondary);
+          text-decoration: none;
+          position: relative;
+          transition: color 0.2s ease;
+        }
+        /* underline grow on hover — Posiflex-style */
+        .pf-nav-link::after {
+          content: "";
+          position: absolute;
+          bottom: -3px; left: 0; right: 100%;
+          height: 1.5px;
+          background: var(--accent-orange);
+          transition: right 0.25s cubic-bezier(0.16,1,0.3,1);
+        }
+        .pf-nav-link:hover { color: var(--accent-orange); }
+        .pf-nav-link:hover::after { right: 0; }
+
+        /* ── CTA buttons ────────────────────────────────────────────── */
+        .pf-actions {
+          display: flex; align-items: center; gap: 0.75rem;
+        }
+        .pf-btn {
+          padding: 0.5rem 1.1rem;
+          font-size: 0.82rem;
+          letter-spacing: 0.3px;
+        }
+
+        /* fade nav items in after intro */
+        .pf-nav-hidden { opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .pf-nav-visible { opacity: 1; pointer-events: auto; transform: translateY(0); transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s; }
+
+        /* ── MOBILE ─────────────────────────────────────────────────── */
+        .pf-hamburger {
+          display: none;
+          background: none; border: none;
+          color: var(--text-primary); cursor: pointer;
+          padding: 0.25rem;
+        }
+
+        .pf-mobile-drawer {
+          position: absolute; top: 100%; left: 0; right: 0;
+          background: var(--bg-secondary);
+          border-bottom: 1px solid var(--border-color);
+          padding: 1.75rem 1.5rem;
+          display: flex; flex-direction: column; gap: 1.25rem;
+          backdrop-filter: blur(20px);
+          animation: pfDrawerSlide 0.35s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        @keyframes pfDrawerSlide {
+          from { opacity:0; transform: translateY(-8px); }
+          to   { opacity:1; transform: translateY(0); }
+        }
+
+        .pf-mobile-link {
+          font-size: 1rem; font-weight: 600;
+          color: var(--text-secondary); text-decoration: none;
+          letter-spacing: 0.3px;
+          transition: color 0.2s;
+        }
+        .pf-mobile-link:hover { color: var(--accent-orange); }
+        .pf-mobile-muted { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+        .pf-mobile-ctas {
+          display: flex; flex-direction: column;
+          gap: 0.75rem; margin-top: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
+          .pf-nav, .pf-actions { display: none !important; }
+          .pf-hamburger { display: block !important; }
+        }
+        @media (min-width: 901px) {
+          .pf-hamburger { display: none !important; }
+        }
+
+        /* keep old .nav-link for any other components that use it */
         .nav-link {
           color: var(--text-secondary);
-          font-size: 0.9rem;
-          font-weight: 500;
+          font-size: 0.9rem; font-weight: 500;
           transition: var(--transition-fast);
+          text-decoration: none;
         }
-        .nav-link:hover {
-          color: var(--accent-orange);
-        }
-        @media (max-width: 768px) {
-          .desktop-nav, .desktop-actions {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
-          }
-        }
+        .nav-link:hover { color: var(--accent-orange); }
       `}</style>
-    </header>
+    </>
   );
 }

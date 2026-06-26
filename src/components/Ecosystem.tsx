@@ -155,9 +155,7 @@ export default function Ecosystem() {
           className={`eco-header ${inView ? "eco-fadein" : ""}`}
           style={{ textAlign: "center", marginBottom: "3.5rem" }}
         >
-          <div className="badge animate-float" style={{ background: "rgba(227, 6, 19, 0.08)", borderColor: "rgba(227, 6, 19, 0.2)" }}>
-            <Sparkles size={12} style={{ color: "#e30613", marginRight: "4px" }} /> Complete Connected Grid
-          </div>
+
           <h2 className="gradient-text" style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             The Connected Restaurant Ecosystem
           </h2>

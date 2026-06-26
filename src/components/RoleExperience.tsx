@@ -331,9 +331,7 @@ export default function RoleExperience() {
       <div className="container">
         {/* Title Block */}
         <div className={`re-header${headerVisible ? " re-header-in" : ""}`} style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <div className="badge animate-float" style={{ background: "rgba(227, 6, 19, 0.08)", borderColor: "rgba(227, 6, 19, 0.2)" }}>
-            <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Multi-Role Architecture
-          </div>
+
           <h2 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             Tailored Experiences for Every Role
           </h2>

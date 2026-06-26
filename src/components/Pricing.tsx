@@ -201,7 +201,7 @@ function FlipCard({
             </a>
           </div>
 
-          <div className="divider" style={{ margin: "1.5rem 0" }} />
+          <div className="divider" style={{ margin: "1rem 0" }} />
 
           <div className="features-list-wrapper">
             <span className="features-header-lbl">INCLUDED FEATURES:</span>
@@ -238,8 +238,6 @@ function FlipCard({
 
             <h3 className="back-headline">{plan.backHeadline}</h3>
             <p className="back-desc">{plan.backDesc}</p>
-
-            <div className="divider" style={{ margin: "1.25rem 0" }} />
 
             {/* highlights grid */}
             <div className="back-highlights">
@@ -355,9 +353,7 @@ export default function Pricing() {
           className={`pricing-header ${hdrIn ? "pricing-hdr-in" : ""}`}
           style={{ textAlign: "center", marginBottom: "4rem" }}
         >
-          <div className="badge animate-float" style={{ background: "rgba(227,6,19,0.08)", borderColor: "rgba(227,6,19,0.2)" }}>
-            <Sparkles size={12} style={{ color: "var(--accent-orange)", marginRight: "4px" }} /> Predictable Pricing
-          </div>
+
           <h2 className="gradient-text" style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             Transparent Plans for Every Format
           </h2>
@@ -627,13 +623,13 @@ export default function Pricing() {
         /* ── BACK FACE ───────────────────────────────────────────────── */
         .flip-back {
           transform: rotateY(180deg);
-          padding: 1.75rem;
+          padding: 1.5rem 1.5rem 1.25rem;
           background: var(--bg-card);
           display: flex; flex-direction: column;
         }
 
         .flip-close-btn {
-          position: absolute; top: 0.85rem; right: 0.85rem;
+          position: absolute; top: 0.75rem; right: 0.75rem;
           width: 26px; height: 26px; border-radius: 50%;
           border: 1px solid var(--border-color);
           background: var(--bg-card);
@@ -646,81 +642,97 @@ export default function Pricing() {
 
         .back-content {
           display: flex; flex-direction: column;
-          height: 100%; gap: 0;
+          height: 100%;
+          gap: 0.75rem;
         }
 
         .back-plan-badge {
           display: inline-flex; align-self: flex-start;
-          padding: 0.25rem 0.75rem; border-radius: 9999px;
-          font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;
-          text-transform: uppercase; margin-bottom: 0.85rem;
+          padding: 0.2rem 0.65rem; border-radius: 9999px;
+          font-size: 0.62rem; font-weight: 800; letter-spacing: 1px;
+          text-transform: uppercase;
         }
 
         .back-headline {
-          font-size: 1.1rem; font-weight: 800;
-          letter-spacing: -0.3px; color: var(--text-primary);
-          margin-bottom: 0.65rem; line-height: 1.3;
+          font-size: 0.92rem; font-weight: 800;
+          letter-spacing: -0.15px; color: var(--text-primary);
+          line-height: 1.3; margin: 0;
         }
 
         .back-desc {
-          font-size: 0.82rem; color: var(--text-secondary);
-          line-height: 1.6; margin-bottom: 0;
+          font-size: 0.75rem; color: var(--text-secondary);
+          line-height: 1.55; margin: 0;
+          /* clamp to 2 lines so it doesn't eat all the space */
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
-        /* highlights 2-col grid */
+        /* single-column highlights — cleaner than cramped 2-col */
         .back-highlights {
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 0.55rem;
+          display: flex; flex-direction: column;
+          gap: 0.4rem;
         }
 
         .back-highlight-item {
-          display: flex; align-items: flex-start; gap: 0.45rem;
-          padding: 0.55rem 0.6rem;
-          border: 1px solid; border-radius: 9px;
-          background: rgba(0,0,0,0.01);
+          display: flex; align-items: center; gap: 0.5rem;
+          padding: 0.45rem 0.6rem;
+          border: 1px solid; border-radius: 8px;
+          background: rgba(0,0,0,0.015);
         }
 
         .back-hi-icon {
-          width: 24px; height: 24px; border-radius: 6px;
+          width: 22px; height: 22px; border-radius: 6px;
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0;
         }
 
         .back-hi-text {
-          font-size: 0.75rem; line-height: 1.35;
+          font-size: 0.72rem; line-height: 1.3;
           color: var(--text-secondary); font-weight: 500;
         }
 
         .back-ideal {
-          display: flex; flex-direction: column; gap: 0.2rem;
+          display: flex; align-items: center; gap: 0.5rem;
+          padding: 0.55rem 0.7rem;
+          background: rgba(0,0,0,0.02);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
         }
         .back-ideal-label {
-          font-size: 0.62rem; font-weight: 800;
-          letter-spacing: 1.2px; color: var(--text-muted);
+          font-size: 0.58rem; font-weight: 800;
+          letter-spacing: 1px; color: var(--text-muted);
+          text-transform: uppercase; white-space: nowrap;
+          flex-shrink: 0;
         }
         .back-ideal-value {
-          font-size: 0.82rem; font-weight: 700;
+          font-size: 0.75rem; font-weight: 600;
           color: var(--text-secondary);
+          /* one line, truncate if too long */
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
 
         .back-cta {
           margin-top: auto !important;
-          width: 100%; justify-content: center; padding: 0.75rem;
+          width: 100%; justify-content: center;
+          padding: 0.6rem 1rem;
+          font-size: 0.82rem;
           color: #fff !important;
         }
 
         /* shared card content styles */
-        .plan-name     { font-size:1.4rem; font-weight:800; letter-spacing:-0.5px; margin-bottom:0.5rem; color:var(--text-primary); }
-        .plan-desc     { font-size:0.85rem; color:var(--text-secondary); line-height:1.5; margin-bottom:1.75rem; min-height:52px; }
-        .price-tag-wrapper { display:flex; flex-direction:column; margin-bottom:1.75rem; }
-        .price-txt     { font-size:2.5rem; font-weight:800; letter-spacing:-1.5px; color:var(--text-primary); }
-        .billing-meta  { font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem; }
-        .plan-cta-btn  { width:100%; justify-content:center; padding:0.75rem; }
+        .plan-name     { font-size:1.2rem; font-weight:800; letter-spacing:-0.3px; margin-bottom:0.35rem; color:var(--text-primary); }
+        .plan-desc     { font-size:0.8rem; color:var(--text-secondary); line-height:1.5; margin-bottom:1.25rem; }
+        .price-tag-wrapper { display:flex; flex-direction:column; margin-bottom:1.25rem; }
+        .price-txt     { font-size:2.1rem; font-weight:800; letter-spacing:-1px; color:var(--text-primary); }
+        .billing-meta  { font-size:0.72rem; color:var(--text-muted); margin-top:0.1rem; }
+        .plan-cta-btn  { width:100%; justify-content:center; padding:0.6rem; font-size:0.82rem; }
         .plan-cta-btn:hover { transform:translateY(-2px); }
-        .features-list-wrapper { display:flex; flex-direction:column; gap:1rem; flex-grow:1; }
-        .features-header-lbl   { font-size:0.65rem; font-weight:700; color:var(--text-muted); letter-spacing:1px; }
-        .features-checklist    { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
-        .feature-li            { display:flex; align-items:flex-start; gap:0.65rem; font-size:0.83rem; color:var(--text-secondary); line-height:1.4; }
+        .features-list-wrapper { display:flex; flex-direction:column; gap:0.75rem; flex-grow:1; }
+        .features-header-lbl   { font-size:0.62rem; font-weight:700; color:var(--text-muted); letter-spacing:1px; }
+        .features-checklist    { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
+        .feature-li            { display:flex; align-items:flex-start; gap:0.55rem; font-size:0.8rem; color:var(--text-secondary); line-height:1.4; }
 
         /* badge global */
         .badge {
