@@ -11,7 +11,6 @@ import ModulesShowcase from "@/components/ModulesShowcase";
 import RoleExperience from "@/components/RoleExperience";
 import Inventory from "@/components/Inventory";
 import SuccessStories from "@/components/SuccessStories";
-import RoiCalculator from "@/components/RoiCalculator";
 import Pricing from "@/components/Pricing";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
@@ -60,10 +59,6 @@ export default function Home() {
 
         {/* Section 12: Mini Restaurant Case Studies */}
         <SuccessStories />
-        <div className="divider" />
-
-        {/* Section 13: Adjustable Sliders ROI Calculator */}
-        <RoiCalculator />
         <div className="divider" />
 
         {/* Section 14: SaaS plans yearly/monthly toggle card table */}
