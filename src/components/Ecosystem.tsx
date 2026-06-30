@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Sparkles, TrendingUp, Users, Zap, BarChart2, CheckCircle } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { TrendingUp, Users, Zap, BarChart2, CheckCircle } from "lucide-react";
 
 interface EcosystemNode {
   id: string;
@@ -53,13 +53,12 @@ function useCountUp(target: number, duration = 1800, started = false) {
   const [value, setValue] = useState(0);
   useEffect(() => {
     if (!started) return;
-    if (target === 0) { setValue(0); return; }
+    if (target === 0) return;
     let start: number | null = null;
     let frame: number;
     const step = (ts: number) => {
       if (!start) start = ts;
       const pct = Math.min((ts - start) / duration, 1);
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - pct, 3);
       setValue(Math.floor(eased * target));
       if (pct < 1) frame = requestAnimationFrame(step);
@@ -68,7 +67,7 @@ function useCountUp(target: number, duration = 1800, started = false) {
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
   }, [target, duration, started]);
-  return value;
+  return started ? value : 0;
 }
 
 // ─── single metric counter card ──────────────────────────────────────────────

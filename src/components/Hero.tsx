@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowRight, Play, TrendingUp, Users, ClipboardList, AlertTriangle, Layers, ChefHat, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Play } from "lucide-react";
 
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1600", // Chef cooking
@@ -79,7 +80,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
           {/* Floating hero representation */}
           <div className="hero-visual-block">
             <div className="chef-image-wrapper">
-              <img src="/hero.png" alt="OrderJi OS Hero" className="chef-hero-img" />
+              <Image src="/hero.png" alt="OrderJi OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority />
             </div>
           </div>
         </div>

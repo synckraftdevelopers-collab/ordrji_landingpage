@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
-  Sparkles, Calculator, IndianRupee, Clock,
+  Calculator, IndianRupee, Clock,
   CheckCircle, ShieldAlert, TrendingUp, Monitor, Smartphone,
   LayoutGrid, Move, FileImage, Table2,
 } from "lucide-react";
@@ -65,7 +65,7 @@ function useCountUp(target: number, duration = 1400, started = false) {
   const [value, setValue] = useState(0);
   useEffect(() => {
     if (!started) return;
-    if (target === 0) { setValue(0); return; }
+    if (target === 0) return;
     let startTs: number | null = null;
     let frame: number;
     const step = (ts: number) => {
@@ -79,7 +79,7 @@ function useCountUp(target: number, duration = 1400, started = false) {
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
   }, [target, duration, started]);
-  return value;
+  return started ? value : 0;
 }
 
 // ─── top stat bar items ───────────────────────────────────────────────────────

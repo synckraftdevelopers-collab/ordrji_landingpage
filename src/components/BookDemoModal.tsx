@@ -25,16 +25,20 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
   // Reset form state every time the modal opens
   useEffect(() => {
     if (isOpen) {
-      setStatus("idle");
-      setErrorMessage("");
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        location: "",
-        restaurantName: "",
-        message: "",
-      });
+      const reset = () => {
+        setStatus("idle");
+        setErrorMessage("");
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          location: "",
+          restaurantName: "",
+          message: "",
+        });
+      };
+      const raf = requestAnimationFrame(reset);
+      return () => cancelAnimationFrame(raf);
     }
   }, [isOpen]);
 

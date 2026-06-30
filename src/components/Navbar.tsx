@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, X } from "lucide-react";
 
@@ -76,10 +77,13 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             className={`pf-logo-link ${introPhase}`}
             aria-label="OrderJi Home"
           >
-            <img
+            <Image
               src="/logo-icon.jpg"
               alt="OrderJi"
+              width={120}
+              height={120}
               className="pf-logo-img"
+              priority
             />
           </Link>
 
@@ -88,12 +92,20 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             className={`pf-nav ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}
             aria-label="Main navigation"
           >
+<<<<<<< Updated upstream
             <a href="/#features" className="pf-nav-link">Solutions</a>
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
             <a href="/#testimonials" className="pf-nav-link">Customers</a>
             <Link href="/faq" className="pf-nav-link">Resources</Link>
             <Link href="/about" className="pf-nav-link">About</Link>
             <Link href="/contact" className="pf-nav-link">Contact</Link>
+=======
+            <Link href="/"         className="pf-nav-link">Home</Link>
+            <a href="#features" className="pf-nav-link">Features</a>
+            <a href="#pricing"  className="pf-nav-link">Pricing</a>
+            <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
+            <Link href="/contact" className="pf-nav-link">Contact Us</Link>
+>>>>>>> Stashed changes
           </nav>
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
@@ -126,12 +138,20 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         {/* ── MOBILE DRAWER ─────────────────────────────────────────────── */}
         {isMobileMenuOpen && (
           <div className="pf-mobile-drawer">
+<<<<<<< Updated upstream
             <a href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</a>
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
             <a href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</a>
             <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Resources</Link>
             <Link href="/about" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
             <Link href="/contact" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+=======
+            <Link href="/"         className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+            <a href="#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
+            <a href="#pricing"  className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
+            <Link href="/how-to-use"  className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>
+            <Link href="/contact"           className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+>>>>>>> Stashed changes
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
             <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">

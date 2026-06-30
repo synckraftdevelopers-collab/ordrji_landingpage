@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Heart, Globe, Mail, MessageSquare, ArrowRight } from "lucide-react";
 
 /* ─── nav columns ─────────────────────────────────────────────────────────── */
@@ -60,9 +61,9 @@ export default function Footer() {
 
           {/* brand column */}
           <div className="ft-brand-col">
-            <a href="/" className="ft-logo-wrap" aria-label="OrderJi Home">
-              <img src="/logo.jpg" alt="OrderJi" className="ft-logo" />
-            </a>
+            <Link href="/" className="ft-logo-wrap" aria-label="OrderJi Home">
+              <Image src="/logo.jpg" alt="OrderJi" width={120} height={48} className="ft-logo" style={{ objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.92 }} />
+            </Link>
 
             <p className="ft-tagline">
               The complete restaurant operating system — billing, QR ordering,

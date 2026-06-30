@@ -197,10 +197,11 @@ export async function POST(request: Request) {
       success: true,
       warning: "Email not sent because credentials are not configured. Details logged to server console.",
     });
-  } catch (error: any) {
-    console.error("Error handling book-demo lead:", error);
+  } catch (error: unknown) {
+    const err = error instanceof Error ? error : new Error(String(error));
+    console.error("Error handling book-demo lead:", err);
     return NextResponse.json(
-      { success: false, error: error.message || "An unexpected error occurred." },
+      { success: false, error: err.message || "An unexpected error occurred." },
       { status: 500 }
     );
   }

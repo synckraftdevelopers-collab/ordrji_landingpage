@@ -7,7 +7,7 @@ import { Play, Sparkles, Clock, AlertCircle, ShoppingCart, User, CheckCircle2, C
 function useCountUp(target: number, duration = 1800, started = false): number {
   const [value, setValue] = useState(0);
   useEffect(() => {
-    if (!started) { setValue(0); return; }
+    if (!started) return;
     let startTime: number | null = null;
     const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
     const step = (timestamp: number) => {
@@ -21,7 +21,7 @@ function useCountUp(target: number, duration = 1800, started = false): number {
     const raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, [target, duration, started]);
-  return value;
+  return started ? value : 0;
 }
 
 // Types
@@ -93,8 +93,12 @@ export default function CommandCenter() {
   const [statsStarted, setStatsStarted] = useState(false);
   const [dashboardVisible, setDashboardVisible] = useState(false);
 
+<<<<<<< Updated upstream
   const [orders, setOrders] = useState<Order[]>([]);
   const [revenue, setRevenue] = useState(87420);
+=======
+  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+>>>>>>> Stashed changes
   const [kitchenDelay, setKitchenDelay] = useState(2);
   const [activeTab, setActiveTab] = useState<"feed" | "metrics">("feed");
   const [isAutoRotating, setIsAutoRotating] = useState(true);

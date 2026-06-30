@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Sparkles, TrendingUp, Users, AlertCircle, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { TrendingUp, Users, AlertCircle, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 const CASES = [
   {
@@ -101,7 +101,9 @@ export default function SuccessStories() {
   // auto-advance + progress bar
   useEffect(() => {
     if (!inView) return;
-    setProgress(0);
+
+    // reset progress via RAF to avoid synchronous setState-in-effect
+    const rafReset = requestAnimationFrame(() => setProgress(0));
 
     // progress tick every 50ms → reaches 100 in AUTO_INTERVAL
     progressRef.current = setInterval(() => {
@@ -113,7 +115,8 @@ export default function SuccessStories() {
     }, AUTO_INTERVAL);
 
     return () => {
-      if (timerRef.current)   clearInterval(timerRef.current);
+      cancelAnimationFrame(rafReset);
+      if (timerRef.current)    clearInterval(timerRef.current);
       if (progressRef.current) clearInterval(progressRef.current);
     };
   }, [inView, current, next]);
@@ -136,7 +139,7 @@ export default function SuccessStories() {
             Proven Operational Yield
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
-            Don't take our word for it. Read how top-tier restaurant groups use OrderJi OS to automate management.
+            Don&apos;t take our word for it. Read how top-tier restaurant groups use OrderJi OS to automate management.
           </p>
         </div>
 

@@ -41,44 +41,11 @@ export default function ContactClient() {
             <span style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "2px", color: "var(--accent-orange)", textTransform: "uppercase" }}>Get In Touch</span>
             <h1 style={{ fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem", marginBottom: "0.75rem" }}>Contact Us</h1>
             <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", maxWidth: 520, lineHeight: 1.6 }}>
-              Have a question, need a demo, or want to talk enterprise? We're here — reach out any time.
+              Have a question, need a demo, or want to talk enterprise? We&apos;re here &mdash; reach out any time.
             </p>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem" }} className="contact-grid">
-
-            {/* Left Column: Info Cards & Hours & Map */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-              
-              {/* Core Contact Cards */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {[
-                  { icon: <Mail size={20} />, title: "Email Us", value: "support@ordrji.com", link: "mailto:support@ordrji.com", color: "#e30613" },
-                  { icon: <Phone size={20} />, title: "Call Us", value: "+91 98765 43210", link: "tel:+919876543210", color: "#0284c7" },
-                  { icon: <MessageSquare size={20} />, title: "WhatsApp Sales", value: "+91 98765 43210", link: "https://wa.me/919876543210?text=Hi%20OrderJi%20team", color: "#25d366" },
-                  { icon: <Clock size={20} />, title: "Business Hours", value: "Mon - Sat: 9:00 AM - 7:00 PM IST", link: null, color: "#d97706" },
-                ].map(c => {
-                  const CardContent = (
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
-                      <span style={{ color: c.color, background: c.color + "14", width: 40, height: 40, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{c.icon}</span>
-                      <div>
-                        <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: "0.2rem" }}>{c.title}</div>
-                        <div style={{ fontWeight: 700, color: "var(--text-primary)" }}>{c.value}</div>
-                      </div>
-                    </div>
-                  );
-                  
-                  return c.link ? (
-                    <a key={c.title} href={c.link} target={c.link.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" style={{ textDecoration: "none", display: "block", padding: "1.2rem 1.4rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, borderLeft: `3px solid ${c.color}`, transition: "transform 0.2s" }} className="hover-card">
-                      {CardContent}
-                    </a>
-                  ) : (
-                    <div key={c.title} style={{ padding: "1.2rem 1.4rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, borderLeft: `3px solid ${c.color}` }}>
-                      {CardContent}
-                    </div>
-                  );
-                })}
-              </div>
 
               {/* Support Links */}
               <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "1.5rem" }}>
@@ -131,7 +98,7 @@ export default function ContactClient() {
                 <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
                   <CheckCircle size={52} color="#059669" style={{ margin: "0 auto 1rem" }} />
                   <h3 style={{ fontWeight: 800, fontSize: "1.4rem", marginBottom: "0.5rem" }}>Message Sent!</h3>
-                  <p style={{ color: "var(--text-secondary)" }}>We'll get back to you within 24 hours.</p>
+                  <p style={{ color: "var(--text-secondary)" }}>We&apos;ll get back to you within 24 hours.</p>
                 </div>
               ) : (
                 <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>

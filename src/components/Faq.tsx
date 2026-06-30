@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface FaqItem {
   q: string;
@@ -50,7 +50,7 @@ export default function Faq() {
             Frequently Asked Questions
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", lineHeight: "1.6" }}>
-            Got questions about integrations, hardware compatibility, or pricing setups? We've got answers.
+            Got questions about integrations, hardware compatibility, or pricing setups? We&apos;ve got answers.
           </p>
         </div>
 

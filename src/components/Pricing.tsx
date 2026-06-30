@@ -111,13 +111,18 @@ const PLANS: PricingPlan[] = [
 /* ─── animated price (flip on billing toggle) ────────────────────────────── */
 function AnimatedPrice({ price, isCustom }: { price: number; isCustom: boolean }) {
   const [display, setDisplay] = useState(price);
-  const [exiting, setExiting]  = useState(false);
+  const [exiting, setExiting] = useState(false);
+
+  // Use a ref to schedule the flip via setTimeout — no synchronous setState in effect
+  const prevPriceRef = useRef(price);
   useEffect(() => {
-    if (price === display) return;
-    setExiting(true);
-    const t = setTimeout(() => { setDisplay(price); setExiting(false); }, 210);
-    return () => clearTimeout(t);
-  }, [price, display]);
+    if (prevPriceRef.current === price) return;
+    prevPriceRef.current = price;
+    const t1 = setTimeout(() => setExiting(true),  0);
+    const t2 = setTimeout(() => { setDisplay(price); setExiting(false); }, 210);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [price]);
+
   if (isCustom) return <div className="price-txt">Custom</div>;
   return (
     <div className={`price-txt price-flip ${exiting ? "pf-exit" : "pf-enter"}`}>

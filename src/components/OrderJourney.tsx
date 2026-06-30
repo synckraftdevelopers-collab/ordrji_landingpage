@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, QrCode, Smartphone, Wifi, ChefHat, Bell, Receipt, CheckCircle, Gift, UserCheck, MessageSquare } from "lucide-react";
+import { ChevronLeft, ChevronRight, QrCode, Smartphone, Wifi, ChefHat, Receipt, CheckCircle, Gift, UserCheck, MessageSquare } from "lucide-react";
+
+import type { LucideProps } from "lucide-react";
 
 interface JourneyStep {
   number: number;
   title: string;
   desc: string;
   image: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<LucideProps>;
   badgeColor: string;
   mockUiTitle: string;
   mockUiLines: string[];
@@ -228,7 +230,6 @@ export default function OrderJourney() {
         onTouchEnd={() => setIsPaused(false)}
       >
         {JOURNEY_STEPS.map((step) => {
-          const StepIcon = step.icon;
           return (
             <div key={step.number} className="journey-card-wrapper">
               <div className="journey-card glass-card">

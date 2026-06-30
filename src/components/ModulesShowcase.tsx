@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Smartphone, 
   ChefHat, 
   Receipt, 
   Users, 
@@ -12,20 +11,20 @@ import {
   CheckCircle2, 
   Clock, 
   CreditCard, 
-  UserCheck, 
-  Award, 
   ChevronRight, 
   Check, 
   AlertCircle,
   Sparkles 
 } from "lucide-react";
 
+import type { LucideProps } from "lucide-react";
+
 interface PanelData {
   id: number;
   title: string;
   headline: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<LucideProps>;
   gradient: string;
   accentColor: string;
   badge: string;
@@ -149,7 +148,7 @@ export default function ModulesShowcase() {
       // Step 2: KDS timer ticking & status moving
       setKdsOrders(prev => {
         return prev.map((order, idx) => {
-          let nextTimer = order.timer + 5;
+          const nextTimer = order.timer + 5;
           let nextStatus = order.status;
           if (idx === 0 && nextTimer > 150) {
             nextStatus = "Ready";
@@ -167,7 +166,7 @@ export default function ModulesShowcase() {
       // Step 4: CRM cycle upward
       setCrmGuests(prev => {
         return prev.map(guest => {
-          let nextStage = (guest.stage + 1) % 4;
+          const nextStage = (guest.stage + 1) % 4;
           const levels = ["Walk-In Diner", "First Customer", "Repeat Customer", "VIP Customer"];
           return {
             ...guest,
@@ -1572,8 +1571,24 @@ export default function ModulesShowcase() {
   );
 }
 
+// Types for renderActiveVisual state
+interface OrderItem { id: number; table: string; items: string; time: string; status: string; }
+interface KdsOrder  { id: number; table: string; items: string; timer: number; status: string; }
+interface CrmGuest  { name: string; level: string; stage: number; avatar: string; }
+interface VisualState {
+  liveOrdersCount: number;
+  revenueCount: number;
+  ordersList: OrderItem[];
+  kdsOrders: KdsOrder[];
+  crmGuests: CrmGuest[];
+  formatTimer: (s: number) => string;
+  selectedPaymentMethod: string;
+  billingState: string;
+  setBillingState: (s: "pending" | "processing" | "success") => void;
+}
+
 // Active Visual Sub-Component Router
-function renderActiveVisual(panelId: number, state: any) {
+function renderActiveVisual(panelId: number, state: VisualState) {
   switch (panelId) {
     case 0:
       return (
@@ -1588,7 +1603,7 @@ function renderActiveVisual(panelId: number, state: any) {
 
           <div className="orders-list-scroll">
             <AnimatePresence initial={false}>
-              {state.ordersList.map((order: any, idx: number) => (
+              {state.ordersList.map((order: OrderItem, idx: number) => (
                 <motion.div
                   key={order.id}
                   layout
@@ -1629,7 +1644,7 @@ function renderActiveVisual(panelId: number, state: any) {
                 <h5>Preparing</h5>
                 <span className="kds-count">2</span>
               </div>
-              {state.kdsOrders.filter((o: any) => o.status === "Preparing").map((order: any) => (
+              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Preparing").map((order: KdsOrder) => (
                 <div key={order.id} className="kds-ticket-card preparing">
                   <div className="kds-ticket-top">
                     <span>#{order.id}</span>
@@ -1654,10 +1669,10 @@ function renderActiveVisual(panelId: number, state: any) {
               <div className="kds-column-header">
                 <h5>Ready</h5>
                 <span className="kds-count">
-                  {state.kdsOrders.filter((o: any) => o.status === "Ready").length}
+                  {state.kdsOrders.filter((o: KdsOrder) => o.status === "Ready").length}
                 </span>
               </div>
-              {state.kdsOrders.filter((o: any) => o.status === "Ready").map((order: any) => (
+              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Ready").map((order: KdsOrder) => (
                 <div key={order.id} className="kds-ticket-card ready">
                   <div className="kds-ticket-top">
                     <span>#{order.id}</span>
@@ -1673,7 +1688,7 @@ function renderActiveVisual(panelId: number, state: any) {
                   </div>
                 </div>
               ))}
-              {state.kdsOrders.filter((o: any) => o.status === "Ready").length === 0 && (
+              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Ready").length === 0 && (
                 <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", border: "1px dashed rgba(0,0,0,0.06)", borderRadius: "8px", opacity: 0.3, fontSize: "0.6rem" }}>
                   Empty Lane
                 </div>
@@ -1686,7 +1701,7 @@ function renderActiveVisual(panelId: number, state: any) {
                 <h5>Delayed</h5>
                 <span className="kds-count">1</span>
               </div>
-              {state.kdsOrders.filter((o: any) => o.status === "Delayed").map((order: any) => (
+              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Delayed").map((order: KdsOrder) => (
                 <div key={order.id} className="kds-ticket-card delayed">
                   <div className="kds-ticket-top">
                     <span>#{order.id}</span>
@@ -1830,7 +1845,7 @@ function renderActiveVisual(panelId: number, state: any) {
             <div className="funnel-lane lane-vip">
               <span className="funnel-lane-label">VIP Regular</span>
               <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: any) => g.stage === 3).map((guest: any) => (
+                {state.crmGuests.filter((g: CrmGuest) => g.stage === 3).map((guest: CrmGuest) => (
                   <motion.div 
                     key={guest.name}
                     layoutId={`crm-guest-${guest.name}`}
@@ -1850,7 +1865,7 @@ function renderActiveVisual(panelId: number, state: any) {
             <div className="funnel-lane lane-repeat">
               <span className="funnel-lane-label">Repeat Guest</span>
               <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: any) => g.stage === 2).map((guest: any) => (
+                {state.crmGuests.filter((g: CrmGuest) => g.stage === 2).map((guest: CrmGuest) => (
                   <motion.div 
                     key={guest.name}
                     layoutId={`crm-guest-${guest.name}`}
@@ -1870,7 +1885,7 @@ function renderActiveVisual(panelId: number, state: any) {
             <div className="funnel-lane lane-first">
               <span className="funnel-lane-label">First Customer</span>
               <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: any) => g.stage === 1).map((guest: any) => (
+                {state.crmGuests.filter((g: CrmGuest) => g.stage === 1).map((guest: CrmGuest) => (
                   <motion.div 
                     key={guest.name}
                     layoutId={`crm-guest-${guest.name}`}
@@ -1890,7 +1905,7 @@ function renderActiveVisual(panelId: number, state: any) {
             <div className="funnel-lane lane-walkin">
               <span className="funnel-lane-label">Walk-In</span>
               <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: any) => g.stage === 0).map((guest: any) => (
+                {state.crmGuests.filter((g: CrmGuest) => g.stage === 0).map((guest: CrmGuest) => (
                   <motion.div 
                     key={guest.name}
                     layoutId={`crm-guest-${guest.name}`}

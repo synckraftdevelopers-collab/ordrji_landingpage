@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Sparkles, TrendingUp, BarChart2, Shield, Calendar, Users, AlertTriangle, Printer, CreditCard, ChevronRight, Play, CheckCircle, User, Monitor } from "lucide-react";
+import { Sparkles, TrendingUp, BarChart2, Shield, Calendar, Users, AlertTriangle, Printer, CreditCard, CheckCircle, User, Monitor } from "lucide-react";
 
 // ── Count-up hook (quartic ease-out, rAF) ──────────────────────────────────
 function useCountUp(target: number, duration = 1800, started = false): number {
   const [value, setValue] = useState(0);
   useEffect(() => {
-    if (!started) { setValue(0); return; }
+    if (!started) return;
     let startTime: number | null = null;
     const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
     const step = (timestamp: number) => {
@@ -21,7 +21,7 @@ function useCountUp(target: number, duration = 1800, started = false): number {
     const raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, [target, duration, started]);
-  return value;
+  return started ? value : 0;
 }
 
 // ── Stat badge sub-component ───────────────────────────────────────────────

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
 type Category = "software" | "hardware" | "payment";
@@ -90,11 +91,12 @@ function ChipLogo({ domain, name, color }: { domain: string; name: string; color
     return <span style={{ width: 14, height: 14, borderRadius: "50%", background: color, flexShrink: 0, display: "inline-block" }} />;
   }
   return (
-    <img
+    <Image
       src={src}
       alt={name}
       width={14}
       height={14}
+      unoptimized
       style={{ objectFit: "contain", flexShrink: 0, borderRadius: "2px" }}
       onError={() => setFailed(true)}
     />
@@ -105,14 +107,10 @@ function ChipLogo({ domain, name, color }: { domain: string; name: string; color
 interface NodeProps {
   p: Partner;
   rot: number;
-  tabKey: string;
 }
 
-function OrbNode({ p, rot, tabKey }: NodeProps) {
+function OrbNode({ p, rot }: Omit<NodeProps, "tabKey">) {
   const [imgFailed, setImgFailed] = useState(false);
-
-  // reset on tab change
-  useEffect(() => { setImgFailed(false); }, [tabKey]);
 
   const radius   = RADII[p.ring];
   const angleDeg = p.startAngle + rot;
@@ -135,22 +133,17 @@ function OrbNode({ p, rot, tabKey }: NodeProps) {
         display:         "flex",
         alignItems:      "center",
         justifyContent:  "center",
-        /* no circle, no border, no background — logo floats on dark bg */
         filter:          `drop-shadow(0 0 6px ${p.color}88)`,
       }}
     >
       {!imgFailed ? (
-        <img
+        <Image
           src={faviconUrl}
           alt={p.name}
           width={diameter - 6}
           height={diameter - 6}
-          style={{
-            objectFit:  "contain",
-            /* invert makes dark logos visible on dark bg;
-               brightness boosts washed-out ones */
-            filter: "brightness(1.15) saturate(1.1)",
-          }}
+          unoptimized
+          style={{ objectFit: "contain", filter: "brightness(1.15) saturate(1.1)" }}
           onError={() => setImgFailed(true)}
         />
       ) : (
@@ -273,13 +266,18 @@ export default function Integrations() {
     return () => obs.disconnect();
   }, []);
 
+  const tickRef = useRef<(ts: number) => void>();
+
   const tick = useCallback((ts: number) => {
     if (lastTs.current === 0) lastTs.current = ts;
     const dt = Math.min((ts - lastTs.current) / 1000, 0.05);
     lastTs.current = ts;
     setRot(r => (r + (360 / SPEED) * dt) % 360);
-    rafId.current = requestAnimationFrame(tick);
+    if (tickRef.current) rafId.current = requestAnimationFrame(tickRef.current);
   }, []);
+
+  // keep tickRef in sync with tick without writing to ref during render
+  useEffect(() => { tickRef.current = tick; }, [tick]);
 
   useEffect(() => {
     if (!inView) return;
@@ -309,7 +307,7 @@ export default function Integrations() {
 
             {/* HTML layer: one div per node with a real <img> tag */}
             {partners.map((p, i) => (
-              <OrbNode key={`${tab}-${p.name}-${i}`} p={p} rot={rot} tabKey={tab} />
+              <OrbNode key={`${tab}-${p.name}-${i}`} p={p} rot={rot} />
             ))}
           </div>
         </div>
