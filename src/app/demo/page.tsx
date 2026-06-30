@@ -5,6 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CheckCircle2, Send, Building2, User, Mail, Phone, MapPin, Briefcase, Clock, ShieldCheck, Star, Sparkles } from "lucide-react";
+import LocationAutocomplete from "@/components/LocationAutocomplete";
 
 export default function BookDemoPage() {
   const [formData, setFormData] = useState({
@@ -20,6 +21,16 @@ export default function BookDemoPage() {
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = sessionStorage.getItem("prefilled_location");
+      if (saved) {
+        setFormData((prev) => ({ ...prev, location: saved }));
+        sessionStorage.removeItem("prefilled_location");
+      }
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -191,7 +202,14 @@ export default function BookDemoPage() {
                       <label className="field-label">City *</label>
                       <div className="input-box">
                         <MapPin size={15} className="input-icon" />
-                        <input className="field-input" name="location" value={formData.location} onChange={handleChange} required placeholder="Bengaluru, KA" />
+                        <LocationAutocomplete
+                          value={formData.location}
+                          onChange={(val) => setFormData((prev) => ({ ...prev, location: val }))}
+                          placeholder="Search State, District or City..."
+                          name="location"
+                          required
+                          inputClassName="field-input"
+                        />
                       </div>
                     </div>
                   </div>

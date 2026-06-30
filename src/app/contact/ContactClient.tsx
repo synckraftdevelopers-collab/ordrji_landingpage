@@ -6,9 +6,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
 import { ArrowLeft, MapPin, Send, CheckCircle, ExternalLink, HelpCircle } from "lucide-react";
+import LocationAutocomplete from "@/components/LocationAutocomplete";
 
 export default function ContactClient() {
-  const [form, setForm]       = useState({ name: "", email: "", phone: "", subject: "", message: "" });
+  const [form, setForm]       = useState({ name: "", email: "", phone: "", location: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading]     = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -120,16 +121,27 @@ export default function ContactClient() {
                       <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 98765 43210" />
                     </div>
                     <div className="field-wrap">
-                      <label className="field-label">Subject *</label>
-                      <select className="field-input" name="subject" value={form.subject} onChange={handle} required style={{ appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238c7d6e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 0.85rem center", backgroundSize: "1rem" }}>
-                        <option value="">Select a topic</option>
-                        <option>Book a Demo</option>
-                        <option>Pricing Query</option>
-                        <option>Technical Support</option>
-                        <option>Enterprise / Franchise</option>
-                        <option>Other</option>
-                      </select>
+                      <label className="field-label">Location *</label>
+                      <LocationAutocomplete
+                        value={form.location}
+                        onChange={(val) => setForm((prev) => ({ ...prev, location: val }))}
+                        placeholder="Search State, District or City..."
+                        name="location"
+                        required
+                        inputClassName="field-input"
+                      />
                     </div>
+                  </div>
+                  <div className="field-wrap">
+                    <label className="field-label">Subject *</label>
+                    <select className="field-input" name="subject" value={form.subject} onChange={handle} required style={{ appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238c7d6e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 0.85rem center", backgroundSize: "1rem" }}>
+                      <option value="">Select a topic</option>
+                      <option>Book a Demo</option>
+                      <option>Pricing Query</option>
+                      <option>Technical Support</option>
+                      <option>Enterprise / Franchise</option>
+                      <option>Other</option>
+                    </select>
                   </div>
                   <div className="field-wrap">
                     <label className="field-label">Message *</label>

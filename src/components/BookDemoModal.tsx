@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, User, Mail, Phone, MapPin, Building2, Send, CheckCircle2, Sparkles } from "lucide-react";
+import LocationAutocomplete from "./LocationAutocomplete";
 
 interface BookDemoModalProps {
   isOpen: boolean;
@@ -28,11 +29,16 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
       const reset = () => {
         setStatus("idle");
         setErrorMessage("");
+        let initialLocation = "";
+        if (typeof window !== "undefined") {
+          initialLocation = sessionStorage.getItem("prefilled_location") || "";
+          sessionStorage.removeItem("prefilled_location");
+        }
         setFormData({
           fullName: "",
           email: "",
           phone: "",
-          location: "",
+          location: initialLocation,
           restaurantName: "",
           message: "",
         });
@@ -567,16 +573,13 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
                           <label htmlFor="bdm-location">Restaurant Location / City *</label>
                           <div className="bdm-input-wrap">
                             <span className="bdm-input-icon"><MapPin size={15} /></span>
-                            <input
-                              className="bdm-input"
-                              type="text"
-                              id="bdm-location"
+                            <LocationAutocomplete
+                              value={formData.location}
+                              onChange={(val) => setFormData((prev) => ({ ...prev, location: val }))}
+                              placeholder="Search State, District or City..."
                               name="location"
                               required
-                              placeholder="Mumbai, Maharashtra"
-                              value={formData.location}
-                              onChange={handleChange}
-                              autoComplete="address-level2"
+                              inputClassName="bdm-input"
                             />
                           </div>
                         </div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X, ChevronDown } from "lucide-react";
 
 interface NavbarProps {
   onBookDemo: () => void;
@@ -14,6 +14,14 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
   const pathname = usePathname();
   const [isScrolled,        setIsScrolled]        = useState(false);
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
+  const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
+
+  // Close resources sub-tab when mobile menu closes
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      setIsMobileResourcesOpen(false);
+    }
+  }, [isMobileMenuOpen]);
 
   /* ── Posiflex intro: logo starts centered, flies to top-left ── */
   const [introPhase, setIntroPhase] = useState<"center" | "move" | "done">("done");
@@ -94,8 +102,20 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           >
             <Link href="/#features" className="pf-nav-link">Solutions</Link>
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
+            <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
             <Link href="/#testimonials" className="pf-nav-link">Customers</Link>
-            <Link href="/faq" className="pf-nav-link">Resources</Link>
+            <div className="pf-nav-item-dropdown">
+              <span className="pf-nav-link dropdown-trigger" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
+                Resources <ChevronDown size={12} />
+              </span>
+              <div className="pf-dropdown-menu">
+                <Link href="/faq" className="pf-dropdown-link">FAQs</Link>
+                <Link href="/restaurant-pos-software-india" className="pf-dropdown-link">POS Software</Link>
+                <Link href="/restaurant-billing-software" className="pf-dropdown-link">Billing Engine</Link>
+                <Link href="/qr-ordering-system-for-restaurants" className="pf-dropdown-link">QR Ordering</Link>
+                <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory</Link>
+              </div>
+            </div>
             <Link href="/about" className="pf-nav-link">About</Link>
             <Link href="/contact" className="pf-nav-link">Contact</Link>
           </nav>
@@ -132,8 +152,27 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           <div className="pf-mobile-drawer">
             <Link href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</Link>
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
+            <Link href="/how-to-use" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>
             <Link href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</Link>
-            <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Resources</Link>
+            <div className="pf-mobile-collapsible" style={{ display: "flex", flexDirection: "column" }}>
+              <button 
+                onClick={() => setIsMobileResourcesOpen(v => !v)}
+                className="pf-mobile-link pf-mobile-dropdown-trigger"
+                style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer" }}
+              >
+                <span>Resources</span>
+                <ChevronDown size={16} style={{ transition: "transform 0.2s", transform: isMobileResourcesOpen ? "rotate(180deg)" : "none", color: "var(--text-secondary)" }} />
+              </button>
+              {isMobileResourcesOpen && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", paddingLeft: "1rem", marginTop: "0.85rem" }}>
+                  <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>FAQs</Link>
+                  <Link href="/restaurant-pos-software-india" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>POS Software</Link>
+                  <Link href="/restaurant-billing-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Billing Engine</Link>
+                  <Link href="/qr-ordering-system-for-restaurants" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>QR Ordering</Link>
+                  <Link href="/restaurant-inventory-management-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Inventory</Link>
+                </div>
+              )}
+            </div>
             <Link href="/about" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
             <Link href="/contact" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
@@ -261,6 +300,62 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         }
         .pf-nav-link:hover { color: var(--accent-orange); }
         .pf-nav-link:hover::after { right: 0; }
+
+        /* ── dropdown panel ── */
+        .pf-nav-item-dropdown {
+          position: relative;
+          display: inline-block;
+        }
+        .pf-dropdown-menu {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%) translateY(8px);
+          background: var(--bg-card, #fdfaf4);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+          min-width: 220px;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          padding: 0.5rem;
+          gap: 0.2rem;
+        }
+        .pf-nav-item-dropdown:hover .pf-dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          transform: translateX(-50%) translateY(4px);
+        }
+        .pf-dropdown-link {
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.3px;
+          text-transform: uppercase;
+          color: var(--text-secondary);
+          text-decoration: none;
+          padding: 0.5rem 0.85rem;
+          border-radius: 8px;
+          transition: background 0.15s, color 0.15s;
+          white-space: nowrap;
+          display: block;
+        }
+        .pf-dropdown-link:hover {
+          background: rgba(227,6,19,0.06);
+          color: var(--accent-orange);
+        }
+        .pf-nav-item-dropdown:hover .dropdown-trigger {
+          color: var(--accent-orange);
+        }
+        /* remove underline bar on the dropdown trigger on hover */
+        .dropdown-trigger::after {
+          display: none !important;
+        }
 
         /* ── CTA buttons ────────────────────────────────────────────── */
         .pf-actions {

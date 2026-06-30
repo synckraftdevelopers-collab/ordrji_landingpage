@@ -433,6 +433,550 @@ export default function HowToUsePage() {
 
       <Footer />
       <BookDemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
+
+      <style jsx global>{`
+        /* ── HTU CSS STYLES ── */
+        .htu-page {
+          background-color: var(--bg-primary);
+          min-height: 100vh;
+          padding-top: 4rem;
+        }
+
+        /* ── Hero ── */
+        .htu-hero {
+          position: relative;
+          padding: 6rem 0 4rem;
+          text-align: center;
+          overflow: hidden;
+        }
+        .htu-hero-glow {
+          position: absolute;
+          top: -200px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 800px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(227,6,19,0.08) 0%, rgba(227,6,19,0) 70%);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .htu-hero-inner {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .htu-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          background: rgba(227, 6, 19, 0.08);
+          border: 1px solid rgba(227, 6, 19, 0.2);
+          color: var(--text-primary);
+          padding: 0.35rem 0.9rem;
+          border-radius: 9999px;
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          margin-bottom: 1.5rem;
+        }
+        .htu-hero-title {
+          font-size: clamp(2.2rem, 5vw, 3.8rem);
+          font-weight: 900;
+          letter-spacing: -2px;
+          line-height: 1.15;
+          margin-bottom: 1.25rem;
+          color: var(--text-primary);
+        }
+        .htu-hero-sub {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          max-width: 600px;
+          margin-bottom: 2.25rem;
+        }
+        .htu-hero-actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-bottom: 3.5rem;
+          flex-wrap: wrap;
+        }
+        .htu-badges {
+          display: flex;
+          gap: 1.5rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .htu-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+          font-weight: 600;
+        }
+
+        /* ── Progress Track ── */
+        .htu-progress-section {
+          border-top: 1px solid var(--border-color);
+          border-bottom: 1px solid var(--border-color);
+          background: rgba(255, 255, 255, 0.3);
+          padding: 2.5rem 0;
+          display: none; /* Hide on mobile by default */
+        }
+        @media (min-width: 1024px) {
+          .htu-progress-section {
+            display: block;
+          }
+        }
+        .htu-progress-track {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .htu-progress-step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+          flex: 1;
+          text-align: center;
+        }
+        .htu-progress-dot {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 0.6rem;
+          z-index: 2;
+        }
+        .htu-progress-label {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: var(--text-secondary);
+          max-width: 90px;
+          line-height: 1.3;
+        }
+        .htu-progress-line {
+          position: absolute;
+          top: 16px;
+          left: 50%;
+          width: 100%;
+          height: 2px;
+          background: var(--border-color);
+          z-index: 1;
+        }
+
+        /* ── Steps Section ── */
+        .htu-steps-section {
+          padding: 5rem 0;
+        }
+        .htu-steps-inner {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        @media (min-width: 1024px) {
+          .htu-steps-inner {
+            grid-template-columns: 240px 1fr;
+          }
+        }
+        .htu-side-label {
+          display: none;
+          position: sticky;
+          top: 7rem;
+          height: fit-content;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        @media (min-width: 1024px) {
+          .htu-side-label {
+            display: flex;
+          }
+        }
+        .htu-side-label span:first-child {
+          font-size: 0.72rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          color: var(--accent-orange);
+        }
+        .htu-side-label span:last-child {
+          font-size: 1.80rem;
+          font-weight: 900;
+          letter-spacing: -1px;
+          color: var(--text-primary);
+        }
+
+        .htu-steps-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+        
+        /* ── Step Card ── */
+        .htu-step-card {
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-radius: 16px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+          overflow: hidden;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .htu-step-card:hover {
+          border-color: rgba(227,6,19,0.15);
+          box-shadow: 0 8px 30px rgba(90,80,70,0.04);
+        }
+        .htu-step-open {
+          border-color: rgba(227,6,19,0.22) !important;
+          box-shadow: 0 12px 40px rgba(90,80,70,0.06) !important;
+        }
+        .htu-step-header {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          padding: 1.5rem;
+          background: none;
+          border: none;
+          text-align: left;
+          cursor: pointer;
+          gap: 1.25rem;
+          outline: none;
+        }
+        .htu-step-num-wrap {
+          display: flex;
+          align-items: center;
+          gap: 0.85rem;
+          flex-shrink: 0;
+        }
+        .htu-step-num {
+          font-size: 1.1rem;
+          font-weight: 900;
+          font-family: monospace;
+          letter-spacing: -0.5px;
+        }
+        .htu-step-icon-wrap {
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          border: 1px solid transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .htu-step-title-group {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          flex: 1;
+          flex-wrap: wrap;
+        }
+        .htu-step-title {
+          font-size: 1.15rem;
+          font-weight: 800;
+          color: var(--text-primary);
+          letter-spacing: -0.5px;
+        }
+        .htu-step-time {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          background: var(--bg-primary);
+          padding: 0.2rem 0.5rem;
+          border-radius: 4px;
+          text-transform: uppercase;
+        }
+        .htu-chevron {
+          color: var(--text-muted);
+          transition: transform 0.2s;
+          display: flex;
+          align-items: center;
+        }
+        .htu-chevron-open {
+          transform: rotate(180deg);
+          color: var(--accent-orange);
+        }
+
+        .htu-step-body {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+          padding: 0 1.5rem;
+          border-top: 1px solid transparent;
+        }
+        .htu-body-open {
+          max-height: 1000px; /* high value for content height flex */
+          padding: 0.5rem 1.5rem 1.75rem;
+          border-top: 1px solid var(--border-color);
+          transition: max-height 0.3s ease-in, padding 0.3s ease;
+        }
+        .htu-step-desc {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          margin-bottom: 1.25rem;
+        }
+        .htu-bullets {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+        .htu-bullet {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.7rem;
+          font-size: 0.9rem;
+          color: var(--text-primary);
+          line-height: 1.45;
+        }
+        .htu-bullet-icon {
+          flex-shrink: 0;
+          margin-top: 0.15rem;
+        }
+
+        /* ── Video Section ── */
+        .htu-video-section {
+          background: var(--bg-card);
+          border-top: 1px solid var(--border-color);
+          border-bottom: 1px solid var(--border-color);
+          padding: 5rem 0;
+        }
+        .htu-video-inner {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 3.5rem;
+          align-items: center;
+        }
+        @media (min-width: 1024px) {
+          .htu-video-inner {
+            grid-template-columns: 1fr 1.2fr;
+          }
+        }
+        .htu-video-text {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .htu-video-title {
+          font-size: clamp(1.8rem, 4vw, 2.5rem);
+          font-weight: 800;
+          letter-spacing: -1.5px;
+          line-height: 1.2;
+          margin: 0;
+        }
+        .htu-video-sub {
+          font-size: 1.02rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          margin: 0;
+        }
+        .htu-video-card {
+          border-radius: 20px;
+          overflow: hidden;
+          background: #fff;
+          border: 1px solid var(--border-color);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+        }
+        .htu-video-thumb {
+          position: relative;
+          aspect-ratio: 16/9;
+          background: #000;
+          cursor: pointer;
+        }
+        .htu-play-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(15,12,10,0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.2s;
+        }
+        .htu-video-thumb:hover .htu-play-overlay {
+          background: rgba(15,12,10,0.4);
+        }
+        .htu-play-btn {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: var(--accent-orange);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-left: 4px;
+          box-shadow: 0 8px 24px rgba(227,6,19,0.3);
+          transition: transform 0.2s, background-color 0.2s;
+        }
+        .htu-video-thumb:hover .htu-play-btn {
+          transform: scale(1.08);
+          background: #e30613;
+        }
+        .htu-video-meta {
+          padding: 1.25rem 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #ffffff;
+        }
+        .htu-video-label {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+        .htu-video-dur {
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          background: var(--bg-primary);
+          padding: 0.15rem 0.4rem;
+          border-radius: 4px;
+        }
+
+        /* ── FAQ Section ── */
+        .htu-faq-section {
+          padding: 5rem 0;
+        }
+        .htu-faq-inner {
+          max-width: 800px !important;
+          margin: 0 auto;
+        }
+        .htu-faq-header-block {
+          text-align: center;
+          margin-bottom: 3.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .htu-section-title {
+          font-size: clamp(1.8rem, 4vw, 2.5rem);
+          font-weight: 800;
+          letter-spacing: -1.5px;
+          line-height: 1.2;
+          margin: 0.5rem 0;
+        }
+        .htu-section-sub {
+          font-size: 1.02rem;
+          color: var(--text-secondary);
+          margin: 0;
+        }
+        .htu-faq-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .htu-faq-item {
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: border-color 0.2s;
+        }
+        .htu-faq-item:hover {
+          border-color: rgba(227,6,19,0.15);
+        }
+        .htu-faq-open {
+          border-color: rgba(227,6,19,0.22) !important;
+        }
+        .htu-faq-header {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.25rem 1.5rem;
+          background: none;
+          border: none;
+          cursor: pointer;
+          gap: 1.5rem;
+          text-align: left;
+          outline: none;
+        }
+        .htu-faq-q {
+          font-size: 1.02rem;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+        .htu-faq-body {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+          padding: 0 1.5rem;
+        }
+        .htu-faq-open .htu-faq-body {
+          max-height: 300px;
+          padding: 0 1.5rem 1.25rem;
+          transition: max-height 0.3s ease-in, padding 0.3s ease;
+          border-top: 1px solid var(--border-color);
+          padding-top: 0.75rem;
+        }
+        .htu-faq-a {
+          font-size: 0.92rem;
+          line-height: 1.55;
+          color: var(--text-secondary);
+          margin: 0;
+        }
+
+        /* ── CTA Banner ── */
+        .htu-cta-section {
+          position: relative;
+          background: var(--bg-dark, #0f0e0c);
+          color: #fff;
+          padding: 6rem 0;
+          text-align: center;
+          overflow: hidden;
+        }
+        .htu-cta-glow {
+          position: absolute;
+          top: -150px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 600px;
+          height: 300px;
+          background: radial-gradient(circle, rgba(227,6,19,0.25) 0%, rgba(227,6,19,0) 70%);
+          pointer-events: none;
+        }
+        .htu-cta-inner {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .htu-cta-title {
+          font-size: clamp(2rem, 5vw, 3rem);
+          font-weight: 800;
+          letter-spacing: -1.5px;
+          margin: 0 0 1rem;
+        }
+        .htu-cta-sub {
+          font-size: 1.05rem;
+          color: rgba(255,255,255,0.7);
+          max-width: 500px;
+          line-height: 1.6;
+          margin: 0 0 2.5rem;
+        }
+        .htu-cta-actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        .htu-cta-actions .btn-secondary {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.15);
+          color: #fff;
+        }
+        .htu-cta-actions .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: #fff;
+        }
+      `}</style>
     </>
   );
 }

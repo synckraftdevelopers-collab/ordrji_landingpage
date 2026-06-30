@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, MapPin } from "lucide-react";
+import LocationAutocomplete from "./LocationAutocomplete";
+import { SearchResult } from "@/data/locations";
 
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1600", // Chef cooking
@@ -18,6 +20,8 @@ interface HeroProps {
 
 export default function Hero({ onBookDemo }: HeroProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedLocName, setSelectedLocName] = useState("");
+  const [locationDetails, setLocationDetails] = useState<SearchResult | null>(null);
 
   useEffect(() => {
     // Cinematic background slider interval
@@ -65,6 +69,68 @@ export default function Hero({ onBookDemo }: HeroProps) {
               <a href="#features" className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
                 <Play size={16} fill="currentColor" /> Watch Product Tour
               </a>
+            </div>
+
+            {/* Location Selector Widget */}
+            <div className="hero-location-widget" style={{ marginTop: "0rem", marginBottom: "2rem", width: "100%", maxWidth: "540px" }}>
+              <label style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)", marginBottom: "0.6rem", display: "block" }}>
+                📍 Check compliance & support coverage in your city:
+              </label>
+              <div style={{ background: "rgba(255, 255, 255, 0.45)", backdropFilter: "blur(8px)", padding: "0.45rem", borderRadius: "14px", border: "1px solid var(--border-color)", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                <LocationAutocomplete
+                  value={selectedLocName}
+                  onChange={(val, details) => {
+                    setSelectedLocName(val);
+                    setLocationDetails(details || null);
+                  }}
+                  placeholder="Select or type your State, District or City..."
+                />
+              </div>
+
+              {locationDetails && (
+                <div
+                  className="location-info-card"
+                  style={{
+                    marginTop: "0.75rem",
+                    background: "rgba(253, 250, 244, 0.98)",
+                    border: "1px solid rgba(227, 6, 19, 0.2)",
+                    borderRadius: "12px",
+                    padding: "1rem",
+                    boxShadow: "0 8px 24px rgba(227, 6, 19, 0.06)",
+                  }}
+                >
+                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                    <div style={{ color: "var(--accent-orange)", background: "rgba(227,6,19,0.06)", padding: "0.45rem", borderRadius: 8, flexShrink: 0 }}>
+                      <MapPin size={16} />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <h4 style={{ fontSize: "0.92rem", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
+                        Ordrji is fully active in {locationDetails.name}!
+                      </h4>
+                      <p style={{ fontSize: "0.82rem", color: "var(--text-secondary)", marginTop: "0.25rem", marginBottom: "0.75rem", lineHeight: 1.45 }}>
+                        {locationDetails.type === "city" 
+                          ? `Complete local POS setup, physical KOT printer routing, and offline billing cache sync are fully supported in ${locationDetails.name} (${locationDetails.stateCode}).`
+                          : locationDetails.type === "district"
+                          ? `Local field onboarding, training sessions, and 24/7 technical hardware coverage are active across all of ${locationDetails.name} District.`
+                          : `Fully compliant with tax guidelines and local GST schemas for the State/UT of ${locationDetails.name}. Remote and local setup partners are active.`
+                        }
+                      </p>
+                      <button
+                        onClick={() => {
+                          if (typeof window !== "undefined") {
+                            sessionStorage.setItem("prefilled_location", `${locationDetails.name}, ${locationDetails.stateCode}`);
+                          }
+                          onBookDemo();
+                        }}
+                        className="btn-primary btn-red"
+                        style={{ padding: "0.45rem 1rem", fontSize: "0.8rem", display: "inline-flex", alignItems: "center", gap: "0.3rem" }}
+                      >
+                        Book {locationDetails.name} Demo <ArrowRight size={13} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="hero-metrics-summary">
