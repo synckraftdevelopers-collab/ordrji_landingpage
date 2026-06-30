@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { MapPin, Search, X, ChevronDown, Check } from "lucide-react";
+import { MapPin, Search, X, ChevronDown, Check, Compass, Layers } from "lucide-react";
 import { searchLocations, SearchResult, states, cities } from "@/data/locations";
 
 interface LocationAutocompleteProps {
@@ -145,6 +145,83 @@ export default function LocationAutocomplete({
   const defaultPopularCities = cities.filter((c) => c.isMajor).slice(0, 8);
   const defaultStates = states.slice(0, 12); // First 12 alphabetically
 
+  const citiesGroup = results.filter((c) => c.type === "city");
+  const districtsGroup = results.filter((c) => c.type === "district");
+  const statesGroup = results.filter((c) => c.type === "state");
+
+  const renderItem = (item: SearchResult) => {
+    const idx = results.indexOf(item);
+    const isSelected = value === `${item.name}, ${item.stateCode}`;
+    const isActive = idx === activeIndex;
+
+    let Icon = MapPin;
+    let iconColor = "var(--accent-orange)";
+    let badgeBg = "rgba(227,6,19,0.06)";
+    let badgeColor = "var(--accent-orange)";
+
+    if (item.type === "district") {
+      Icon = Compass;
+      iconColor = "var(--accent-blue, #0284c7)";
+      badgeBg = "rgba(2,132,199,0.08)";
+      badgeColor = "var(--accent-blue, #0284c7)";
+    } else if (item.type === "state") {
+      Icon = Layers;
+      iconColor = "var(--accent-purple, #7c3aed)";
+      badgeBg = "rgba(124,58,237,0.08)";
+      badgeColor = "var(--accent-purple, #7c3aed)";
+    }
+
+    return (
+      <li
+        key={`${item.type}-${item.slug}`}
+        onClick={() => handleSelect(item)}
+        onMouseEnter={() => setActiveIndex(idx)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0.6rem 0.8rem",
+          borderRadius: "8px",
+          cursor: "pointer",
+          background: isActive
+            ? "rgba(227,6,19,0.05)"
+            : isSelected
+            ? "rgba(227,6,19,0.03)"
+            : "transparent",
+          transition: "background 0.15s ease",
+          marginBottom: "2px"
+        }}
+        className="autocomplete-li-item"
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", minWidth: 0, flex: 1 }}>
+          <Icon size={15} style={{ color: iconColor, flexShrink: 0 }} />
+          <div style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {highlightMatch(item.name, query)}
+            </span>
+            <span style={{ fontSize: "0.72rem", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.subtext}</span>
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
+          <span
+            style={{
+              fontSize: "0.6rem",
+              fontWeight: 800,
+              textTransform: "uppercase",
+              padding: "0.15rem 0.4rem",
+              borderRadius: "4px",
+              background: badgeBg,
+              color: badgeColor,
+            }}
+          >
+            {item.type}
+          </span>
+          {isSelected && <Check size={14} style={{ color: "var(--accent-orange)" }} />}
+        </div>
+      </li>
+    );
+  };
+
   return (
     <div className={`location-autocomplete-container ${className}`} ref={containerRef} style={{ position: "relative", width: "100%" }}>
       <div style={{ position: "relative", width: "100%" }}>
@@ -200,63 +277,40 @@ export default function LocationAutocomplete({
           }}
         >
           {query.trim() ? (
-            // Search Results
-            <div style={{ padding: "0.5rem" }}>
+            // Search Results grouped visually
+            <div style={{ padding: "0.4rem" }}>
               {results.length > 0 ? (
-                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                  {results.map((item, idx) => {
-                    const isSelected = value === `${item.name}, ${item.stateCode}`;
-                    const isActive = idx === activeIndex;
-                    return (
-                      <li
-                        key={`${item.type}-${item.slug}`}
-                        onClick={() => handleSelect(item)}
-                        onMouseEnter={() => setActiveIndex(idx)}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          padding: "0.75rem 0.85rem",
-                          borderRadius: "8px",
-                          cursor: "pointer",
-                          background: isActive
-                            ? "rgba(227,6,19,0.05)"
-                            : isSelected
-                            ? "rgba(227,6,19,0.03)"
-                            : "transparent",
-                          transition: "background 0.15s ease",
-                        }}
-                      >
-                        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                          <MapPin size={15} style={{ color: item.type === "city" ? "var(--accent-orange)" : item.type === "district" ? "var(--text-muted)" : "var(--text-primary)", flexShrink: 0 }} />
-                          <div style={{ display: "flex", flexDirection: "column" }}>
-                            <span style={{ fontSize: "0.9rem", fontWeight: 600, color: "var(--text-primary)" }}>
-                              {highlightMatch(item.name, query)}
-                            </span>
-                            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.subtext}</span>
-                          </div>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <span
-                            style={{
-                              fontSize: "0.65rem",
-                              fontWeight: 800,
-                              textTransform: "uppercase",
-                              padding: "0.15rem 0.4rem",
-                              borderRadius: "4px",
-                              background: item.type === "city" ? "rgba(227,6,19,0.08)" : "var(--bg-primary)",
-                              color: item.type === "city" ? "var(--accent-orange)" : "var(--text-secondary)",
-                              marginRight: isSelected ? "0.5rem" : 0,
-                            }}
-                          >
-                            {item.type}
-                          </span>
-                          {isSelected && <Check size={14} style={{ color: "var(--accent-orange)" }} />}
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  {/* Cities Group */}
+                  {citiesGroup.length > 0 && (
+                    <div>
+                      <div className="autocomplete-group-header">Cities</div>
+                      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                        {citiesGroup.map((item) => renderItem(item))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Districts Group */}
+                  {districtsGroup.length > 0 && (
+                    <div>
+                      <div className="autocomplete-group-header">Districts</div>
+                      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                        {districtsGroup.map((item) => renderItem(item))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* States Group */}
+                  {statesGroup.length > 0 && (
+                    <div>
+                      <div className="autocomplete-group-header">States & Union Territories</div>
+                      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                        {statesGroup.map((item) => renderItem(item))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <div style={{ padding: "1.5rem 1rem", textAlign: "center", color: "var(--text-muted)" }}>
                   <MapPin size={24} style={{ margin: "0 auto 0.5rem", opacity: 0.5, color: "var(--accent-orange)" }} />
@@ -352,6 +406,25 @@ export default function LocationAutocomplete({
       )}
 
       <style jsx global>{`
+        .autocomplete-dropdown {
+          animation: autocompSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+          border-color: var(--border-color) !important;
+          background: #fdfaf4 !important;
+        }
+        @keyframes autocompSlide {
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .autocomplete-group-header {
+          font-size: 0.65rem;
+          font-weight: 800;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          padding: 0.5rem 0.8rem 0.3rem;
+          border-bottom: 1px solid rgba(0,0,0,0.03);
+          margin-bottom: 0.35rem;
+        }
         .popular-city-pill:hover {
           background: rgba(227, 6, 19, 0.08) !important;
           color: var(--accent-orange) !important;

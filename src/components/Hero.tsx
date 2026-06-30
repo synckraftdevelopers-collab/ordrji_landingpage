@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowRight, Play, MapPin } from "lucide-react";
+import { ArrowRight, Play, MapPin, Compass, Layers, Sparkles } from "lucide-react";
 import LocationAutocomplete from "./LocationAutocomplete";
 import { SearchResult } from "@/data/locations";
 
@@ -72,42 +72,38 @@ export default function Hero({ onBookDemo }: HeroProps) {
             </div>
 
             {/* Location Selector Widget */}
-            <div className="hero-location-widget" style={{ marginTop: "0rem", marginBottom: "2rem", width: "100%", maxWidth: "540px" }}>
-              <label style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)", marginBottom: "0.6rem", display: "block" }}>
-                📍 Check compliance & support coverage in your city:
-              </label>
-              <div style={{ background: "rgba(255, 255, 255, 0.45)", backdropFilter: "blur(8px)", padding: "0.45rem", borderRadius: "14px", border: "1px solid var(--border-color)", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <div className="hero-location-widget">
+              <span className="location-widget-label">
+                <Sparkles size={11} style={{ marginRight: 4 }} /> Coverage & Compliance
+              </span>
+              <div className="location-search-bar">
                 <LocationAutocomplete
                   value={selectedLocName}
                   onChange={(val, details) => {
                     setSelectedLocName(val);
                     setLocationDetails(details || null);
                   }}
-                  placeholder="Select or type your State, District or City..."
+                  placeholder="Type your State, District or City to check coverage..."
                 />
               </div>
 
               {locationDetails && (
-                <div
-                  className="location-info-card"
-                  style={{
-                    marginTop: "0.75rem",
-                    background: "rgba(253, 250, 244, 0.98)",
-                    border: "1px solid rgba(227, 6, 19, 0.2)",
-                    borderRadius: "12px",
-                    padding: "1rem",
-                    boxShadow: "0 8px 24px rgba(227, 6, 19, 0.06)",
-                  }}
-                >
-                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-                    <div style={{ color: "var(--accent-orange)", background: "rgba(227,6,19,0.06)", padding: "0.45rem", borderRadius: 8, flexShrink: 0 }}>
-                      <MapPin size={16} />
+                <div className={`location-info-card ${locationDetails.type}`}>
+                  <div style={{ display: "flex", gap: "0.85rem", alignItems: "flex-start" }}>
+                    <div className={`info-card-icon-wrap ${locationDetails.type}`}>
+                      {locationDetails.type === "city" ? (
+                        <MapPin size={16} />
+                      ) : locationDetails.type === "district" ? (
+                        <Compass size={16} />
+                      ) : (
+                        <Layers size={16} />
+                      )}
                     </div>
                     <div style={{ flex: 1 }}>
-                      <h4 style={{ fontSize: "0.92rem", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
+                      <h4 className="info-card-header">
                         Ordrji is fully active in {locationDetails.name}!
                       </h4>
-                      <p style={{ fontSize: "0.82rem", color: "var(--text-secondary)", marginTop: "0.25rem", marginBottom: "0.75rem", lineHeight: 1.45 }}>
+                      <p className="info-card-text">
                         {locationDetails.type === "city" 
                           ? `Complete local POS setup, physical KOT printer routing, and offline billing cache sync are fully supported in ${locationDetails.name} (${locationDetails.stateCode}).`
                           : locationDetails.type === "district"
@@ -122,8 +118,8 @@ export default function Hero({ onBookDemo }: HeroProps) {
                           }
                           onBookDemo();
                         }}
-                        className="btn-primary btn-red"
-                        style={{ padding: "0.45rem 1rem", fontSize: "0.8rem", display: "inline-flex", alignItems: "center", gap: "0.3rem" }}
+                        className={`btn-primary ${locationDetails.type === "city" ? "btn-red" : locationDetails.type === "district" ? "btn-blue" : "btn-purple"}`}
+                        style={{ padding: "0.45rem 1.15rem", fontSize: "0.8rem", display: "inline-flex", alignItems: "center", gap: "0.3rem" }}
                       >
                         Book {locationDetails.name} Demo <ArrowRight size={13} />
                       </button>
@@ -323,6 +319,123 @@ export default function Hero({ onBookDemo }: HeroProps) {
           border-radius: 20px;
           filter: drop-shadow(0 20px 40px rgba(227, 6, 19, 0.18));
           animation: float 6s ease-in-out infinite;
+        }
+
+        /* ── Location Checker Widget Styles ── */
+        .hero-location-widget {
+          margin-top: 0.5rem;
+          margin-bottom: 2rem;
+          width: 100%;
+          max-width: 540px;
+          text-align: left;
+        }
+
+        .location-widget-label {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.74rem;
+          font-weight: 800;
+          color: var(--accent-orange);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          background: rgba(227, 6, 19, 0.05);
+          border: 1px solid rgba(227, 6, 19, 0.12);
+          padding: 0.3rem 0.7rem;
+          border-radius: 999px;
+          margin-bottom: 0.75rem;
+        }
+
+        .location-search-bar {
+          background: rgba(255, 255, 255, 0.6);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          padding: 0.4rem;
+          border-radius: 16px;
+          border: 1px solid var(--border-color);
+          box-shadow: 0 4px 18px rgba(0,0,0,0.02);
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .location-search-bar:focus-within {
+          border-color: rgba(227, 6, 19, 0.22);
+          box-shadow: 0 8px 24px rgba(227, 6, 19, 0.06);
+        }
+
+        .location-info-card {
+          margin-top: 0.85rem;
+          background: #fdfaf4 !important;
+          border-radius: 16px;
+          padding: 1.25rem;
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03) !important;
+          animation: widgetSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+          transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        
+        .location-info-card.city {
+          border: 1px solid rgba(227, 6, 19, 0.22);
+        }
+        .location-info-card.district {
+          border: 1px solid rgba(2, 132, 199, 0.22);
+        }
+        .location-info-card.state {
+          border: 1px solid rgba(124, 58, 237, 0.22);
+        }
+
+        @keyframes widgetSlideDown {
+          from { opacity: 0; transform: translateY(-6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-card-icon-wrap {
+          padding: 0.5rem;
+          border-radius: 10px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .info-card-icon-wrap.city {
+          color: var(--accent-orange);
+          background: rgba(227, 6, 19, 0.06);
+        }
+        .info-card-icon-wrap.district {
+          color: var(--accent-blue);
+          background: rgba(2, 132, 199, 0.08);
+        }
+        .info-card-icon-wrap.state {
+          color: var(--accent-purple);
+          background: rgba(124, 58, 237, 0.08);
+        }
+
+        .info-card-header {
+          font-size: 0.95rem;
+          font-weight: 850;
+          color: var(--text-primary);
+          margin: 0;
+          letter-spacing: -0.2px;
+        }
+
+        .info-card-text {
+          font-size: 0.82rem;
+          line-height: 1.5;
+          color: var(--text-secondary);
+          margin-top: 0.35rem;
+          margin-bottom: 0.85rem;
+        }
+        
+        .btn-blue {
+          background-color: var(--accent-blue) !important;
+          box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2) !important;
+        }
+        .btn-blue:hover {
+          background-color: #0274b0 !important;
+        }
+        
+        .btn-purple {
+          background-color: var(--accent-purple) !important;
+          box-shadow: 0 4px 14px rgba(124, 58, 237, 0.2) !important;
+        }
+        .btn-purple:hover {
+          background-color: #6d28d9 !important;
         }
       `}</style>
     </section>

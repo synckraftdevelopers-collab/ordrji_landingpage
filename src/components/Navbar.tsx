@@ -103,6 +103,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <Link href="/#features" className="pf-nav-link">Solutions</Link>
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
             <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
+            <Link href="/blog" className="pf-nav-link">Blog</Link>
             <Link href="/#testimonials" className="pf-nav-link">Customers</Link>
             <div className="pf-nav-item-dropdown">
               <span className="pf-nav-link dropdown-trigger" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
@@ -153,6 +154,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <Link href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</Link>
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
             <Link href="/how-to-use" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>
+            <Link href="/blog" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
             <Link href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</Link>
             <div className="pf-mobile-collapsible" style={{ display: "flex", flexDirection: "column" }}>
               <button 
