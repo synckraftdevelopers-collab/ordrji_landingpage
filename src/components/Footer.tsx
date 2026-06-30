@@ -33,9 +33,8 @@ const NAV_COLS = [
       { label: "About Us",              href: "#",                   isLink: false },
       { label: "Success Stories",       href: "#",                   isLink: false },
       { label: "Contact Us",            href: "/contact",            isLink: true  },
-      { label: "Privacy Policy",        href: "/privacy-policy",     isLink: true  },
+      { label: "Privacy Policy",        href: "/privacy",            isLink: true  },
       { label: "Terms & Conditions",    href: "/terms",              isLink: true  },
-      { label: "Refund & Cancellation", href: "/refund-cancellation",isLink: true  },
     ],
   },
 ];
@@ -145,9 +144,8 @@ export default function Footer() {
             Engineered with <Heart size={11} style={{ color: "#e30613", fill: "#e30613" }} /> for modern dining
           </span>
           <div className="ft-bottom-links">
-            <Link href="/privacy-policy"      className="ft-bottom-link">Privacy</Link>
+            <Link href="/privacy"             className="ft-bottom-link">Privacy</Link>
             <Link href="/terms"               className="ft-bottom-link">Terms</Link>
-            <Link href="/refund-cancellation" className="ft-bottom-link">Refunds</Link>
           </div>
         </div>
       </div>

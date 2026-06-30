@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import Problems from "@/components/Problems";
 import TrustBar from "@/components/TrustBar";
 import CommandCenter from "@/components/CommandCenter";
 import OrderJourney from "@/components/OrderJourney";
@@ -12,10 +13,12 @@ import RoleExperience from "@/components/RoleExperience";
 import Inventory from "@/components/Inventory";
 import SuccessStories from "@/components/SuccessStories";
 import Pricing from "@/components/Pricing";
+import Comparison from "@/components/Comparison";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Integrations from "@/components/Integrations";
 import BookDemoModal from "@/components/BookDemoModal";
+import FinalCTA from "@/components/FinalCTA";
 
 export default function Home() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -27,51 +30,56 @@ export default function Home() {
 
       {/* Main Sections Stack */}
       <main style={{ minHeight: "100vh" }}>
-        {/* Section 1: Hero Visual Center */}
+        
+        {/* 1. Hero Visual Center */}
         <Hero onBookDemo={() => setIsDemoModalOpen(true)} />
+        <div className="divider" />
 
-        {/* Section 2: Format Trust Bar Carousel */}
+        {/* 2. Problems: Why traditional POS fails */}
+        <Problems />
+        <div className="divider" />
+
+        {/* 3. Features Overview & Operations */}
         <TrustBar />
         <div className="divider" />
-
-        {/* Section 3: Large Centerpiece CommandCenter */}
-        <CommandCenter />
-        <div className="divider" />
-
-        {/* Section 4: Horizontal Order Journey Storyteller */}
         <OrderJourney />
         <div className="divider" />
-
-        {/* Section 5: Glowing Ecosystem Nodes grid */}
-        <Ecosystem />
+        <ModulesShowcase />
         <div className="divider" />
-
-        {/* Section 5b: Partners & Integrations orbital diagram */}
+        <Inventory />
+        <div className="divider" />
         <Integrations />
         <div className="divider" />
 
-        {/* Section 6: Modules Showcase Accordion Panels */}
-        <ModulesShowcase />
+        {/* 4. Restaurant Types & Formats */}
+        <Ecosystem />
         <div className="divider" />
-
-        {/* Section 7: Swappable Role Experience preview */}
         <RoleExperience />
         <div className="divider" />
 
-        {/* Section 8: Ingredient Visual stock tracker */}
-        <Inventory />
+        {/* 5. Screenshots / Interactive Dashboard Preview */}
+        <CommandCenter />
         <div className="divider" />
 
-        {/* Section 12: Mini Restaurant Case Studies */}
-        <SuccessStories />
-        <div className="divider" />
-
-        {/* Section 14: SaaS plans yearly/monthly toggle card table */}
+        {/* 6. Pricing Preview */}
         <Pricing />
         <div className="divider" />
 
-        {/* Section 15: Accordion question boards */}
+        {/* 7. Comparison: Ordrji vs Legacy POS */}
+        <Comparison />
+        <div className="divider" />
+
+        {/* 8. Testimonials / Success Stories */}
+        <SuccessStories />
+        <div className="divider" />
+
+        {/* 9. FAQ Accordions */}
         <Faq />
+        <div className="divider" />
+
+        {/* 10. Book Demo Final CTA */}
+        <FinalCTA onBookDemo={() => setIsDemoModalOpen(true)} />
+
       </main>
 
       {/* Global Footer */}

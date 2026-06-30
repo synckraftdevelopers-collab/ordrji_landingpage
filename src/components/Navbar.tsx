@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, X } from "lucide-react";
 
 interface NavbarProps {
@@ -9,19 +10,25 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onBookDemo }: NavbarProps) {
+  const pathname = usePathname();
   const [isScrolled,        setIsScrolled]        = useState(false);
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
 
   /* ── Posiflex intro: logo starts centered, flies to top-left ── */
-  const [introPhase, setIntroPhase] = useState<"center" | "move" | "done">("center");
+  const [introPhase, setIntroPhase] = useState<"center" | "move" | "done">("done");
 
   useEffect(() => {
+    if (pathname !== "/") {
+      setIntroPhase("done");
+      return;
+    }
+    setIntroPhase("center");
     // phase 1: logo sits centered for 900ms
     const t1 = setTimeout(() => setIntroPhase("move"),  900);
     // phase 2: after transition completes, lock to normal navbar
     const t2 = setTimeout(() => setIntroPhase("done"), 1700);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -40,8 +47,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
   return (
     <>
       {/* ── INTRO OVERLAY — full-screen centered logo ───────────────────
-          Visible only during "center" phase. Fades out once logo moves. */}
-      {introPhase !== "done" && (
+          Visible only during "center" phase on homepage. Fades out once logo moves. */}
+      {pathname === "/" && introPhase !== "done" && (
         <div
           className={`pf-intro-overlay ${introPhase === "move" ? "pf-overlay-out" : ""}`}
           aria-hidden
@@ -64,7 +71,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           {/* During "center" phase it renders in normal flow but is made
               invisible; the ::before pseudo-overlay shows the centered logo.
               We use a separate absolutely-positioned element for the animation. */}
-          <a
+          <Link
             href="/"
             className={`pf-logo-link ${introPhase}`}
             aria-label="OrderJi Home"
@@ -74,17 +81,19 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               alt="OrderJi"
               className="pf-logo-img"
             />
-          </a>
+          </Link>
 
           {/* ── DESKTOP NAV ───────────────────────────────────────────── */}
           <nav
             className={`pf-nav ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}
             aria-label="Main navigation"
           >
-            <a href="/"         className="pf-nav-link">Home</a>
-            <a href="#features" className="pf-nav-link">Features</a>
-            <a href="#pricing"  className="pf-nav-link">Pricing</a>
-            <Link href="/contact" className="pf-nav-link">Contact Us</Link>
+            <a href="/#features" className="pf-nav-link">Solutions</a>
+            <Link href="/pricing" className="pf-nav-link">Pricing</Link>
+            <a href="/#testimonials" className="pf-nav-link">Customers</a>
+            <Link href="/faq" className="pf-nav-link">Resources</Link>
+            <Link href="/about" className="pf-nav-link">About</Link>
+            <Link href="/contact" className="pf-nav-link">Contact</Link>
           </nav>
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
@@ -117,13 +126,14 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         {/* ── MOBILE DRAWER ─────────────────────────────────────────────── */}
         {isMobileMenuOpen && (
           <div className="pf-mobile-drawer">
-            <a href="/"         className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
-            <a href="#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
-            <a href="#pricing"  className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
-            <Link href="/contact"           className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+            <a href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</a>
+            <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
+            <a href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</a>
+            <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Resources</Link>
+            <Link href="/about" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+            <Link href="/contact" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
-            <Link href="/privacy-policy"    className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
-            <Link href="/refund-cancellation" className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Refund & Cancellation</Link>
+            <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">
               <button onClick={() => { setIsMobileMenuOpen(false); onBookDemo(); }} className="btn-secondary" style={{ justifyContent: "center" }}>
                 Book Demo

@@ -2,12 +2,16 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import BookDemoModal from "@/components/BookDemoModal";
+import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle, MessageSquare, Clock, ExternalLink, HelpCircle } from "lucide-react";
 
 export default function ContactClient() {
   const [form, setForm]       = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading]     = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,93 +26,162 @@ export default function ContactClient() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
-      <div className="container" style={{ maxWidth: 1100, padding: "3rem 1.5rem 6rem" }}>
+    <>
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
 
-        {/* back */}
-        <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: 600, marginBottom: "2.5rem", textDecoration: "none" }}>
-          <ArrowLeft size={15} /> Back to Home
-        </Link>
+      <div style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
+        <div className="container" style={{ maxWidth: 1100, padding: "3rem 1.5rem 6rem" }}>
 
-        <div style={{ marginBottom: "3rem" }}>
-          <span style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "2px", color: "var(--accent-orange)", textTransform: "uppercase" }}>Get In Touch</span>
-          <h1 style={{ fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem", marginBottom: "0.75rem" }}>Contact Us</h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", maxWidth: 520, lineHeight: 1.6 }}>
-            Have a question, need a demo, or want to talk enterprise? We're here — reach out any time.
-          </p>
-        </div>
+          {/* back */}
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: 600, marginBottom: "2.5rem", textDecoration: "none" }}>
+            <ArrowLeft size={15} /> Back to Home
+          </Link>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem" }} className="contact-grid">
-
-          {/* info cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            {[
-              { icon: <Mail size={20} />, title: "Email Us", value: "support@ordrji.com", color: "#e30613" },
-              { icon: <Phone size={20} />, title: "Call Us", value: "+91 98765 43210", color: "#0284c7" },
-              { icon: <MapPin size={20} />, title: "Office", value: "Bengaluru, Karnataka, India", color: "#059669" },
-            ].map(c => (
-              <div key={c.title} style={{ display: "flex", alignItems: "flex-start", gap: "1rem", padding: "1.4rem 1.5rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, borderLeft: `3px solid ${c.color}` }}>
-                <span style={{ color: c.color, background: c.color + "14", width: 40, height: 40, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{c.icon}</span>
-                <div>
-                  <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: "0.2rem" }}>{c.title}</div>
-                  <div style={{ fontWeight: 700, color: "var(--text-primary)" }}>{c.value}</div>
-                </div>
-              </div>
-            ))}
+          <div style={{ marginBottom: "3rem" }}>
+            <span style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "2px", color: "var(--accent-orange)", textTransform: "uppercase" }}>Get In Touch</span>
+            <h1 style={{ fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem", marginBottom: "0.75rem" }}>Contact Us</h1>
+            <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", maxWidth: 520, lineHeight: 1.6 }}>
+              Have a question, need a demo, or want to talk enterprise? We're here — reach out any time.
+            </p>
           </div>
 
-          {/* form */}
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 16, padding: "2.5rem" }}>
-            {submitted ? (
-              <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
-                <CheckCircle size={52} color="#059669" style={{ margin: "0 auto 1rem" }} />
-                <h3 style={{ fontWeight: 800, fontSize: "1.4rem", marginBottom: "0.5rem" }}>Message Sent!</h3>
-                <p style={{ color: "var(--text-secondary)" }}>We'll get back to you within 24 hours.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem" }} className="contact-grid">
+
+            {/* Left Column: Info Cards & Hours & Map */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              
+              {/* Core Contact Cards */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {[
+                  { icon: <Mail size={20} />, title: "Email Us", value: "support@ordrji.com", link: "mailto:support@ordrji.com", color: "#e30613" },
+                  { icon: <Phone size={20} />, title: "Call Us", value: "+91 98765 43210", link: "tel:+919876543210", color: "#0284c7" },
+                  { icon: <MessageSquare size={20} />, title: "WhatsApp Sales", value: "+91 98765 43210", link: "https://wa.me/919876543210?text=Hi%20OrderJi%20team", color: "#25d366" },
+                  { icon: <Clock size={20} />, title: "Business Hours", value: "Mon - Sat: 9:00 AM - 7:00 PM IST", link: null, color: "#d97706" },
+                ].map(c => {
+                  const CardContent = (
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                      <span style={{ color: c.color, background: c.color + "14", width: 40, height: 40, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{c.icon}</span>
+                      <div>
+                        <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: "0.2rem" }}>{c.title}</div>
+                        <div style={{ fontWeight: 700, color: "var(--text-primary)" }}>{c.value}</div>
+                      </div>
+                    </div>
+                  );
+                  
+                  return c.link ? (
+                    <a key={c.title} href={c.link} target={c.link.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" style={{ textDecoration: "none", display: "block", padding: "1.2rem 1.4rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, borderLeft: `3px solid ${c.color}`, transition: "transform 0.2s" }} className="hover-card">
+                      {CardContent}
+                    </a>
+                  ) : (
+                    <div key={c.title} style={{ padding: "1.2rem 1.4rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, borderLeft: `3px solid ${c.color}` }}>
+                      {CardContent}
+                    </div>
+                  );
+                })}
               </div>
-            ) : (
-              <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="form-row">
-                  <div className="field-wrap">
-                    <label className="field-label">Full Name *</label>
-                    <input className="field-input" name="name" value={form.name} onChange={handle} required placeholder="Arjun Sharma" />
-                  </div>
-                  <div className="field-wrap">
-                    <label className="field-label">Email *</label>
-                    <input className="field-input" name="email" type="email" value={form.email} onChange={handle} required placeholder="arjun@restaurant.com" />
-                  </div>
+
+              {/* Support Links */}
+              <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "1.5rem" }}>
+                <h4 style={{ fontSize: "0.8rem", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                  <HelpCircle size={14} /> Quick Support Links
+                </h4>
+                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem", padding: 0 }}>
+                  <li>
+                    <Link href="/faq" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.9rem", color: "var(--text-secondary)", textDecoration: "none", fontWeight: 600 }} className="hover-link">
+                      Frequently Asked Questions <ExternalLink size={12} />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.9rem", color: "var(--text-secondary)", textDecoration: "none", fontWeight: 600 }} className="hover-link">
+                      Terms of Service <ExternalLink size={12} />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.9rem", color: "var(--text-secondary)", textDecoration: "none", fontWeight: 600 }} className="hover-link">
+                      Privacy Policy <ExternalLink size={12} />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Map location & embed */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)" }}>
+                  <MapPin size={15} color="var(--accent-orange)" />
+                  <span>Office: Bengaluru, Karnataka, India</span>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="form-row">
-                  <div className="field-wrap">
-                    <label className="field-label">Phone</label>
-                    <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 98765 43210" />
+                <div style={{ border: "1px solid var(--border-color)", borderRadius: 14, overflow: "hidden", height: 220, position: "relative" }}>
+                  <iframe 
+                    title="OrderJi Bengaluru Office Location"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0016565171746!2d77.5945627!3d12.9715987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c0e49ecb%3A0x67a36cb7c631e847!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1625000000000!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }} 
+                    allowFullScreen={false} 
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Column: Contact Form */}
+            <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 16, padding: "2.5rem", boxShadow: "0 10px 30px rgba(0,0,0,0.01)" }}>
+              {submitted ? (
+                <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
+                  <CheckCircle size={52} color="#059669" style={{ margin: "0 auto 1rem" }} />
+                  <h3 style={{ fontWeight: 800, fontSize: "1.4rem", marginBottom: "0.5rem" }}>Message Sent!</h3>
+                  <p style={{ color: "var(--text-secondary)" }}>We'll get back to you within 24 hours.</p>
+                </div>
+              ) : (
+                <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="form-row">
+                    <div className="field-wrap">
+                      <label className="field-label">Full Name *</label>
+                      <input className="field-input" name="name" value={form.name} onChange={handle} required placeholder="Arjun Sharma" />
+                    </div>
+                    <div className="field-wrap">
+                      <label className="field-label">Email *</label>
+                      <input className="field-input" name="email" type="email" value={form.email} onChange={handle} required placeholder="arjun@restaurant.com" />
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="form-row">
+                    <div className="field-wrap">
+                      <label className="field-label">Phone</label>
+                      <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 98765 43210" />
+                    </div>
+                    <div className="field-wrap">
+                      <label className="field-label">Subject *</label>
+                      <select className="field-input" name="subject" value={form.subject} onChange={handle} required style={{ appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238c7d6e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 0.85rem center", backgroundSize: "1rem" }}>
+                        <option value="">Select a topic</option>
+                        <option>Book a Demo</option>
+                        <option>Pricing Query</option>
+                        <option>Technical Support</option>
+                        <option>Enterprise / Franchise</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
                   </div>
                   <div className="field-wrap">
-                    <label className="field-label">Subject *</label>
-                    <select className="field-input" name="subject" value={form.subject} onChange={handle} required>
-                      <option value="">Select a topic</option>
-                      <option>Book a Demo</option>
-                      <option>Pricing Query</option>
-                      <option>Technical Support</option>
-                      <option>Enterprise / Franchise</option>
-                      <option>Other</option>
-                    </select>
+                    <label className="field-label">Message *</label>
+                    <textarea className="field-input" name="message" value={form.message} onChange={handle} required rows={5} placeholder="Tell us about your restaurant and what you need..." style={{ resize: "vertical" }} />
                   </div>
-                </div>
-                <div className="field-wrap">
-                  <label className="field-label">Message *</label>
-                  <textarea className="field-input" name="message" value={form.message} onChange={handle} required rows={5} placeholder="Tell us about your restaurant and what you need..." style={{ resize: "vertical" }} />
-                </div>
-                <button type="submit" className="btn-primary" disabled={loading} style={{ justifyContent: "center", padding: "0.85rem", fontSize: "0.95rem", opacity: loading ? 0.7 : 1 }}>
-                  {loading ? "Sending…" : <><Send size={16} /> Send Message</>}
-                </button>
-              </form>
-            )}
+                  <button type="submit" className="btn-primary" disabled={loading} style={{ justifyContent: "center", padding: "0.85rem", fontSize: "0.95rem", opacity: loading ? 0.7 : 1, background: "var(--accent-orange)" }}>
+                    {loading ? "Sending…" : <><Send size={16} /> Send Message</>}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
+      <Footer />
+
+      <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+
       <style jsx global>{`
-        @media (min-width: 768px) { .contact-grid { grid-template-columns: 360px 1fr !important; } }
+        @media (min-width: 768px) { .contact-grid { grid-template-columns: 380px 1fr !important; } }
         @media (max-width: 640px)  { .form-row { grid-template-columns: 1fr !important; } }
         .field-wrap { display: flex; flex-direction: column; gap: 0.35rem; }
         .field-label { font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.3px; }
@@ -120,9 +193,18 @@ export default function ContactClient() {
           outline: none; transition: border-color 0.2s, box-shadow 0.2s;
           width: 100%;
         }
-        .field-input:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(227,6,19,0.08); }
+        .field-input:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(227,6,19,0.08); background: #fff; }
         .field-input::placeholder { color: var(--text-muted); }
+        
+        .hover-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(90,80,70,0.05) !important;
+        }
+
+        .hover-link:hover {
+          color: var(--accent-orange) !important;
+        }
       `}</style>
-    </div>
+    </>
   );
 }

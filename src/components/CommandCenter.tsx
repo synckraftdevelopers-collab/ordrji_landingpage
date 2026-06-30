@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Sparkles, Clock, AlertCircle, ShoppingCart, User, CheckCircle2, ChevronRight, Layers, Users } from "lucide-react";
+import { Play, Sparkles, Clock, AlertCircle, ShoppingCart, User, CheckCircle2, ChevronRight, Layers, Users, Smartphone, ClipboardList, Bike } from "lucide-react";
 
 // ── Count-up hook (quartic ease-out, rAF) ──────────────────────────────────
 function useCountUp(target: number, duration = 1800, started = false): number {
@@ -29,19 +29,29 @@ interface Order {
   id: string;
   table: string;
   items: string;
-  time: string;
+  createdAt: number;
   amount: number;
-  status: "Ordering" | "Preparing" | "Billing" | "Ready";
+  status: "Ordering" | "Preparing" | "Ready" | "Paid";
   source: "QR" | "Waiter" | "Zomato" | "Swiggy";
 }
 
-const INITIAL_ORDERS: Order[] = [
-  { id: "#1092", table: "T-04", items: "1x Grilled Salmon, 2x Pinot Noir", time: "1 min ago", amount: 4850, status: "Preparing", source: "QR" },
-  { id: "#1091", table: "T-12", items: "2x Classic Burgers, 1x Truffle Fries", time: "3 mins ago", amount: 2450, status: "Preparing", source: "Waiter" },
-  { id: "#1090", table: "T-09", items: "1x Margherita Pizza, 2x Coke", time: "8 mins ago", amount: 1350, status: "Ready", source: "QR" },
-  { id: "#1089", table: "T-02", items: "1x Ribeye Steak, 1x Baked Potato", time: "14 mins ago", amount: 3800, status: "Billing", source: "Waiter" },
-  { id: "#1088", table: "Delivery", items: "3x Butter Chicken, 3x Garlic Naan", time: "19 mins ago", amount: 2980, status: "Preparing", source: "Swiggy" }
-];
+interface SyncLog {
+  id: string;
+  time: string;
+  message: string;
+  type: "success" | "info" | "warning";
+}
+
+function getRelativeTime(createdAt: number, now: number): string {
+  if (!now || !createdAt) return "Just now";
+  const diffSec = Math.floor((now - createdAt) / 1000);
+  if (diffSec < 1) return "Just now";
+  if (diffSec < 45) return `${diffSec}s ago`;
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHour = Math.floor(diffMin / 60);
+  return `${diffHour}h ago`;
+}
 
 // ── Stat badge sub-component ───────────────────────────────────────────────
 interface StatBadgeProps {
@@ -83,11 +93,47 @@ export default function CommandCenter() {
   const [statsStarted, setStatsStarted] = useState(false);
   const [dashboardVisible, setDashboardVisible] = useState(false);
 
-  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [revenue, setRevenue] = useState(87420);
   const [kitchenDelay, setKitchenDelay] = useState(2);
   const [activeTab, setActiveTab] = useState<"feed" | "metrics">("feed");
   const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const [logs, setLogs] = useState<SyncLog[]>([]);
+  const [now, setNow] = useState(0);
+
+  const ordersRef = useRef<Order[]>([]);
+  ordersRef.current = orders;
+
+  const formatTime = (date: Date) => {
+    return date.toTimeString().split(" ")[0];
+  };
+
+  // Client-side initialization to prevent hydration issues
+  useEffect(() => {
+    const baseTime = Date.now();
+    setOrders([
+      { id: "#1092", table: "T-04", items: "1x Grilled Salmon, 2x Pinot Noir", createdAt: baseTime - 60000, amount: 4850, status: "Preparing", source: "QR" },
+      { id: "#1091", table: "T-12", items: "2x Classic Burgers, 1x Truffle Fries", createdAt: baseTime - 180000, amount: 2450, status: "Preparing", source: "Waiter" },
+      { id: "#1090", table: "T-09", items: "1x Margherita Pizza, 2x Coke", createdAt: baseTime - 480000, amount: 1350, status: "Ready", source: "QR" },
+      { id: "#1089", table: "T-02", items: "1x Ribeye Steak, 1x Baked Potato", createdAt: baseTime - 840000, amount: 3800, status: "Paid", source: "Waiter" },
+      { id: "#1088", table: "Delivery", items: "3x Butter Chicken, 3x Garlic Naan", createdAt: baseTime - 1140000, amount: 2980, status: "Preparing", source: "Swiggy" }
+    ]);
+
+    const t1 = new Date(baseTime - 90000);
+    const t2 = new Date(baseTime - 60000);
+    const t3 = new Date(baseTime - 30000);
+    setLogs([
+      { id: "1", time: formatTime(t1), message: `[${formatTime(t1)}] KDS sync handshake successful (12ms)`, type: "success" },
+      { id: "2", time: formatTime(t2), message: `[${formatTime(t2)}] Swiggy webhook connected (8ms)`, type: "success" },
+      { id: "3", time: formatTime(t3), message: `[${formatTime(t3)}] Dine-In QR Order #1092 auto-routed to KDS & Printer (14ms)`, type: "info" }
+    ]);
+
+    setNow(Date.now());
+    const clockInterval = setInterval(() => {
+      setNow(Date.now());
+    }, 5000);
+    return () => clearInterval(clockInterval);
+  }, []);
 
   // IntersectionObserver
   useEffect(() => {
@@ -118,59 +164,147 @@ export default function CommandCenter() {
     return () => clearInterval(interval);
   }, [isAutoRotating]);
 
+  const prevOrdersRef = useRef<Order[]>([]);
+
+  // Log tracking effect
+  useEffect(() => {
+    if (orders.length === 0) return;
+    if (prevOrdersRef.current.length === 0) {
+      prevOrdersRef.current = orders;
+      return;
+    }
+
+    const prevOrders = prevOrdersRef.current;
+    prevOrdersRef.current = orders;
+
+    // Check if a new order was prepended
+    if (orders[0] && prevOrders[0] && orders[0].id !== prevOrders[0].id) {
+      const newOrder = orders[0];
+      const timeStr = formatTime(new Date());
+      let msg = "";
+      if (newOrder.source === "QR") {
+        msg = `[${timeStr}] Dine-In QR Order ${newOrder.id} auto-routed to KDS & Printer (14ms)`;
+      } else if (newOrder.source === "Waiter") {
+        msg = `[${timeStr}] Waiter Order ${newOrder.id} synced to Kitchen & POS (9ms)`;
+      } else {
+        msg = `[${timeStr}] ${newOrder.source} Order ${newOrder.id} pushed to POS (11ms)`;
+      }
+
+      setLogs((prev) => [
+        { id: Math.random().toString(), time: timeStr, message: msg, type: "info" },
+        ...prev.slice(0, 4)
+      ]);
+      return;
+    }
+
+    // Check if any order status changed
+    for (let i = 0; i < orders.length; i++) {
+      const current = orders[i];
+      const prev = prevOrders.find((o) => o.id === current.id);
+      if (prev && prev.status !== current.status) {
+        const timeStr = formatTime(new Date());
+        const msg = `[${timeStr}] Order ${current.id} status updated to ${current.status} (8ms)`;
+        setLogs((prevLogs) => [
+          { id: Math.random().toString(), time: timeStr, message: msg, type: "success" },
+          ...prevLogs.slice(0, 4)
+        ]);
+        break;
+      }
+    }
+  }, [orders]);
+
+  const triggerSimulatedOrder = (source: "QR" | "Waiter" | "Zomato" | "Swiggy") => {
+    const currentOrders = ordersRef.current;
+    const maxId = currentOrders.reduce((max, o) => {
+      const num = parseInt(o.id.replace("#", ""), 10);
+      return !isNaN(num) && num > max ? num : max;
+    }, 1092);
+    const newId = `#${maxId + 1}`;
+
+    let table = "T-05";
+    let items = "1x Grilled Salmon, 2x Pinot Noir";
+    let amount = 4850;
+
+    if (source === "QR") {
+      const qrOptions = [
+        { table: "T-04", items: "1x Truffle Fries, 2x Margherita Pizza", amount: 1950 },
+        { table: "T-08", items: "2x Avocado Toast, 1x Matcha Latte", amount: 1650 },
+        { table: "T-15", items: "1x Sushi Special, 1x Hot Sake", amount: 4500 }
+      ];
+      const opt = qrOptions[Math.floor(Math.random() * qrOptions.length)];
+      table = opt.table;
+      items = opt.items;
+      amount = opt.amount;
+    } else if (source === "Waiter") {
+      const waiterOptions = [
+        { table: "T-12", items: "2x Classic Burgers, 1x Sweet Potato Fries", amount: 2550 },
+        { table: "T-02", items: "1x Ribeye Steak, 1x Baked Potato, 1x Merlot", amount: 4800 },
+        { table: "T-11", items: "2x Chocolate Souffle, 2x Cappuccino", amount: 1800 }
+      ];
+      const opt = waiterOptions[Math.floor(Math.random() * waiterOptions.length)];
+      table = opt.table;
+      items = opt.items;
+      amount = opt.amount;
+    } else {
+      const deliveryOptions = [
+        { table: "Delivery", items: "3x Butter Chicken, 3x Garlic Naan", amount: 2980 },
+        { table: "Delivery", items: "1x Margherita Pizza, 1x Caesar Salad", amount: 1450 },
+        { table: "Delivery", items: "2x Spicy Ramen, 1x Gyoza", amount: 2600 }
+      ];
+      const opt = deliveryOptions[Math.floor(Math.random() * deliveryOptions.length)];
+      table = opt.table;
+      items = opt.items;
+      amount = opt.amount;
+    }
+
+    const newOrder: Order = {
+      id: newId,
+      table,
+      items,
+      createdAt: Date.now(),
+      amount,
+      status: "Ordering",
+      source
+    };
+
+    setRevenue((prev) => prev + amount);
+    setOrders((prev) => [newOrder, ...prev.slice(0, 5)]);
+  };
+
+  // Auto-simulation update interval
   useEffect(() => {
     const interval = setInterval(() => {
-      setOrders((prev) => {
-        const updated = prev.map((o) => {
-          const mins = parseInt(o.time.split(" ")[0]);
-          return { ...o, time: `${mins + 1} mins ago` };
+      const currentOrders = ordersRef.current;
+      if (currentOrders.length === 0) return;
+
+      const rand = Math.random();
+      if (rand > 0.65) {
+        const sources: ("QR" | "Waiter" | "Zomato" | "Swiggy")[] = ["QR", "Waiter", "Zomato", "Swiggy"];
+        const chosenSource = sources[Math.floor(Math.random() * sources.length)];
+        triggerSimulatedOrder(chosenSource);
+      } else {
+        setOrders((prev) => {
+          const updated = [...prev];
+          const indexToAdvance = updated.findIndex((o) => o.status !== "Paid");
+          if (indexToAdvance !== -1) {
+            const order = updated[indexToAdvance];
+            let nextStatus: Order["status"] = "Preparing";
+            if (order.status === "Ordering") nextStatus = "Preparing";
+            else if (order.status === "Preparing") nextStatus = "Ready";
+            else if (order.status === "Ready") nextStatus = "Paid";
+
+            updated[indexToAdvance] = { ...order, status: nextStatus };
+          }
+          return updated;
         });
-
-        if (Math.random() > 0.4) {
-          const maxId = prev.reduce((max, o) => {
-            const num = parseInt(o.id.replace("#", ""), 10);
-            return !isNaN(num) && num > max ? num : max;
-          }, 1092);
-          const newId = `#${maxId + 1}`;
-          const tables = ["T-01", "T-08", "T-15", "T-03", "T-11", "T-20", "Delivery"];
-          const sources: ("QR" | "Waiter" | "Zomato" | "Swiggy")[] = ["QR", "Waiter", "Zomato"];
-          const itemsList = [
-            "2x Avocado Toast, 1x Matcha Latte",
-            "1x Tacos Platter, 2x Margaritas",
-            "1x Butter Chicken Combo, 1x Diet Coke",
-            "1x Sushi Chef Special, 1x Sake",
-            "2x Chocolate Souffle, 2x Cappuccino"
-          ];
-          const prices = [1650, 2900, 1150, 4500, 1800];
-          const randomIndex = Math.floor(Math.random() * itemsList.length);
-
-          const newOrder: Order = {
-            id: newId,
-            table: tables[Math.floor(Math.random() * tables.length)],
-            items: itemsList[randomIndex],
-            time: "Just now",
-            amount: prices[randomIndex],
-            status: "Ordering",
-            source: sources[Math.floor(Math.random() * sources.length)]
-          };
-
-          setRevenue((r) => r + newOrder.amount);
-          return [newOrder, ...updated.slice(0, 5)];
-        }
-
-        return updated.map((o, i) => {
-          if (i === 1 && o.status === "Preparing") return { ...o, status: "Ready" as const };
-          if (i === 2 && o.status === "Ready") return { ...o, status: "Billing" as const };
-          return o;
-        });
-      });
+      }
 
       setKitchenDelay((prev) => {
         const delta = Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0;
         const next = prev + delta;
         return next >= 0 && next <= 5 ? next : prev;
       });
-    }, 5000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, []);
@@ -248,6 +382,19 @@ export default function CommandCenter() {
                   <span style={{ color: "var(--accent-green)" }}>ONLINE</span>
                 </div>
               </div>
+
+              <div className="sidebar-section-title" style={{ marginTop: "1.5rem" }}>REAL-TIME SYNC LOG</div>
+              <div className="sidebar-log-console">
+                {logs.length === 0 ? (
+                  <div className="log-line">Initializing console...</div>
+                ) : (
+                  logs.map((log) => (
+                    <div key={log.id} className="log-line">
+                      <span className="log-dot">•</span> {log.message}
+                    </div>
+                  ))
+                )}
+              </div>
             </aside>
 
             {/* Central Dashboard Display */}
@@ -271,31 +418,100 @@ export default function CommandCenter() {
               {/* Feed Panel */}
               {activeTab === "feed" && (
                 <div className="feed-panel">
+                  {/* Simulator Controls */}
+                  <div className="simulator-controls glass-card">
+                    <div className="simulator-header">
+                      <Sparkles size={16} style={{ color: "var(--accent-orange)" }} />
+                      <h4>Interactive Live-Order Simulator</h4>
+                      <p>Click to push an order and watch it sync across POS, KDS &amp; console logs instantly.</p>
+                    </div>
+                    <div className="simulator-buttons">
+                      <button onClick={() => triggerSimulatedOrder("QR")} className="sim-btn qr">
+                        <span>📱 Dine-In QR</span>
+                      </button>
+                      <button onClick={() => triggerSimulatedOrder("Waiter")} className="sim-btn waiter">
+                        <span>👤 Waiter App</span>
+                      </button>
+                      <button onClick={() => triggerSimulatedOrder("Zomato")} className="sim-btn thirdparty">
+                        <span>🛵 Zomato/Swiggy</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Live Stats Bar */}
+                  <div className="feed-summary-bar">
+                    <div className="summary-stat">
+                      <span className="summary-label">LIVE REVENUE (TODAY)</span>
+                      <span key={revenue} className="summary-value text-emerald revenue-val-glow">
+                        ₹{revenue.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="summary-stat">
+                      <span className="summary-label">ACTIVE ORDERS</span>
+                      <span className="summary-value">{orders.length}</span>
+                    </div>
+                    <div className="summary-stat">
+                      <span className="summary-label">KITCHEN SYNC DELAY</span>
+                      <span className="summary-value text-rose">{kitchenDelay}s</span>
+                    </div>
+                  </div>
+
                   <div className="feed-header">
                     <span>Active Orders</span>
                     <span>Recent Activity</span>
                   </div>
                   <div className="orders-list">
-                    {orders.map((order) => (
-                      <div key={order.id} className="order-row glass-card">
-                        <div className="order-main-info">
-                          <div className="table-badge">{order.table}</div>
-                          <div className="order-details">
-                            <span className="order-id">{order.id} <span className="source-tag">{order.source}</span></span>
-                            <span className="order-items">{order.items}</span>
+                    {orders.length === 0 ? (
+                      <div className="order-row glass-card" style={{ justifyContent: "center" }}>
+                        <span style={{ color: "var(--text-secondary)" }}>Waiting for orders...</span>
+                      </div>
+                    ) : (
+                      orders.map((order) => (
+                        <div key={order.id} className="order-row glass-card">
+                          <div className="order-main-info">
+                            <div className="table-badge">{order.table}</div>
+                            <div className="order-details">
+                              <span className="order-id">
+                                {order.id}
+                                <span className={`source-badge ${order.source.toLowerCase()}`}>
+                                  {order.source === "QR" && <Smartphone size={12} />}
+                                  {order.source === "Waiter" && <ClipboardList size={12} />}
+                                  {(order.source === "Zomato" || order.source === "Swiggy") && <Bike size={12} />}
+                                  <span className="source-text">{order.source}</span>
+                                </span>
+                              </span>
+                              <span className="order-items">{order.items}</span>
+                            </div>
+                          </div>
+                          <div className="order-status-group">
+                            <span className="order-time">
+                              <Clock size={12} style={{ marginRight: "4px" }} /> {getRelativeTime(order.createdAt, now)}
+                            </span>
+                            {/* Visual Pipeline */}
+                            <div className="status-pipeline">
+                              {["Ordering", "Preparing", "Ready", "Paid"].map((step, idx) => {
+                                const steps = ["Ordering", "Preparing", "Ready", "Paid"] as const;
+                                const statusIndex = steps.indexOf(order.status);
+                                const isActive = idx <= statusIndex;
+                                const isCurrent = idx === statusIndex;
+                                return (
+                                  <React.Fragment key={step}>
+                                    {idx > 0 && (
+                                      <div className={`pipeline-line ${isActive ? "active" : ""}`} />
+                                    )}
+                                    <div className={`pipeline-step ${isActive ? "active" : ""} ${isCurrent ? "current" : ""}`}>
+                                      <span className="step-dot" />
+                                      <span className="step-label">{step}</span>
+                                    </div>
+                                  </React.Fragment>
+                                );
+                              })}
+                            </div>
+                            <span className="order-amount">₹{order.amount.toLocaleString()}</span>
                           </div>
                         </div>
-                        <div className="order-status-group">
-                          <span className="order-time">
-                            <Clock size={12} style={{ marginRight: "3px" }} /> {order.time}
-                          </span>
-                          <span className={`status-pill ${order.status.toLowerCase()}`}>
-                            {order.status}
-                          </span>
-                          <span className="order-amount">₹{order.amount.toLocaleString()}</span>
-                        </div>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
                 </div>
               )}
@@ -648,6 +864,22 @@ export default function CommandCenter() {
           justify-content: space-between;
           background: rgba(255, 255, 255, 0.5);
           transition: var(--transition-fast);
+          animation: slideInRow 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideInRow {
+          from {
+            opacity: 0;
+            transform: translateY(-15px);
+            background: rgba(227, 6, 19, 0.15);
+            box-shadow: 0 0 15px rgba(227, 6, 19, 0.2);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+          }
         }
 
         @media (min-width: 640px) {
@@ -691,12 +923,37 @@ export default function CommandCenter() {
           gap: 0.5rem;
         }
 
-        .source-tag {
+        .source-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
           font-size: 0.65rem;
-          background: rgba(0, 0, 0, 0.04);
-          padding: 0.1rem 0.4rem;
-          border-radius: 4px;
-          color: var(--text-secondary);
+          font-weight: 600;
+          padding: 0.2rem 0.5rem;
+          border-radius: 6px;
+          text-transform: uppercase;
+        }
+
+        .source-badge.qr {
+          background: rgba(2, 132, 199, 0.1);
+          color: var(--accent-blue);
+          border: 1px solid rgba(2, 132, 199, 0.2);
+        }
+
+        .source-badge.waiter {
+          background: rgba(217, 119, 6, 0.1);
+          color: var(--accent-amber);
+          border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        .source-badge.zomato, .source-badge.swiggy {
+          background: rgba(220, 38, 38, 0.1);
+          color: var(--accent-rose);
+          border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .source-text {
+          font-size: 0.65rem;
         }
 
         .order-items {
@@ -708,7 +965,7 @@ export default function CommandCenter() {
         .order-status-group {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 1.5rem;
           justify-content: space-between;
         }
 
@@ -717,19 +974,256 @@ export default function CommandCenter() {
           align-items: center;
           font-size: 0.75rem;
           color: var(--text-muted);
+          min-width: 60px;
         }
 
-        .status-pill {
+        .status-pipeline {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        .pipeline-line {
+          height: 2px;
+          width: 20px;
+          background: var(--border-color);
+          transition: background 0.3s ease;
+        }
+
+        .pipeline-line.active {
+          background: var(--accent-green);
+        }
+
+        .pipeline-step {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          opacity: 0.3;
+          transition: all 0.3s ease;
+        }
+
+        .pipeline-step.active {
+          opacity: 1;
+        }
+
+        .step-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--text-muted);
+          transition: all 0.3s ease;
+        }
+
+        .pipeline-step.active .step-dot {
+          background: var(--accent-green);
+          box-shadow: 0 0 6px var(--accent-green);
+        }
+
+        .pipeline-step.current .step-dot {
+          animation: statusDotPulse 1.2s infinite alternate;
+          background: var(--accent-orange);
+          box-shadow: 0 0 8px var(--accent-orange);
+        }
+
+        @keyframes statusDotPulse {
+          from { transform: scale(1); opacity: 0.8; }
+          to { transform: scale(1.4); opacity: 1; }
+        }
+
+        .step-label {
           font-size: 0.75rem;
-          font-weight: 600;
-          padding: 0.2rem 0.6rem;
-          border-radius: 9999px;
+          font-weight: 500;
+          color: var(--text-secondary);
         }
 
-        .status-pill.ordering { background: rgba(2, 132, 199, 0.1); color: var(--accent-blue); }
-        .status-pill.preparing { background: rgba(217, 119, 6, 0.1); color: var(--accent-amber); }
-        .status-pill.ready { background: rgba(5, 150, 105, 0.1); color: var(--accent-green); }
-        .status-pill.billing { background: rgba(220, 38, 38, 0.1); color: var(--accent-rose); }
+        .pipeline-step.current .step-label {
+          color: var(--text-primary);
+          font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+          .step-label {
+            display: none;
+          }
+          .pipeline-line {
+            width: 12px;
+          }
+        }
+
+        .order-amount {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          min-width: 70px;
+          text-align: right;
+        }
+
+        /* Console Logs */
+        .sidebar-log-console {
+          background: rgba(0, 0, 0, 0.4);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          padding: 0.6rem;
+          font-family: monospace, Courier, monospace;
+          font-size: 0.7rem;
+          color: #a7f3d0;
+          min-height: 140px;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+          overflow: hidden;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .log-line {
+          line-height: 1.3;
+          animation: logFadeIn 0.3s ease-out forwards;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        @keyframes logFadeIn {
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .log-dot {
+          color: var(--accent-green);
+          margin-right: 4px;
+          display: inline-block;
+        }
+
+        /* Simulator Controls */
+        .simulator-controls {
+          padding: 1.25rem;
+          margin-bottom: 1.5rem;
+          background: rgba(0, 0, 0, 0.015);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+        }
+
+        .simulator-header {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-bottom: 0.75rem;
+        }
+
+        .simulator-header h4 {
+          margin: 0;
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+
+        .simulator-header p {
+          margin: 0;
+          font-size: 0.75rem;
+          color: var(--text-secondary);
+          width: 100%;
+          margin-top: 0.15rem;
+        }
+
+        .simulator-buttons {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+
+        .sim-btn {
+          flex: 1;
+          min-width: 120px;
+          padding: 0.6rem 0.8rem;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          cursor: pointer;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          color: var(--text-primary);
+          transition: all 0.2s ease-in-out;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.4rem;
+        }
+
+        .sim-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(227, 6, 19, 0.08);
+        }
+
+        .sim-btn.qr:hover {
+          border-color: var(--accent-blue);
+          background: rgba(2, 132, 199, 0.06);
+          color: var(--accent-blue);
+        }
+
+        .sim-btn.waiter:hover {
+          border-color: var(--accent-amber);
+          background: rgba(217, 119, 6, 0.06);
+          color: var(--accent-amber);
+        }
+
+        .sim-btn.thirdparty:hover {
+          border-color: var(--accent-rose);
+          background: rgba(220, 38, 38, 0.06);
+          color: var(--accent-rose);
+        }
+
+        /* Feed Summary Bar */
+        .feed-summary-bar {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+        }
+
+        .summary-stat {
+          flex: 1;
+          min-width: 140px;
+          background: rgba(0, 0, 0, 0.01);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .summary-label {
+          font-size: 0.65rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: var(--text-primary);
+          display: inline-block;
+          transition: all 0.3s ease;
+        }
+
+        .revenue-val-glow {
+          animation: revenueGlow 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes revenueGlow {
+          0% {
+            color: var(--accent-green);
+            text-shadow: 0 0 12px rgba(5, 150, 105, 0.4);
+            transform: scale(1.05);
+          }
+          100% {
+            color: inherit;
+            text-shadow: none;
+            transform: scale(1);
+          }
+        }
 
         .order-amount {
           font-size: 0.95rem;

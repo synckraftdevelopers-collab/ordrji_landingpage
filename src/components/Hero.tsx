@@ -48,21 +48,22 @@ export default function Hero({ onBookDemo }: HeroProps) {
           {/* Headline and CTAs */}
           <div className="hero-text-block">
 
-            <h1 className="hero-title">
-              The Restaurant <br />
-              <span className="gradient-text">Operating System</span>
+            <h1 className="hero-title" style={{ fontSize: "clamp(1.9rem, 4.2vw, 3.1rem)", lineHeight: "1.2", letterSpacing: "-1.5px" }}>
+              Restaurant POS, Billing, KOT &amp; <br className="hide-mobile" />
+              QR Ordering Software <br className="hide-mobile" />
+              <span className="gradient-text">for Indian Restaurants</span>
             </h1>
-            <p className="hero-subtitle">
-              A unified dashboard connecting billing, QR ordering, KDS, inventory, and marketing. Blazing fast, commission-free, and built for modern restaurants.
+            <p className="hero-subtitle" style={{ fontSize: "1.05rem", lineHeight: "1.6" }}>
+              Ordrji helps restaurants, cafes, QSRs, cloud kitchens and bakeries manage billing, kitchen orders, QR ordering, inventory, customer data and reports from one simple system.
             </p>
 
             <div className="hero-ctas">
-              <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer" className="btn-primary btn-red" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
-                Start Free Trial <ArrowRight size={18} />
-              </a>
-              <button onClick={onBookDemo} className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem" }}>
-                <Play size={16} fill="currentColor" /> Book Demo
+              <button onClick={onBookDemo} className="btn-primary btn-red" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                Book Free Demo <ArrowRight size={18} />
               </button>
+              <a href="#features" className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
+                <Play size={16} fill="currentColor" /> Watch Product Tour
+              </a>
             </div>
 
             <div className="hero-metrics-summary">
