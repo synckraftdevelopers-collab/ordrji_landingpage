@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import Pricing from "@/components/Pricing";
 import BookDemoModal from "@/components/BookDemoModal";
 import FinalCTA from "@/components/FinalCTA";
-import { Check, X, Shield, HelpCircle, ChevronDown, Sparkles } from "lucide-react";
+import { Check, X, ChevronDown, Sparkles } from "lucide-react";
 
 // Feature groups for the Comparison Table
 const COMPARISON_GROUPS = [

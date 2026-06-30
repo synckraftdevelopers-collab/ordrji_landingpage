@@ -32,7 +32,7 @@ export default function NotFound() {
           </h2>
 
           <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "2rem" }}>
-            The link you clicked might be broken, or the page has been moved. Let's get your restaurant operations back on track.
+            The link you clicked might be broken, or the page has been moved. Let&apos;s get your restaurant operations back on track.
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }} className="notfound-actions">

@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
 import FinalCTA from "@/components/FinalCTA";
-import { Compass, Eye, Heart, Shield, Users, Trophy, Milestone, Sparkles } from "lucide-react";
+import { Compass, Eye, Heart, Shield, Users, Trophy, Sparkles } from "lucide-react";
 
 const CORE_VALUES = [
   {
@@ -91,7 +92,7 @@ export default function AboutPage() {
                     A restaurant workspace is one of the most intense, high-speed environments in the service industry. Yet, for years, restaurant managers have had to fight with legacy cash boxes, unstable print buffers, and disconnected tablets beep-beeping at them from Swiggy and Zomato.
                   </p>
                   <p>
-                    We set out to change that. We believed that POS billing, kitchen coordinators (KDS), menu management, and inventory forecasts shouldn't live in isolated silos. They should live inside a single, unified database.
+                    We set out to change that. We believed that POS billing, kitchen coordinators (KDS), menu management, and inventory forecasts shouldn&apos;t live in isolated silos. They should live inside a single, unified database.
                   </p>
                   <p>
                     Today, OrderJi supports over 3,500 outlets across India, from cozy cafe bistros to massive franchise brands, pushing millions of transactions daily with an uptime of 99.99%.
@@ -203,7 +204,7 @@ export default function AboutPage() {
               {TEAM_MEMBERS.map((m, idx) => (
                 <div key={idx} style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 18, overflow: "hidden", display: "flex", flexDirection: "column", transition: "transform 0.2s" }} className="team-card hover-card">
                   <div style={{ height: "260px", overflow: "hidden", position: "relative" }}>
-                    <img src={m.img} alt={m.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <Image src={m.img} alt={m.name} fill style={{ objectFit: "cover" }} />
                   </div>
                   <div style={{ padding: "1.5rem" }}>
                     <h3 style={{ fontSize: "1.15rem", fontWeight: 800, marginBottom: "0.2rem" }}>{m.name}</h3>
@@ -234,7 +235,7 @@ export default function AboutPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem" }} className="gallery-grid">
               {GALLERY_PHOTOS.map((p, idx) => (
                 <div key={idx} style={{ position: "relative", borderRadius: 16, overflow: "hidden", height: 280, boxShadow: "0 8px 25px rgba(0,0,0,0.02)" }} className="gallery-card hover-card">
-                  <img src={p.url} alt={p.caption} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s" }} className="gallery-img" />
+                  <Image src={p.url} alt={p.caption} fill style={{ objectFit: "cover", transition: "transform 0.5s" }} className="gallery-img" />
                   <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)", padding: "1.5rem 1.25rem", color: "#fff" }}>
                     <p style={{ fontSize: "0.88rem", fontWeight: 600, margin: 0 }}>{p.caption}</p>
                   </div>

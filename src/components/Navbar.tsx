@@ -20,15 +20,15 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
 
   useEffect(() => {
     if (pathname !== "/") {
-      setIntroPhase("done");
-      return;
+      const raf = requestAnimationFrame(() => setIntroPhase("done"));
+      return () => cancelAnimationFrame(raf);
     }
-    setIntroPhase("center");
+    const raf = requestAnimationFrame(() => setIntroPhase("center"));
     // phase 1: logo sits centered for 900ms
     const t1 = setTimeout(() => setIntroPhase("move"),  900);
     // phase 2: after transition completes, lock to normal navbar
     const t2 = setTimeout(() => setIntroPhase("done"), 1700);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    return () => { cancelAnimationFrame(raf); clearTimeout(t1); clearTimeout(t2); };
   }, [pathname]);
 
   useEffect(() => {
@@ -92,20 +92,12 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             className={`pf-nav ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}
             aria-label="Main navigation"
           >
-<<<<<<< Updated upstream
-            <a href="/#features" className="pf-nav-link">Solutions</a>
+            <Link href="/#features" className="pf-nav-link">Solutions</Link>
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
-            <a href="/#testimonials" className="pf-nav-link">Customers</a>
+            <Link href="/#testimonials" className="pf-nav-link">Customers</Link>
             <Link href="/faq" className="pf-nav-link">Resources</Link>
             <Link href="/about" className="pf-nav-link">About</Link>
             <Link href="/contact" className="pf-nav-link">Contact</Link>
-=======
-            <Link href="/"         className="pf-nav-link">Home</Link>
-            <a href="#features" className="pf-nav-link">Features</a>
-            <a href="#pricing"  className="pf-nav-link">Pricing</a>
-            <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
-            <Link href="/contact" className="pf-nav-link">Contact Us</Link>
->>>>>>> Stashed changes
           </nav>
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
@@ -138,20 +130,12 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         {/* ── MOBILE DRAWER ─────────────────────────────────────────────── */}
         {isMobileMenuOpen && (
           <div className="pf-mobile-drawer">
-<<<<<<< Updated upstream
-            <a href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</a>
+            <Link href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</Link>
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
-            <a href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</a>
+            <Link href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</Link>
             <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Resources</Link>
             <Link href="/about" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
             <Link href="/contact" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
-=======
-            <Link href="/"         className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-            <a href="#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
-            <a href="#pricing"  className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
-            <Link href="/how-to-use"  className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>
-            <Link href="/contact"           className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
->>>>>>> Stashed changes
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
             <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">

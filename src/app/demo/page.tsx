@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CheckCircle2, Send, Building2, User, Mail, Phone, MapPin, Briefcase, Clock, ShieldCheck, Star, Sparkles } from "lucide-react";
@@ -127,9 +128,9 @@ export default function BookDemoPage() {
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6, maxWidth: "320px", margin: "0 auto 1.5rem" }}>
                     Thank you! Our onboarding specialist will reach out to you within 24 hours to schedule your custom session.
                   </p>
-                  <a href="/" className="btn-secondary" style={{ padding: "0.6rem 2rem", borderRadius: "9999px", display: "inline-flex", textDecoration: "none" }}>
+                  <Link href="/" className="btn-secondary" style={{ padding: "0.6rem 2rem", borderRadius: "9999px", display: "inline-flex", textDecoration: "none" }}>
                     Back to Homepage
-                  </a>
+                  </Link>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>

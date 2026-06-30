@@ -5,7 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
-import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle, MessageSquare, Clock, ExternalLink, HelpCircle } from "lucide-react";
+import { ArrowLeft, MapPin, Send, CheckCircle, ExternalLink, HelpCircle } from "lucide-react";
 
 export default function ContactClient() {
   const [form, setForm]       = useState({ name: "", email: "", phone: "", subject: "", message: "" });
@@ -47,6 +47,8 @@ export default function ContactClient() {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem" }} className="contact-grid">
 
+            {/* Left Column: Support & Map */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {/* Support Links */}
               <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "1.5rem" }}>
                 <h4 style={{ fontSize: "0.8rem", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.4rem" }}>
@@ -90,7 +92,7 @@ export default function ContactClient() {
                 </div>
               </div>
 
-            </div>
+            </div>{/* end left column */}
 
             {/* Right Column: Contact Form */}
             <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 16, padding: "2.5rem", boxShadow: "0 10px 30px rgba(0,0,0,0.01)" }}>

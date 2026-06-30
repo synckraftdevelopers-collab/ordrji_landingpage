@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
-import { Search, ChevronDown, MessageSquare, Phone, Mail, Sparkles, AlertCircle } from "lucide-react";
+import { Search, ChevronDown, MessageSquare, Phone, Mail, AlertCircle } from "lucide-react";
 
 const CATEGORIES = ["All", "POS & Billing", "QR Ordering", "Kitchen (KDS)", "Inventory & Stock", "Pricing & Setup"];
 

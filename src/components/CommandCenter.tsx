@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Sparkles, Clock, AlertCircle, ShoppingCart, User, CheckCircle2, ChevronRight, Layers, Users, Smartphone, ClipboardList, Bike } from "lucide-react";
+import { Sparkles, Clock, ShoppingCart, Layers, Users, Smartphone, ClipboardList, Bike } from "lucide-react";
 
 // ── Count-up hook (quartic ease-out, rAF) ──────────────────────────────────
 function useCountUp(target: number, duration = 1800, started = false): number {
@@ -93,12 +93,8 @@ export default function CommandCenter() {
   const [statsStarted, setStatsStarted] = useState(false);
   const [dashboardVisible, setDashboardVisible] = useState(false);
 
-<<<<<<< Updated upstream
   const [orders, setOrders] = useState<Order[]>([]);
   const [revenue, setRevenue] = useState(87420);
-=======
-  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
->>>>>>> Stashed changes
   const [kitchenDelay, setKitchenDelay] = useState(2);
   const [activeTab, setActiveTab] = useState<"feed" | "metrics">("feed");
   const [isAutoRotating, setIsAutoRotating] = useState(true);
@@ -106,7 +102,8 @@ export default function CommandCenter() {
   const [now, setNow] = useState(0);
 
   const ordersRef = useRef<Order[]>([]);
-  ordersRef.current = orders;
+  // sync ref outside render via effect
+  useEffect(() => { ordersRef.current = orders; }, [orders]);
 
   const formatTime = (date: Date) => {
     return date.toTimeString().split(" ")[0];
@@ -115,28 +112,28 @@ export default function CommandCenter() {
   // Client-side initialization to prevent hydration issues
   useEffect(() => {
     const baseTime = Date.now();
-    setOrders([
-      { id: "#1092", table: "T-04", items: "1x Grilled Salmon, 2x Pinot Noir", createdAt: baseTime - 60000, amount: 4850, status: "Preparing", source: "QR" },
-      { id: "#1091", table: "T-12", items: "2x Classic Burgers, 1x Truffle Fries", createdAt: baseTime - 180000, amount: 2450, status: "Preparing", source: "Waiter" },
-      { id: "#1090", table: "T-09", items: "1x Margherita Pizza, 2x Coke", createdAt: baseTime - 480000, amount: 1350, status: "Ready", source: "QR" },
-      { id: "#1089", table: "T-02", items: "1x Ribeye Steak, 1x Baked Potato", createdAt: baseTime - 840000, amount: 3800, status: "Paid", source: "Waiter" },
-      { id: "#1088", table: "Delivery", items: "3x Butter Chicken, 3x Garlic Naan", createdAt: baseTime - 1140000, amount: 2980, status: "Preparing", source: "Swiggy" }
-    ]);
+    const raf = requestAnimationFrame(() => {
+      setOrders([
+        { id: "#1092", table: "T-04", items: "1x Grilled Salmon, 2x Pinot Noir", createdAt: baseTime - 60000, amount: 4850, status: "Preparing", source: "QR" },
+        { id: "#1091", table: "T-12", items: "2x Classic Burgers, 1x Truffle Fries", createdAt: baseTime - 180000, amount: 2450, status: "Preparing", source: "Waiter" },
+        { id: "#1090", table: "T-09", items: "1x Margherita Pizza, 2x Coke", createdAt: baseTime - 480000, amount: 1350, status: "Ready", source: "QR" },
+        { id: "#1089", table: "T-02", items: "1x Ribeye Steak, 1x Baked Potato", createdAt: baseTime - 840000, amount: 3800, status: "Paid", source: "Waiter" },
+        { id: "#1088", table: "Delivery", items: "3x Butter Chicken, 3x Garlic Naan", createdAt: baseTime - 1140000, amount: 2980, status: "Preparing", source: "Swiggy" }
+      ]);
 
-    const t1 = new Date(baseTime - 90000);
-    const t2 = new Date(baseTime - 60000);
-    const t3 = new Date(baseTime - 30000);
-    setLogs([
-      { id: "1", time: formatTime(t1), message: `[${formatTime(t1)}] KDS sync handshake successful (12ms)`, type: "success" },
-      { id: "2", time: formatTime(t2), message: `[${formatTime(t2)}] Swiggy webhook connected (8ms)`, type: "success" },
-      { id: "3", time: formatTime(t3), message: `[${formatTime(t3)}] Dine-In QR Order #1092 auto-routed to KDS & Printer (14ms)`, type: "info" }
-    ]);
+      const t1 = new Date(baseTime - 90000);
+      const t2 = new Date(baseTime - 60000);
+      const t3 = new Date(baseTime - 30000);
+      setLogs([
+        { id: "1", time: formatTime(t1), message: `[${formatTime(t1)}] KDS sync handshake successful (12ms)`, type: "success" },
+        { id: "2", time: formatTime(t2), message: `[${formatTime(t2)}] Swiggy webhook connected (8ms)`, type: "success" },
+        { id: "3", time: formatTime(t3), message: `[${formatTime(t3)}] Dine-In QR Order #1092 auto-routed to KDS & Printer (14ms)`, type: "info" }
+      ]);
 
-    setNow(Date.now());
-    const clockInterval = setInterval(() => {
       setNow(Date.now());
-    }, 5000);
-    return () => clearInterval(clockInterval);
+    });
+    const clockInterval = setInterval(() => { setNow(Date.now()); }, 5000);
+    return () => { cancelAnimationFrame(raf); clearInterval(clockInterval); };
   }, []);
 
   // IntersectionObserver

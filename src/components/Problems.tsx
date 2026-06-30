@@ -45,7 +45,7 @@ export default function Problems() {
             Slows Down Your Restaurant
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", maxWidth: "580px", margin: "1rem auto 0", lineHeight: "1.6" }}>
-            Connecting front-of-house operations to the kitchen shouldn't involve five different systems, offline cash register failures, or transaction commissions.
+            Connecting front-of-house operations to the kitchen shouldn&apos;t involve five different systems, offline cash register failures, or transaction commissions.
           </p>
         </div>
 

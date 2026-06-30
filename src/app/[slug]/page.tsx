@@ -2,7 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { SEO_PAGES_DATA } from "@/data/seoPages";
 import NavbarWrapper from "./NavbarWrapper"; // Client component wrapper for Navbar and Modal
-import { Check, X, ShieldAlert, MapPin, Sparkles, AlertCircle } from "lucide-react";
+import { Check, X, Sparkles, AlertCircle } from "lucide-react";
 import type { Metadata } from "next";
 
 interface Props {
