@@ -142,13 +142,43 @@ function FlipCard({
   delay: number;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const hasAutoFlipped = useRef(false);
+
   const isYearly  = billingCycle === "yearly";
   const price     = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
   const isCustom  = plan.monthlyPrice === 0;
 
+  // Auto-flip once when card scrolls into view, then flip back
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    let t1: ReturnType<typeof setTimeout>;
+    let t2: ReturnType<typeof setTimeout>;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAutoFlipped.current) {
+          hasAutoFlipped.current = true;
+          obs.disconnect();
+          t1 = setTimeout(() => setFlipped(true),  400 + delay);
+          t2 = setTimeout(() => setFlipped(false), 400 + delay + 1600);
+        }
+      },
+      { threshold: 0.15 }   // fire as soon as 15% is visible — works on all screen sizes
+    );
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [delay]);
+
   return (
     /* outer wrapper — stagger entrance */
     <div
+      ref={cardRef}
       className={`flip-outer ${inView ? "flip-outer-in" : ""} ${plan.popular ? "flip-popular" : ""}`}
       style={{ transitionDelay: `${delay}ms` }}
     >

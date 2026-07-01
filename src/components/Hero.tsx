@@ -118,10 +118,16 @@ export default function Hero({ onBookDemo }: HeroProps) {
                           }
                           onBookDemo();
                         }}
-                        className={`btn-primary ${locationDetails.type === "city" ? "btn-red" : locationDetails.type === "district" ? "btn-blue" : "btn-purple"}`}
-                        style={{ padding: "0.45rem 1.15rem", fontSize: "0.8rem", display: "inline-flex", alignItems: "center", gap: "0.3rem" }}
+                        className={`location-action-btn ${
+                          locationDetails.type === "city" 
+                            ? "btn-red" 
+                            : locationDetails.type === "district" 
+                            ? "btn-blue" 
+                            : "btn-purple"
+                        }`}
                       >
-                        Book {locationDetails.name} Demo <ArrowRight size={13} />
+                        <span>Book {locationDetails.name} Demo</span>
+                        <ArrowRight size={13} className="btn-arrow" />
                       </button>
                     </div>
                   </div>
@@ -361,23 +367,46 @@ export default function Hero({ onBookDemo }: HeroProps) {
         }
 
         .location-info-card {
-          margin-top: 0.85rem;
-          background: #fdfaf4 !important;
+          margin-top: 1rem;
+          background: var(--bg-card) !important;
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           border-radius: 16px;
-          padding: 1.25rem;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03) !important;
-          animation: widgetSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
-          transition: border-color 0.25s, box-shadow 0.25s;
+          padding: 1.5rem;
+          animation: widgetSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1px solid var(--border-color) !important;
+          border-left-width: 4px !important;
         }
-        
+
         .location-info-card.city {
-          border: 1px solid rgba(227, 6, 19, 0.22);
+          border-left-color: var(--accent-rose, #dc2626) !important;
+          box-shadow: 0 10px 30px -10px rgba(220, 38, 38, 0.08), var(--shadow-card) !important;
         }
+        .location-info-card.city:hover {
+          box-shadow: 0 12px 36px -8px rgba(220, 38, 38, 0.12), var(--shadow-card) !important;
+          border-color: rgba(220, 38, 38, 0.2) !important;
+          border-left-color: var(--accent-rose, #dc2626) !important;
+        }
+
         .location-info-card.district {
-          border: 1px solid rgba(2, 132, 199, 0.22);
+          border-left-color: var(--accent-blue) !important;
+          box-shadow: 0 10px 30px -10px rgba(2, 132, 199, 0.08), var(--shadow-card) !important;
         }
+        .location-info-card.district:hover {
+          box-shadow: 0 12px 36px -8px rgba(2, 132, 199, 0.12), var(--shadow-card) !important;
+          border-color: rgba(2, 132, 199, 0.2) !important;
+          border-left-color: var(--accent-blue) !important;
+        }
+
         .location-info-card.state {
-          border: 1px solid rgba(124, 58, 237, 0.22);
+          border-left-color: var(--accent-purple) !important;
+          box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.08), var(--shadow-card) !important;
+        }
+        .location-info-card.state:hover {
+          box-shadow: 0 12px 36px -8px rgba(124, 58, 237, 0.12), var(--shadow-card) !important;
+          border-color: rgba(124, 58, 237, 0.2) !important;
+          border-left-color: var(--accent-purple) !important;
         }
 
         @keyframes widgetSlideDown {
@@ -386,56 +415,97 @@ export default function Hero({ onBookDemo }: HeroProps) {
         }
 
         .info-card-icon-wrap {
-          padding: 0.5rem;
-          border-radius: 10px;
+          padding: 0.65rem;
+          border-radius: 12px;
           flex-shrink: 0;
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: transform 0.2s ease;
         }
         .info-card-icon-wrap.city {
-          color: var(--accent-orange);
-          background: rgba(227, 6, 19, 0.06);
+          color: var(--accent-rose, #dc2626);
+          background: rgba(220, 38, 38, 0.08);
+          box-shadow: 0 4px 10px rgba(220, 38, 38, 0.08);
         }
         .info-card-icon-wrap.district {
           color: var(--accent-blue);
           background: rgba(2, 132, 199, 0.08);
+          box-shadow: 0 4px 10px rgba(2, 132, 199, 0.08);
         }
         .info-card-icon-wrap.state {
           color: var(--accent-purple);
           background: rgba(124, 58, 237, 0.08);
+          box-shadow: 0 4px 10px rgba(124, 58, 237, 0.08);
         }
 
         .info-card-header {
-          font-size: 0.95rem;
-          font-weight: 850;
+          font-size: 0.98rem;
+          font-weight: 800;
           color: var(--text-primary);
           margin: 0;
           letter-spacing: -0.2px;
         }
 
         .info-card-text {
-          font-size: 0.82rem;
-          line-height: 1.5;
+          font-size: 0.85rem;
+          line-height: 1.6;
           color: var(--text-secondary);
           margin-top: 0.35rem;
-          margin-bottom: 0.85rem;
+          margin-bottom: 1rem;
+        }
+
+        .location-action-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.55rem 1.35rem;
+          font-size: 0.8rem;
+          font-weight: 700;
+          border-radius: 9999px;
+          border: 1px solid transparent;
+          cursor: pointer;
+          transition: var(--transition-fast);
+          color: #ffffff;
         }
         
-        .btn-blue {
+        .location-action-btn .btn-arrow {
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .location-action-btn:hover .btn-arrow {
+          transform: translateX(3px);
+        }
+
+        .location-action-btn:hover {
+          transform: translateY(-1.5px);
+        }
+
+        .location-action-btn.btn-red {
+          background-color: var(--accent-rose, #dc2626) !important;
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.16) !important;
+        }
+        .location-action-btn.btn-red:hover {
+          background-color: #bd040f !important;
+          box-shadow: 0 6px 18px rgba(220, 38, 38, 0.28) !important;
+        }
+
+        .location-action-btn.btn-blue {
           background-color: var(--accent-blue) !important;
-          box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2) !important;
+          box-shadow: 0 4px 12px rgba(2, 132, 199, 0.16) !important;
         }
-        .btn-blue:hover {
+        .location-action-btn.btn-blue:hover {
           background-color: #0274b0 !important;
+          box-shadow: 0 6px 18px rgba(2, 132, 199, 0.28) !important;
         }
-        
-        .btn-purple {
+
+        .location-action-btn.btn-purple {
           background-color: var(--accent-purple) !important;
-          box-shadow: 0 4px 14px rgba(124, 58, 237, 0.2) !important;
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.16) !important;
         }
-        .btn-purple:hover {
+        .location-action-btn.btn-purple:hover {
           background-color: #6d28d9 !important;
+          box-shadow: 0 6px 18px rgba(124, 58, 237, 0.28) !important;
         }
       `}</style>
     </section>

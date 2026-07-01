@@ -10,7 +10,7 @@ interface Partner {
   name: string;
   short: string;
   color: string;
-  logo: string;   // favicon domain
+  logo: string;
   ring: 0 | 1;
   startAngle: number;
 }
@@ -65,7 +65,7 @@ const CATS: { key: Category; label: string; desc: string }[] = [
   },
   {
     key: "hardware",
-    label: "Hardware partners & Integrations",
+    label: "Hardware Partners & Integrations",
     desc: "With easy setup, businesses can leverage their preferred Android hardware for optimal performance.",
   },
   {
@@ -75,89 +75,57 @@ const CATS: { key: Category; label: string; desc: string }[] = [
   },
 ];
 
-/* ── orbital layout constants ─────────────────────────────────────────── */
-const SIZE    = 480;          // container px (square)
-const CX      = SIZE / 2;     // 240
-const CY      = SIZE / 2;     // 240
-const RADII   = [105, 185];   // inner / outer ring radius
-const NODE_R  = 18;           // node icon radius px (smaller icons)
-const SPEED   = 35;           // seconds per full revolution
+/* ── orbital constants ─────────────────────────────────────────────────── */
+const SIZE   = 460;
+const CX     = SIZE / 2;
+const CY     = SIZE / 2;
+const RADII  = [105, 185];
+const NODE_R = 20;
+const SPEED  = 35;
 
-/* ── tiny favicon used inside chips ───────────────────────────────────── */
+/* ── chip logo ─────────────────────────────────────────────────────────── */
 function ChipLogo({ domain, name, color }: { domain: string; name: string; color: string }) {
   const [failed, setFailed] = useState(false);
-  const src = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
-  if (failed) {
-    return <span style={{ width: 14, height: 14, borderRadius: "50%", background: color, flexShrink: 0, display: "inline-block" }} />;
-  }
+  if (failed) return <span style={{ width: 14, height: 14, borderRadius: "50%", background: color, flexShrink: 0, display: "inline-block" }} />;
   return (
     <Image
-      src={src}
-      alt={name}
-      width={14}
-      height={14}
-      unoptimized
+      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
+      alt={name} width={14} height={14} unoptimized
       style={{ objectFit: "contain", flexShrink: 0, borderRadius: "2px" }}
       onError={() => setFailed(true)}
     />
   );
 }
 
-/* ── single HTML node (positioned absolutely) ─────────────────────────── */
-interface NodeProps {
-  p: Partner;
-  rot: number;
-}
-
-function OrbNode({ p, rot }: Omit<NodeProps, "tabKey">) {
+/* ── single orbital node ───────────────────────────────────────────────── */
+function OrbNode({ p, rot }: { p: Partner; rot: number }) {
   const [imgFailed, setImgFailed] = useState(false);
-
   const radius   = RADII[p.ring];
-  const angleDeg = p.startAngle + rot;
-  const angleRad = (angleDeg * Math.PI) / 180;
+  const angleRad = ((p.startAngle + rot) * Math.PI) / 180;
   const nx       = CX + radius * Math.cos(angleRad);
   const ny       = CY + radius * Math.sin(angleRad);
-
-  const diameter    = NODE_R * 2;
-  const faviconUrl  = `https://www.google.com/s2/favicons?domain=${p.logo}&sz=64`;
+  const d        = NODE_R * 2;
 
   return (
     <div
       title={p.name}
       style={{
-        position:        "absolute",
-        left:            nx - NODE_R,
-        top:             ny - NODE_R,
-        width:           diameter,
-        height:          diameter,
-        display:         "flex",
-        alignItems:      "center",
-        justifyContent:  "center",
-        filter:          `drop-shadow(0 0 6px ${p.color}88)`,
+        position: "absolute",
+        left: nx - NODE_R, top: ny - NODE_R,
+        width: d, height: d,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        filter: `drop-shadow(0 0 5px ${p.color}99)`,
       }}
     >
       {!imgFailed ? (
         <Image
-          src={faviconUrl}
-          alt={p.name}
-          width={diameter - 6}
-          height={diameter - 6}
-          unoptimized
-          style={{ objectFit: "contain", filter: "brightness(1.15) saturate(1.1)" }}
+          src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=64`}
+          alt={p.name} width={d - 4} height={d - 4} unoptimized
+          style={{ objectFit: "contain", filter: "brightness(1.1) saturate(1.1)" }}
           onError={() => setImgFailed(true)}
         />
       ) : (
-        <span
-          style={{
-            fontSize:    "9px",
-            fontWeight:  800,
-            color:       p.color,
-            fontFamily:  "Inter, sans-serif",
-            letterSpacing: "0.5px",
-            userSelect:  "none",
-            textShadow:  `0 0 8px ${p.color}`,
-          }}
-        >
+        <span style={{ fontSize: "8px", fontWeight: 800, color: p.color, userSelect: "none", fontFamily: "Inter,sans-serif", textShadow: `0 0 6px ${p.color}` }}>
           {p.short}
         </span>
       )}
@@ -165,79 +133,64 @@ function OrbNode({ p, rot }: Omit<NodeProps, "tabKey">) {
   );
 }
 
-/* ── spoke SVG overlay (drawn behind the HTML nodes) ─────────────────── */
-function Spokes({ partners, rot }: { partners: Partner[]; rot: number }) {
+/* ── SVG rings + spokes + hub ──────────────────────────────────────────── */
+function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
   return (
-    <svg
-      viewBox={`0 0 ${SIZE} ${SIZE}`}
-      width={SIZE}
-      height={SIZE}
-      style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
-      aria-hidden="true"
-    >
-      <defs>
-        <clipPath id="igHubClip2">
-          <circle cx={CX} cy={CY} r="32" />
-        </clipPath>
-        <filter id="igHubShadow2" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="#c2410c" floodOpacity="0.25" />
-        </filter>
-      </defs>
+    <div style={{ position: "relative", width: SIZE, height: SIZE, maxWidth: "100%" }}>
+      {/* SVG — behind nodes */}
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE}
+        style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden>
+        <defs>
+          <clipPath id="igHub"><circle cx={CX} cy={CY} r="32" /></clipPath>
+          <filter id="igHubF" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor="#c2410c" floodOpacity="0.2" />
+          </filter>
+        </defs>
 
-      {/* center glow — REMOVED */}
+        {/* orbit rings */}
+        {RADII.map((r, i) => (
+          <circle key={i} cx={CX} cy={CY} r={r}
+            fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1" strokeDasharray="4 8" />
+        ))}
 
-      {/* orbit track rings */}
-      {RADII.map((r, i) => (
-        <circle key={i} cx={CX} cy={CY} r={r}
-          fill="none" stroke="rgba(0,0,0,0.07)"
-          strokeWidth="1" strokeDasharray="4 7"
-        />
+        {/* spokes */}
+        {partners.map((p, i) => {
+          const r = RADII[p.ring];
+          const a = ((p.startAngle + rot) * Math.PI) / 180;
+          return (
+            <line key={i}
+              x1={CX} y1={CY}
+              x2={CX + r * Math.cos(a)} y2={CY + r * Math.sin(a)}
+              stroke={p.color} strokeWidth="0.7" strokeDasharray="3 6" opacity="0.3"
+            />
+          );
+        })}
+
+        {/* hub glow pulse */}
+        <circle cx={CX} cy={CY} r="52" fill="rgba(194,65,12,0.06)" className="igHubPulse" />
+
+        {/* hub disc */}
+        <circle cx={CX} cy={CY} r="40"
+          fill="white" stroke="rgba(194,65,12,0.25)" strokeWidth="1.5"
+          filter="url(#igHubF)" />
+
+        {/* logo */}
+        <image href="/logo-icon.jpg"
+          x={CX - 26} y={CY - 26} width="52" height="52"
+          clipPath="url(#igHub)" preserveAspectRatio="xMidYMid meet" />
+
+        {/* label */}
+        <text x={CX} y={CY + 55} textAnchor="middle" fontSize="6.5" fontWeight="800"
+          letterSpacing="1.5" fill="#c2410c" fontFamily="Inter,sans-serif">
+          ORDRJI OS
+        </text>
+      </svg>
+
+      {/* HTML nodes — on top */}
+      {partners.map((p, i) => (
+        <OrbNode key={`${p.name}-${i}`} p={p} rot={rot} />
       ))}
-
-      {/* spokes */}
-      {partners.map((p, i) => {
-        const radius = RADII[p.ring];
-        const a      = ((p.startAngle + rot) * Math.PI) / 180;
-        const nx     = CX + radius * Math.cos(a);
-        const ny     = CY + radius * Math.sin(a);
-        return (
-          <line key={i}
-            x1={CX} y1={CY} x2={nx} y2={ny}
-            stroke={p.color} strokeWidth="0.7"
-            strokeDasharray="3 6" opacity="0.35"
-          />
-        );
-      })}
-
-      {/* hub pulse */}
-      <circle cx={CX} cy={CY} r="48"
-        fill="rgba(227,6,19,0.05)" className="ig-breath" />
-
-      {/* hub disc — solid border only, no dotted ring */}
-      <circle cx={CX} cy={CY} r="38"
-        fill="#f7f2e6"
-        stroke="rgba(227,6,19,0.3)" strokeWidth="1.5"
-        filter="url(#igHubShadow2)"
-      />
-
-      {/* Ordrji logo in hub */}
-      <image
-        href="/logo-icon.jpg"
-        x={CX - 24} y={CY - 24}
-        width="48" height="48"
-        clipPath="url(#igHubClip2)"
-        preserveAspectRatio="xMidYMid meet"
-      />
-
-      {/* ORDRJI OS label */}
-      <text x={CX} y={CY + 50}
-        textAnchor="middle" fontSize="6.5" fontWeight="800"
-        letterSpacing="1.6" fill="#c2410c"
-        fontFamily="Inter, sans-serif"
-      >
-        ORDRJI OS
-      </text>
-    </svg>
+    </div>
   );
 }
 
@@ -251,6 +204,17 @@ export default function Integrations() {
   const sectionRef = useRef<HTMLElement>(null);
   const lastTs     = useRef(0);
   const rafId      = useRef(0);
+  const tickRef    = useRef<(ts: number) => void>(undefined);
+
+  const tick = useCallback((ts: number) => {
+    if (lastTs.current === 0) lastTs.current = ts;
+    const dt = Math.min((ts - lastTs.current) / 1000, 0.05);
+    lastTs.current = ts;
+    setRot(r => (r + (360 / SPEED) * dt) % 360);
+    if (tickRef.current) rafId.current = requestAnimationFrame(tickRef.current);
+  }, []);
+
+  useEffect(() => { tickRef.current = tick; }, [tick]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -266,19 +230,6 @@ export default function Integrations() {
     return () => obs.disconnect();
   }, []);
 
-  const tickRef = useRef<(ts: number) => void>();
-
-  const tick = useCallback((ts: number) => {
-    if (lastTs.current === 0) lastTs.current = ts;
-    const dt = Math.min((ts - lastTs.current) / 1000, 0.05);
-    lastTs.current = ts;
-    setRot(r => (r + (360 / SPEED) * dt) % 360);
-    if (tickRef.current) rafId.current = requestAnimationFrame(tickRef.current);
-  }, []);
-
-  // keep tickRef in sync with tick without writing to ref during render
-  useEffect(() => { tickRef.current = tick; }, [tick]);
-
   useEffect(() => {
     if (!inView) return;
     rafId.current = requestAnimationFrame(tick);
@@ -291,257 +242,192 @@ export default function Integrations() {
   return (
     <section className="ig-section" ref={sectionRef}>
 
-      <div className="container ig-layout">
+      <div className="container">
+        <div className="ig-grid">
 
-        {/* ── LEFT: orbital diagram ───────────────────────────────────── */}
-        <div className={`ig-svg-col ${inView ? "ig-in" : ""}`}>
-          <div style={{
-            position: "relative",
-            width:    SIZE,
-            height:   SIZE,
-            maxWidth: "100%",
-          }}>
-
-            {/* SVG layer: rings, spokes, hub (behind the HTML nodes) */}
-            <Spokes partners={partners} rot={rot} />
-
-            {/* HTML layer: one div per node with a real <img> tag */}
-            {partners.map((p, i) => (
-              <OrbNode key={`${tab}-${p.name}-${i}`} p={p} rot={rot} />
-            ))}
-          </div>
-        </div>
-
-        {/* ── RIGHT: content ──────────────────────────────────────────── */}
-        <div className={`ig-content-col ${show ? "ig-show" : ""}`}>
-
-          <p className="ig-eyebrow">We&apos;re a great fit — and we add some more.</p>
-          <h2 className="ig-heading">{activeCat.label}</h2>
-          <p className="ig-desc">{activeCat.desc}</p>
-
-          <div className="ig-tabs" role="tablist" aria-label="Integration categories">
-            {CATS.map(c => (
-              <button
-                key={c.key}
-                role="tab"
-                aria-selected={tab === c.key}
-                onClick={() => setTab(c.key)}
-                className={`ig-tab ${tab === c.key ? "ig-tab-on" : ""}`}
-              >
-                <span className="ig-dot" aria-hidden="true" />
-                <span className="ig-tab-txt">{c.label}</span>
-                <ChevronRight size={14} className="ig-arrow" aria-hidden="true" />
-              </button>
-            ))}
+          {/* ── LEFT: orbital ─────────────────────────────────────────── */}
+          <div className={`ig-left ${inView ? "ig-left-in" : ""}`}>
+            <Orbital partners={partners} rot={rot} />
           </div>
 
-          {/* partner chips — favicon logo + name */}
-          <div className="ig-chips" aria-label={`${activeCat.label} partners`}>
-            {partners.map(p => (
-              <span
-                key={p.name + p.ring}
-                className="ig-chip"
-                style={{
-                  borderColor: p.color + "40",
-                  background:  p.color + "10",
-                }}
-              >
-                <ChipLogo domain={p.logo} name={p.name} color={p.color} />
-                <span style={{ color: p.color, fontWeight: 700, fontSize: "0.72rem" }}>
-                  {p.name}
+          {/* ── RIGHT: content ────────────────────────────────────────── */}
+          <div className={`ig-right ${show ? "ig-right-in" : ""}`}>
+
+            <p className="ig-eyebrow">We&apos;re a great fit — and we add some more.</p>
+            <h2 className="ig-heading">{activeCat.label}</h2>
+            <p className="ig-desc">{activeCat.desc}</p>
+
+            {/* category tabs */}
+            <div className="ig-tabs" role="tablist" aria-label="Integration categories">
+              {CATS.map(c => (
+                <button
+                  key={c.key}
+                  role="tab"
+                  aria-selected={tab === c.key}
+                  onClick={() => setTab(c.key)}
+                  className={`ig-tab ${tab === c.key ? "ig-tab-on" : ""}`}
+                >
+                  <span className="ig-dot" aria-hidden />
+                  <span className="ig-tab-txt">{c.label}</span>
+                  <ChevronRight size={14} className="ig-arrow" aria-hidden />
+                </button>
+              ))}
+            </div>
+
+            {/* partner chips */}
+            <div className="ig-chips" aria-label={`${activeCat.label} partners`}>
+              {partners.map(p => (
+                <span key={p.name + p.ring} className="ig-chip"
+                  style={{ borderColor: p.color + "40", background: p.color + "0f" }}>
+                  <ChipLogo domain={p.logo} name={p.name} color={p.color} />
+                  <span style={{ color: p.color, fontWeight: 700, fontSize: "0.72rem" }}>{p.name}</span>
                 </span>
-              </span>
-            ))}
+              ))}
+            </div>
+
+            <a href="#pricing" className="ig-cta">
+              View All Integrations <ArrowRight size={14} aria-hidden />
+            </a>
           </div>
 
-          <a href="#pricing" className="ig-cta-btn">
-            View All Integrations <ArrowRight size={14} aria-hidden="true" />
-          </a>
         </div>
       </div>
 
       <style jsx global>{`
-        /* ── section: warm orange-tinted background ───────────────────── */
+        /* ── section ─────────────────────────────────────── */
         .ig-section {
           padding: 8rem 0;
-          background: linear-gradient(160deg, #fff8f2 0%, #fff3ea 40%, #fef6f0 100%);
+          background: var(--bg-primary);
           position: relative;
           overflow: hidden;
           z-index: 10;
         }
 
-        /* subtle orange watermark circle top-right */
-        .ig-section::before {
-          content: "";
-          position: absolute;
-          top: -120px; right: -120px;
-          width: 480px; height: 480px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(227,6,19,0.07) 0%, transparent 70%);
-          pointer-events: none;
-        }
-        .ig-section::after {
-          content: "";
-          position: absolute;
-          bottom: -80px; left: -80px;
-          width: 360px; height: 360px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(227,6,19,0.05) 0%, transparent 70%);
-          pointer-events: none;
-        }
-
-        .ig-layout {
+        /* ── two-column grid ─────────────────────────────── */
+        .ig-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 4rem;
+          gap: 3.5rem;
           align-items: center;
         }
         @media (min-width: 1024px) {
-          .ig-layout { grid-template-columns: 480px 1fr; gap: 5rem; }
+          .ig-grid { grid-template-columns: ${SIZE}px 1fr; gap: 5rem; }
         }
 
-        .ig-svg-col {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          opacity: 0;
-          transform: translateX(-28px) scale(0.96);
-          transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.16,1,0.3,1);
+        /* ── left col (orbital) ──────────────────────────── */
+        .ig-left {
+          display: flex; justify-content: center; align-items: center;
+          opacity: 0; transform: translateX(-24px) scale(0.97);
+          transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1);
         }
-        .ig-svg-col.ig-in { opacity: 1; transform: translateX(0) scale(1); }
+        .ig-left.ig-left-in { opacity: 1; transform: translateX(0) scale(1); }
 
-        .ig-breath {
-          animation: igBreath 3.2s ease-in-out infinite;
+        /* hub pulse animation */
+        .igHubPulse {
+          animation: igHubPulse 3s ease-in-out infinite;
           transform-origin: ${CX}px ${CY}px;
         }
-        @keyframes igBreath {
-          0%,100% { r:70; opacity:.25; }
-          50%      { r:82; opacity:.06; }
+        @keyframes igHubPulse {
+          0%,100% { r: 52; opacity: .3; }
+          50%      { r: 64; opacity: .07; }
         }
-        .ig-spin {
-          animation: igSpin 9s linear infinite;
-          transform-origin: ${CX}px ${CY}px;
-        }
-        @keyframes igSpin { to { transform: rotate(360deg); } }
 
-        /* ── content column ───────────────────────────────────────────── */
-        .ig-content-col {
-          display: flex; flex-direction: column; gap: 1.5rem;
-          opacity: 0; transform: translateX(24px);
+        /* ── right col (content) ─────────────────────────── */
+        .ig-right {
+          display: flex; flex-direction: column; gap: 1.4rem;
+          opacity: 0; transform: translateX(20px);
           transition: opacity .7s ease .1s, transform .7s cubic-bezier(.16,1,.3,1) .1s;
         }
-        .ig-content-col.ig-show { opacity: 1; transform: translateX(0); }
+        .ig-right.ig-right-in { opacity: 1; transform: translateX(0); }
 
         /* eyebrow */
         .ig-eyebrow {
-          font-size: .78rem; font-weight: 700; letter-spacing: 1px;
-          text-transform: uppercase; color: #c2410c; margin: 0;
+          font-size: .75rem; font-weight: 700; letter-spacing: .9px;
+          text-transform: uppercase; color: var(--accent-orange); margin: 0;
         }
 
-        /* heading — orange gradient */
+        /* heading */
         .ig-heading {
-          font-size: clamp(1.45rem, 2.5vw, 2rem);
-          font-weight: 800; letter-spacing: -.8px; line-height: 1.25;
-          background: linear-gradient(120deg, #1e1b18 30%, #c2410c 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          margin: 0;
+          font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+          font-weight: 800; letter-spacing: -.7px; line-height: 1.25;
+          color: var(--text-primary); margin: 0;
         }
 
         /* description */
         .ig-desc {
-          font-size: .95rem; color: #7a5a4a;
-          line-height: 1.7; margin: 0; max-width: 430px;
+          font-size: .93rem; color: var(--text-secondary);
+          line-height: 1.7; margin: 0; max-width: 420px;
         }
 
-        /* ── tabs ─────────────────────────────────────────────────────── */
-        .ig-tabs { display: flex; flex-direction: column; gap: .5rem; }
+        /* ── tabs ────────────────────────────────────────── */
+        .ig-tabs { display: flex; flex-direction: column; gap: .45rem; }
+
         .ig-tab {
-          display: flex; align-items: center; gap: .75rem;
-          padding: .9rem 1.15rem;
-          background: rgba(255,255,255,0.75);
-          border: 1px solid rgba(227,6,19,0.15);
-          border-radius: 12px; cursor: pointer; text-align: left;
-          font-size: .875rem; font-weight: 600; color: #7a5a4a;
-          transition: border-color .2s, background .2s, color .2s,
-                      box-shadow .2s, transform .15s;
-          backdrop-filter: blur(8px);
+          display: flex; align-items: center; gap: .7rem;
+          padding: .8rem 1rem;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-radius: 11px; cursor: pointer; text-align: left;
+          font-size: .855rem; font-weight: 600; color: var(--text-secondary);
+          transition: border-color .2s, background .2s, color .2s, box-shadow .2s, transform .15s;
         }
         .ig-tab:hover {
-          border-color: rgba(227,6,19,.4);
-          background: rgba(255,255,255,0.95);
-          color: #1e1b18; transform: translateX(3px);
+          border-color: rgba(194,65,12,.28); color: var(--text-primary);
+          background: var(--bg-card-hover); transform: translateX(3px);
         }
         .ig-tab-on {
-          border-color: #c2410c !important;
-          background: rgba(227,6,19,0.07) !important;
-          color: #1e1b18 !important;
-          box-shadow: 0 4px 20px rgba(227,6,19,.15), inset 0 0 0 1px rgba(227,6,19,.12);
+          border-color: var(--accent-orange) !important;
+          background: rgba(194,65,12,.05) !important;
+          color: var(--text-primary) !important;
+          box-shadow: 0 3px 16px rgba(194,65,12,.12);
           transform: translateX(0) !important;
         }
 
-        /* dot */
         .ig-dot {
-          width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-          background: rgba(227,6,19,0.2); transition: background .2s;
+          width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+          background: var(--border-color); transition: background .2s;
         }
-        .ig-tab-on .ig-dot { background: #c2410c; box-shadow: 0 0 6px #c2410c88; }
-
+        .ig-tab-on .ig-dot { background: var(--accent-orange); }
         .ig-tab-txt { flex: 1; }
-
-        /* arrow */
-        .ig-arrow { color: rgba(227,6,19,.4); flex-shrink: 0; transition: transform .2s, color .2s; }
+        .ig-arrow {
+          color: var(--text-muted); flex-shrink: 0;
+          transition: transform .2s, color .2s;
+        }
         .ig-tab-on .ig-arrow, .ig-tab:hover .ig-arrow {
-          transform: translateX(3px); color: #c2410c;
+          transform: translateX(3px); color: var(--accent-orange);
         }
 
-        /* ── chips ────────────────────────────────────────────────────── */
-        .ig-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+        /* ── chips ───────────────────────────────────────── */
+        .ig-chips { display: flex; flex-wrap: wrap; gap: .38rem; }
         .ig-chip {
-          display: inline-flex; align-items: center; gap: .35rem;
-          padding: .3rem .8rem .3rem .5rem;
-          border-radius: 9999px;
-          border: 1.5px solid rgba(227,6,19,0.25);
-          background: rgba(255,255,255,0.8);
-          transition: transform .15s, box-shadow .15s, border-color .15s;
+          display: inline-flex; align-items: center; gap: .32rem;
+          padding: .25rem .72rem .25rem .45rem;
+          border-radius: 9999px; border: 1.5px solid;
+          background: rgba(255,255,255,.8);
+          transition: transform .15s, box-shadow .15s;
         }
-        .ig-chip:hover {
-          transform: translateY(-1px);
-          border-color: rgba(227,6,19,0.5);
-          box-shadow: 0 3px 10px rgba(227,6,19,.1);
-        }
+        .ig-chip:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,.07); }
 
-        /* ── orange CTA button ────────────────────────────────────────── */
-        .ig-cta-btn {
+        /* ── CTA ─────────────────────────────────────────── */
+        .ig-cta {
           align-self: flex-start;
-          margin-top: .25rem;
-          display: inline-flex;
-          align-items: center;
-          gap: .5rem;
-          background: #c2410c;
-          color: #fff;
-          padding: .8rem 2rem;
-          border-radius: 9999px;
-          font-weight: 700;
-          font-size: .9rem;
-          letter-spacing: .2px;
+          display: inline-flex; align-items: center; gap: .45rem;
+          background: var(--accent-orange); color: #fff;
+          padding: .72rem 1.75rem; border-radius: 9999px;
+          font-weight: 700; font-size: .875rem;
           text-decoration: none;
+          box-shadow: 0 5px 18px rgba(194,65,12,.3);
           transition: background .2s, transform .2s, box-shadow .2s;
-          border: none;
-          cursor: pointer;
-          white-space: nowrap;
-          box-shadow: 0 6px 20px rgba(227,6,19,.3);
+          white-space: nowrap; margin-top: .1rem;
         }
-        .ig-cta-btn:hover {
-          background: #9a3412;
-          transform: translateY(-2px);
-          box-shadow: 0 12px 28px rgba(227,6,19,.4);
+        .ig-cta:hover {
+          background: #9a3412; transform: translateY(-2px);
+          box-shadow: 0 10px 26px rgba(194,65,12,.4);
         }
 
+        /* mobile centering */
         @media (max-width: 1023px) {
-          .ig-layout { grid-template-columns: 1fr; }
-          .ig-svg-col { max-width: 400px; margin: 0 auto; width: 100%; }
+          .ig-left { max-width: 380px; margin: 0 auto; width: 100%; }
           .ig-desc { max-width: 100%; }
         }
       `}</style>

@@ -625,7 +625,15 @@ export default function HowToUsePage() {
           border-radius: 16px;
           box-shadow: 0 4px 20px rgba(0,0,0,0.01);
           overflow: hidden;
-          transition: border-color 0.2s, box-shadow 0.2s;
+          opacity: 0;
+          transform: translateY(18px);
+          transition: opacity .5s ease calc(var(--htu-delay, 0s)),
+                      transform .5s cubic-bezier(.16,1,.3,1) calc(var(--htu-delay, 0s)),
+                      border-color 0.2s, box-shadow 0.2s;
+        }
+        .htu-step-card.htu-step-visible {
+          opacity: 1;
+          transform: translateY(0);
         }
         .htu-step-card:hover {
           border-color: rgba(227,6,19,0.15);
