@@ -140,9 +140,14 @@ export default function Footer() {
 
         {/* ── bottom bar ─────────────────────────────────────────────── */}
         <div className="ft-bottom">
-          <span className="ft-copy">
-            &copy; {new Date().getFullYear()} OrderJi. All rights reserved.
-          </span>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+            <span className="ft-copy">
+              &copy; {new Date().getFullYear()} OrderJi. All rights reserved.
+            </span>
+            <span style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.25)", fontWeight: 500 }}>
+              Powered by Synckraft Technologies Pvt. Ltd.
+            </span>
+          </div>
           <span className="ft-made-with">
             Engineered with <Heart size={11} style={{ color: "#e30613", fill: "#e30613" }} /> for modern dining
           </span>

@@ -265,7 +265,6 @@ export default function ModulesShowcase() {
                         <Icon size={22} />
                       </div>
                       <h3 className="collapsed-title">{panel.title}</h3>
-                      <div className="collapsed-number">0{panel.id + 1}</div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -390,7 +389,6 @@ export default function ModulesShowcase() {
                       <Icon size={20} />
                     </div>
                     <div className="collapsed-info-block">
-                      <span className="collapsed-num-sub">Step 0{panel.id + 1}</span>
                       <h4>{panel.title}</h4>
                     </div>
                     <ChevronRight size={16} className="collapsed-arrow-sub" />
@@ -469,7 +467,6 @@ export default function ModulesShowcase() {
                         <Icon size={18} />
                       </div>
                       <div>
-                        <span className="collapsed-num-sub">Module 0{panel.id + 1}</span>
                         <h4>{panel.title}</h4>
                       </div>
                     </div>
@@ -758,18 +755,17 @@ export default function ModulesShowcase() {
         .expanded-visual-container {
           flex: 1;
           height: 100%;
-          border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.6);
-          background: rgba(255, 255, 255, 0.65);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          overflow: hidden;
+          border-radius: 0;
+          border: none;
+          background: transparent;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+          overflow: visible;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04),
-                      0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
-          padding: 1.5rem;
+          box-shadow: none;
+          padding: 0;
           position: relative;
           color: var(--text-primary);
         }
