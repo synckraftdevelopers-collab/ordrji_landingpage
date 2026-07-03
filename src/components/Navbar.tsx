@@ -131,7 +131,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
             <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
             <Link href="/blog" className="pf-nav-link">Blog</Link>
-            <Link href="/restaurants" className="pf-nav-link">Restaurants</Link>
             <Link href="/#testimonials" className="pf-nav-link">Customers</Link>
             <div className="pf-nav-item-dropdown">
               <span className="pf-nav-link dropdown-trigger" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
@@ -145,8 +144,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
                 <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory</Link>
               </div>
             </div>
-            <Link href="/about" className="pf-nav-link">About</Link>
-            <Link href="/contact" className="pf-nav-link">Contact</Link>
             {isAdmin && (
               <Link href="/dashboard/admin/blogs" className="pf-nav-link" style={{ color: "var(--accent-orange)", fontWeight: 750 }}>
                 Admin Portal
@@ -156,9 +153,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
-            <button onClick={onBookDemo} className="btn-secondary pf-btn">
-              Book Demo
-            </button>
             <button
               onClick={onRegister}
               className="btn-primary btn-register pf-btn"
@@ -196,7 +190,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
             <Link href="/how-to-use" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>
             <Link href="/blog" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
-            <Link href="/restaurants" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Restaurants</Link>
             <Link href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</Link>
             <div className="pf-mobile-collapsible" style={{ display: "flex", flexDirection: "column" }}>
               <button 
@@ -217,14 +210,9 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
                 </div>
               )}
             </div>
-            <Link href="/about" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-            <Link href="/contact" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
             <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">
-              <button onClick={() => { setIsMobileMenuOpen(false); onBookDemo(); }} className="btn-secondary" style={{ justifyContent: "center" }}>
-                Book Demo
-              </button>
               <button
                 className="btn-primary btn-register" style={{ justifyContent: "center" }}
                 onClick={() => { setIsMobileMenuOpen(false); onRegister?.(); }}

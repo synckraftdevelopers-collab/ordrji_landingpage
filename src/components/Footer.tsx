@@ -32,6 +32,7 @@ const NAV_COLS = [
     heading: "Company",
     links: [
       { label: "About Us",              href: "/about",              isLink: true  },
+      { label: "Restaurants",           href: "/restaurants",        isLink: true  },
       { label: "User Guides",           href: "/how-to-use",         isLink: true  },
       { label: "Blog",                  href: "/blog",               isLink: true  },
       { label: "Contact Us",            href: "/contact",            isLink: true  },
