@@ -17,16 +17,21 @@ import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Integrations from "@/components/Integrations";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import FinalCTA from "@/components/FinalCTA";
 import InstagramSection from "@/components/InstagramSection";
 
 export default function Home() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   return (
     <>
       {/* Global Navigation */}
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar 
+        onBookDemo={() => setIsDemoModalOpen(true)}
+        onRegister={() => setIsRegisterModalOpen(true)}
+      />
 
       {/* Main Sections Stack */}
       <main style={{ minHeight: "100vh" }}>
@@ -89,6 +94,9 @@ export default function Home() {
 
       {/* Book Demo Lead Capture Form Modal */}
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+
+      {/* Register Restaurant Modal */}
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
     </>
   );
 }

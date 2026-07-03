@@ -5,6 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import RoleSwitcher from "@/components/RoleSwitcher";
 import { Clock, Sparkles, Search, SlidersHorizontal, BookOpen, ChevronRight, Shield, X, AlertTriangle, CheckCircle2 } from "lucide-react";
 
@@ -50,6 +51,7 @@ export default function BlogLandingPage() {
   const [showFeaturedOnly, setShowFeaturedOnly] = useState<boolean>(false);
 
   const [isDemoOpen, setIsDemoOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isAdminPromptOpen, setIsAdminPromptOpen] = useState(false);
   const [adminPassword, setAdminPassword] = useState("");
   const [promptError, setPromptError] = useState("");
@@ -139,7 +141,7 @@ export default function BlogLandingPage() {
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoOpen(true)} onRegister={() => setIsRegisterOpen(true)} />
 
       <main className="blog-page-root">
         {/* Background Radial Glow */}
@@ -356,6 +358,7 @@ export default function BlogLandingPage() {
 
       <Footer />
       <BookDemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
       <RoleSwitcher />
 
       {/* Admin Verification Modal */}

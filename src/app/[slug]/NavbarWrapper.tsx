@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 
 interface NavbarWrapperProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface NavbarWrapperProps {
 
 export default function NavbarWrapper({ children }: NavbarWrapperProps) {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   // Bind clicks on any button with .open-demo-btn class
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function NavbarWrapper({ children }: NavbarWrapperProps) {
   return (
     <>
       {/* Global sticky header */}
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
 
       {/* Main page content layout */}
       {children}
@@ -39,6 +41,9 @@ export default function NavbarWrapper({ children }: NavbarWrapperProps) {
 
       {/* Floating Book Demo Lead capture form modal */}
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+
+      {/* Register Restaurant Modal */}
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         .seo-hero {

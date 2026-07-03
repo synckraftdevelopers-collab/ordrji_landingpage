@@ -75,7 +75,7 @@ export default function BookDemoPage() {
 
   return (
     <>
-      <Navbar onBookDemo={() => {}} />
+      <Navbar onBookDemo={() => {}} onRegister={() => {}} />
 
       <main style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
         <div className="container" style={{ maxWidth: 1100, padding: "3rem 1.5rem 6rem" }}>

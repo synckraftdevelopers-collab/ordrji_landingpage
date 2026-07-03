@@ -5,6 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import { ArrowLeft, MapPin, Send, CheckCircle, ExternalLink, HelpCircle } from "lucide-react";
 import LocationAutocomplete from "@/components/LocationAutocomplete";
 
@@ -13,6 +14,7 @@ export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading]     = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,7 +30,7 @@ export default function ContactClient() {
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
 
       <div style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
         <div className="container" style={{ maxWidth: 1100, padding: "3rem 1.5rem 6rem" }}>
@@ -160,6 +162,7 @@ export default function ContactClient() {
       <Footer />
 
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         @media (min-width: 768px) { .contact-grid { grid-template-columns: 380px 1fr !important; } }

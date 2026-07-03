@@ -5,14 +5,16 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import { Home, PhoneCall, Sparkles } from "lucide-react";
 
 export default function NotFound() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
 
       <main style={{ minHeight: "85vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-primary)", padding: "8rem 1.5rem 4rem" }}>
         
@@ -51,6 +53,7 @@ export default function NotFound() {
       <Footer />
 
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         .notfound-badge {

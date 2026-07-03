@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pricing from "@/components/Pricing";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import FinalCTA from "@/components/FinalCTA";
 import { Check, X, ChevronDown, Sparkles } from "lucide-react";
 
@@ -75,6 +76,7 @@ const PRICING_FAQS = [
 
 export default function PricingPage() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const renderValue = (val: string | boolean) => {
@@ -90,7 +92,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
       
       <main style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
         
@@ -222,6 +224,7 @@ export default function PricingPage() {
       <Footer />
       
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         .pricing-tag {

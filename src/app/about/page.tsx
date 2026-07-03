@@ -5,6 +5,7 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import FinalCTA from "@/components/FinalCTA";
 import { Compass, Eye, Heart, Shield, Users, Trophy, Sparkles } from "lucide-react";
 
@@ -53,10 +54,11 @@ const GALLERY_PHOTOS = [
 
 export default function AboutPage() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
 
       <main style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
         
@@ -253,6 +255,7 @@ export default function AboutPage() {
       <Footer />
 
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         .about-badge {

@@ -11,6 +11,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 
 /* ─── STEPS DATA ─────────────────────────────────────────────────────────── */
 const STEPS = [
@@ -250,10 +251,11 @@ function FaqItem({ faq }: { faq: typeof FAQS[0] }) {
 /* ─── PAGE ───────────────────────────────────────────────────────────────── */
 export default function HowToUsePage() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
 
       <main className="htu-page">
 
@@ -433,6 +435,7 @@ export default function HowToUsePage() {
 
       <Footer />
       <BookDemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         /* ── HTU CSS STYLES ── */

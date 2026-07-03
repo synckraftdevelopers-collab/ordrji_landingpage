@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
+import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import { Search, ChevronDown, MessageSquare, Phone, Mail, AlertCircle } from "lucide-react";
 
 const CATEGORIES = ["All", "POS & Billing", "QR Ordering", "Kitchen (KDS)", "Inventory & Stock", "Pricing & Setup"];
@@ -53,6 +54,7 @@ const FAQS = [
 
 export default function FaqPage() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -67,7 +69,7 @@ export default function FaqPage() {
 
   return (
     <>
-      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} />
+      <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
 
       <main style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
         
@@ -192,6 +194,7 @@ export default function FaqPage() {
       <Footer />
 
       <BookDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+      <RegisterRestaurantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
 
       <style jsx global>{`
         .faq-badge {
