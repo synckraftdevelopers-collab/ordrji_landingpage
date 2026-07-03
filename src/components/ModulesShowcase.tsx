@@ -1583,6 +1583,7 @@ interface VisualState {
   crmGuests: CrmGuest[];
   formatTimer: (s: number) => string;
   selectedPaymentMethod: string;
+  setSelectedPaymentMethod: (s: "UPI" | "Card" | "Cash") => void;
   billingState: string;
   setBillingState: (s: "pending" | "processing" | "success") => void;
 }

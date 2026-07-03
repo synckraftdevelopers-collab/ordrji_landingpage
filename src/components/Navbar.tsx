@@ -80,6 +80,19 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           {/* During "center" phase it renders in normal flow but is made
               invisible; the ::before pseudo-overlay shows the centered logo.
               We use a separate absolutely-positioned element for the animation. */}
+          {/* Logo Placeholder to reserve space and prevent layout shifts during intro animation */}
+          {introPhase !== "done" && (
+            <div
+              className="pf-logo-placeholder"
+              style={{
+                width: "64px",
+                height: "64px",
+                flexShrink: 0,
+                visibility: "hidden"
+              }}
+            />
+          )}
+
           <Link
             href="/"
             className={`pf-logo-link ${introPhase}`}
@@ -247,7 +260,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         /* MOVE phase — animate to top-left */
         .pf-logo-link.move {
           position: fixed;
-          top: 1.1rem;
+          top: 1.25rem;
           left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
           transform: translate(0, 0) scale(1);
         }

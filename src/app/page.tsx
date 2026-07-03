@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Problems from "@/components/Problems";
 import TrustBar from "@/components/TrustBar";
-import CommandCenter from "@/components/CommandCenter";
 import OrderJourney from "@/components/OrderJourney";
 import Ecosystem from "@/components/Ecosystem";
 import ModulesShowcase from "@/components/ModulesShowcase";
@@ -58,9 +57,7 @@ export default function Home() {
         <RoleExperience />
         <div className="divider" />
 
-        {/* 5. Screenshots / Interactive Dashboard Preview */}
-        <CommandCenter />
-        <div className="divider" />
+        {/* 5. Screenshots / Interactive Dashboard Preview — removed */}
 
         {/* 6. Pricing Preview */}
         <Pricing />

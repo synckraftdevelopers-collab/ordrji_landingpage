@@ -365,6 +365,21 @@ export default function Hero({ onBookDemo }: HeroProps) {
           border-color: rgba(227, 6, 19, 0.22);
           box-shadow: 0 8px 24px rgba(227, 6, 19, 0.06);
         }
+        .location-search-bar .autocomplete-input {
+          width: 100%;
+          background: transparent !important;
+          border: none !important;
+          outline: none !important;
+          box-shadow: none !important;
+          padding: 0.5rem 0.8rem;
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: var(--text-primary) !important;
+          font-family: inherit;
+        }
+        .location-search-bar .autocomplete-input::placeholder {
+          color: var(--text-muted);
+        }
 
         .location-info-card {
           margin-top: 1rem;
