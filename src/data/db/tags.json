@@ -1,0 +1,27 @@
+[
+  {
+    "id": "pos",
+    "name": "POS Systems",
+    "slug": "pos-systems"
+  },
+  {
+    "id": "inventory",
+    "name": "Inventory",
+    "slug": "inventory"
+  },
+  {
+    "id": "billing",
+    "name": "Billing",
+    "slug": "billing"
+  },
+  {
+    "id": "ops-tag",
+    "name": "Restaurant Operations",
+    "slug": "restaurant-operations"
+  },
+  {
+    "id": "qr",
+    "name": "QR Ordering",
+    "slug": "qr-ordering"
+  }
+]

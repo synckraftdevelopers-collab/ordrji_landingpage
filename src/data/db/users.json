@@ -1,0 +1,62 @@
+[
+  {
+    "id": "user-super",
+    "email": "superadmin@ordrji.com",
+    "password": "Super@123",
+    "name": "Rahul Sharma",
+    "role": "Super Admin",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150",
+    "designation": "Executive Editor & Partner",
+    "bio": "Rahul is a senior digital publisher overseeing operations at Ordrji's global channel."
+  },
+  {
+    "id": "user-admin",
+    "email": "admin@ordrji.com",
+    "password": "Admin@123",
+    "name": "Ananya Gupta",
+    "role": "Admin",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+    "designation": "Content Coordinator Manager",
+    "bio": "Ananya organizes direct guest marketing layouts and POS features copy guides."
+  },
+  {
+    "id": "user-owner",
+    "email": "owner@ordrji.com",
+    "password": "Owner@123",
+    "name": "Vikram Dev",
+    "role": "Restaurant Owner",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150",
+    "designation": "Franchise Owner",
+    "bio": "Vikram operates multi-unit cloud restaurant hubs."
+  },
+  {
+    "id": "user-manager",
+    "email": "manager@ordrji.com",
+    "password": "Manager@123",
+    "name": "Priya Sharma",
+    "role": "Manager",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150",
+    "designation": "Store General Manager",
+    "bio": "Priya manages shifts scheduling, registers billing cash flows, and daily raw stock variances."
+  },
+  {
+    "id": "user-cashier",
+    "email": "cashier@ordrji.com",
+    "password": "Cashier@123",
+    "name": "Aarav Singh",
+    "role": "Cashier",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150",
+    "designation": "Front Desk Cashier",
+    "bio": "Aarav settles checkout checks, prints receipt slips, and processes card/UPI transactions."
+  },
+  {
+    "id": "user-waiter",
+    "email": "waiter@ordrji.com",
+    "password": "Waiter@123",
+    "name": "Neha Kapoor",
+    "role": "Waiter",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150",
+    "designation": "Dine-In Steward",
+    "bio": "Neha guides restaurant dining guests and routes orders to prep tables."
+  }
+]

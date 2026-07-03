@@ -1,0 +1,26 @@
+[
+  {
+    "id": "img-1",
+    "url": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800",
+    "name": "qr_ordering_cover.jpg",
+    "type": "image/jpeg",
+    "size": 1048576,
+    "uploadedAt": "28 June 2026"
+  },
+  {
+    "id": "img-2",
+    "url": "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?auto=format&fit=crop&q=80&w=800",
+    "name": "inventory_waste.jpg",
+    "type": "image/jpeg",
+    "size": 845612,
+    "uploadedAt": "22 June 2026"
+  },
+  {
+    "id": "img-3",
+    "url": "https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&q=80&w=800",
+    "name": "pos_terminal.jpg",
+    "type": "image/jpeg",
+    "size": 954120,
+    "uploadedAt": "15 June 2026"
+  }
+]

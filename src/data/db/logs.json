@@ -1,0 +1,68 @@
+[
+  {
+    "id": "log-1",
+    "user": "Rohan Mehta",
+    "role": "Admin",
+    "action": "Created blog 'How QR Code Ordering Increases Average Bill Value by 22%'",
+    "date": "28 June 2026",
+    "time": "09:45 AM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop (Windows)",
+    "browser": "Chrome"
+  },
+  {
+    "id": "log-2",
+    "user": "Super Admin",
+    "role": "Super Admin",
+    "action": "Approved and published 'How QR Code Ordering Increases Average Bill Value by 22%'",
+    "date": "28 June 2026",
+    "time": "10:00 AM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop (macOS)",
+    "browser": "Safari"
+  },
+  {
+    "id": "log-3",
+    "user": "Priya Sharma",
+    "role": "Admin",
+    "action": "Created blog '5 Inventory Best Practices to Prevent Food Waste and Protect Margins'",
+    "date": "22 June 2026",
+    "time": "11:15 AM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop (Windows)",
+    "browser": "Firefox"
+  },
+  {
+    "id": "log-4",
+    "user": "Super Admin",
+    "role": "Super Admin",
+    "action": "Approved and published '5 Inventory Best Practices to Prevent Food Waste and Protect Margins'",
+    "date": "22 June 2026",
+    "time": "12:00 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop (macOS)",
+    "browser": "Safari"
+  },
+  {
+    "id": "log-5",
+    "user": "Vikram Dev",
+    "role": "Admin",
+    "action": "Created blog 'Legacy vs. Cloud POS: Why Modern Restaurant Chains are Upgrading'",
+    "date": "15 June 2026",
+    "time": "04:30 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "iPad",
+    "browser": "Chrome iOS"
+  },
+  {
+    "id": "log-6",
+    "user": "Super Admin",
+    "role": "Super Admin",
+    "action": "Approved and published 'Legacy vs. Cloud POS: Why Modern Restaurant Chains are Upgrading'",
+    "date": "16 June 2026",
+    "time": "08:00 AM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop (macOS)",
+    "browser": "Safari"
+  }
+]

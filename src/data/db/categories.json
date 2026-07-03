@@ -1,0 +1,30 @@
+[
+  {
+    "id": "tech",
+    "name": "Technology",
+    "slug": "technology",
+    "description": "Restaurant billing hardware, POS, and digital tableside QR codes.",
+    "isEnabled": true
+  },
+  {
+    "id": "ops",
+    "name": "Operations",
+    "slug": "operations",
+    "description": "Kitchen operations, raw material consumption, and waste tracking.",
+    "isEnabled": true
+  },
+  {
+    "id": "mgmt",
+    "name": "Management",
+    "slug": "management",
+    "description": "Menu modeling, staff rosters, and financial audit controls.",
+    "isEnabled": true
+  },
+  {
+    "id": "mktg",
+    "name": "Marketing",
+    "slug": "marketing",
+    "description": "Direct SMS marketing, CRM loyalty cohorts, and brand awareness.",
+    "isEnabled": true
+  }
+]
