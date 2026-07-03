@@ -19,6 +19,7 @@ import Footer from "@/components/Footer";
 import Integrations from "@/components/Integrations";
 import BookDemoModal from "@/components/BookDemoModal";
 import FinalCTA from "@/components/FinalCTA";
+import InstagramSection from "@/components/InstagramSection";
 
 export default function Home() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -77,7 +78,11 @@ export default function Home() {
         <Faq />
         <div className="divider" />
 
-        {/* 10. Book Demo Final CTA */}
+        {/* 10. Instagram Feed */}
+        <InstagramSection />
+        <div className="divider" />
+
+        {/* 11. Book Demo Final CTA */}
         <FinalCTA onBookDemo={() => setIsDemoModalOpen(true)} />
 
       </main>
