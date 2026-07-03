@@ -1002,19 +1002,11 @@ export default function ModulesShowcase() {
           background: rgba(227, 6, 19, 0.05);
         }
 
-        .order-row-num {
+        .order-row-table-bold {
           font-size: 0.8rem;
           font-weight: 800;
           color: var(--text-primary);
-        }
-
-        .order-row-table {
-          font-size: 0.65rem;
-          background: rgba(0, 0, 0, 0.04);
-          padding: 0.15rem 0.35rem;
-          border-radius: 4px;
-          font-family: monospace;
-          color: var(--text-secondary);
+          white-space: nowrap;
         }
 
         .order-row-items {
@@ -1614,9 +1606,10 @@ function renderActiveVisual(panelId: number, state: VisualState) {
                   transition={{ type: "spring", stiffness: 120, damping: 15 }}
                   className={`order-card-row ${idx === 0 ? "row-new" : ""}`}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span className="order-row-num">#{order.id}</span>
-                    <span className="order-row-table">{order.table}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <span className="order-row-table-bold">
+                      {order.table.replace("T-", "Table ")}
+                    </span>
                     <span className="order-row-items">{order.items}</span>
                   </div>
                   <div className="order-row-status-wrap">
