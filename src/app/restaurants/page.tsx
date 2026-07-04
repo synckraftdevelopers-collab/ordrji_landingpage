@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
@@ -10,6 +11,7 @@ import {
   Search, MapPin, Star, Clock, Utensils, Filter, X,
   ArrowRight, Leaf, Flame, Zap, PlusCircle,
 } from "lucide-react";
+import { getStoredRestaurants, StoredRestaurant, SEED_IDS } from "@/lib/restaurantStore";
 
 /* ─── Demo Data ──────────────────────────────────────────────────── */
 const RESTAURANTS = [
@@ -95,6 +97,28 @@ export default function RestaurantsPage() {
   const [cuisine, setCuisine] = useState("All");
   const [type, setType] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
+  const [extraRestaurants, setExtraRestaurants] = useState<StoredRestaurant[]>([]);
+
+  // Load user-registered restaurants from localStorage on mount
+  useEffect(() => {
+    setExtraRestaurants(getStoredRestaurants().filter(r => !SEED_IDS.includes(r.id)));
+  }, []);
+
+  // Build combined list: user-registered first, then demo seed
+  const allRestaurants = useMemo(() => {
+    const extraMapped = extraRestaurants.map(r => ({
+      id: r.id, name: r.name, cuisine: r.cuisine,
+      type: r.type as "veg" | "nonveg" | "both",
+      city: r.city, area: r.area, rating: 0, reviews: 0,
+      deliveryTime: `${r.openingTime}–${r.closingTime}`,
+      avgCost: r.avgCost, dishes: r.dishes,
+      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
+      badge: "New", badgeColor: "#7c3aed",
+      open: true, swiggy: !!r.swiggyUrl, zomato: !!r.zomatoUrl,
+      swiggyUrl: r.swiggyUrl, zomatoUrl: r.zomatoUrl,
+    }));
+    return [...extraMapped, ...RESTAURANTS];
+  }, [extraRestaurants]);
 
   const openRegister = (p?: RestaurantPrefill) => {
     setPrefill(p);
@@ -102,7 +126,7 @@ export default function RestaurantsPage() {
   };
 
   const filtered = useMemo(() =>
-    RESTAURANTS.filter(r => {
+    allRestaurants.filter(r => {
       const q = query.toLowerCase();
       const matchQ = !q ||
         r.name.toLowerCase().includes(q) ||
@@ -113,7 +137,7 @@ export default function RestaurantsPage() {
       const matchT = type === "all" || r.type === type;
       return matchQ && matchC && matchT;
     }),
-  [query, cuisine, type]);
+  [query, cuisine, type, allRestaurants]);
 
   const clearAll = () => { setQuery(""); setCuisine("All"); setType("all"); };
 
@@ -135,7 +159,7 @@ export default function RestaurantsPage() {
                 <span className="rl-accent">Restaurants Near You</span>
               </h1>
               <p className="rl-hero-sub">
-                Browse {RESTAURANTS.length}+ restaurants · Search by dish or cuisine · Order on Swiggy & Zomato
+                Browse {allRestaurants.length}+ restaurants · Search by dish or cuisine · Order on Swiggy & Zomato
               </p>
             </div>
 
@@ -194,9 +218,9 @@ export default function RestaurantsPage() {
               <strong>{filtered.length}</strong> restaurant{filtered.length !== 1 ? "s" : ""} found
               {query && <> for &ldquo;<em>{query}</em>&rdquo;</>}
             </p>
-            <button className="rl-add-btn" onClick={() => openRegister()}>
+            <Link href="/register-restaurant" className="rl-add-btn">
               <PlusCircle size={16} /> Add Your Restaurant
-            </button>
+            </Link>
           </div>
 
           {filtered.length === 0 ? (
@@ -270,18 +294,12 @@ export default function RestaurantsPage() {
                     </div>
 
                     {/* Register with this restaurant's data pre-filled */}
-                    <button
+                    <Link
+                      href={`/register-restaurant?name=${encodeURIComponent(r.name)}&cuisine=${encodeURIComponent(r.cuisine)}&type=${r.type}&city=${encodeURIComponent(r.city)}`}
                       className="rl-register-btn"
-                      onClick={() => openRegister({
-                        restaurantName: r.name,
-                        cuisineType:    r.cuisine,
-                        restaurantType: r.type,
-                        city:           r.city,
-                        dishes:         r.dishes,
-                      })}
                     >
                       <PlusCircle size={14} /> Register This Restaurant
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -294,9 +312,9 @@ export default function RestaurantsPage() {
               <h3>Own a Restaurant?</h3>
               <p>Join Ordrji for free and start getting discovered by thousands of customers.</p>
             </div>
-            <button className="rl-cta-btn" onClick={() => openRegister()}>
+            <Link href="/register-restaurant" className="rl-cta-btn">
               Register for Free <ArrowRight size={16} />
-            </button>
+            </Link>
           </div>
         </section>
       </main>

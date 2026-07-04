@@ -217,7 +217,13 @@ export interface RestaurantPrefill {
 }
 
 /* ─── Main Component ─────────────────────────────────────────────── */
-export default function RegistrationForm({ prefill }: { prefill?: RestaurantPrefill }) {
+export default function RegistrationForm({
+  prefill,
+  onSuccess,
+}: {
+  prefill?: RestaurantPrefill;
+  onSuccess?: (name: string) => void;
+}) {
   const [logo,        setLogo]        = useState<string | null>(null);
   const [cover,       setCover]       = useState<string | null>(null);
   const [submitting,  setSubmitting]  = useState(false);
@@ -247,10 +253,35 @@ export default function RegistrationForm({ prefill }: { prefill?: RestaurantPref
 
   const onSubmit = async (data: RegistrationFormData) => {
     setSubmitting(true);
-    await new Promise(r => setTimeout(r, 1800));
+    await new Promise(r => setTimeout(r, 900));
+
+    // Save to localStorage so it shows up immediately on /register-restaurant
+    const { saveRestaurant } = await import("@/lib/restaurantStore");
+    saveRestaurant({
+      id:           `user-${Date.now()}`,
+      name:         data.restaurantName,
+      cuisine:      data.cuisineType,
+      type:         data.restaurantType,
+      city:         data.city,
+      area:         data.district || data.city,
+      dishes:       selectedDishes,
+      swiggyUrl:    data.swiggyUrl || undefined,
+      zomatoUrl:    data.zomatoUrl || undefined,
+      avgCost:      parseInt(data.avgCostForTwo) || 300,
+      openingTime:  data.openingTime,
+      closingTime:  data.closingTime,
+      ownerName:    data.ownerName,
+      phone:        data.phone,
+      email:        data.email,
+      registeredAt: new Date().toISOString(),
+      badge:        "New",
+      badgeColor:   "#7c3aed",
+    });
+
     setSubmittedName(data.restaurantName);
     setSubmitting(false);
     setSuccess(true);
+    onSuccess?.(data.restaurantName);
   };
 
   const handleStart = () => {

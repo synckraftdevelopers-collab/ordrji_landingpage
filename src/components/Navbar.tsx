@@ -154,11 +154,17 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
             <button
-              onClick={onRegister}
+              onClick={onBookDemo}
+              className="btn-secondary pf-btn"
+            >
+              Book Demo
+            </button>
+            <Link
+              href="/register-restaurant"
               className="btn-primary btn-register pf-btn"
             >
               Register Restaurant
-            </button>
+            </Link>
             <a
               href="https://pos.ordrji.com/login"
               target="_blank" rel="noopener noreferrer"
@@ -213,12 +219,17 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
             <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">
-              <button
-                className="btn-primary btn-register" style={{ justifyContent: "center" }}
-                onClick={() => { setIsMobileMenuOpen(false); onRegister?.(); }}
+              <button onClick={() => { setIsMobileMenuOpen(false); onBookDemo(); }} className="btn-secondary" style={{ justifyContent: "center" }}>
+                Book Demo
+              </button>
+              <Link
+                href="/register-restaurant"
+                className="btn-primary btn-register"
+                style={{ justifyContent: "center" }}
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 Register Restaurant
-              </button>
+              </Link>
               <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer"
                 className="btn-primary btn-red" style={{ justifyContent: "center" }}
                 onClick={() => setIsMobileMenuOpen(false)}>
