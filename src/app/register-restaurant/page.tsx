@@ -173,7 +173,12 @@ function RegisterRestaurantContent() {
               <p className="rr-pg-sub">
                 Join {allRestaurants.length}+ restaurants. Get discovered, connect Swiggy & Zomato, grow your online presence.
               </p>
-              <button className="rr-pg-cta" onClick={() => setShowForm(true)}>
+              <button className="rr-pg-cta" onClick={() => {
+                setShowForm(true);
+                setTimeout(() => {
+                  document.getElementById("registration-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 50);
+              }}>
                 <PlusCircle size={18} /> Register Your Restaurant
               </button>
             </div>
@@ -202,7 +207,12 @@ function RegisterRestaurantContent() {
               <h2 className="rr-pg-section-title">Restaurants on Ordrji</h2>
               <p className="rr-pg-section-sub">Search by name, cuisine, city or dish</p>
             </div>
-            <button className="rr-pg-add-btn" onClick={() => setShowForm(true)}>
+            <button className="rr-pg-add-btn" onClick={() => {
+              setShowForm(true);
+              setTimeout(() => {
+                document.getElementById("registration-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }, 50);
+            }}>
               <PlusCircle size={15} /> Add Yours
             </button>
           </div>
@@ -240,18 +250,27 @@ function RegisterRestaurantContent() {
           )}
         </section>
 
-        {/* ── Registration Form ─────────────────────────────────────── */}
+        {/* ── Registration Form — shown when user clicks Register ── */}
         {showForm && (
-          <section className="container rr-pg-form-section" id="registration-form">
+          <section
+            className="container rr-pg-form-section"
+            id="registration-form"
+            style={{
+              animation: "rrFormSlideIn 0.35s cubic-bezier(0.16,1,0.3,1) both"
+            }}
+          >
             <div className="rr-pg-form-header">
-              <h2 className="rr-pg-section-title">Register Your Restaurant</h2>
+              <div>
+                <h2 className="rr-pg-section-title">Register Your Restaurant</h2>
+                <p className="rr-pg-section-sub">Fill in your details below — takes about 3 minutes</p>
+              </div>
               <button className="rr-pg-collapse-btn" onClick={() => setShowForm(false)}>
-                <X size={16} /> Close form
+                <X size={16} /> Close
               </button>
             </div>
             <RegistrationForm
               prefill={urlPrefill}
-              onSuccess={(name) => {
+              onSuccess={() => {
                 setUserRestaurants(getStoredRestaurants());
                 setShowForm(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -336,9 +355,13 @@ function RegisterRestaurantContent() {
 
         /* Form section */
         .rr-pg-form-section { padding:2rem 0 4rem; }
-        .rr-pg-form-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem; }
+        .rr-pg-form-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem;padding:1.5rem 0;border-bottom:2px solid #f1f5f9; }
         .rr-pg-collapse-btn { display:inline-flex;align-items:center;gap:.4rem;background:#fff;border:1px solid #e2e8f0;color:#64748b;padding:.5rem 1rem;border-radius:9999px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s; }
-        .rr-pg-collapse-btn:hover { border-color:#f97316;color:#f97316; }
+        .rr-pg-collapse-btn:hover { border-color:#ef4444;color:#ef4444; }
+        @keyframes rrFormSlideIn {
+          from { opacity:0; transform:translateY(24px); }
+          to   { opacity:1; transform:translateY(0); }
+        }
       `}</style>
     </>
   );

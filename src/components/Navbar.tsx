@@ -16,19 +16,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
   const [isScrolled,        setIsScrolled]        = useState(false);
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
   const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
-  const [activeRole, setActiveRole] = useState<string>("Visitor");
-
-  useEffect(() => {
-    const getCookie = (name: string) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift();
-      return null;
-    };
-    setActiveRole(getCookie("ordrji_role") || "Visitor");
-  }, []);
-
-  const isAdmin = (activeRole === "Admin" || activeRole === "Super Admin") && !pathname?.startsWith("/blog");
 
   // Close resources sub-tab when mobile menu closes
   useEffect(() => {
@@ -144,11 +131,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
                 <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory</Link>
               </div>
             </div>
-            {isAdmin && (
-              <Link href="/dashboard/admin/blogs" className="pf-nav-link" style={{ color: "var(--accent-orange)", fontWeight: 750 }}>
-                Admin Portal
-              </Link>
-            )}
           </nav>
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
@@ -187,11 +169,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
         {/* ── MOBILE DRAWER ─────────────────────────────────────────────── */}
         {isMobileMenuOpen && (
           <div className="pf-mobile-drawer">
-            {isAdmin && (
-              <Link href="/dashboard/admin/blogs" className="pf-mobile-link" style={{ color: "var(--accent-orange)", fontWeight: 750 }} onClick={() => setIsMobileMenuOpen(false)}>
-                ★ Admin Portal
-              </Link>
-            )}
             <Link href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</Link>
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
             <Link href="/how-to-use" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>

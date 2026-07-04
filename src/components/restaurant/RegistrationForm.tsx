@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  CheckCircle2, Loader2, ArrowRight, Eye, TrendingUp, Star,
+  CheckCircle2, Loader2, Eye, TrendingUp, Star,
   Share2, ThumbsUp, Zap, Search, X, ChevronDown, Utensils,
   Users, Clock, MapPin, Building2
 } from "lucide-react";
@@ -229,7 +229,7 @@ export default function RegistrationForm({
   const [submitting,  setSubmitting]  = useState(false);
   const [success,     setSuccess]     = useState(false);
   const [submittedName, setSubmittedName] = useState("");
-  const [formStarted, setFormStarted] = useState(false);
+  const [formStarted, setFormStarted] = useState(true); // form always shows directly
   const [selectedDishes, setSelectedDishes] = useState<string[]>(prefill?.dishes ?? []);
 
   const { register, handleSubmit, control, reset, formState: { errors } } = useForm<RegistrationFormData>({
@@ -294,125 +294,77 @@ export default function RegistrationForm({
   return (
     <>
       <div className="rr-page">
-        {/* ── HERO ──────────────────────────────────────────────────── */}
-        <section className="rr-hero">
-          <div className="rr-hero-bg" aria-hidden />
-          <div className="rr-hero-inner container">
-            <motion.div className="rr-hero-text"
-              initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55 }}>
-              <span className="rr-hero-badge">🍴 Restaurant Partner Portal</span>
-              <h1 className="rr-hero-title">
-                Register Your Restaurant<br />
-                <span className="rr-hero-accent">on Ordrji</span>
-              </h1>
-              <p className="rr-hero-sub">
-                Join thousands of restaurants helping customers discover your business.
-                Connect your Swiggy and Zomato ordering pages in minutes.
-              </p>
-              <button onClick={handleStart} className="rr-hero-cta">
-                Start Registration <ArrowRight size={16} />
-              </button>
-            </motion.div>
+        {/* ── FORM renders directly — no hero, no start button ─────── */}
+        <div className="rr-body container" id="rr-form">
 
-            <motion.div className="rr-hero-card glass-card"
-              initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}>
-              <div className="rr-hero-stat-grid">
-                {[
-                  { n: "5,000+", l: "Restaurants" },
-                  { n: "35+",    l: "Cities"       },
-                  { n: "20M+",   l: "Orders"       },
-                  { n: "Free",   l: "to Join"      },
-                ].map(s => (
-                  <div key={s.l} className="rr-hero-stat">
-                    <span className="rr-hero-stat-n">{s.n}</span>
-                    <span className="rr-hero-stat-l">{s.l}</span>
+          {/* form column */}
+          <div className="rr-form-col">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+
+              <RestaurantInfo register={register} errors={errors} />
+
+              {/* Cuisine & Dishes section with custom components */}
+              <div className="rr-section">
+                <div className="rr-section-header">
+                  <span className="rr-section-num">02</span>
+                  <div>
+                    <h3 className="rr-section-title">Cuisine & Menu</h3>
+                    <p className="rr-section-sub">Help customers find what you serve</p>
                   </div>
-                ))}
-              </div>
-              <p className="rr-hero-card-note">🟢 Free to join. Reviewed within 24 hrs.</p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── FORM (only shown after "Start Registration") ───────────── */}
-        <AnimatePresence>
-          {formStarted && (
-            <motion.section
-              className="rr-body container" id="rr-form"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* form column */}
-              <div className="rr-form-col">
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
-
-                  <RestaurantInfo register={register} errors={errors} />
-
-                  {/* Cuisine & Dishes section with custom components */}
-                  <div className="rr-section">
-                    <div className="rr-section-header">
-                      <span className="rr-section-num">02</span>
-                      <div>
-                        <h3 className="rr-section-title">Cuisine & Menu</h3>
-                        <p className="rr-section-sub">Help customers find what you serve</p>
-                      </div>
-                    </div>
-                    <div className="rr-grid-2">
-                      <div className="rr-field">
-                        <label className="rr-label">
-                          <Utensils size={14} className="rr-label-icon" />
-                          Cuisine Type *
-                        </label>
-                        <Controller
-                          name="cuisineType"
-                          control={control}
-                          render={({ field }) => (
-                            <SearchableSelect
-                              options={CUISINE_LIST}
-                              value={field.value || ""}
-                              onChange={field.onChange}
-                              placeholder="Search cuisine..."
-                              error={errors.cuisineType?.message}
-                            />
-                          )}
+                </div>
+                <div className="rr-grid-2">
+                  <div className="rr-field">
+                    <label className="rr-label">
+                      <Utensils size={14} className="rr-label-icon" />
+                      Cuisine Type *
+                    </label>
+                    <Controller
+                      name="cuisineType"
+                      control={control}
+                      render={({ field }) => (
+                        <SearchableSelect
+                          options={CUISINE_LIST}
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                          placeholder="Search cuisine..."
+                          error={errors.cuisineType?.message}
                         />
-                        {errors.cuisineType && <span className="rr-error">{errors.cuisineType.message}</span>}
-                      </div>
-
-                      <div className="rr-field">
-                        <label className="rr-label">
-                          <Users size={14} className="rr-label-icon" />
-                          Restaurant Type *
-                        </label>
-                        <div className="rr-radio-group">
-                          {(["veg", "nonveg", "both"] as const).map(v => (
-                            <label key={v} className="rr-radio-label">
-                              <input type="radio" value={v} {...register("restaurantType")} />
-                              <span className={`rr-radio-pill ${v==="veg"?"rr-pill-veg":v==="nonveg"?"rr-pill-nveg":"rr-pill-both"}`}>
-                                {v==="veg"?"🟢 Veg":v==="nonveg"?"🔴 Non-Veg":"🟡 Both"}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                        {errors.restaurantType && <span className="rr-error">{errors.restaurantType.message}</span>}
-                      </div>
-                    </div>
-
-                    <div className="rr-field">
-                      <label className="rr-label">
-                        <Utensils size={14} className="rr-label-icon" />
-                        Popular Dishes <span className="rr-optional">(Optional)</span>
-                      </label>
-                      <DishesMultiSelect value={selectedDishes} onChange={setSelectedDishes} />
-                    </div>
+                      )}
+                    />
+                    {errors.cuisineType && <span className="rr-error">{errors.cuisineType.message}</span>}
                   </div>
 
-                  <BrandingSection logo={logo} cover={cover} onLogoChange={setLogo} onCoverChange={setCover} />
-                  <IntegrationSection register={register} errors={errors} />
-                  <BusinessSection register={register} errors={errors} />
+                  <div className="rr-field">
+                    <label className="rr-label">
+                      <Users size={14} className="rr-label-icon" />
+                      Restaurant Type *
+                    </label>
+                    <div className="rr-radio-group">
+                      {(["veg", "nonveg", "both"] as const).map(v => (
+                        <label key={v} className="rr-radio-label">
+                          <input type="radio" value={v} {...register("restaurantType")} />
+                          <span className={`rr-radio-pill ${v==="veg"?"rr-pill-veg":v==="nonveg"?"rr-pill-nveg":"rr-pill-both"}`}>
+                            {v==="veg"?"🟢 Veg":v==="nonveg"?"🔴 Non-Veg":"🟡 Both"}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    {errors.restaurantType && <span className="rr-error">{errors.restaurantType.message}</span>}
+                  </div>
+                </div>
+
+                <div className="rr-field">
+                  <label className="rr-label">
+                    <Utensils size={14} className="rr-label-icon" />
+                    Popular Dishes <span className="rr-optional">(Optional)</span>
+                  </label>
+                  <DishesMultiSelect value={selectedDishes} onChange={setSelectedDishes} />
+                </div>
+              </div>
+
+              <BrandingSection logo={logo} cover={cover} onLogoChange={setLogo} onCoverChange={setCover} />
+              <IntegrationSection register={register} errors={errors} />
+              <BusinessSection register={register} errors={errors} />
 
                   {/* Section: Terms */}
                   <div className="rr-section">
@@ -484,76 +436,13 @@ export default function RegistrationForm({
                   </div>
                 </div>
               </aside>
-            </motion.section>
-          )}
-        </AnimatePresence>
-      </div>
+          </div>
+        </div>
 
       <SuccessModal isOpen={success} restaurantName={submittedName} onClose={() => setSuccess(false)} />
 
       <style jsx global>{`
         .rr-page { background: #f8fafc; min-height: 100vh; font-family: var(--font-sans); }
-
-        /* ── Hero ─────────────────────────────────────────────── */
-        .rr-hero {
-          position: relative; overflow: hidden;
-          padding: 5.5rem 0 4.5rem;
-          background: linear-gradient(135deg, #fff7ed 0%, #fff 55%, #f0fdf4 100%);
-          border-bottom: 1px solid #ffe4c4;
-        }
-        .rr-hero-bg {
-          position: absolute; inset: 0; pointer-events: none;
-          background:
-            radial-gradient(ellipse 60% 50% at 80% 50%, rgba(249,115,22,.12) 0%, transparent 70%),
-            radial-gradient(ellipse 40% 60% at 10% 30%, rgba(249,115,22,.07) 0%, transparent 70%);
-        }
-        .rr-hero-inner {
-          position: relative; z-index: 1;
-          display: grid; grid-template-columns: 1fr;
-          gap: 3rem; align-items: center;
-        }
-        @media (min-width: 900px) { .rr-hero-inner { grid-template-columns: 1fr 360px; } }
-        .rr-hero-text { display: flex; flex-direction: column; gap: 1.25rem; }
-        .rr-hero-badge {
-          display: inline-flex; align-items: center; gap: .4rem;
-          background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.3);
-          color: #c2410c; padding: .35rem .9rem; border-radius: 9999px;
-          font-size: .72rem; font-weight: 700; letter-spacing: .8px;
-          text-transform: uppercase; width: fit-content;
-        }
-        .rr-hero-title {
-          font-size: clamp(2.2rem,5vw,3.4rem); font-weight: 900;
-          letter-spacing: -1.5px; line-height: 1.12; color: #0f172a; margin: 0;
-        }
-        .rr-hero-accent {
-          background: linear-gradient(120deg, #f97316, #ea580c);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .rr-hero-sub { font-size: 1.05rem; color: #475569; line-height: 1.72; max-width: 520px; margin: 0; }
-        .rr-hero-cta {
-          display: inline-flex; align-items: center; gap: .6rem;
-          background: linear-gradient(135deg, #f97316, #ea580c); color: #fff;
-          padding: .9rem 2.25rem; border-radius: 9999px;
-          font-weight: 700; font-size: 1rem; border: none; cursor: pointer; width: fit-content;
-          box-shadow: 0 8px 24px rgba(249,115,22,.38);
-          transition: transform .2s, box-shadow .2s;
-        }
-        .rr-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(249,115,22,.48); }
-        .rr-hero-card {
-          padding: 2rem; border-radius: 22px;
-          background: rgba(255,255,255,.92); backdrop-filter: blur(16px);
-          border: 1px solid rgba(249,115,22,.18);
-          box-shadow: 0 24px 56px -12px rgba(0,0,0,.1);
-        }
-        .rr-hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
-        .rr-hero-stat {
-          display: flex; flex-direction: column; gap: .15rem;
-          padding: 1rem; background: #fff7ed; border-radius: 14px;
-          border: 1px solid #ffe4c4; text-align: center;
-        }
-        .rr-hero-stat-n { font-size: 1.4rem; font-weight: 900; color: #f97316; letter-spacing: -.5px; }
-        .rr-hero-stat-l { font-size: .7rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
-        .rr-hero-card-note { font-size: .78rem; color: #64748b; text-align: center; margin: 0; }
       `}</style>
 
       <style jsx global>{`
