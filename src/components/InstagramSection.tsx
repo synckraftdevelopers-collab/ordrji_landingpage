@@ -82,8 +82,44 @@ function IgIcon({ size = 20, gradient = false }: { size?: number; gradient?: boo
   );
 }
 
+import { supabase } from "@/lib/supabase";
+import { useState, useEffect } from "react";
+
 export default function InstagramSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [posts, setPosts] = useState(POSTS);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const { data, error } = await supabase
+          .from("instagram_posts")
+          .select("*")
+          .eq("is_active", true)
+          .order("published_at", { ascending: false });
+
+        if (error) {
+          console.error("Supabase error fetching Instagram posts:", error);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          setPosts(
+            data.map((p) => ({
+              id: p.id,
+              src: p.media_url,
+              alt: p.caption || "Instagram post",
+              date: p.published_at ? new Date(p.published_at).toLocaleDateString("en-US", { year: "numeric", month: "numeric", day: "numeric" }) : "Recent",
+              postUrl: p.permalink,
+            }))
+          );
+        }
+      } catch (err) {
+        console.error("Exception fetching Instagram posts:", err);
+      }
+    }
+    fetchPosts();
+  }, []);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -107,7 +143,7 @@ export default function InstagramSection() {
           <div className="igs-title-group">
             <IgIcon size={22} gradient />
             <h2 className="igs-title">Instagram Feed</h2>
-            <span className="igs-count">{POSTS.length} posts</span>
+            <span className="igs-count">{posts.length} posts</span>
           </div>
 
           {/* Right: Follow button */}
@@ -136,7 +172,7 @@ export default function InstagramSection() {
 
           {/* Scrollable row */}
           <div className="igs-strip" ref={scrollRef}>
-            {POSTS.map((post, i) => (
+            {posts.map((post, i) => (
               <motion.div
                 key={post.id}
                 className="igs-card"

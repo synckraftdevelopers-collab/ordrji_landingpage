@@ -231,6 +231,7 @@ export default function RegistrationForm({
   const [submittedName, setSubmittedName] = useState("");
   const [formStarted, setFormStarted] = useState(true); // form always shows directly
   const [selectedDishes, setSelectedDishes] = useState<string[]>(prefill?.dishes ?? []);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const { register, handleSubmit, control, reset, formState: { errors } } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
@@ -253,35 +254,58 @@ export default function RegistrationForm({
 
   const onSubmit = async (data: RegistrationFormData) => {
     setSubmitting(true);
-    await new Promise(r => setTimeout(r, 900));
+    setSubmitError(null);
 
-    // Save to localStorage so it shows up immediately on /register-restaurant
-    const { saveRestaurant } = await import("@/lib/restaurantStore");
-    saveRestaurant({
-      id:           `user-${Date.now()}`,
-      name:         data.restaurantName,
-      cuisine:      data.cuisineType,
-      type:         data.restaurantType,
-      city:         data.city,
-      area:         data.district || data.city,
-      dishes:       selectedDishes,
-      swiggyUrl:    data.swiggyUrl || undefined,
-      zomatoUrl:    data.zomatoUrl || undefined,
-      avgCost:      parseInt(data.avgCostForTwo) || 300,
-      openingTime:  data.openingTime,
-      closingTime:  data.closingTime,
-      ownerName:    data.ownerName,
-      phone:        data.phone,
-      email:        data.email,
-      registeredAt: new Date().toISOString(),
-      badge:        "New",
-      badgeColor:   "#7c3aed",
-    });
+    try {
+      const response = await fetch("/api/register-restaurant", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          selectedDishes,
+        }),
+      });
 
-    setSubmittedName(data.restaurantName);
-    setSubmitting(false);
-    setSuccess(true);
-    onSuccess?.(data.restaurantName);
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Failed to register restaurant. Please try again.");
+      }
+
+      // Save to localStorage so it shows up immediately on /register-restaurant
+      const { saveRestaurant } = await import("@/lib/restaurantStore");
+      saveRestaurant({
+        id:           result.id || `user-${Date.now()}`,
+        name:         data.restaurantName,
+        cuisine:      data.cuisineType,
+        type:         data.restaurantType,
+        city:         data.city,
+        area:         data.district || data.city,
+        dishes:       selectedDishes,
+        swiggyUrl:    data.swiggyUrl || undefined,
+        zomatoUrl:    data.zomatoUrl || undefined,
+        avgCost:      parseInt(data.avgCostForTwo) || 300,
+        openingTime:  data.openingTime,
+        closingTime:  data.closingTime,
+        ownerName:    data.ownerName,
+        phone:        data.phone,
+        email:        data.email,
+        registeredAt: new Date().toISOString(),
+        badge:        "New",
+        badgeColor:   "#7c3aed",
+      });
+
+      setSubmittedName(data.restaurantName);
+      setSuccess(true);
+      onSuccess?.(data.restaurantName);
+    } catch (err: any) {
+      console.error("Error submitting registration:", err);
+      setSubmitError(err.message || "An unexpected error occurred. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleStart = () => {
@@ -393,6 +417,25 @@ export default function RegistrationForm({
                       {errors.agreeTerms && <span className="rr-error">{errors.agreeTerms.message}</span>}
                     </div>
                   </div>
+
+                  {submitError && (
+                    <div className="rr-error-banner" style={{
+                      margin: "0 2.25rem 1.25rem",
+                      padding: "0.85rem 1rem",
+                      background: "#fef2f2",
+                      border: "1.5px solid #fee2e2",
+                      borderRadius: "11px",
+                      color: "#b91c1c",
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem"
+                    }}>
+                      <span>⚠️</span>
+                      <span>{submitError}</span>
+                    </div>
+                  )}
 
                   {/* Submit */}
                   <motion.button

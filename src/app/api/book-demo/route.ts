@@ -14,6 +14,24 @@ export async function POST(request: Request) {
       );
     }
 
+    // Save to Supabase demo_leads database table
+    try {
+      const { supabaseAdmin } = await import("@/lib/supabase");
+      const { error: dbError } = await supabaseAdmin.from("demo_leads").insert({
+        full_name: fullName,
+        email,
+        phone,
+        location,
+        restaurant_name: restaurantName || null,
+        message: message || null,
+      });
+      if (dbError) {
+        console.error("Error saving lead to Supabase:", dbError);
+      }
+    } catch (dbErr) {
+      console.error("Exception saving lead to Supabase:", dbErr);
+    }
+
     const emailSubject = `[Ordrji Demo Request] - ${restaurantName || "New Lead"} (${fullName})`;
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ebdcb9; border-radius: 8px; background-color: #fdfaf4;">

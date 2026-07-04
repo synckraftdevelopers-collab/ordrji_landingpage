@@ -79,9 +79,25 @@ export default function Hero({ onBookDemo }: HeroProps) {
               <div className="location-search-bar">
                 <LocationAutocomplete
                   value={selectedLocName}
-                  onChange={(val, details) => {
+                  onChange={async (val, details) => {
                     setSelectedLocName(val);
                     setLocationDetails(details || null);
+                    if (details) {
+                      try {
+                        await fetch("/api/coverage-search", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            query: details.name,
+                            type: details.type,
+                            stateCode: details.stateCode,
+                            result: "covered"
+                          })
+                        });
+                      } catch (err) {
+                        console.error("Error logging coverage search:", err);
+                      }
+                    }
                   }}
                   placeholder="Type your State, District or City to check coverage..."
                 />

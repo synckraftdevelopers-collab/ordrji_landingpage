@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { MessageSquare, User, Calendar, Send } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 interface Comment {
   id: string;
@@ -14,47 +15,91 @@ export default function CommentsSection({ blogId }: { blogId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [commentText, setCommentText] = useState("");
-
-  const STORAGE_KEY = `ordrji_comments_${blogId}`;
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setComments(JSON.parse(stored));
-      } else {
-        // Seed default comment for demonstration
-        const defaultComments: Comment[] = [
-          {
-            id: "comment-default-1",
-            name: "Rajesh Kumar",
-            comment: "This is a great write-up. We implemented QR ordering in our Connaught Place cafe last month and average order value actually increased by about 18%. The automated upselling recommendations work really well.",
-            date: "June 29, 2026"
-          }
-        ];
-        setComments(defaultComments);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultComments));
+    async function loadComments() {
+      try {
+        const { data, error } = await supabase
+          .from("blog_comments")
+          .select("*")
+          .eq("blog_post_id", blogId)
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          setComments(
+            data.map((c) => ({
+              id: c.id,
+              name: c.author_name,
+              comment: c.comment_text,
+              date: new Date(c.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              }),
+            }))
+          );
+        } else {
+          // Seed default comment for demonstration
+          const defaultComments: Comment[] = [
+            {
+              id: "comment-default-1",
+              name: "Rajesh Kumar",
+              comment: "This is a great write-up. We implemented QR ordering in our Connaught Place cafe last month and average order value actually increased by about 18%. The automated upselling recommendations work really well.",
+              date: "June 29, 2026",
+            },
+          ];
+          setComments(defaultComments);
+        }
+      } catch (err) {
+        console.error("Error loading comments:", err);
       }
     }
-  }, [blogId, STORAGE_KEY]);
+    loadComments();
+  }, [blogId]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !commentText.trim()) return;
+    if (!name.trim() || !commentText.trim() || submitting) return;
 
-    const newComment: Comment = {
-      id: `comment-${Date.now()}`,
-      name: name.trim(),
-      comment: commentText.trim(),
-      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-    };
+    setSubmitting(true);
+    try {
+      const { data, error } = await supabase
+        .from("blog_comments")
+        .insert({
+          blog_post_id: blogId,
+          author_name: name.trim(),
+          comment_text: commentText.trim(),
+          is_approved: true, // Auto-approve so it shows up immediately
+        })
+        .select()
+        .single();
 
-    const updated = [newComment, ...comments];
-    setComments(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      if (error) throw error;
 
-    setName("");
-    setCommentText("");
+      if (data) {
+        const newComment: Comment = {
+          id: data.id,
+          name: data.author_name,
+          comment: data.comment_text,
+          date: new Date(data.created_at).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }),
+        };
+
+        setComments((prev) => [newComment, ...prev]);
+        setName("");
+        setCommentText("");
+      }
+    } catch (err) {
+      console.error("Error posting comment:", err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -89,8 +134,8 @@ export default function CommentsSection({ blogId }: { blogId: string }) {
               style={{ resize: "vertical" }}
             />
           </div>
-          <button type="submit" className="btn-primary btn-red comment-submit-btn">
-            Post Comment <Send size={13} />
+          <button type="submit" disabled={submitting} className="btn-primary btn-red comment-submit-btn">
+            {submitting ? "Posting..." : "Post Comment"} <Send size={13} />
           </button>
         </div>
       </form>
