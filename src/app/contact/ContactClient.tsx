@@ -55,7 +55,6 @@ export default function ContactClient() {
           </Link>
 
           <div style={{ marginBottom: "3rem" }}>
-            <span style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "2px", color: "var(--accent-orange)", textTransform: "uppercase" }}>Get In Touch</span>
             <h1 style={{ fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem", marginBottom: "0.75rem" }}>Contact Us</h1>
             <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", maxWidth: 520, lineHeight: 1.6 }}>
               Have a question, need a demo, or want to talk enterprise? We&apos;re here &mdash; reach out any time.
@@ -94,19 +93,28 @@ export default function ContactClient() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem", fontWeight: 700, color: "var(--text-secondary)" }}>
                   <MapPin size={15} color="var(--accent-orange)" />
-                  <span>Office: Bengaluru, Karnataka, India</span>
+                  <span>414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602</span>
                 </div>
                 <div style={{ border: "1px solid var(--border-color)", borderRadius: 14, overflow: "hidden", height: 220, position: "relative" }}>
-                  <iframe 
-                    title="OrderJi Bengaluru Office Location"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0016565171746!2d77.5945627!3d12.9715987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c0e49ecb%3A0x67a36cb7c631e847!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1625000000000!5m2!1sen!2sin" 
-                    width="100%" 
-                    height="100%" 
-                    style={{ border: 0 }} 
-                    allowFullScreen={false} 
+                  <iframe
+                    title="OrderJi Office Location — Amravati"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.5!2d77.7499!3d20.9340!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd6a9a3a3a3a3a3%3A0x0!2sDaga+Plazzo+Biyani+Square%2C+Amravati%2C+Maharashtra+444602!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen={false}
                     loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
                   />
                 </div>
+                <a
+                  href="https://maps.app.goo.gl/b9Zyj2N5KVkLDRWG6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.8rem", fontWeight: 600, color: "var(--accent-orange)", textDecoration: "none" }}
+                >
+                  <MapPin size={12} /> Open in Google Maps
+                </a>
               </div>
 
             </div>{/* end left column */}

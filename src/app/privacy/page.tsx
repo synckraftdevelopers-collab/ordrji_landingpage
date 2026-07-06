@@ -53,7 +53,7 @@ const SECTIONS = [
   },
   {
     title: "12. Contact Us",
-    body: `If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection team at privacy@ordrji.com or write to OrderJi, Bengaluru, Karnataka, India.`,
+    body: `If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection team at privacy@ordrji.com or write to OrderJi, 414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602.`,
   },
 ];
 

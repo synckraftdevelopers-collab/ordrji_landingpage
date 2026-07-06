@@ -37,9 +37,6 @@ export default function Problems() {
         
         {/* Section Header */}
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <span className="problems-badge">
-            <Sparkles size={11} style={{ color: "#e30613" }} /> Legacy POS Bottlenecks
-          </span>
           <h2 style={{ fontSize: "clamp(2rem, 4.5vw, 2.5rem)", fontWeight: 800, letterSpacing: "-1.2px", marginTop: "0.5rem" }}>
             Why Traditional POS Software <br />
             Slows Down Your Restaurant

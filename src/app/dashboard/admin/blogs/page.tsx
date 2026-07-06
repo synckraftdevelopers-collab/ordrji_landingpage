@@ -2,20 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  Shield, 
-  BookOpen, 
-  FileText, 
-  Plus, 
-  Edit, 
-  Check, 
-  Calendar, 
-  User, 
-  Image as ImageIcon, 
-  LogOut, 
+import {
+  Shield,
+  BookOpen,
+  FileText,
+  Plus,
+  Edit,
+  Check,
+  Calendar,
+  User,
+  Image as ImageIcon,
+  LogOut,
   ArrowLeft,
   Eye,
-  Clock
+  Clock,
+  Bell,
 } from "lucide-react";
 import RoleSwitcher from "@/components/RoleSwitcher";
 
@@ -52,6 +53,7 @@ export default function AdminBlogsPage() {
   const [activeRole, setActiveRole] = useState<string>("Visitor");
   const [activeUser, setActiveUser] = useState<string>("Guest Visitor");
   const [loading, setLoading] = useState(true);
+  const [newLeadsCount, setNewLeadsCount] = useState(0);
   
   // Data lists
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -86,6 +88,11 @@ export default function AdminBlogsPage() {
     setFormDate(today);
 
     loadCMSData();
+
+    // Fetch new leads count for notification badge
+    fetch("/api/leads").then(r => r.json()).then(d => {
+      if (d.success) setNewLeadsCount(d.leads.filter((l: {status:string}) => l.status === "new").length);
+    }).catch(() => {});
   }, []);
 
   const loadCMSData = async () => {
@@ -273,6 +280,20 @@ export default function AdminBlogsPage() {
         </div>
 
         <div className="header-actions">
+          <Link href="/dashboard/admin/leads" className="btn-secondary flex-btn" style={{ position: "relative" }}>
+            <Bell size={14} />
+            <span>Demo Leads</span>
+            {newLeadsCount > 0 && (
+              <span style={{
+                position: "absolute", top: "-6px", right: "-6px",
+                background: "#e30613", color: "#fff",
+                fontSize: "0.6rem", fontWeight: 800,
+                width: "18px", height: "18px", borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                border: "2px solid #fff",
+              }}>{newLeadsCount}</span>
+            )}
+          </Link>
           <Link href="/blog" className="btn-secondary flex-btn">
             <ArrowLeft size={14} />
             <span>Public Blog</span>

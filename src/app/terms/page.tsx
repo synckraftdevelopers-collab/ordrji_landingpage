@@ -45,7 +45,7 @@ const SECTIONS = [
   },
   {
     title: "10. Governing Law",
-    body: `These Terms shall be governed by and construed in accordance with the laws of India. Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Bengaluru, Karnataka, India.`,
+    body: `These Terms shall be governed by and construed in accordance with the laws of India. Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Amravati, Maharashtra, India.`,
   },
   {
     title: "11. Changes to Terms",
@@ -53,7 +53,7 @@ const SECTIONS = [
   },
   {
     title: "12. Contact",
-    body: `If you have any questions about these Terms, please contact us at legal@ordrji.com or write to us at OrderJi, Bengaluru, Karnataka, India.`,
+    body: `If you have any questions about these Terms, please contact us at legal@ordrji.com or write to us at OrderJi, 414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602.`,
   },
 ];
 

@@ -1,11 +1,25 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
+const url  = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const svc  = process.env.SUPABASE_SERVICE_KEY;
 
-// Browser-safe client (anon key, respects RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!url || !anon) {
+  throw new Error(
+    'Missing Supabase env vars: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are required.'
+  );
+}
 
-// Server-only client (service key, bypasses RLS — use only in API routes)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+/**
+ * Browser-safe client — uses anon/publishable key, respects RLS.
+ * Safe to import in Client Components.
+ */
+export const supabase = createClient(url, anon);
+
+/**
+ * Server-only admin client — uses service_role key, bypasses RLS.
+ * Import ONLY in API routes (src/app/api/). Never in Client Components.
+ */
+export const supabaseAdmin = createClient(url, svc ?? anon, {
+  auth: { persistSession: false },
+});

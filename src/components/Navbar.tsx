@@ -7,11 +7,11 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, X, ChevronDown } from "lucide-react";
 
 interface NavbarProps {
-  onBookDemo: () => void;
+  onBookDemo?: () => void;
   onRegister?: () => void;
 }
 
-export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
+export default function Navbar({ onBookDemo }: NavbarProps) {
   const pathname = usePathname();
   const [isScrolled,        setIsScrolled]        = useState(false);
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
@@ -135,12 +135,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
-            <button
-              onClick={onBookDemo}
-              className="btn-secondary pf-btn"
-            >
-              Book Demo
-            </button>
             <Link
               href="/register-restaurant"
               className="btn-primary btn-register pf-btn"
@@ -196,9 +190,6 @@ export default function Navbar({ onBookDemo, onRegister }: NavbarProps) {
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
             <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">
-              <button onClick={() => { setIsMobileMenuOpen(false); onBookDemo(); }} className="btn-secondary" style={{ justifyContent: "center" }}>
-                Book Demo
-              </button>
               <Link
                 href="/register-restaurant"
                 className="btn-primary btn-register"

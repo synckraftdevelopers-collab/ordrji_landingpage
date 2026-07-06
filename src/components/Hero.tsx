@@ -74,7 +74,6 @@ export default function Hero({ onBookDemo }: HeroProps) {
             {/* Location Selector Widget */}
             <div className="hero-location-widget">
               <span className="location-widget-label">
-                <Sparkles size={11} style={{ marginRight: 4 }} /> Coverage & Compliance
               </span>
               <div className="location-search-bar">
                 <LocationAutocomplete

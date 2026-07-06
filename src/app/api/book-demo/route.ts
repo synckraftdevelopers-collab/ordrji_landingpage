@@ -1,35 +1,38 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { fullName, email, phone, location, restaurantName, message } = body;
 
-    // Validate required fields
+    // ── Validate required fields ─────────────────────────────
     if (!fullName || !email || !phone || !location) {
       return NextResponse.json(
-        { success: false, error: "Missing required fields: Name, Email, Phone, and Location are required." },
+        { success: false, error: "Name, Email, Phone, and Location are required." },
         { status: 400 }
       );
     }
 
-    // Save to Supabase demo_leads database table
-    try {
-      const { supabaseAdmin } = await import("@/lib/supabase");
-      const { error: dbError } = await supabaseAdmin.from("demo_leads").insert({
-        full_name: fullName,
-        email,
-        phone,
-        location,
+    // ── Save lead to Supabase FIRST (always) ─────────────────
+    const { error: dbError } = await supabaseAdmin
+      .from("demo_leads")
+      .insert({
+        full_name:       fullName,
+        email:           email,
+        phone:           phone,
+        location:        location,
         restaurant_name: restaurantName || null,
-        message: message || null,
+        message:         message        || null,
+        status:          "new",
       });
-      if (dbError) {
-        console.error("Error saving lead to Supabase:", dbError);
-      }
-    } catch (dbErr) {
-      console.error("Exception saving lead to Supabase:", dbErr);
+
+    if (dbError) {
+      // Log the error but don't block the email from sending
+      console.error("[book-demo] Supabase insert error:", JSON.stringify(dbError));
+    } else {
+      console.log("[book-demo] Lead saved to Supabase successfully");
     }
 
     const emailSubject = `[Ordrji Demo Request] - ${restaurantName || "New Lead"} (${fullName})`;
