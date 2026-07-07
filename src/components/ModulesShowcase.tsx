@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -768,19 +768,20 @@ export default function ModulesShowcase() {
         .expanded-visual-container {
           flex: 1;
           height: 100%;
-          border-radius: 0;
-          border: none;
-          background: transparent;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-          overflow: visible;
+          border-radius: 16px;
+          border: 1px solid rgba(0,0,0,0.07);
+          background: rgba(255,255,255,0.55);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          overflow: hidden;
           display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: none;
-          padding: 0;
+          align-items: stretch;
+          justify-content: stretch;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 32px rgba(0,0,0,0.06);
+          padding: 1.25rem;
           position: relative;
           color: var(--text-primary);
+          min-width: 0;
         }
 
         /* Tablet Layout Styles */
@@ -1567,12 +1568,327 @@ export default function ModulesShowcase() {
           font-family: var(--font-sans);
           letter-spacing: -0.1px;
         }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+        /* =================================================================
+           VISUAL CARD STYLES (sv-*)
+        ================================================================= */
+        .sv-card {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          overflow: hidden;
+        }
+        .sv-mb-md { margin-bottom: 0.1rem; }
+        .sv-mt-sm { margin-top: 0.1rem; }
+
+        .sv-label-dot {
+          display: flex;
+          align-items: center;
+          gap: 0.45rem;
+          font-size: 0.68rem;
+          font-weight: 800;
+          color: var(--text-primary);
+          letter-spacing: 0.8px;
+          text-transform: uppercase;
+          flex-shrink: 0;
+        }
+        .sv-pulse {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          display: inline-block;
+          flex-shrink: 0;
+          animation: svPulse 2s ease-in-out infinite;
+        }
+        @keyframes svPulse {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.5; }
+        }
+        .sv-row-between { display: flex; align-items: center; justify-content: space-between; }
+        .sv-big-num {
+          font-size: 2rem;
+          font-weight: 900;
+          letter-spacing: -2px;
+          line-height: 1;
+        }
+
+        /* Orders */
+        .sv-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+          flex: 1;
+          min-height: 0;
+          overflow: hidden;
+        }
+        .sv-order-row {
+          display: grid;
+          grid-template-columns: 2.8rem 1fr auto;
+          align-items: center;
+          gap: 0.6rem;
+          background: rgba(255,255,255,0.88);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 10px;
+          padding: 0.6rem 0.875rem;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .sv-order-table {
+          font-size: 0.78rem;
+          font-weight: 800;
+          color: var(--text-primary);
+          white-space: nowrap;
+        }
+        .sv-order-items {
+          font-size: 0.76rem;
+          color: #5a5046;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-weight: 500;
+        }
+        .sv-badge {
+          font-size: 0.68rem;
+          font-weight: 800;
+          padding: 0.2rem 0.55rem;
+          border-radius: 9999px;
+          white-space: nowrap;
+        }
+        .sv-badge-new       { background: rgba(220,38,38,0.1);   color: #b91c1c; }
+        .sv-badge-preparing { background: rgba(180,83,9,0.1);    color: #92400e; }
+        .sv-badge-ready     { background: rgba(5,150,105,0.1);   color: #065f46; }
+
+        /* KDS */
+        .sv-kds-rows {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          flex: 1;
+          min-height: 0;
+          overflow: hidden;
+        }
+        .sv-kds-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: rgba(255,255,255,0.88);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-left-width: 3px;
+          border-radius: 10px;
+          padding: 0.65rem 0.875rem;
+          gap: 0.5rem;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .sv-kds-info { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+        .sv-kds-table { font-size: 0.82rem; font-weight: 800; color: var(--text-primary); }
+        .sv-kds-items {
+          font-size: 0.74rem; color: #5a5046; font-weight: 500;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .sv-kds-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; flex-shrink: 0; }
+        .sv-kds-timer { display: flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; font-weight: 800; }
+        .sv-kds-sla {
+          font-size: 0.62rem; font-weight: 700; color: #991b1b;
+          background: rgba(220,38,38,0.08); padding: 0.1rem 0.35rem; border-radius: 4px;
+        }
+
+        /* Billing */
+        .sv-bill {
+          background: rgba(255,255,255,0.92);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .sv-bill-row {
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 0.6rem 1rem;
+          font-size: 0.84rem; font-weight: 500; color: #5a5046;
+          border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .sv-bill-total {
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 0.7rem 1rem;
+          font-size: 0.95rem; font-weight: 900; color: var(--text-primary);
+        }
+        .sv-pay-btn {
+          width: 100%; display: flex; align-items: center; justify-content: center;
+          gap: 0.5rem; padding: 0.75rem; border-radius: 10px; border: none;
+          color: #fff; font-size: 0.88rem; font-weight: 700;
+          cursor: pointer; font-family: var(--font-sans);
+          transition: filter 0.18s, transform 0.18s;
+          box-shadow: 0 4px 14px -4px rgba(2,132,199,0.45);
+        }
+        .sv-pay-btn:hover:not(:disabled) { filter: brightness(0.9); transform: translateY(-1px); }
+        .sv-pay-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+        .sv-paid-badge {
+          display: flex; align-items: center; justify-content: center;
+          gap: 0.45rem; padding: 0.7rem; border-radius: 10px;
+          background: rgba(5,150,105,0.1); border: 1px solid rgba(5,150,105,0.22);
+          color: #065f46; font-size: 0.88rem; font-weight: 700;
+        }
+        .sv-stat-row { display: flex; gap: 0.75rem; }
+        .sv-stat { display: flex; flex-direction: column; gap: 0.1rem; }
+        .sv-stat span  { font-size: 0.7rem; color: #8c7d6e; font-weight: 600; }
+        .sv-stat strong { font-size: 1.1rem; font-weight: 900; letter-spacing: -0.5px; }
+
+        /* CRM */
+        .sv-crm-list { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; min-height: 0; overflow: hidden; }
+        .sv-crm-row {
+          display: flex; align-items: center; gap: 0.7rem;
+          background: rgba(255,255,255,0.88);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 10px; padding: 0.6rem 0.875rem;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .sv-avatar {
+          width: 32px; height: 32px; border-radius: 50%;
+          color: #fff; font-size: 0.6rem; font-weight: 900;
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0; letter-spacing: 0.3px;
+        }
+        .sv-crm-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+        .sv-crm-name { font-size: 0.82rem; font-weight: 700; color: var(--text-primary); }
+        .sv-crm-bar-wrap { height: 4px; background: rgba(0,0,0,0.09); border-radius: 2px; overflow: hidden; }
+        .sv-crm-bar { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+        .sv-crm-label { font-size: 0.68rem; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
+
+        /* Inventory */
+        .sv-inv-list { display: flex; flex-direction: column; gap: 0.55rem; flex: 1; min-height: 0; overflow: hidden; }
+        .sv-inv-row {
+          background: rgba(255,255,255,0.88);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 10px; padding: 0.65rem 0.875rem;
+          display: flex; flex-direction: column; gap: 0.35rem;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .sv-inv-top { display: flex; justify-content: space-between; align-items: center; }
+        .sv-inv-name { font-size: 0.82rem; font-weight: 700; color: var(--text-primary); }
+        .sv-inv-pct  { font-size: 0.82rem; font-weight: 900; }
+        .sv-inv-track { height: 5px; background: rgba(0,0,0,0.09); border-radius: 3px; overflow: hidden; }
+        .sv-inv-fill  { height: 100%; border-radius: 3px; }
+        .sv-inv-note  { font-size: 0.7rem; color: #5a5046; font-weight: 500; }
+
+        /* Analytics */
+        .sv-stats-grid {
+          display: grid; grid-template-columns: repeat(3,1fr);
+          gap: 0.5rem; flex-shrink: 0;
+        }
+        .sv-stat-tile {
+          background: rgba(255,255,255,0.88);
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 10px; padding: 0.75rem 0.5rem;
+          display: flex; flex-direction: column;
+          gap: 0.25rem; align-items: center; text-align: center;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .sv-stat-label { font-size: 0.64rem; color: #8c7d6e; font-weight: 600; line-height: 1.3; }
+        .sv-stat-val   { font-size: 1.15rem; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
+        .sv-chart {
+          flex: 1; min-height: 0;
+          border-radius: 10px; overflow: hidden;
+          background: rgba(255,255,255,0.7);
+          border: 1px solid rgba(0,0,0,0.07);
+          padding: 0.5rem;
+        }
+
+        /* Shared AI footer bar */
+        .sv-ai-bar {
+          flex-shrink: 0;
+          background: rgba(255,255,255,0.94);
+          border: 1px solid;
+          border-radius: 8px;
+          padding: 0.45rem 0.75rem;
+          display: flex; align-items: center; gap: 0.4rem;
+          font-size: 0.7rem; font-weight: 700; color: #5a5046;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* ── Image strip ── */
+        .sv-img-strip {
+          position: relative;
+          width: 100%;
+          height: 90px;
+          border-radius: 10px;
+          overflow: hidden;
+          flex-shrink: 0;
+        }
+        .sv-strip-img {
+          width: 100%; height: 100%;
+          object-fit: cover; display: block;
+          transition: transform 0.6s ease;
+        }
+        .sv-img-strip:hover .sv-strip-img { transform: scale(1.04); }
+        .sv-strip-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%);
+          display: flex; align-items: flex-end; padding: 0.55rem 0.75rem;
+        }
+        .sv-strip-tag {
+          font-size: 0.68rem; font-weight: 800; color: #fff;
+          letter-spacing: 0.3px; text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* ── Billing extras ── */
+        .sv-bill-header {
+          display: flex; flex-direction: column; align-items: center;
+          padding: 0.65rem 1rem 0.5rem;
+          border-bottom: 1px dashed rgba(0,0,0,0.1);
+          background: rgba(2,132,199,0.04);
+        }
+        .sv-bill-title {
+          font-size: 0.78rem; font-weight: 900; color: #0284c7;
+          letter-spacing: 1px; text-transform: uppercase;
+        }
+        .sv-bill-sub {
+          font-size: 0.62rem; color: #8c7d6e; font-family: monospace;
+        }
+        .sv-paid-overlay {
+          position: absolute; inset: 0; z-index: 10;
+          background: #059669;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 0.35rem;
+          border-radius: inherit;
+        }
+        .sv-paid-overlay strong { font-size: 0.9rem; font-weight: 900; color: #fff; }
+        .sv-paid-overlay span   { font-size: 0.65rem; color: rgba(255,255,255,0.75); font-family: monospace; }
+        .sv-paid-overlay svg    { color: #fff; }
+
+        .sv-pay-methods {
+          display: grid; grid-template-columns: repeat(3,1fr);
+          gap: 0.4rem; flex-shrink: 0;
+        }
+        .sv-pay-method-btn {
+          padding: 0.5rem 0.25rem;
+          border-radius: 8px; border: 1.5px solid rgba(0,0,0,0.1);
+          background: rgba(255,255,255,0.85);
+          font-size: 0.72rem; font-weight: 700; color: #5a5046;
+          cursor: pointer; transition: all 0.18s;
+          font-family: var(--font-sans);
+        }
+        .sv-pay-method-btn:hover  { border-color: rgba(2,132,199,0.4); color: #0284c7; }
+        .sv-pay-method-btn.active {
+          border-color: #0284c7; background: rgba(2,132,199,0.08);
+          color: #0284c7; box-shadow: 0 0 0 2px rgba(2,132,199,0.12);
+        }
+
+        .sv-btn-spinner {
+          width: 14px; height: 14px;
+          border: 2px solid rgba(255,255,255,0.35);
+          border-top-color: #fff; border-radius: 50%;
+          animation: sv-spin 0.7s linear infinite; display: inline-block;
+        }
+        @keyframes sv-spin { to { transform: rotate(360deg); } }
       `}</style>
     </section>
   );
 }
 
-// Types for renderActiveVisual state
+
+// ─── Types ──────────────────────────────────────────────────────────────────
 interface OrderItem { id: number; table: string; items: string; time: string; status: string; }
 interface KdsOrder  { id: number; table: string; items: string; timer: number; status: string; }
 interface CrmGuest  { name: string; level: string; stage: number; avatar: string; }
@@ -1589,469 +1905,431 @@ interface VisualState {
   setBillingState: (s: "pending" | "processing" | "success") => void;
 }
 
-// Active Visual Sub-Component Router
+// ─── Interactive Visual Panels ───────────────────────────────────────────────
 function renderActiveVisual(panelId: number, state: VisualState) {
   switch (panelId) {
+
+    // ── 0: Orders ──────────────────────────────────────────────────────────
     case 0:
       return (
-        <div className="orders-stream-wrapper">
-          <div className="stream-headline">
-            <h4>
-              <span className="live-pulse-dot" />
-              Incoming Live Order Feed
-            </h4>
-            <span className="stream-counter-text">Orders Today: {state.liveOrdersCount}</span>
+        <div className="sv-card">
+          {/* Header row */}
+          <div className="sv-row-between" style={{ flexShrink: 0 }}>
+            <div className="sv-label-dot">
+              <span className="sv-pulse" style={{ background: "#e30613" }} />
+              Live Orders Today
+            </div>
+            <motion.span
+              key={state.liveOrdersCount}
+              initial={{ scale: 1.3, color: "#e30613" }}
+              animate={{ scale: 1, color: "#1e1b18" }}
+              className="sv-big-num"
+            >
+              {state.liveOrdersCount}
+            </motion.span>
           </div>
 
-          <div className="orders-list-scroll">
+          {/* QR scan image strip */}
+          <div className="sv-img-strip">
+            <img
+              src="https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=400&q=75"
+              alt="Guest scanning QR code"
+              className="sv-strip-img"
+            />
+            <div className="sv-strip-overlay">
+              <span className="sv-strip-tag">Scan → Order → Pay</span>
+            </div>
+          </div>
+
+          {/* Live order feed */}
+          <div className="sv-list">
             <AnimatePresence initial={false}>
               {state.ordersList.map((order: OrderItem, idx: number) => (
                 <motion.div
                   key={order.id}
                   layout
-                  initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 120, damping: 15 }}
-                  className={`order-card-row ${idx === 0 ? "row-new" : ""}`}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: idx === 0 ? 1 : 0.7, x: 0 }}
+                  exit={{ opacity: 0, x: 16 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 22 }}
+                  className="sv-order-row"
+                  style={{ borderColor: idx === 0 ? "rgba(227,6,19,0.25)" : undefined }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <span className="order-row-table-bold">
-                      {order.table.replace("T-", "Table ")}
-                    </span>
-                    <span className="order-row-items">{order.items}</span>
-                  </div>
-                  <div className="order-row-status-wrap">
-                    <span className={`order-row-badge ${order.status}`}>{order.status}</span>
-                    <span className="order-row-time">{order.time}</span>
-                  </div>
+                  <div className="sv-order-table">{order.table}</div>
+                  <div className="sv-order-items">{order.items}</div>
+                  <span className={`sv-badge sv-badge-${order.status}`}>{order.status}</span>
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
 
-          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(227, 6, 19, 0.15)" }}>
-            <Sparkles size={10} style={{ color: "var(--accent-orange)" }} />
-            <span className="ai-copilot-text">AI Agent: Cross-selling active (12.4% conversion)</span>
+          <div className="sv-ai-bar" style={{ borderColor: "rgba(227,6,19,0.18)" }}>
+            <Sparkles size={10} style={{ color: "#e30613" }} />
+            AI cross-sell active · {state.liveOrdersCount > 250 ? "14.1" : "12.4"}% upsell conversion
           </div>
         </div>
       );
-    
+
+    // ── 1: Kitchen KDS ─────────────────────────────────────────────────────
     case 1:
       return (
-        <div className="kds-board-wrapper">
-          <div className="kds-board-columns">
-            {/* Lane 1: Preparing */}
-            <div className="kds-board-column">
-              <div className="kds-column-header">
-                <h5>Preparing</h5>
-                <span className="kds-count">2</span>
-              </div>
-              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Preparing").map((order: KdsOrder) => (
-                <div key={order.id} className="kds-ticket-card preparing">
-                  <div className="kds-ticket-top">
-                    <span>#{order.id}</span>
-                    <span>{order.table}</span>
-                  </div>
-                  <div className="kds-ticket-items">{order.items}</div>
-                  <div className="kds-ticket-bottom">
-                    <span className="kds-ticket-timer preparing">
-                      <Clock size={10} />
-                      {state.formatTimer(order.timer)}
-                    </span>
-                    <div className="kds-activity-bar" style={{ color: "var(--accent-orange)" }}>
-                      <div className="kds-activity-fill" />
-                    </div>
-                  </div>
-                </div>
-              ))}
+        <div className="sv-card">
+          <div className="sv-row-between" style={{ flexShrink: 0 }}>
+            <div className="sv-label-dot">
+              <span className="sv-pulse" style={{ background: "#059669" }} />
+              Kitchen Display
             </div>
+            <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#5a5046" }}>
+              {state.kdsOrders.filter(o => o.status === "Ready").length} ready ·{" "}
+              {state.kdsOrders.filter(o => o.status === "Delayed").length} delayed
+            </span>
+          </div>
 
-            {/* Lane 2: Ready */}
-            <div className="kds-board-column">
-              <div className="kds-column-header">
-                <h5>Ready</h5>
-                <span className="kds-count">
-                  {state.kdsOrders.filter((o: KdsOrder) => o.status === "Ready").length}
-                </span>
-              </div>
-              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Ready").map((order: KdsOrder) => (
-                <div key={order.id} className="kds-ticket-card ready">
-                  <div className="kds-ticket-top">
-                    <span>#{order.id}</span>
-                    <span>{order.table}</span>
-                  </div>
-                  <div className="kds-ticket-items">{order.items}</div>
-                  <div className="kds-ticket-bottom">
-                    <span className="kds-ticket-timer ready">
-                      <CheckCircle2 size={10} />
-                      Ready
-                    </span>
-                    <span style={{ fontSize: "0.55rem", color: "var(--accent-green)", fontWeight: 800 }}>Service Counter</span>
-                  </div>
-                </div>
-              ))}
-              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Ready").length === 0 && (
-                <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", border: "1px dashed rgba(0,0,0,0.06)", borderRadius: "8px", opacity: 0.3, fontSize: "0.6rem" }}>
-                  Empty Lane
-                </div>
-              )}
-            </div>
-
-            {/* Lane 3: Delayed */}
-            <div className="kds-board-column">
-              <div className="kds-column-header">
-                <h5>Delayed</h5>
-                <span className="kds-count">1</span>
-              </div>
-              {state.kdsOrders.filter((o: KdsOrder) => o.status === "Delayed").map((order: KdsOrder) => (
-                <div key={order.id} className="kds-ticket-card delayed">
-                  <div className="kds-ticket-top">
-                    <span>#{order.id}</span>
-                    <span>{order.table}</span>
-                  </div>
-                  <div className="kds-ticket-items">{order.items}</div>
-                  <div className="kds-ticket-bottom">
-                    <span className="kds-ticket-timer delayed">
-                      <AlertCircle size={10} />
-                      {state.formatTimer(order.timer)}
-                    </span>
-                    <span style={{ fontSize: "0.55rem", color: "var(--accent-rose)", fontWeight: 700 }}>Over SLA</span>
-                  </div>
-                </div>
-              ))}
+          {/* KDS photo */}
+          <div className="sv-img-strip" style={{ height: "80px" }}>
+            <img
+              src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?auto=format&fit=crop&w=600&q=75"
+              alt="Kitchen display screen"
+              className="sv-strip-img"
+              style={{ objectPosition: "center 60%" }}
+            />
+            <div className="sv-strip-overlay" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.5), transparent)" }}>
+              <span className="sv-strip-tag">Ordrji KDS — Live</span>
             </div>
           </div>
 
-          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(5, 150, 105, 0.15)", bottom: "-0.5rem" }}>
-            <Sparkles size={10} style={{ color: "var(--accent-green)" }} />
-            <span className="ai-copilot-text">AI Prediction: Burger prep delay forecasted (78% SLA safety)</span>
+          {/* Ticket rows */}
+          <div className="sv-kds-rows">
+            {state.kdsOrders.map((order: KdsOrder) => {
+              const isDelayed = order.status === "Delayed";
+              const isReady   = order.status === "Ready";
+              const accent = isDelayed ? "#dc2626" : isReady ? "#059669" : "#d97706";
+              const bg     = isDelayed ? "rgba(220,38,38,0.06)" : isReady ? "rgba(5,150,105,0.06)" : "rgba(217,119,6,0.05)";
+              return (
+                <motion.div
+                  key={order.id}
+                  layout
+                  className="sv-kds-row"
+                  style={{ borderLeftColor: accent, background: bg }}
+                  animate={{ scale: isDelayed ? [1, 1.01, 1] : 1 }}
+                  transition={{ duration: 1.5, repeat: isDelayed ? Infinity : 0 }}
+                >
+                  <div className="sv-kds-info">
+                    <span className="sv-kds-table">{order.table}</span>
+                    <span className="sv-kds-items">{order.items}</span>
+                  </div>
+                  <div className="sv-kds-right">
+                    <span className="sv-kds-timer" style={{ color: accent }}>
+                      {isReady ? <CheckCircle2 size={13} /> : <Clock size={12} />}
+                      {isReady ? "Ready" : state.formatTimer(order.timer)}
+                    </span>
+                    {isDelayed && <span className="sv-kds-sla">Over SLA</span>}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="sv-ai-bar" style={{ borderColor: "rgba(5,150,105,0.2)" }}>
+            <Sparkles size={10} style={{ color: "#059669" }} />
+            AI SLA guard · auto-reassigning delayed tickets
           </div>
         </div>
       );
 
+    // ── 2: Billing ─────────────────────────────────────────────────────────
     case 2:
       return (
-        <div className="billing-invoice-wrapper">
-          <div className="invoice-card">
-            <div className="invoice-header-block">
-              <h5>OrderJi Invoice</h5>
-              <span>Table 14 • #INV-928</span>
+        <div className="sv-card">
+          <div className="sv-label-dot sv-mb-md" style={{ flexShrink: 0 }}>
+            <span className="sv-pulse" style={{ background: "#0284c7" }} />
+            POS Billing Terminal
+          </div>
+
+          {/* Invoice card */}
+          <div className="sv-bill" style={{ position: "relative", overflow: "hidden" }}>
+            <div className="sv-bill-header">
+              <span className="sv-bill-title">Ordrji POS</span>
+              <span className="sv-bill-sub">Table 12 · #INV-2026-928</span>
             </div>
-            
-            <div className="invoice-items-block">
-              <div className="invoice-item-row">
-                <span>1x Crispy Salmon</span>
-                <span>₹850.00</span>
+            {[
+              { item: "Crispy Salmon",    qty: "1×", price: "₹850" },
+              { item: "Truffle Fries",    qty: "2×", price: "₹450" },
+              { item: "Cold Brew Coffee", qty: "1×", price: "₹180" },
+            ].map(r => (
+              <div key={r.item} className="sv-bill-row">
+                <span style={{ color: "#8c7d6e", marginRight: "0.3rem", fontWeight: 600 }}>{r.qty}</span>
+                <span style={{ flex: 1 }}>{r.item}</span>
+                <span>{r.price}</span>
               </div>
-              <div className="invoice-item-row">
-                <span>1x Cold Brew Coffee</span>
-                <span>₹180.00</span>
-              </div>
-              <div className="invoice-item-row bold-row">
-                <span>Total</span>
-                <span>₹1,030.00</span>
-              </div>
+            ))}
+            <div className="sv-bill-total">
+              <span>Total</span>
+              <span>₹1,480</span>
             </div>
 
             {/* Payment success overlay */}
             <AnimatePresence>
               {state.billingState === "success" && (
-                <motion.div 
-                  className="invoice-success-overlay"
-                  initial={{ opacity: 0, scale: 0.95 }}
+                <motion.div
+                  className="sv-paid-overlay"
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <div className="invoice-success-check">
-                    <Check size={24} strokeWidth={3} />
-                  </div>
-                  <h6>Paid!</h6>
-                  <p>Register Reconciled</p>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 220, delay: 0.05 }}
+                  >
+                    <CheckCircle2 size={36} strokeWidth={2} />
+                  </motion.div>
+                  <strong>Payment Confirmed</strong>
+                  <span>Register reconciled automatically</span>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="billing-controls-card">
-            <div className="revenue-metric-tile">
-              <span>Gross Sales Today</span>
-              <h4>₹{(state.revenueCount).toLocaleString("en-IN")}</h4>
-            </div>
-
-            <div className="payment-methods-grid">
-              {(["UPI", "Card", "Cash"] as const).map((method) => (
-                <button
-                  key={method}
-                  onClick={() => state.setSelectedPaymentMethod(method)}
-                  className={`payment-method-btn ${state.selectedPaymentMethod === method ? "selected-btn" : ""}`}
-                >
-                  <span>{method}</span>
-                </button>
-              ))}
-            </div>
-
-            <button 
-              onClick={() => state.setBillingState("processing")}
-              disabled={state.billingState !== "pending"}
-              className="payment-trigger-btn"
-              style={{ background: "var(--accent-blue)" }}
-            >
-              {state.billingState === "pending" && (
-                <>
-                  <CreditCard size={12} />
-                  <span>Tap to Pay</span>
-                </>
-              )}
-              {state.billingState === "processing" && (
-                <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
-                  <div className="kds-activity-bar" style={{ width: "16px", color: "#ffffff" }}>
-                    <div className="kds-activity-fill" />
-                  </div>
-                  <span>Reconciling...</span>
-                </div>
-              )}
-              {state.billingState === "success" && (
-                <span>Paid Successfully</span>
-              )}
-            </button>
+          {/* Payment method selector */}
+          <div className="sv-pay-methods">
+            {(["UPI", "Card", "Cash"] as const).map(m => (
+              <button
+                key={m}
+                className={`sv-pay-method-btn${state.selectedPaymentMethod === m ? " active" : ""}`}
+                onClick={() => state.setSelectedPaymentMethod(m)}
+              >
+                {m === "UPI" ? "📱 UPI" : m === "Card" ? "💳 Card" : "💵 Cash"}
+              </button>
+            ))}
           </div>
 
-          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(2, 132, 199, 0.15)", bottom: "-0.5rem" }}>
-            <Sparkles size={10} style={{ color: "var(--accent-blue)" }} />
-            <span className="ai-copilot-text">AI Smart Suggest: Splitting check 3-ways is optimal</span>
+          {/* Tap to pay */}
+          <button
+            className="sv-pay-btn"
+            onClick={() => { if (state.billingState === "pending") state.setBillingState("processing"); }}
+            disabled={state.billingState !== "pending"}
+            style={{ background: state.billingState === "success" ? "#059669" : "#0284c7" }}
+          >
+            {state.billingState === "pending"    && <><CreditCard size={14} /> Tap to Pay ₹1,480</>}
+            {state.billingState === "processing" && <><span className="sv-btn-spinner" /> Processing…</>}
+            {state.billingState === "success"    && <><CheckCircle2 size={14} /> Paid — Done!</>}
+          </button>
+
+          <div className="sv-stat-row" style={{ flexShrink: 0 }}>
+            <div className="sv-stat">
+              <span>Today&apos;s Revenue</span>
+              <strong style={{ color: "#0284c7" }}>₹{state.revenueCount.toLocaleString("en-IN")}</strong>
+            </div>
+          </div>
+
+          <div className="sv-ai-bar" style={{ borderColor: "rgba(2,132,199,0.2)" }}>
+            <Sparkles size={10} style={{ color: "#0284c7" }} />
+            AI Smart Split · 3-way split saves 40s vs manual
           </div>
         </div>
       );
 
+    // ── 3: CRM ─────────────────────────────────────────────────────────────
     case 3:
       return (
-        <div className="crm-funnel-wrapper">
-          <div className="funnel-lanes">
-            {/* VIP Customer */}
-            <div className="funnel-lane lane-vip">
-              <span className="funnel-lane-label">VIP Regular</span>
-              <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: CrmGuest) => g.stage === 3).map((guest: CrmGuest) => (
-                  <motion.div 
-                    key={guest.name}
-                    layoutId={`crm-guest-${guest.name}`}
-                    transition={{ type: "spring", stiffness: 80, damping: 15 }}
-                    className="funnel-avatar-pill"
-                  >
-                    <div className="avatar-circle-mini" style={{ background: "var(--accent-purple)" }}>
-                      {guest.avatar}
-                    </div>
-                    <span className="avatar-name-mini">{guest.name}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+        <div className="sv-card">
+          <div className="sv-label-dot sv-mb-md" style={{ flexShrink: 0 }}>
+            <span className="sv-pulse" style={{ background: "#7c3aed" }} />
+            Guest Loyalty Engine
+          </div>
 
-            {/* Repeat Customer */}
-            <div className="funnel-lane lane-repeat">
-              <span className="funnel-lane-label">Repeat Guest</span>
-              <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: CrmGuest) => g.stage === 2).map((guest: CrmGuest) => (
-                  <motion.div 
-                    key={guest.name}
-                    layoutId={`crm-guest-${guest.name}`}
-                    transition={{ type: "spring", stiffness: 80, damping: 15 }}
-                    className="funnel-avatar-pill"
-                  >
-                    <div className="avatar-circle-mini" style={{ background: "var(--accent-blue)" }}>
-                      {guest.avatar}
-                    </div>
-                    <span className="avatar-name-mini">{guest.name}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* First Customer */}
-            <div className="funnel-lane lane-first">
-              <span className="funnel-lane-label">First Customer</span>
-              <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: CrmGuest) => g.stage === 1).map((guest: CrmGuest) => (
-                  <motion.div 
-                    key={guest.name}
-                    layoutId={`crm-guest-${guest.name}`}
-                    transition={{ type: "spring", stiffness: 80, damping: 15 }}
-                    className="funnel-avatar-pill"
-                  >
-                    <div className="avatar-circle-mini" style={{ background: "var(--accent-green)" }}>
-                      {guest.avatar}
-                    </div>
-                    <span className="avatar-name-mini">{guest.name}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Walk-In Diner */}
-            <div className="funnel-lane lane-walkin">
-              <span className="funnel-lane-label">Walk-In</span>
-              <div className="funnel-avatars-track">
-                {state.crmGuests.filter((g: CrmGuest) => g.stage === 0).map((guest: CrmGuest) => (
-                  <motion.div 
-                    key={guest.name}
-                    layoutId={`crm-guest-${guest.name}`}
-                    transition={{ type: "spring", stiffness: 80, damping: 15 }}
-                    className="funnel-avatar-pill"
-                  >
-                    <div className="avatar-circle-mini" style={{ background: "var(--text-muted)" }}>
-                      {guest.avatar}
-                    </div>
-                    <span className="avatar-name-mini">{guest.name}</span>
-                  </motion.div>
-                ))}
-              </div>
+          {/* Campaign image */}
+          <div className="sv-img-strip" style={{ height: "72px" }}>
+            <img
+              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=75"
+              alt="Restaurant loyalty campaign"
+              className="sv-strip-img"
+              style={{ objectPosition: "center 40%" }}
+            />
+            <div className="sv-strip-overlay" style={{ background: "linear-gradient(to right, rgba(124,58,237,0.6), transparent)" }}>
+              <span className="sv-strip-tag">AI Campaigns · Auto-pilot</span>
             </div>
           </div>
 
-          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(124, 58, 237, 0.15)", bottom: "-0.5rem" }}>
-            <Sparkles size={10} style={{ color: "var(--accent-purple)" }} />
-            <span className="ai-copilot-text">AI Autopilot: Campaign trigger sent to Neha K. (Repeat Guest)</span>
+          {/* Guest pipeline rows */}
+          <div className="sv-crm-list">
+            {state.crmGuests.map((g: CrmGuest) => {
+              const palettes = [
+                { bg: "#8c7d6e", label: "Walk-In" },
+                { bg: "#059669", label: "First Visit" },
+                { bg: "#0284c7", label: "Repeat" },
+                { bg: "#7c3aed", label: "VIP" },
+              ];
+              const p = palettes[g.stage];
+              return (
+                <motion.div
+                  key={g.name}
+                  layoutId={`sv-crm-${g.name}`}
+                  className="sv-crm-row"
+                  transition={{ type: "spring", stiffness: 100, damping: 18 }}
+                >
+                  <div className="sv-avatar" style={{ background: p.bg }}>{g.avatar}</div>
+                  <div className="sv-crm-info">
+                    <span className="sv-crm-name">{g.name}</span>
+                    <div className="sv-crm-bar-wrap">
+                      <motion.div
+                        className="sv-crm-bar"
+                        animate={{ width: `${(g.stage + 1) * 25}%` }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        style={{ background: p.bg }}
+                      />
+                    </div>
+                  </div>
+                  <span className="sv-crm-label" style={{ color: p.bg }}>{p.label}</span>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="sv-ai-bar" style={{ borderColor: "rgba(124,58,237,0.2)" }}>
+            <Sparkles size={10} style={{ color: "#7c3aed" }} />
+            AI autopilot · campaign triggered for 3 repeat guests
           </div>
         </div>
       );
 
+    // ── 4: Inventory ───────────────────────────────────────────────────────
     case 4:
       return (
-        <div className="inventory-visual-wrapper" style={{ padding: "0.5rem", display: "flex", flexDirection: "column", gap: "0.75rem", height: "100%" }}>
-          <div className="stream-headline" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h4 style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem", fontWeight: 700 }}>
-              <span className="live-pulse-dot" style={{ background: "var(--accent-rose)", width: "6px", height: "6px", borderRadius: "50%", display: "inline-block" }} />
-              Live Ingredient Stock Tracker
-            </h4>
+        <div className="sv-card">
+          <div className="sv-label-dot sv-mb-md" style={{ flexShrink: 0 }}>
+            <span className="sv-pulse" style={{ background: "#dc2626" }} />
+            Live Stock Tracker
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            {/* Cottage Cheese */}
-            <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid var(--border-color)", borderRadius: "8px", padding: "0.6rem 0.8rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.2rem" }}>
-                <span>Paneer (Cottage Cheese)</span>
-                <span style={{ color: "var(--accent-green)" }}>85% left</span>
-              </div>
-              <div style={{ height: "4px", background: "var(--border-color)", borderRadius: "2px", overflow: "hidden", marginBottom: "0.4rem" }}>
-                <div style={{ width: "85%", height: "100%", background: "var(--accent-green)" }} />
-              </div>
-              <div style={{ fontSize: "0.68rem", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "0.25rem" }}>
-                <RefreshCw size={9} className="inv-spin" /> High dinner demand. Paneer finishes tomorrow 10 PM.
-              </div>
-            </div>
-
-            {/* Mozzarella */}
-            <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid var(--border-color)", borderRadius: "8px", padding: "0.6rem 0.8rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.2rem" }}>
-                <span>Mozzarella Cheese Blend</span>
-                <span style={{ color: "var(--accent-amber)" }}>60% left</span>
-              </div>
-              <div style={{ height: "4px", background: "var(--border-color)", borderRadius: "2px", overflow: "hidden", marginBottom: "0.4rem" }}>
-                <div style={{ width: "60%", height: "100%", background: "var(--accent-amber)" }} />
-              </div>
-              <div style={{ fontSize: "0.68rem", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "0.25rem" }}>
-                <RefreshCw size={9} className="inv-spin" /> Stock stable. Reorder threshold crossed in 3 days.
-              </div>
-            </div>
-
-            {/* Sunflower Oil */}
-            <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid var(--border-color)", borderRadius: "8px", padding: "0.6rem 0.8rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.2rem" }}>
-                <span>Refined Sunflower Oil</span>
-                <span style={{ color: "var(--accent-rose)" }}>18% left</span>
-              </div>
-              <div style={{ height: "4px", background: "var(--border-color)", borderRadius: "2px", overflow: "hidden", marginBottom: "0.4rem" }}>
-                <div style={{ width: "18%", height: "100%", background: "var(--accent-rose)" }} />
-              </div>
-              <div style={{ fontSize: "0.68rem", color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "0.25rem", fontWeight: 600 }}>
-                <RefreshCw size={9} className="inv-spin" /> CRITICAL: Depletion in 4 hrs. Auto-purchase triggered.
-              </div>
+          {/* Warehouse image */}
+          <div className="sv-img-strip" style={{ height: "72px" }}>
+            <img
+              src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=600&q=75"
+              alt="Kitchen ingredient stock"
+              className="sv-strip-img"
+            />
+            <div className="sv-strip-overlay" style={{ background: "linear-gradient(to right, rgba(220,38,38,0.5), transparent)" }}>
+              <span className="sv-strip-tag">Ingredient Intelligence</span>
             </div>
           </div>
 
-          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(244, 63, 94, 0.15)", bottom: "-0.5rem" }}>
-            <Sparkles size={10} style={{ color: "var(--accent-rose)" }} />
-            <span className="ai-copilot-text">AI Forecast: Ingredient reorder sent automatically to supplier</span>
+          {/* Stock bars */}
+          <div className="sv-inv-list">
+            {[
+              { name: "Paneer",        pct: 85, color: "#059669", note: "Sufficient · ~2 days left" },
+              { name: "Mozzarella",    pct: 58, color: "#d97706", note: "Order in 3 days" },
+              { name: "Sunflower Oil", pct: 18, color: "#dc2626", note: "Critical — auto-order sent ✓" },
+            ].map((row, i) => (
+              <motion.div
+                key={row.name}
+                className="sv-inv-row"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.08 }}
+                style={{ borderLeftColor: row.color, borderLeftWidth: 3, borderLeftStyle: "solid" }}
+              >
+                <div className="sv-inv-top">
+                  <span className="sv-inv-name">{row.name}</span>
+                  <span className="sv-inv-pct" style={{ color: row.color }}>{row.pct}%</span>
+                </div>
+                <div className="sv-inv-track">
+                  <motion.div
+                    className="sv-inv-fill"
+                    style={{ background: row.color }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${row.pct}%` }}
+                    transition={{ duration: 1, ease: "easeOut", delay: i * 0.1 }}
+                  />
+                </div>
+                <span className="sv-inv-note">{row.note}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="sv-ai-bar" style={{ borderColor: "rgba(220,38,38,0.2)" }}>
+            <Sparkles size={10} style={{ color: "#dc2626" }} />
+            AI auto-purchase sent to supplier · saves 2 hrs
           </div>
         </div>
       );
 
+    // ── 5: Analytics ───────────────────────────────────────────────────────
     case 5:
       return (
-        <div className="analytics-visual-wrapper">
-          <div className="analytics-metrics-grid">
-            <div className="analytics-mini-tile">
-              <span>Repeat Rate</span>
-              <h5>68.4%</h5>
-            </div>
-            <div className="analytics-mini-tile">
-              <span>Table Turnover</span>
-              <h5>42m</h5>
-            </div>
-            <div className="analytics-mini-tile">
-              <span>Avg Order Value</span>
-              <h5>₹784</h5>
-            </div>
+        <div className="sv-card">
+          <div className="sv-label-dot sv-mb-md" style={{ flexShrink: 0 }}>
+            <span className="sv-pulse" style={{ background: "#d97706" }} />
+            Today&apos;s Performance
           </div>
 
-          <div className="analytics-chart-container">
-            <div className="chart-grid-line" />
-            <div className="chart-grid-line" />
-            <div className="chart-grid-line" />
-            
-            <div className="chart-svg-wrap">
-              <svg 
-                viewBox="0 0 300 100" 
-                style={{ width: "100%", height: "100%", overflow: "visible" }}
+          {/* Stat tiles */}
+          <div className="sv-stats-grid">
+            {[
+              { label: "Repeat Rate",    value: "68.4%", color: "#d97706" },
+              { label: "Avg Order",      value: "₹784",  color: "#e30613" },
+              { label: "Table Turn",     value: "42 min",color: "#0284c7" },
+            ].map((s, i) => (
+              <motion.div
+                key={s.label}
+                className="sv-stat-tile"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07 }}
               >
-                <defs>
-                  <linearGradient id="gradient-chart" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--accent-amber)" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="var(--accent-amber)" stopOpacity="0.0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Shaded Area */}
-                <motion.path
-                  d="M 0 80 Q 50 30 100 60 T 200 20 T 300 40 L 300 100 L 0 100 Z"
-                  fill="url(#gradient-chart)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                />
-
-                {/* Chart Line */}
-                <motion.path
-                  d="M 0 80 Q 50 30 100 60 T 200 20 T 300 40"
-                  fill="none"
-                  stroke="var(--accent-amber)"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.2, ease: "easeOut" }}
-                />
-
-                {/* Animated Pulsing Dot at End */}
-                <motion.circle
-                  cx="300"
-                  cy="40"
-                  r="5"
-                  fill="#ffffff"
-                  stroke="var(--accent-amber)"
-                  strokeWidth="2.5"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 1.0 }}
-                />
-              </svg>
-            </div>
+                <span className="sv-stat-label">{s.label}</span>
+                <strong className="sv-stat-val" style={{ color: s.color }}>{s.value}</strong>
+              </motion.div>
+            ))}
           </div>
 
-          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(217, 119, 6, 0.15)", bottom: "-0.5rem" }}>
-            <Sparkles size={10} style={{ color: "var(--accent-amber)" }} />
-            <span className="ai-copilot-text">AI Prediction: Peak dynamic traffic forecast for 7:30 PM today</span>
+          {/* Revenue chart */}
+          <div className="sv-chart">
+            <div style={{ fontSize: "0.64rem", fontWeight: 700, color: "#8c7d6e", marginBottom: "0.35rem", paddingLeft: "0.25rem" }}>
+              Revenue this week (₹)
+            </div>
+            <svg viewBox="0 0 280 72" preserveAspectRatio="none" style={{ width: "100%", height: "calc(100% - 1.4rem)", display: "block" }}>
+              <defs>
+                <linearGradient id="sv-g1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stopColor="#d97706" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {/* Grid lines */}
+              {[18, 36, 54].map(y => (
+                <line key={y} x1="0" y1={y} x2="280" y2={y} stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+              ))}
+              {/* Area */}
+              <motion.path
+                d="M0 58 C30 48,55 28,90 38 S150 12,200 22 S250 16,280 10 L280 72 L0 72Z"
+                fill="url(#sv-g1)"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}
+              />
+              {/* Line */}
+              <motion.path
+                d="M0 58 C30 48,55 28,90 38 S150 12,200 22 S250 16,280 10"
+                fill="none" stroke="#d97706" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.3, ease: "easeOut" }}
+              />
+              {/* Day labels */}
+              {["M","T","W","T","F","S","S"].map((d, i) => (
+                <text key={i} x={i * 46 + 2} y="70" fontSize="8" fill="#a8998a" fontFamily="system-ui">{d}</text>
+              ))}
+              {/* Live dot */}
+              <motion.circle cx="280" cy="10" r="4.5" fill="#fff" stroke="#d97706" strokeWidth="2.5"
+                initial={{ scale: 0 }} animate={{ scale: [0, 1.3, 1] }} transition={{ delay: 1.2, duration: 0.4 }}
+              />
+              <circle cx="280" cy="10" r="9" fill="none" stroke="#d97706" strokeWidth="1" opacity="0.3">
+                <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite" />
+              </circle>
+            </svg>
+          </div>
+
+          <div className="sv-ai-bar" style={{ borderColor: "rgba(217,119,6,0.2)" }}>
+            <Sparkles size={10} style={{ color: "#d97706" }} />
+            AI forecast: peak traffic at 7:30 PM · staff up 2
           </div>
         </div>
       );
