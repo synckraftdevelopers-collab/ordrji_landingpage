@@ -634,18 +634,22 @@ export default function Pricing() {
         @keyframes sweepBorder { to { --a: 360deg; } }
 
         .popular-badge-label {
-          position: absolute; top: -12px; left: 50%;
+          position: absolute; top: -14px; left: 50%;
           transform: translateX(-50%);
-          background: var(--accent-orange); color: #fff;
-          font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
-          padding: 0.35rem 0.85rem; border-radius: 9999px;
-          box-shadow: 0 4px 12px rgba(227,6,19,0.3);
+          background: #da0404; color: #fff;
+          font-size: 0.68rem; font-weight: 800; letter-spacing: 1.5px;
+          padding: 0.45rem 1.1rem; border-radius: 9999px;
+          box-shadow: 0 6px 16px rgba(218,4,4,0.35);
           animation: badgeBob 3s ease-in-out infinite;
           white-space: nowrap;
+          z-index: 10;
         }
         @keyframes badgeBob {
           0%,100% { transform: translateX(-50%) translateY(0); }
-          50%      { transform: translateX(-50%) translateY(-3px); }
+          50%      { transform: translateX(-50%) translateY(-4px); }
+        }
+        .flip-popular .flip-face {
+          overflow: visible !important;
         }
 
         /* price flip */
@@ -762,8 +766,22 @@ export default function Pricing() {
         .price-tag-wrapper { display:flex; flex-direction:column; margin-bottom:1.25rem; }
         .price-txt     { font-size:2.1rem; font-weight:800; letter-spacing:-1px; color:var(--text-primary); }
         .billing-meta  { font-size:0.72rem; color:var(--text-muted); margin-top:0.1rem; }
-        .plan-cta-btn  { width:100%; justify-content:center; padding:0.6rem; font-size:0.82rem; }
-        .plan-cta-btn:hover { transform:translateY(-2px); }
+        .plan-cta-btn  {
+          width: 100%;
+          justify-content: center;
+          padding: 0.8rem 1.5rem;
+          font-size: 0.88rem;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+          border-radius: 9999px;
+          margin-top: 0.85rem;
+          margin-bottom: 0.5rem;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .plan-cta-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(218,4,4,0.2);
+        }
         .features-list-wrapper { display:flex; flex-direction:column; gap:0.75rem; flex-grow:1; }
         .features-header-lbl   { font-size:0.62rem; font-weight:700; color:var(--text-muted); letter-spacing:1px; }
         .features-checklist    { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
