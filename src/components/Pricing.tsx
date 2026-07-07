@@ -567,7 +567,7 @@ export default function Pricing() {
         .flip-outer {
           perspective: 1200px;
           /* match tallest face so grid rows are consistent */
-          min-height: 560px;
+          min-height: 650px;
           opacity: 0; transform: translateY(40px) rotateX(6deg);
           transition:
             opacity   0.65s cubic-bezier(0.16,1,0.3,1),
@@ -588,7 +588,7 @@ export default function Pricing() {
           transform-style: preserve-3d;
           transition: transform 0.7s cubic-bezier(0.34,1.2,0.64,1);
           cursor: pointer;
-          min-height: 560px;
+          min-height: 650px;
         }
         .flip-inner.flipped { transform: rotateY(180deg); }
 
@@ -604,7 +604,7 @@ export default function Pricing() {
 
         /* ── FRONT FACE ──────────────────────────────────────────────── */
         .flip-front {
-          padding: 2.25rem 2rem;
+          padding: 2.25rem 1.75rem;
           background: var(--bg-card);
           box-shadow: 0 20px 40px -10px rgba(90,80,70,0.06);
           transition: box-shadow 0.3s ease;
