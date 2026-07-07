@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowRight, Play, MapPin, Compass, Layers, Sparkles } from "lucide-react";
+import { ArrowRight, Play, MapPin, Compass, Layers } from "lucide-react";
 import LocationAutocomplete from "./LocationAutocomplete";
 import { SearchResult } from "@/data/locations";
 

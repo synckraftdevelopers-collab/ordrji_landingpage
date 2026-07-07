@@ -11,18 +11,11 @@ interface NavbarProps {
   onRegister?: () => void;
 }
 
-export default function Navbar({ onBookDemo }: NavbarProps) {
+export default function Navbar({ }: NavbarProps) {
   const pathname = usePathname();
   const [isScrolled,        setIsScrolled]        = useState(false);
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
   const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
-
-  // Close resources sub-tab when mobile menu closes
-  useEffect(() => {
-    if (!isMobileMenuOpen) {
-      setIsMobileResourcesOpen(false);
-    }
-  }, [isMobileMenuOpen]);
 
   /* ── Posiflex intro: logo starts centered, flies to top-left ── */
   const [introPhase, setIntroPhase] = useState<"center" | "move" | "done">("done");
@@ -153,7 +146,12 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           {/* ── MOBILE HAMBURGER ──────────────────────────────────────── */}
           <button
             className="pf-hamburger"
-            onClick={() => setIsMobileMenuOpen(v => !v)}
+            onClick={() => {
+              setIsMobileMenuOpen(v => {
+                if (v) setIsMobileResourcesOpen(false);
+                return !v;
+              });
+            }}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}

@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Shield, ChevronDown, User, Check, Eye } from "lucide-react";
+import React, { useState, useCallback } from "react";
+import Link from "next/link";
+import { Shield, ChevronDown, Check, Eye } from "lucide-react";
 
 interface RoleOption {
   role: string;
@@ -19,26 +20,20 @@ const ROLES: RoleOption[] = [
 ];
 
 export default function RoleSwitcher() {
-  const [activeRole, setActiveRole] = useState<string>("Visitor");
-  const [activeUser, setActiveUser] = useState<string>("Guest Visitor");
+  // Helper to read cookies
+  const getCookie = (name: string) => {
+    if (typeof document === "undefined") return null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+    return null;
+  };
+
+  // Lazy initialization from cookies
+  const [activeRole, setActiveRole] = useState<string>(() => getCookie("ordrji_role") || "Visitor");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // Helper to read cookies on mount
-  useEffect(() => {
-    const getCookie = (name: string) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift();
-      return null;
-    };
-
-    const cookieRole = getCookie("ordrji_role") || "Visitor";
-    const cookieUser = getCookie("ordrji_username") || "Guest Visitor";
-    setActiveRole(cookieRole);
-    setActiveUser(cookieUser);
-  }, []);
-
-  const handleRoleChange = (role: string, username: string) => {
+  const handleRoleChange = useCallback((role: string, username: string) => {
     // Set cookies with a 1-day expiry
     const maxAge = 24 * 60 * 60;
     document.cookie = `ordrji_role=${role}; path=/; max-age=${maxAge}; SameSite=Lax`;

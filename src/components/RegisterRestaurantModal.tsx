@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X, Search, Star, MapPin, Utensils, ArrowRight,
@@ -75,22 +76,22 @@ interface Props {
 }
 
 export default function RegisterRestaurantModal({ isOpen, onClose, prefill }: Props) {
-  // "pick" = restaurant picker step, "form" = registration form step
-  const [step, setStep] = useState<"pick" | "form">(prefill ? "form" : "pick");
+  // Compute initial state synchronously — avoids setState in effect
+  const initialStep = prefill ? "form" : "pick";
+  const [step, setStep] = useState<"pick" | "form">(initialStep);
   const [activePrefill, setActivePrefill] = useState<RestaurantPrefill | undefined>(prefill);
   const [query, setQuery] = useState("");
 
-  // Reset step when modal opens/closes
+  // Reset when modal opens/closes
   useEffect(() => {
-    if (isOpen) {
-      if (prefill) {
-        setActivePrefill(prefill);
-        setStep("form");
-      } else {
-        setStep("pick");
-        setActivePrefill(undefined);
-        setQuery("");
-      }
+    if (!isOpen) return;
+    if (prefill) {
+      setActivePrefill(prefill);
+      setStep("form");
+    } else {
+      setStep("pick");
+      setActivePrefill(undefined);
+      setQuery("");
     }
   }, [isOpen, prefill]);
 
@@ -353,7 +354,7 @@ export default function RegisterRestaurantModal({ isOpen, onClose, prefill }: Pr
                             className="rrm-rest-row"
                             onClick={() => selectRestaurant(r)}
                           >
-                            <img src={r.image} alt={r.name} className="rrm-rest-img" />
+                            <Image src={r.image} alt={r.name} className="rrm-rest-img" width={56} height={56} style={{ objectFit: "cover" }} />
                             <div className="rrm-rest-info">
                               <p className="rrm-rest-name">
                                 {r.name}

@@ -149,8 +149,8 @@ export async function PUT(
     logActivity(user, role, actionDesc, req);
 
     return NextResponse.json(updatedBlog);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to parse update payload" }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Failed to parse update payload" }, { status: 400 });
   }
 }
 
@@ -251,7 +251,7 @@ export async function POST(
     }
 
     return NextResponse.json({ error: "Invalid action." }, { status: 400 });
-  } catch (err: any) {
+  } catch (_err: unknown) {
     return NextResponse.json({ error: "Failed to process request." }, { status: 400 });
   }
 }

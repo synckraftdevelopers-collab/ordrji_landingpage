@@ -3,19 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  Shield,
   BookOpen,
-  FileText,
   Plus,
   Edit,
   Check,
-  Calendar,
-  User,
-  Image as ImageIcon,
   LogOut,
   ArrowLeft,
-  Eye,
-  Clock,
   Bell,
 } from "lucide-react";
 import RoleSwitcher from "@/components/RoleSwitcher";
@@ -49,9 +42,17 @@ const PRESET_IMAGES = [
   "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800"
 ];
 
+function getCookieValue(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift() ?? null;
+  return null;
+}
+
 export default function AdminBlogsPage() {
-  const [activeRole, setActiveRole] = useState<string>("Visitor");
-  const [activeUser, setActiveUser] = useState<string>("Guest Visitor");
+  const [activeRole] = useState<string>(() => getCookieValue("ordrji_role") ?? "Visitor");
+  const [activeUser] = useState<string>(() => getCookieValue("ordrji_username") ?? "Guest Visitor");
   const [loading, setLoading] = useState(true);
   const [newLeadsCount, setNewLeadsCount] = useState(0);
   
@@ -73,39 +74,23 @@ export default function AdminBlogsPage() {
   const [formDate, setFormDate] = useState("");
 
   useEffect(() => {
-    const getCookie = (name: string) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift();
-      return null;
-    };
-
-    setActiveRole(getCookie("ordrji_role") || "Visitor");
-    setActiveUser(getCookie("ordrji_username") || "Guest Visitor");
-
-    // Default Date to today
     const today = new Date().toISOString().split("T")[0];
     setFormDate(today);
-
     loadCMSData();
-
-    // Fetch new leads count for notification badge
     fetch("/api/leads").then(r => r.json()).then(d => {
       if (d.success) setNewLeadsCount(d.leads.filter((l: {status:string}) => l.status === "new").length);
     }).catch(() => {});
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const loadCMSData = async () => {
+  async function loadCMSData() {
     try {
       setLoading(true);
       const [blogsRes, catsRes] = await Promise.all([
         fetch("/api/blogs?status=all"),
         fetch("/api/categories")
       ]);
-
       if (blogsRes.ok) {
         const blogsData = await blogsRes.json();
-        // Exclude soft-deleted in this simplified form
         setBlogs(blogsData.filter((b: BlogPost) => b.status !== "Deleted"));
       }
       if (catsRes.ok) {
@@ -116,7 +101,7 @@ export default function AdminBlogsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleTitleChange = (val: string) => {
     setFormTitle(val);
@@ -349,7 +334,7 @@ export default function AdminBlogsPage() {
               </div>
             ))}
             {blogs.length === 0 && (
-              <p className="no-posts-text">No articles found in the database. Click "Write Post" to seed your first post.</p>
+              <p className="no-posts-text">No articles found in the database. Click &ldquo;Write Post&rdquo; to seed your first post.</p>
             )}
           </div>
         </aside>

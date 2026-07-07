@@ -286,16 +286,16 @@ export default function HowToUsePage() {
             {/* quick feature badges */}
             <div className="htu-badges">
               {[
-                { icon: Smartphone, text: "Works on any device" },
-                { icon: Wifi,       text: "Offline-capable" },
-                { icon: ShieldCheck,text: "Bank-grade security" },
-                { icon: Headphones, text: "24/7 support" },
+                { icon: Smartphone, text: "Works on any device", href: "/how-to-use#rr-form" },
+                { icon: Wifi,       text: "Offline-capable",     href: "/faq" },
+                { icon: ShieldCheck,text: "Bank-grade security", href: "/privacy" },
+                { icon: Headphones, text: "24/7 support",        href: "/contact" },
               ].map(b => {
                 const Icon = b.icon;
                 return (
-                  <span key={b.text} className="htu-badge">
+                  <Link key={b.text} href={b.href} className="htu-badge htu-badge-link">
                     <Icon size={13} /> {b.text}
-                  </span>
+                  </Link>
                 );
               })}
             </div>

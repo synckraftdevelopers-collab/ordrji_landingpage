@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readTable } from "@/utils/db";
+import { readTable, UserAccount } from "@/utils/db";
 import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
@@ -14,9 +14,9 @@ export async function POST(req: Request) {
     }
 
     // Read seeded users
-    const users = readTable<any>("users");
+    const users = readTable<UserAccount>("users");
     const matchedUser = users.find(
-      (u: any) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+      (u: UserAccount) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
     );
 
     if (!matchedUser) {

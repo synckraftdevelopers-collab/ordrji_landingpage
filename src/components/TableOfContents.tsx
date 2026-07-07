@@ -16,8 +16,7 @@ export default function TableOfContents({ content }: { content: string }) {
   useEffect(() => {
     // Parse the HTML content and look for h2, h3, h4 headings
     const parser = new DOMParser();
-    const doc = parser.parseFromString(content, "text/html");
-    const headingElements = doc.querySelectorAll("h2, h3, h4");
+    parser.parseFromString(content, "text/html");
     
     const items: TocItem[] = [];
     

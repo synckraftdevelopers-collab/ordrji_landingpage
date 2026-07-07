@@ -50,7 +50,9 @@ export async function POST(req: NextRequest) {
     logActivity(user, role, `Uploaded media asset '${name}'`, req);
 
     return NextResponse.json(newAsset);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Invalid payload" }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Invalid payload" }, { status: 400 });
   }
 }
+
+// POST - Add media asset

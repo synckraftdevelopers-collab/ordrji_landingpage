@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readTable, writeTable, logActivity, Tag } from "@/utils/db";
 
 // GET - List tags
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   const tags = readTable<Tag>("tags");
   return NextResponse.json(tags);
 }
@@ -49,8 +49,8 @@ export async function POST(req: NextRequest) {
     logActivity(user, role, `Created Tag '${name}'`, req);
 
     return NextResponse.json(newTag);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Invalid payload" }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Invalid payload" }, { status: 400 });
   }
 }
 
@@ -94,8 +94,8 @@ export async function PUT(req: NextRequest) {
     logActivity(user, role, `Renamed Tag '${oldName}' to '${name}'`, req);
 
     return NextResponse.json(currentTag);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Invalid payload" }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Invalid payload" }, { status: 400 });
   }
 }
 

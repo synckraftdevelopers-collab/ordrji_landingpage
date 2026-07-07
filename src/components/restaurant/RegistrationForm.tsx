@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CheckCircle2, Loader2, Eye, TrendingUp, Star,
   Share2, ThumbsUp, Zap, Search, X, ChevronDown, Utensils,
-  Users, Clock, MapPin, Building2
+  Users
 } from "lucide-react";
 
 import { registrationSchema, RegistrationFormData } from "./FormValidation";
@@ -229,7 +229,6 @@ export default function RegistrationForm({
   const [submitting,  setSubmitting]  = useState(false);
   const [success,     setSuccess]     = useState(false);
   const [submittedName, setSubmittedName] = useState("");
-  const [formStarted, setFormStarted] = useState(true); // form always shows directly
   const [selectedDishes, setSelectedDishes] = useState<string[]>(prefill?.dishes ?? []);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -247,8 +246,6 @@ export default function RegistrationForm({
         city:           prefill.city           ?? "",
       });
       setSelectedDishes(prefill.dishes ?? []);
-      // Auto-open the form when prefill is provided
-      setFormStarted(true);
     }
   }, [prefill, reset]);
 

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { MapPin, Search, X, ChevronDown, Check, Compass, Layers } from "lucide-react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { MapPin, X, ChevronDown, Check, Compass, Layers } from "lucide-react";
 import { searchLocations, SearchResult, states, cities } from "@/data/locations";
 
 interface LocationAutocompleteProps {
@@ -25,14 +25,17 @@ export default function LocationAutocomplete({
 }: LocationAutocompleteProps) {
   const [query, setQuery] = useState(value || "");
   const [isOpen, setIsOpen] = useState(false);
-  const [results, setResults] = useState<SearchResult[]>([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const prevValueRef = useRef(value);
 
-  // Sync with parent value
+  // Sync with parent value only when it actually changes
   useEffect(() => {
-    setQuery(value || "");
+    if (prevValueRef.current !== value) {
+      prevValueRef.current = value;
+      setQuery(value || "");
+    }
   }, [value]);
 
   // Handle outside click to close dropdown
@@ -50,15 +53,10 @@ export default function LocationAutocomplete({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [query, value]);
 
-  // Update search results when query changes
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      return;
-    }
-    const searchResults = searchLocations(query, 8);
-    setResults(searchResults);
-    setActiveIndex(0);
+  // Derive results from query directly — no effect needed
+  const results = useMemo(() => {
+    if (!query.trim()) return [];
+    return searchLocations(query, 8);
   }, [query]);
 
   const handleSelect = (item: SearchResult) => {
@@ -143,7 +141,6 @@ export default function LocationAutocomplete({
 
   // Filter default states and cities for quick browsing
   const defaultPopularCities = cities.filter((c) => c.isMajor).slice(0, 8);
-  const defaultStates = states.slice(0, 12); // First 12 alphabetically
 
   const citiesGroup = results.filter((c) => c.type === "city");
   const districtsGroup = results.filter((c) => c.type === "district");

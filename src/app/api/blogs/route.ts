@@ -176,7 +176,7 @@ export async function POST(req: NextRequest) {
     logActivity(user, role, `Created blog '${title}' with status '${status}'`, req);
 
     return NextResponse.json(newBlog);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to parse request" }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Failed to parse request" }, { status: 400 });
   }
 }

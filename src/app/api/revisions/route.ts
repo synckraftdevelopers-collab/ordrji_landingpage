@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
     logActivity(user, role, `Restored blog '${currentBlog.title}' to Version ${revision.versionNumber}`, req);
 
     return NextResponse.json({ success: true, message: "Revision restored successfully.", blog: restoredData });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Invalid payload" }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Invalid payload" }, { status: 400 });
   }
 }

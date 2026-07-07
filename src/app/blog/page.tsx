@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
 import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import RoleSwitcher from "@/components/RoleSwitcher";
-import { Clock, Sparkles, Search, SlidersHorizontal, BookOpen, ChevronRight, Shield, X, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Clock, Sparkles, Search, BookOpen, ChevronRight, Shield, X, AlertTriangle, CheckCircle2 } from "lucide-react";
 
 interface BlogPost {
   id: string;
@@ -90,8 +90,8 @@ export default function BlogLandingPage() {
         setPromptSuccess(false);
         window.location.href = "/dashboard/admin/blogs";
       }, 1000);
-    } catch (err: any) {
-      setPromptError(err.message || "Invalid password.");
+    } catch (err: unknown) {
+      setPromptError(err instanceof Error ? err.message : "Invalid password.");
     } finally {
       setPromptLoading(false);
     }

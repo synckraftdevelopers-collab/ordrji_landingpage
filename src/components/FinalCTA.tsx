@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, MessageSquare, Phone, Sparkles } from "lucide-react";
+import { ArrowRight, MessageSquare, Phone } from "lucide-react";
 
 interface FinalCTAProps {
   onBookDemo: () => void;
@@ -17,11 +17,7 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
           <div className="cta-glow cta-glow-red" />
           
           <div className="cta-content">
-            <span className="cta-badge">
-              <Sparkles size={12} style={{ color: "var(--accent-orange)" }} />
-              Ready to Upgrade?
-            </span>
-            
+
             <h2 className="cta-title">
               Take Control of Your <br className="hide-mobile" />
               Restaurant Operations Today

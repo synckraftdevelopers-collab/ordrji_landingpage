@@ -8,29 +8,23 @@ import { CheckCircle2, Send, Building2, User, Mail, Phone, MapPin, Briefcase, Cl
 import LocationAutocomplete from "@/components/LocationAutocomplete";
 
 export default function BookDemoPage() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    location: "",
-    restaurantName: "",
-    restaurantType: "",
-    currentPos: "",
-    preferredTime: "",
-  });
-
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  React.useEffect(() => {
+  const [formData, setFormData] = useState(() => {
+    let initialLocation = "";
     if (typeof window !== "undefined") {
-      const saved = sessionStorage.getItem("prefilled_location");
-      if (saved) {
-        setFormData((prev) => ({ ...prev, location: saved }));
-        sessionStorage.removeItem("prefilled_location");
-      }
+      initialLocation = sessionStorage.getItem("prefilled_location") ?? "";
+      if (initialLocation) sessionStorage.removeItem("prefilled_location");
     }
-  }, []);
+    return {
+      fullName: "",
+      email: "",
+      phone: "",
+      location: initialLocation,
+      restaurantName: "",
+      restaurantType: "",
+      currentPos: "",
+      preferredTime: "",
+    };
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

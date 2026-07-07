@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Bell, RefreshCw, Phone, Mail, MapPin, Building2,
   MessageSquare, Clock, CheckCircle2, XCircle,
-  CalendarClock, TrendingUp, ArrowLeft, Inbox,
+  CalendarClock, ArrowLeft, Inbox,
   ChevronDown, Circle,
 } from "lucide-react";
 
@@ -56,14 +56,14 @@ export default function LeadsDashboardPage() {
     setError(null);
     try {
       const res = await fetch("/api/leads");
-      const data = await res.json();
+      const data = await res.json() as { success: boolean; leads: Lead[]; error?: string };
       if (data.success) {
         setLeads(data.leads);
         setLastRefresh(new Date());
       } else {
-        setError(data.error || "Failed to fetch leads");
+        setError(data.error ?? "Failed to fetch leads");
       }
-    } catch (e) {
+    } catch {
       setError("Network error. Is Supabase configured?");
     } finally {
       setLoading(false);

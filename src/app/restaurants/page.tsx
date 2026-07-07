@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -97,12 +98,9 @@ export default function RestaurantsPage() {
   const [cuisine, setCuisine] = useState("All");
   const [type, setType] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
-  const [extraRestaurants, setExtraRestaurants] = useState<StoredRestaurant[]>([]);
-
-  // Load user-registered restaurants from localStorage on mount
-  useEffect(() => {
-    setExtraRestaurants(getStoredRestaurants().filter(r => !SEED_IDS.includes(r.id)));
-  }, []);
+  const [extraRestaurants, setExtraRestaurants] = useState<StoredRestaurant[]>(() =>
+    getStoredRestaurants().filter(r => !SEED_IDS.includes(r.id))
+  );
 
   // Build combined list: user-registered first, then demo seed
   const allRestaurants = useMemo(() => {
@@ -237,7 +235,7 @@ export default function RestaurantsPage() {
 
                   {/* Image */}
                   <div className="rl-card-img-wrap">
-                    <img src={r.image} alt={r.name} className="rl-card-img" />
+                    <Image src={r.image} alt={r.name} className="rl-card-img" width={600} height={185} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                     {r.badge && (
                       <span className="rl-card-badge" style={{ background: r.badgeColor }}>{r.badge}</span>
                     )}

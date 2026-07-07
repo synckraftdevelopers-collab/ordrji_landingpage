@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { AlertOctagon, RefreshCw, ZapOff, TrendingDown, Sparkles } from "lucide-react";
+import { AlertOctagon, RefreshCw, ZapOff, TrendingDown } from "lucide-react";
 
 const PAIN_POINTS = [
   {

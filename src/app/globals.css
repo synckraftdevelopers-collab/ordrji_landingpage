@@ -370,6 +370,17 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border-color);
   padding: 0.3rem 0.75rem; border-radius: 999px;
 }
+.htu-badge-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.htu-badge-link:hover {
+  color: var(--accent-orange);
+  border-color: var(--accent-orange);
+  background: rgba(194,65,12,0.05);
+  transform: translateY(-1px);
+}
 
 /* ── PROGRESS TRACKER ──────────────────────────────────────────────── */
 .htu-progress-section {
