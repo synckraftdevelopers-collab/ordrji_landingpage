@@ -26,6 +26,9 @@ export default function BookDemoPage() {
     };
   });
 
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -79,7 +82,7 @@ export default function BookDemoPage() {
             {/* Left Pane: Value props and trust badges */}
             <div style={{ display: "flex", flexDirection: "column", justifySelf: "center" }}>
               <span className="booking-badge font-semibold">
-                <Sparkles size={11} style={{ color: "#e30613" }} /> Personalized Walkthrough
+                <Sparkles size={11} style={{ color: "#da0404" }} /> Personalized Walkthrough
               </span>
               <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem", marginBottom: "1.25rem" }}>
                 Experience the Future of Restaurant Work.
@@ -163,7 +166,7 @@ export default function BookDemoPage() {
                       <label className="field-label">Phone Number *</label>
                       <div className="input-box">
                         <Phone size={15} className="input-icon" />
-                        <input className="field-input" type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+91 98765 43210" />
+                        <input className="field-input" type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+91 90044 02006" />
                       </div>
                     </div>
 
@@ -355,7 +358,7 @@ export default function BookDemoPage() {
           border: 1px solid transparent !important;
         }
         .btn-orange:hover {
-          background: #c4040f !important;
+          background: #be0303 !important;
           box-shadow: 0 8px 20px -6px rgba(227, 6, 19, 0.45);
         }
       `}</style>

@@ -11,11 +11,18 @@ interface NavbarProps {
   onRegister?: () => void;
 }
 
-export default function Navbar({ }: NavbarProps) {
+export default function Navbar({ onBookDemo }: NavbarProps) {
   const pathname = usePathname();
   const [isScrolled,        setIsScrolled]        = useState(false);
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
   const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
+  const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const handleClose = () => setIsDesktopDropdownOpen(false);
+    window.addEventListener("click", handleClose);
+    return () => window.removeEventListener("click", handleClose);
+  }, []);
 
   /* ── Posiflex intro: logo starts centered, flies to top-left ── */
   const [introPhase, setIntroPhase] = useState<"center" | "move" | "done">("done");
@@ -110,30 +117,37 @@ export default function Navbar({ }: NavbarProps) {
             <Link href="/#features" className="pf-nav-link">Solutions</Link>
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
             <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
-            <Link href="/blog" className="pf-nav-link">Blog</Link>
-            <Link href="/#testimonials" className="pf-nav-link">Customers</Link>
-            <div className="pf-nav-item-dropdown">
-              <span className="pf-nav-link dropdown-trigger" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
+            <div className={`pf-nav-item-dropdown ${isDesktopDropdownOpen ? "dropdown-open" : ""}`}>
+              <span 
+                className="pf-nav-link dropdown-trigger" 
+                style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDesktopDropdownOpen(v => !v);
+                }}
+              >
                 Resources <ChevronDown size={12} />
               </span>
               <div className="pf-dropdown-menu">
                 <Link href="/faq" className="pf-dropdown-link">FAQs</Link>
+                <Link href="/blog" className="pf-dropdown-link">Blog</Link>
                 <Link href="/restaurant-pos-software-india" className="pf-dropdown-link">POS Software</Link>
                 <Link href="/restaurant-billing-software" className="pf-dropdown-link">Billing Engine</Link>
                 <Link href="/qr-ordering-system-for-restaurants" className="pf-dropdown-link">QR Ordering</Link>
-                <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory</Link>
+                <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory Intelligence & Predictions</Link>
+                <Link href="/how-ordrji-compares-to-legacy-pos-systems" className="pf-dropdown-link">Ordrji vs Legacy POS</Link>
               </div>
             </div>
           </nav>
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
-            <Link
-              href="/register-restaurant"
-              className="btn-primary btn-register pf-btn"
+            <button
+              onClick={onBookDemo}
+              className="btn-primary btn-red pf-btn"
             >
-              Register Restaurant
-            </Link>
+              Book a Demo
+            </button>
             <a
               href="https://pos.ordrji.com/login"
               target="_blank" rel="noopener noreferrer"
@@ -164,8 +178,6 @@ export default function Navbar({ }: NavbarProps) {
             <Link href="/#features" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Solutions</Link>
             <Link href="/pricing" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
             <Link href="/how-to-use" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How to Use</Link>
-            <Link href="/blog" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
-            <Link href="/#testimonials" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Customers</Link>
             <div className="pf-mobile-collapsible" style={{ display: "flex", flexDirection: "column" }}>
               <button 
                 onClick={() => setIsMobileResourcesOpen(v => !v)}
@@ -178,24 +190,27 @@ export default function Navbar({ }: NavbarProps) {
               {isMobileResourcesOpen && (
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", paddingLeft: "1rem", marginTop: "0.85rem" }}>
                   <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>FAQs</Link>
+                  <Link href="/blog" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
                   <Link href="/restaurant-pos-software-india" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>POS Software</Link>
                   <Link href="/restaurant-billing-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Billing Engine</Link>
                   <Link href="/qr-ordering-system-for-restaurants" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>QR Ordering</Link>
-                  <Link href="/restaurant-inventory-management-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Inventory</Link>
+                  <Link href="/restaurant-inventory-management-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Inventory Intelligence & Predictions</Link>
+                  <Link href="/how-ordrji-compares-to-legacy-pos-systems" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Ordrji vs Legacy POS</Link>
                 </div>
               )}
             </div>
             <Link href="/terms"             className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Terms & Conditions</Link>
             <Link href="/privacy"           className="pf-mobile-link pf-mobile-muted" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
             <div className="pf-mobile-ctas">
-              <Link
-                href="/register-restaurant"
-                className="btn-primary btn-register"
-                style={{ justifyContent: "center" }}
-                onClick={() => setIsMobileMenuOpen(false)}
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onBookDemo?.();
+                }}
+                className="btn-primary btn-red" style={{ justifyContent: "center" }}
               >
-                Register Restaurant
-              </Link>
+                Book a Demo
+              </button>
               <a href="https://pos.ordrji.com/login" target="_blank" rel="noopener noreferrer"
                 className="btn-primary btn-red" style={{ justifyContent: "center" }}
                 onClick={() => setIsMobileMenuOpen(false)}>
@@ -341,7 +356,8 @@ export default function Navbar({ }: NavbarProps) {
           padding: 0.5rem;
           gap: 0.2rem;
         }
-        .pf-nav-item-dropdown:hover .pf-dropdown-menu {
+        .pf-nav-item-dropdown:hover .pf-dropdown-menu,
+        .pf-nav-item-dropdown.dropdown-open .pf-dropdown-menu {
           opacity: 1;
           visibility: visible;
           pointer-events: auto;

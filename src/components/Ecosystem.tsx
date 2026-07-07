@@ -14,12 +14,12 @@ interface EcosystemNode {
 }
 
 const NODES: EcosystemNode[] = [
-  { id: "orders",    name: "Orders Engine",          desc: "Consolidate QR ordering, walk-ins, and aggregate delivery apps in one place.",        color: "#e30613", angle: 0,   stat: "3k+ orders/sec reconciled",    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=120" },
+  { id: "orders",    name: "Orders Engine",          desc: "Consolidate QR ordering, walk-ins, and aggregate delivery apps in one place.",        color: "#da0404", angle: 0,   stat: "3k+ orders/sec reconciled",    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=120" },
   { id: "kitchen",   name: "Kitchen Displays (KDS)", desc: "Transmit direct table orders to preparation queues without lag.",                      color: "#d97706", angle: 40,  stat: "Prep times reduced by 22%",     image: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=120" },
   { id: "billing",   name: "Billing & Split",        desc: "Accept payments, print receipts, and split checks instantly.",                         color: "#059669", angle: 80,  stat: "Instant UPI reconciliation",    image: "/eco-billing.jpg" },
   { id: "inventory", name: "Inventory Intel",        desc: "Live recipe tracing, automated alerts, and raw materials stock indicators.",           color: "#dc2626", angle: 120, stat: "Zero manual inventory audits",  image: "https://images.unsplash.com/photo-1543083115-638c32cd3d58?auto=format&fit=crop&q=80&w=120" },
   { id: "crm",       name: "CRM Engines",            desc: "Collect customer profiles, dietary flags, and loyalty tiers.",                         color: "#0284c7", angle: 160, stat: "60k+ profiles managed",         image: "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?auto=format&fit=crop&q=80&w=120" },
-  { id: "marketing", name: "Marketing Flows",        desc: "Trigger SMS/WhatsApp campaigns based on historical dining actions.",                   color: "#e30613", angle: 200, stat: "+14.8% customer retention",    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=120" },
+  { id: "marketing", name: "Marketing Flows",        desc: "Trigger SMS/WhatsApp campaigns based on historical dining actions.",                   color: "#da0404", angle: 200, stat: "+14.8% customer retention",    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=120" },
   { id: "analytics", name: "Bento Analytics",        desc: "Track sales curves, top items, and net profits on single charts.",                    color: "#059669", angle: 240, stat: "Real-time P&L mapping",         image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=120" },
   { id: "staff",     name: "Staff Management",       desc: "Monitor waiter performance, shift schedules, and checkouts.",                         color: "#0284c7", angle: 280, stat: "Automatic tips distribution",   image: "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&q=80&w=120" },
   { id: "tables",    name: "Floor Layouts",          desc: "Visual restaurant grids with live table occupancy indicators.",                        color: "#d97706", angle: 320, stat: "Table turn times minimized",    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=120" },
@@ -36,7 +36,7 @@ interface MetricConfig {
 }
 
 const METRICS: MetricConfig[] = [
-  { icon: <Zap size={18} />,       prefix: "",   target: 9,   suffix: "+ modules",  label: "Fully connected",      color: "#e30613" },
+  { icon: <Zap size={18} />,       prefix: "",   target: 9,   suffix: "+ modules",  label: "Fully connected",      color: "#da0404" },
   { icon: <Users size={18} />,     prefix: "60", target: 0,   suffix: "k+ profiles",label: "CRM records live",     color: "#0284c7" },
   { icon: <TrendingUp size={18} />,prefix: "+",  target: 14,  suffix: ".8% retention",label: "Customer return rate", color: "#059669" },
   { icon: <BarChart2 size={18} />, prefix: "",   target: 22,  suffix: "% faster prep", label: "Kitchen throughput",  color: "#d97706" },
@@ -240,8 +240,8 @@ export default function Ecosystem() {
                 ))}
                 {/* animated dash-orbit ring gradient */}
                 <radialGradient id="orbitGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%"   stopColor="#e30613" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#e30613" stopOpacity="0" />
+                  <stop offset="0%"   stopColor="#da0404" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#da0404" stopOpacity="0" />
                 </radialGradient>
               </defs>
 
@@ -278,9 +278,9 @@ export default function Ecosystem() {
               <g transform={`translate(${CX}, ${CY})`}>
                 {/* outer pulse ring */}
                 <circle cx="0" cy="0" r="70" fill="rgba(227,6,19,0.04)" className="eco-hub-pulse" />
-                <circle cx="0" cy="0" r="58" fill="var(--bg-card)" stroke="#e30613" strokeWidth="2" />
+                <circle cx="0" cy="0" r="58" fill="var(--bg-card)" stroke="#da0404" strokeWidth="2" />
                 <text x="0" y="-10" textAnchor="middle" fontSize="7" fontWeight="700" letterSpacing="2" fill="#999" fontFamily="inherit">SYSTEM</text>
-                <text x="0" y="7"  textAnchor="middle" fontSize="10" fontWeight="800" fill="#e30613" fontFamily="inherit">ORDERJI OS</text>
+                <text x="0" y="7"  textAnchor="middle" fontSize="10" fontWeight="800" fill="#da0404" fontFamily="inherit">ORDERJI OS</text>
               </g>
 
               {/* Orbital nodes */}

@@ -268,7 +268,7 @@ export default function InstagramSection() {
         .igs-count {
           display: inline-flex;
           align-items: center;
-          background: #e30613;
+          background: #da0404;
           color: #fff;
           font-size: 0.72rem;
           font-weight: 700;
@@ -284,7 +284,7 @@ export default function InstagramSection() {
           gap: 0.45rem;
           padding: 0.5rem 1.25rem;
           border-radius: 9999px;
-          background: #e30613;
+          background: #da0404;
           color: #fff;
           font-size: 0.85rem;
           font-weight: 700;
@@ -444,7 +444,7 @@ export default function InstagramSection() {
           transition: color 0.18s;
         }
         .igs-view-link:hover {
-          color: #e30613;
+          color: #da0404;
         }
 
         .igs-date {

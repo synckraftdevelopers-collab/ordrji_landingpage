@@ -29,7 +29,7 @@ const OUTPUT_SLIDES: OutputSlide[] = [
   {
     title: "Extra Revenue",
     colorClass: "border-rose",
-    accentColor: "#e30613",
+    accentColor: "#da0404",
     icon: <IndianRupee size={18} />,
     description: "Via automated upsells & smart QR recommendations",
     getValue: (extra) => `₹${extra.toLocaleString("en-IN")}`,
@@ -84,7 +84,7 @@ function useCountUp(target: number, duration = 1400, started = false) {
 
 // ─── top stat bar items ───────────────────────────────────────────────────────
 const TOP_STATS = [
-  { icon: <IndianRupee size={15} />, value: 6,  suffix: "x ROI",       label: "First-month return",    color: "#e30613" },
+  { icon: <IndianRupee size={15} />, value: 6,  suffix: "x ROI",       label: "First-month return",    color: "#da0404" },
   { icon: <TrendingUp  size={15} />, value: 35, suffix: "% revenue↑",  label: "Avg lift reported",     color: "#059669" },
   { icon: <Clock       size={15} />, value: 28, suffix: "% time back",  label: "Manual hours saved",    color: "#0284c7" },
   { icon: <ShieldAlert size={15} />, value: 60, suffix: "% errors↓",   label: "Order mistake drop",    color: "#d97706" },

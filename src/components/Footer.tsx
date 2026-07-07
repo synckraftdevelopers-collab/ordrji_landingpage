@@ -33,6 +33,7 @@ const NAV_COLS = [
     links: [
       { label: "About Us",              href: "/about",              isLink: true  },
       { label: "Restaurants",           href: "/restaurants",        isLink: true  },
+      { label: "Customers",             href: "/#testimonials",      isLink: true  },
       { label: "User Guides",           href: "/how-to-use",         isLink: true  },
       { label: "Blog",                  href: "/blog",               isLink: true  },
       { label: "Contact Us",            href: "/contact",            isLink: true  },
@@ -158,13 +159,13 @@ export default function Footer() {
               </button>
             </form>
 
-            <a
-              href="https://pos.ordrji.com/login"
-              target="_blank" rel="noopener noreferrer"
-              className="btn-primary btn-red ft-cta-btn"
+            <Link
+              href="/register-restaurant"
+              className="btn-primary btn-register ft-cta-btn"
+              style={{ display: "inline-flex", justifyContent: "center", alignItems: "center" }}
             >
-              Start Free Trial <ArrowRight size={14} />
-            </a>
+              Register Restaurant <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
 
@@ -329,7 +330,7 @@ export default function Footer() {
           color: #fff;
           transition: background 0.2s;
         }
-        .ft-email-btn:hover { background: #c4040f; }
+        .ft-email-btn:hover { background: #be0303; }
 
         .ft-cta-btn {
           width: 100%;

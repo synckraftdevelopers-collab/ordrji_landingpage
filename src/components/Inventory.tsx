@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 /* ─── data ────────────────────────────────────────────────────────────────── */
 interface InventoryItem {
@@ -220,13 +221,18 @@ export default function Inventory() {
           <div className="inv-hdr-content">
             <div className="inv-hdr-left">
               <h2 className="inv-title">
-                Inventory Intelligence<br className="inv-br" /> & Predictions
+                <Link href="/restaurant-inventory-management-software" style={{ color: "inherit", textDecoration: "none" }}>
+                  Inventory Intelligence<br className="inv-br" /> & Predictions
+                </Link>
               </h2>
             </div>
             <div className="inv-hdr-right">
               <p className="inv-subtitle">
                 Stop wasting ingredients. OrderJi tracks raw items down to grams,
                 predicts run-out times, and automatically triggers supplier purchases.
+                <Link href="/restaurant-inventory-management-software" className="inv-learn-more-link" style={{ display: "block", marginTop: "0.5rem", color: "var(--accent-orange)", fontWeight: 700, fontSize: "0.88rem", textDecoration: "underline" }}>
+                  Learn more about Inventory Intelligence &rarr;
+                </Link>
               </p>
               {/* progress dots */}
               <div className="inv-dots">

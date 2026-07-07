@@ -119,7 +119,7 @@ export default async function DynamicSeoPage({ params }: Props) {
           <div className="glow-spot glow-rose" style={{ top: "10%", left: "15%", width: "400px", height: "400px", opacity: 0.12 }} />
           <div className="container seo-hero-container">
             <span className="seo-badge font-semibold">
-              <Sparkles size={11} style={{ color: "#e30613" }} /> Leading OS Solution
+              <Sparkles size={11} style={{ color: "#da0404" }} /> Leading OS Solution
             </span>
             <h1 className="seo-title">{page.headline}</h1>
             <p className="seo-subtitle">{page.subheadline}</p>

@@ -16,9 +16,9 @@ export async function GET(req: NextRequest) {
   let filtered = blogs;
 
   // Filter by status (default to Published for public, but allow CMS to filter)
-  if (status) {
+  if (status && status.toLowerCase() !== "all") {
     filtered = filtered.filter(b => b.status.toLowerCase() === status.toLowerCase());
-  } else {
+  } else if (!status) {
     // If no status query is provided, default to only Published (for visitor endpoints)
     filtered = filtered.filter(b => b.status === "Published");
   }
@@ -80,7 +80,9 @@ export async function POST(req: NextRequest) {
       articleSchema = "{}",
       breadcrumbSchema = "{}",
       faqSchema = [],
-      scheduledPublishDate
+      scheduledPublishDate,
+      createdBy,
+      createdDate
     } = body;
 
     if (!title || !description) {
@@ -114,6 +116,29 @@ export async function POST(req: NextRequest) {
     const dateStr = now.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" });
     const timeStr = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
+    // Use selected values or default
+    const authorName = createdBy || user;
+    const finalDateStr = createdDate || dateStr;
+
+    // Determine created_at timestamp for Supabase
+    let createdAtTimestamp = now.toISOString();
+    if (finalDateStr) {
+      try {
+        const parsed = new Date(finalDateStr);
+        if (!isNaN(parsed.getTime())) {
+          const combined = new Date(
+            parsed.getFullYear(),
+            parsed.getMonth(),
+            parsed.getDate(),
+            now.getHours(),
+            now.getMinutes(),
+            now.getSeconds()
+          );
+          createdAtTimestamp = combined.toISOString();
+        }
+      } catch (e) {}
+    }
+
     const newBlog: BlogPost = {
       id: slug,
       title,
@@ -136,18 +161,18 @@ export async function POST(req: NextRequest) {
       articleSchema,
       breadcrumbSchema,
       faqSchema,
-      createdBy: user,
+      createdBy: authorName,
       lastEditedBy: user,
-      createdDate: dateStr,
+      createdDate: finalDateStr,
       createdTime: timeStr,
-      lastUpdatedDate: dateStr,
+      lastUpdatedDate: finalDateStr,
       lastUpdatedTime: timeStr,
       timezone: "Asia/Kolkata",
       readingTime
     };
 
     if (status === "Published") {
-      newBlog.publishedDate = dateStr;
+      newBlog.publishedDate = finalDateStr;
       newBlog.publishedTime = timeStr;
       newBlog.approvedBy = role === "Super Admin" ? "Super Admin" : "Admin";
     } else if (status === "Scheduled" && scheduledPublishDate) {
@@ -156,6 +181,48 @@ export async function POST(req: NextRequest) {
 
     blogs.unshift(newBlog);
     writeTable("blogs", blogs);
+
+    // Save to Supabase blog_posts database table
+    try {
+      const { supabaseAdmin } = await import("@/lib/supabase");
+      
+      const CATEGORY_MAP: Record<string, string> = {
+        'tech': 'a77c676a-cba9-497b-9338-5c4618a50a56',
+        'ops': 'a768a923-b7fd-4090-ab54-1ad088f1c59a',
+        'mgmt': '0f1f300b-9751-4ccb-9009-741d3a7fa58e',
+        'mktg': 'a21c2406-9902-413f-848d-21b0b60fca45'
+      };
+      const AUTHOR_MAP: Record<string, string> = {
+        'Rohan Mehta': '39e63798-1f7e-4094-818a-e2d1969c3c6d',
+        'Priya Sharma': 'a852c5cd-2b0b-4c83-99c3-2deea6c652fb',
+        'Vikram Dev': '7eea8a9a-9dc6-498e-b0a2-c43c34d03bab',
+        'Rahul Sharma': '39e63798-1f7e-4094-818a-e2d1969c3c6d',
+        'Ananya Gupta': 'a852c5cd-2b0b-4c83-99c3-2deea6c652fb'
+      };
+
+      const mappedCatId = CATEGORY_MAP[categoryId || "tech"] || null;
+      const mappedAuthId = AUTHOR_MAP[authorName] || null;
+
+      const { error: dbError } = await supabaseAdmin.from("blog_posts").insert({
+        title,
+        slug,
+        description,
+        content: content || `<p>${description}</p>`,
+        cover_image: coverImage || null,
+        category_id: mappedCatId,
+        author_id: mappedAuthId,
+        is_featured: isFeatured,
+        status: status,
+        created_by: authorName,
+        created_at: createdAtTimestamp,
+        published_at: status === "Published" ? new Date().toISOString() : null,
+      });
+      if (dbError) {
+        console.error("Error saving blog to Supabase:", dbError);
+      }
+    } catch (dbErr) {
+      console.error("Exception saving blog to Supabase:", dbErr);
+    }
 
     // Save initial version revision
     const revisions = readTable<BlogRevision>("revisions");

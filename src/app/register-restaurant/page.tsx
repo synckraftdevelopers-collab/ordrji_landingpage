@@ -272,6 +272,8 @@ function RegisterRestaurantContent() {
               prefill={urlPrefill}
               onSuccess={() => {
                 setUserRestaurants(getStoredRestaurants());
+              }}
+              onSuccessModalClose={() => {
                 setShowForm(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}

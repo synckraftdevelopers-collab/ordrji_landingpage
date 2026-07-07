@@ -330,7 +330,7 @@ export default function CommandCenter() {
 
         {/* Count-up stat row */}
         <div className={`cc-stats-row${statsStarted ? " cc-stats-started" : ""}`}>
-          <CcStatBadge icon={<ShoppingCart />} value={3} suffix="k+" label="Orders reconciled/day" color="#e30613" started={statsStarted} delay={0} />
+          <CcStatBadge icon={<ShoppingCart />} value={3} suffix="k+" label="Orders reconciled/day" color="#da0404" started={statsStarted} delay={0} />
           <CcStatBadge icon={<Clock />} value={99} suffix=".99%" label="Real-time sync uptime" color="#059669" started={statsStarted} delay={120} />
           <CcStatBadge icon={<Layers />} value={9} suffix=" modules" label="Unified platform" color="#0284c7" started={statsStarted} delay={240} />
           <CcStatBadge icon={<Users />} value={24} suffix="/7" label="Live monitoring" color="#d97706" started={statsStarted} delay={360} />

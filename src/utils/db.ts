@@ -6,6 +6,7 @@ import path from "path";
 export interface UserAccount {
   id: string;
   email: string;
+  password?: string;
   name: string;
   role: "Visitor" | "Restaurant Owner" | "Manager" | "Cashier" | "Kitchen" | "Waiter" | "Admin" | "Super Admin";
   avatar: string;

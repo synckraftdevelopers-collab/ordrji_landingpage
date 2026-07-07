@@ -43,7 +43,7 @@ const PLANS: PricingPlan[] = [
   {
     name: "Growth", desc: "For high-volume restaurants requiring kitchen coordination and stock tracking.",
     monthlyPrice: 4999, yearlyPrice: 3999, popular: true,
-    cta: "Start Growth Free", color: "#e30613",
+    cta: "Start Growth Free", color: "#da0404",
     features: [
       "Everything in Starter",
       "Kitchen Display System (KDS) Node",

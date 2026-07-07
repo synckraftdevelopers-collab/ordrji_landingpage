@@ -162,7 +162,7 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #c2410c;
+  background: #da0404;
   color: #ffffff;
   padding: 0.7rem 1.6rem;
   border-radius: 9999px;
@@ -176,26 +176,26 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px -6px rgba(194,65,12,0.5);
-  background: #9a3412;
+  box-shadow: 0 10px 24px -6px rgba(227,6,19,0.38);
+  background: #be0303;
 }
 
 /* "Start Free Trial" keeps the original brand red */
 .btn-primary.btn-red {
-  background: #e30613;
+  background: #da0404;
 }
 .btn-primary.btn-red:hover {
-  background: #c4040f;
+  background: #be0303;
   box-shadow: 0 10px 24px -6px rgba(227,6,19,0.38);
 }
 
-/* "Register Restaurant" — green accent */
+/* "Register Restaurant" — now red accent */
 .btn-primary.btn-register {
-  background: #059669;
+  background: #da0404;
 }
 .btn-primary.btn-register:hover {
-  background: #047857;
-  box-shadow: 0 10px 24px -6px rgba(5,150,105,0.38);
+  background: #be0303;
+  box-shadow: 0 10px 24px -6px rgba(227,6,19,0.38);
 }
 
 .btn-secondary {
@@ -324,8 +324,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ── btn-red (already in use elsewhere; define if missing) ──────────── */
-.btn-red { background: var(--accent-orange) !important; }
-.btn-red:hover { background: #bd040f !important; }
+.btn-red { background: #da0404 !important; }
+.btn-red:hover { background: #be0303 !important; }
 
 /* ── HERO ──────────────────────────────────────────────────────────── */
 .htu-hero {

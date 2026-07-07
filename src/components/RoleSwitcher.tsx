@@ -40,12 +40,11 @@ export default function RoleSwitcher() {
     document.cookie = `ordrji_username=${username}; path=/; max-age=${maxAge}; SameSite=Lax`;
 
     setActiveRole(role);
-    setActiveUser(username);
     setIsOpen(false);
 
     // Refresh the page to trigger server component reload
     window.location.reload();
-  };
+  }, []);
 
   return (
     <div className="role-switcher-container">

@@ -17,17 +17,24 @@ interface Partner {
 
 const PARTNERS: Record<Category, Partner[]> = {
   software: [
-    { name: "Swiggy",   short: "SW", color: "#e95505", logo: "swiggy.com",         ring: 0, startAngle: 0   },
-    { name: "Zomato",   short: "ZO", color: "#e23744", logo: "zomato.com",         ring: 0, startAngle: 90  },
-    { name: "WhatsApp", short: "WA", color: "#25d366", logo: "whatsapp.com",       ring: 0, startAngle: 180 },
-    { name: "Shopify",  short: "SH", color: "#96bf48", logo: "shopify.com",        ring: 0, startAngle: 270 },
-    { name: "Tally",    short: "TL", color: "#059669", logo: "tallysolutions.com", ring: 1, startAngle: 0   },
-    { name: "Razorpay", short: "RP", color: "#2d4df8", logo: "razorpay.com",       ring: 1, startAngle: 51  },
-    { name: "Stripe",   short: "ST", color: "#635bff", logo: "stripe.com",         ring: 1, startAngle: 102 },
-    { name: "Paytm",    short: "PT", color: "#00b9f1", logo: "paytm.com",          ring: 1, startAngle: 154 },
-    { name: "PhonePe",  short: "PP", color: "#5f259f", logo: "phonepe.com",        ring: 1, startAngle: 205 },
-    { name: "UPI",      short: "UP", color: "#6b21a8", logo: "npci.org.in",        ring: 1, startAngle: 257 },
-    { name: "GPay",     short: "GP", color: "#fbbc04", logo: "pay.google.com",     ring: 1, startAngle: 308 },
+    { name: "Swiggy",      short: "SW", color: "#e95505", logo: "swiggy.com",         ring: 0, startAngle: 0   },
+    { name: "Zomato",      short: "ZO", color: "#e23744", logo: "zomato.com",         ring: 0, startAngle: 60  },
+    { name: "Paytm",       short: "PT", color: "#00b9f1", logo: "paytm.com",          ring: 0, startAngle: 120 },
+    { name: "Shopify",     short: "SH", color: "#96bf48", logo: "shopify.com",        ring: 0, startAngle: 180 },
+    { name: "Tally",       short: "TL", color: "#059669", logo: "tallysolutions.com", ring: 0, startAngle: 240 },
+    { name: "Zoho",        short: "ZH", color: "#e32f27", logo: "zoho.com",           ring: 0, startAngle: 300 },
+    { name: "Microsoft",   short: "MS", color: "#0078d4", logo: "microsoft.com",      ring: 1, startAngle: 0   },
+    { name: "SAP",         short: "SP", color: "#008fd3", logo: "sap.com",            ring: 1, startAngle: 30  },
+    { name: "Oracle",      short: "OR", color: "#f80000", logo: "oracle.com",         ring: 1, startAngle: 60  },
+    { name: "Unicommerce", short: "UC", color: "#004b93", logo: "unicommerce.com",    ring: 1, startAngle: 90  },
+    { name: "EasyEcom",    short: "EE", color: "#1e3a8a", logo: "easyecom.io",        ring: 1, startAngle: 120 },
+    { name: "EasyRewardz", short: "ER", color: "#eab308", logo: "easyrewardz.com",    ring: 1, startAngle: 150 },
+    { name: "GrayMatter",  short: "GM", color: "#2563eb", logo: "graymatter.co",      ring: 1, startAngle: 180 },
+    { name: "Gyftr",       short: "GF", color: "#10b981", logo: "gyftr.com",          ring: 1, startAngle: 210 },
+    { name: "Nector",      short: "NC", color: "#7c3aed", logo: "nector.io",          ring: 1, startAngle: 240 },
+    { name: "Pathfinder",  short: "PF", color: "#14b8a6", logo: "pathfinder.com",     ring: 1, startAngle: 270 },
+    { name: "ADSR",        short: "AD", color: "#4f46e5", logo: "adsr.com",           ring: 1, startAngle: 300 },
+    { name: "GSP",         short: "GS", color: "#ec4899", logo: "gsp.com",            ring: 1, startAngle: 330 },
   ],
   hardware: [
     { name: "Epson",     short: "EP", color: "#555555", logo: "epson.com",      ring: 0, startAngle: 0   },
@@ -76,11 +83,11 @@ const CATS: { key: Category; label: string; desc: string }[] = [
 ];
 
 /* ── orbital constants ─────────────────────────────────────────────────── */
-const SIZE   = 460;
+const SIZE   = 580;
 const CX     = SIZE / 2;
 const CY     = SIZE / 2;
-const RADII  = [105, 185];
-const NODE_R = 20;
+const RADII  = [135, 235];
+const NODE_R = 24;
 const SPEED  = 35;
 
 /* ── chip logo ─────────────────────────────────────────────────────────── */
@@ -141,7 +148,7 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE}
         style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden>
         <defs>
-          <clipPath id="igHub"><circle cx={CX} cy={CY} r="32" /></clipPath>
+          <clipPath id="igHub"><circle cx={CX} cy={CY} r="42" /></clipPath>
           <filter id="igHubF" x="-30%" y="-30%" width="160%" height="160%">
             <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor="#c2410c" floodOpacity="0.2" />
           </filter>
@@ -167,20 +174,20 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
         })}
 
         {/* hub glow pulse */}
-        <circle cx={CX} cy={CY} r="52" fill="rgba(194,65,12,0.06)" className="igHubPulse" />
+        <circle cx={CX} cy={CY} r="68" fill="rgba(194,65,12,0.06)" className="igHubPulse" />
 
         {/* hub disc */}
-        <circle cx={CX} cy={CY} r="40"
+        <circle cx={CX} cy={CY} r="52"
           fill="white" stroke="rgba(194,65,12,0.25)" strokeWidth="1.5"
           filter="url(#igHubF)" />
 
         {/* logo */}
         <image href="/logo-icon.jpg"
-          x={CX - 26} y={CY - 26} width="52" height="52"
+          x={CX - 34} y={CY - 34} width="68" height="68"
           clipPath="url(#igHub)" preserveAspectRatio="xMidYMid meet" />
 
         {/* label */}
-        <text x={CX} y={CY + 55} textAnchor="middle" fontSize="6.5" fontWeight="800"
+        <text x={CX} y={CY + 72} textAnchor="middle" fontSize="8.5" fontWeight="800"
           letterSpacing="1.5" fill="#c2410c" fontFamily="Inter,sans-serif">
           ORDRJI OS
         </text>
@@ -200,6 +207,7 @@ export default function Integrations() {
   const [rot,    setRot]    = useState(0);
   const [inView, setInView] = useState(false);
   const [show,   setShow]   = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
   const lastTs     = useRef(0);
@@ -213,6 +221,8 @@ export default function Integrations() {
     setRot(r => (r + (360 / SPEED) * dt) % 360);
     if (tickRef.current) rafId.current = requestAnimationFrame(tickRef.current);
   }, []);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => { tickRef.current = tick; }, [tick]);
 
@@ -247,7 +257,11 @@ export default function Integrations() {
 
           {/* ── LEFT: orbital ─────────────────────────────────────────── */}
           <div className={`ig-left ${inView ? "ig-left-in" : ""}`}>
-            <Orbital partners={partners} rot={rot} />
+            {mounted ? (
+              <Orbital partners={partners} rot={rot} />
+            ) : (
+              <div style={{ width: SIZE, height: SIZE }} />
+            )}
           </div>
 
           {/* ── RIGHT: content ────────────────────────────────────────── */}
@@ -328,8 +342,8 @@ export default function Integrations() {
           transform-origin: ${CX}px ${CY}px;
         }
         @keyframes igHubPulse {
-          0%,100% { r: 52; opacity: .3; }
-          50%      { r: 64; opacity: .07; }
+          0%,100% { r: 68; opacity: .3; }
+          50%      { r: 84; opacity: .07; }
         }
 
         /* ── right col (content) ─────────────────────────── */

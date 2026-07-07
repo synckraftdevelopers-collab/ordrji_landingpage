@@ -21,7 +21,7 @@ export default function NotFound() {
         <div style={{ textAlign: "center", maxWidth: 540 }} className="notfound-container">
           {/* visual badge */}
           <span className="notfound-badge">
-            <Sparkles size={11} style={{ color: "#e30613" }} /> Error 404
+            <Sparkles size={11} style={{ color: "#da0404" }} /> Error 404
           </span>
 
           {/* giant title */}
@@ -76,7 +76,7 @@ export default function NotFound() {
           border: 1px solid transparent !important;
         }
         .btn-orange:hover {
-          background: #c4040f !important;
+          background: #be0303 !important;
           box-shadow: 0 8px 20px -6px rgba(227, 6, 19, 0.45);
         }
 

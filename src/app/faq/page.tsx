@@ -77,7 +77,7 @@ export default function FaqPage() {
         <div style={{ textAlign: "center", padding: "4rem 1.5rem 2rem", position: "relative" }}>
           <div className="glow-spot glow-blue" style={{ top: "0", left: "20%", width: "400px", height: "400px", opacity: 0.15 }} />
           <span className="faq-badge font-semibold">
-            <AlertCircle size={11} style={{ color: "#e30613" }} /> Help &amp; Resources
+            <AlertCircle size={11} style={{ color: "#da0404" }} /> Help &amp; Resources
           </span>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem" }}>
             Frequently Asked Questions
@@ -172,7 +172,7 @@ export default function FaqPage() {
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
-              <a href="https://wa.me/919876543210?text=Hi%20OrderJi%20team,%20I%20have%20some%20queries%20about%20your%20POS%20system." target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", color: "#fff", background: "#25d366", padding: "0.75rem 1.25rem", borderRadius: 10, fontSize: "0.9rem", fontWeight: 600 }} className="btn-hover-shift">
+              <a href="https://wa.me/919004402006?text=Hi%20OrderJi%20team,%20I%20have%20some%20queries%20about%20your%20POS%20system." target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", color: "#fff", background: "#25d366", padding: "0.75rem 1.25rem", borderRadius: 10, fontSize: "0.9rem", fontWeight: 600 }} className="btn-hover-shift">
                 <MessageSquare size={18} /> Chat on WhatsApp
               </a>
               
@@ -180,8 +180,8 @@ export default function FaqPage() {
                 <a href="mailto:support@ordrji.com" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", color: "inherit", textDecoration: "none" }} className="hover-link">
                   <Mail size={14} /> support@ordrji.com
                 </a>
-                <a href="tel:+919876543210" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", color: "inherit", textDecoration: "none" }} className="hover-link">
-                  <Phone size={14} /> +91 98765 43210
+                <a href="tel:+919004402006" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", color: "inherit", textDecoration: "none" }} className="hover-link">
+                  <Phone size={14} /> +91 90044 02006
                 </a>
               </div>
             </div>

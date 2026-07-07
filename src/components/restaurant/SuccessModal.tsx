@@ -44,7 +44,8 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
               <CheckCircle2 size={52} color="#16a34a" />
             </motion.div>
 
-            <h2 className="rr-modal-title">Restaurant Registered Successfully!</h2>
+            <h2 className="rr-modal-title">Thank You!</h2>
+            <h3 className="rr-modal-subtitle">Restaurant Registered Successfully</h3>
             <p className="rr-modal-sub">
               <strong>{restaurantName}</strong> has been submitted for review.
             </p>
@@ -101,8 +102,11 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
             .rr-modal-close:hover { background: #e2e8f0; }
             .rr-modal-icon { margin-bottom: .25rem; filter: drop-shadow(0 4px 12px rgba(22,163,74,.25)); }
             .rr-modal-title {
-              font-size: 1.5rem; font-weight: 800; letter-spacing: -.5px;
+              font-size: 1.75rem; font-weight: 800; letter-spacing: -.5px;
               color: #0f172a; margin: 0;
+            }
+            .rr-modal-subtitle {
+              font-size: 1.1rem; font-weight: 700; color: #16a34a; margin: -0.25rem 0 0;
             }
             .rr-modal-sub { font-size: .95rem; color: #475569; margin: 0; }
             .rr-modal-body {

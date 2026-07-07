@@ -220,9 +220,11 @@ export interface RestaurantPrefill {
 export default function RegistrationForm({
   prefill,
   onSuccess,
+  onSuccessModalClose,
 }: {
   prefill?: RestaurantPrefill;
   onSuccess?: (name: string) => void;
+  onSuccessModalClose?: () => void;
 }) {
   const [logo,        setLogo]        = useState<string | null>(null);
   const [cover,       setCover]       = useState<string | null>(null);
@@ -305,12 +307,6 @@ export default function RegistrationForm({
     }
   };
 
-  const handleStart = () => {
-    setFormStarted(true);
-    setTimeout(() => {
-      document.getElementById("rr-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  };
 
   return (
     <>
@@ -479,7 +475,14 @@ export default function RegistrationForm({
           </div>
         </div>
 
-      <SuccessModal isOpen={success} restaurantName={submittedName} onClose={() => setSuccess(false)} />
+      <SuccessModal
+        isOpen={success}
+        restaurantName={submittedName}
+        onClose={() => {
+          setSuccess(false);
+          onSuccessModalClose?.();
+        }}
+      />
 
       <style jsx global>{`
         .rr-page { background: #f8fafc; min-height: 100vh; font-family: var(--font-sans); }

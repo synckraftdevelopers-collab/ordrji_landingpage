@@ -71,7 +71,6 @@ export default function LocationAutocomplete({
     e.stopPropagation();
     setQuery("");
     onChange("");
-    setResults([]);
     setActiveIndex(-1);
     if (inputRef.current) {
       inputRef.current.focus();

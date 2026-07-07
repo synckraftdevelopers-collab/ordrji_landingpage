@@ -62,7 +62,7 @@ const STEPS = [
   {
     num: "04",
     icon: CreditCard,
-    color: "#e30613",
+    color: "#da0404",
     title: "Process Billing & Payments",
     time: "~2 min per bill",
     desc: "Split bills, apply discounts, run loyalty redemptions, and print GST-compliant invoices — all from one screen.",
@@ -362,7 +362,7 @@ export default function HowToUsePage() {
             </div>
             <div className="htu-video-card glass-card">
               <div className="htu-video-thumb">
-                <Image src="/hero.png" alt="Ordrji tutorial preview" width={640} height={360} className="htu-video-img" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <Image src="/hero.png?v=2" alt="Ordrji tutorial preview" width={640} height={360} className="htu-video-img" style={{ width: "100%", height: "100%", objectFit: "cover" }} unoptimized />
                 <div className="htu-play-overlay">
                   <span className="htu-play-btn">
                     <Play size={28} color="#fff" fill="#fff" />

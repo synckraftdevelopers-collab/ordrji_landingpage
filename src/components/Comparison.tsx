@@ -50,7 +50,7 @@ export default function Comparison() {
         {/* Section Header */}
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>
           <span className="comparison-badge">
-            <Shield size={11} style={{ color: "#e30613" }} /> Direct Comparison
+            <Shield size={11} style={{ color: "#da0404" }} /> Direct Comparison
           </span>
           <h2 style={{ fontSize: "clamp(2rem, 4.5vw, 2.5rem)", fontWeight: 800, letterSpacing: "-1.2px", marginTop: "0.5rem" }}>
             How Ordrji Compares <br />

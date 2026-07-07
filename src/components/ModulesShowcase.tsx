@@ -14,7 +14,9 @@ import {
   ChevronRight, 
   Check, 
   AlertCircle,
-  Sparkles 
+  Sparkles,
+  Package,
+  RefreshCw
 } from "lucide-react";
 
 import type { LucideProps } from "lucide-react";
@@ -38,7 +40,7 @@ const PANELS: PanelData[] = [
     headline: "Orders Flow In Automatically",
     description: "Guests scan table QRs and order instantly. The AI operating system continuously tags item modifiers and routes tickets instantly to the prep station queue.",
     icon: QrCode,
-    gradient: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)", // soft orange peach
+    gradient: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)",
     accentColor: "var(--accent-orange)",
     badge: "AI Auto-Tagging",
     ctaText: "Launch QR ordering"
@@ -49,7 +51,7 @@ const PANELS: PanelData[] = [
     headline: "Kitchen Works In Real Time",
     description: "Every order instantly reaches the KDS screen. The built-in AI assistant predicts preparation delays and automatically re-allocates kitchen tasks to prevent bottlenecks.",
     icon: ChefHat,
-    gradient: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)", // soft mint green
+    gradient: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
     accentColor: "var(--accent-green)",
     badge: "AI SLA Prediction",
     ctaText: "Configure KDS lanes"
@@ -60,7 +62,7 @@ const PANELS: PanelData[] = [
     headline: "Faster Billing, Zero Chaos",
     description: "Generate bills, split checks, and collect payments. The AI POS engine handles multi-way checkouts and reconciles cashier shift reports in one click.",
     icon: Receipt,
-    gradient: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)", // soft sky blue
+    gradient: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)",
     accentColor: "var(--accent-blue)",
     badge: "AI Smart Splits",
     ctaText: "Explore POS registers"
@@ -71,18 +73,29 @@ const PANELS: PanelData[] = [
     headline: "Turn Guests Into Regulars",
     description: "Build deep customer profiles automatically. The CRM engine tracks individual diner preferences and triggers personalized email/SMS campaigns.",
     icon: Users,
-    gradient: "linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)", // soft lavender
+    gradient: "linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)",
     accentColor: "var(--accent-purple)",
     badge: "AI Autopilot Marketing",
     ctaText: "View CRM funnels"
   },
   {
     id: 4,
+    title: "Inventory",
+    headline: "Inventory Intelligence & Predictions",
+    description: "Stop wasting ingredients. OrderJi tracks raw items down to grams, predicts run-out times, and automatically triggers supplier purchases.",
+    icon: Package,
+    gradient: "linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)",
+    accentColor: "var(--accent-rose)",
+    badge: "AI Stock Forecasting",
+    ctaText: "Manage Inventory"
+  },
+  {
+    id: 5,
     title: "Analytics",
     headline: "Know Your Business Instantly",
     description: "Forget tedious spreadsheets. Access actionable executive AI insights. Spot stock wastage trends and forecast your next weekend's sales curve.",
     icon: TrendingUp,
-    gradient: "linear-gradient(135deg, #fefce8 0%, #fef9c3 100%)", // soft gold yellow
+    gradient: "linear-gradient(135deg, #fefce8 0%, #fef9c3 100%)",
     accentColor: "var(--accent-amber)",
     badge: "AI Predictive Analytics",
     ctaText: "Open analytics suite"
@@ -220,7 +233,7 @@ export default function ModulesShowcase() {
       <div className="container">
         <div className="showcase-header">
 
-          <h2>One Single OS. Five Modules.</h2>
+          <h2>One Single OS. Six Modules.</h2>
           <p>
             Replaced disconnected legacy software with a unified, AI-optimized restaurant engine. Visually explore the modules to see the OS interact.
           </p>
@@ -1921,6 +1934,67 @@ function renderActiveVisual(panelId: number, state: VisualState) {
 
     case 4:
       return (
+        <div className="inventory-visual-wrapper" style={{ padding: "0.5rem", display: "flex", flexDirection: "column", gap: "0.75rem", height: "100%" }}>
+          <div className="stream-headline" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h4 style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem", fontWeight: 700 }}>
+              <span className="live-pulse-dot" style={{ background: "var(--accent-rose)", width: "6px", height: "6px", borderRadius: "50%", display: "inline-block" }} />
+              Live Ingredient Stock Tracker
+            </h4>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+            {/* Cottage Cheese */}
+            <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid var(--border-color)", borderRadius: "8px", padding: "0.6rem 0.8rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.2rem" }}>
+                <span>Paneer (Cottage Cheese)</span>
+                <span style={{ color: "var(--accent-green)" }}>85% left</span>
+              </div>
+              <div style={{ height: "4px", background: "var(--border-color)", borderRadius: "2px", overflow: "hidden", marginBottom: "0.4rem" }}>
+                <div style={{ width: "85%", height: "100%", background: "var(--accent-green)" }} />
+              </div>
+              <div style={{ fontSize: "0.68rem", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                <RefreshCw size={9} className="inv-spin" /> High dinner demand. Paneer finishes tomorrow 10 PM.
+              </div>
+            </div>
+
+            {/* Mozzarella */}
+            <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid var(--border-color)", borderRadius: "8px", padding: "0.6rem 0.8rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.2rem" }}>
+                <span>Mozzarella Cheese Blend</span>
+                <span style={{ color: "var(--accent-amber)" }}>60% left</span>
+              </div>
+              <div style={{ height: "4px", background: "var(--border-color)", borderRadius: "2px", overflow: "hidden", marginBottom: "0.4rem" }}>
+                <div style={{ width: "60%", height: "100%", background: "var(--accent-amber)" }} />
+              </div>
+              <div style={{ fontSize: "0.68rem", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                <RefreshCw size={9} className="inv-spin" /> Stock stable. Reorder threshold crossed in 3 days.
+              </div>
+            </div>
+
+            {/* Sunflower Oil */}
+            <div style={{ background: "rgba(255,255,255,0.7)", border: "1px solid var(--border-color)", borderRadius: "8px", padding: "0.6rem 0.8rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.2rem" }}>
+                <span>Refined Sunflower Oil</span>
+                <span style={{ color: "var(--accent-rose)" }}>18% left</span>
+              </div>
+              <div style={{ height: "4px", background: "var(--border-color)", borderRadius: "2px", overflow: "hidden", marginBottom: "0.4rem" }}>
+                <div style={{ width: "18%", height: "100%", background: "var(--accent-rose)" }} />
+              </div>
+              <div style={{ fontSize: "0.68rem", color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "0.25rem", fontWeight: 600 }}>
+                <RefreshCw size={9} className="inv-spin" /> CRITICAL: Depletion in 4 hrs. Auto-purchase triggered.
+              </div>
+            </div>
+          </div>
+
+          <div className="ai-copilot-indicator-bar" style={{ borderColor: "rgba(244, 63, 94, 0.15)", bottom: "-0.5rem" }}>
+            <Sparkles size={10} style={{ color: "var(--accent-rose)" }} />
+            <span className="ai-copilot-text">AI Forecast: Ingredient reorder sent automatically to supplier</span>
+          </div>
+        </div>
+      );
+
+    case 5:
+      return (
         <div className="analytics-visual-wrapper">
           <div className="analytics-metrics-grid">
             <div className="analytics-mini-tile">
@@ -1949,8 +2023,8 @@ function renderActiveVisual(panelId: number, state: VisualState) {
               >
                 <defs>
                   <linearGradient id="gradient-chart" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--accent-amber)" stopOpacity="0.4" stopColor-rgb="217,119,6" />
-                    <stop offset="100%" stopColor="var(--accent-amber)" stopOpacity="0.0" stopColor-rgb="217,119,6" />
+                    <stop offset="0%" stopColor="var(--accent-amber)" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="var(--accent-amber)" stopOpacity="0.0" />
                   </linearGradient>
                 </defs>
 

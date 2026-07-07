@@ -11,19 +11,37 @@ interface Comment {
   date: string;
 }
 
-export default function CommentsSection({ blogId }: { blogId: string }) {
+export default function CommentsSection({ blogId, blogSlug }: { blogId: string; blogSlug: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [commentText, setCommentText] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [supabasePostId, setSupabasePostId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadComments() {
       try {
+        // 1. Fetch Supabase UUID of the blog post by slug
+        const { data: postData, error: postError } = await supabase
+          .from("blog_posts")
+          .select("id")
+          .eq("slug", blogSlug)
+          .single();
+
+        if (postError) {
+          console.error("Error fetching post UUID from Supabase:", postError);
+          showDefaultComments();
+          return;
+        }
+
+        const postId = postData.id;
+        setSupabasePostId(postId);
+
+        // 2. Fetch comments for this UUID
         const { data, error } = await supabase
           .from("blog_comments")
           .select("*")
-          .eq("blog_post_id", blogId)
+          .eq("blog_post_id", postId)
           .order("created_at", { ascending: false });
 
         if (error) throw error;
@@ -42,34 +60,42 @@ export default function CommentsSection({ blogId }: { blogId: string }) {
             }))
           );
         } else {
-          // Seed default comment for demonstration
-          const defaultComments: Comment[] = [
-            {
-              id: "comment-default-1",
-              name: "Rajesh Kumar",
-              comment: "This is a great write-up. We implemented QR ordering in our Connaught Place cafe last month and average order value actually increased by about 18%. The automated upselling recommendations work really well.",
-              date: "June 29, 2026",
-            },
-          ];
-          setComments(defaultComments);
+          showDefaultComments();
         }
       } catch (err) {
         console.error("Error loading comments:", err);
       }
     }
+
+    function showDefaultComments() {
+      const defaultComments: Comment[] = [
+        {
+          id: "comment-default-1",
+          name: "Rajesh Kumar",
+          comment: "This is a great write-up. We implemented QR ordering in our Connaught Place cafe last month and average order value actually increased by about 18%. The automated upselling recommendations work really well.",
+          date: "June 29, 2026",
+        },
+      ];
+      setComments(defaultComments);
+    }
+
     loadComments();
-  }, [blogId]);
+  }, [blogSlug]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !commentText.trim() || submitting) return;
+    if (!supabasePostId) {
+      alert("Cannot post comment: Blog post not found in Supabase.");
+      return;
+    }
 
     setSubmitting(true);
     try {
       const { data, error } = await supabase
         .from("blog_comments")
         .insert({
-          blog_post_id: blogId,
+          blog_post_id: supabasePostId,
           author_name: name.trim(),
           comment_text: commentText.trim(),
           is_approved: true, // Auto-approve so it shows up immediately

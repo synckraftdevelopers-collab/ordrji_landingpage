@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     const emailSubject = `[Ordrji Demo Request] - ${restaurantName || "New Lead"} (${fullName})`;
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ebdcb9; border-radius: 8px; background-color: #fdfaf4;">
-        <h2 style="color: #e30613; border-bottom: 2px solid #ebdcb9; padding-bottom: 10px; margin-top: 0;">New Demo Booking Request</h2>
+        <h2 style="color: #da0404; border-bottom: 2px solid #ebdcb9; padding-bottom: 10px; margin-top: 0;">New Demo Booking Request</h2>
         <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
           <tr>
             <td style="padding: 8px 0; font-weight: bold; width: 150px; color: #5a5046;">Full Name:</td>
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
         ${
           message
             ? `
-          <div style="margin-top: 20px; padding: 12px; background-color: #f7f2e6; border-radius: 6px; border-left: 4px solid #e30613;">
+          <div style="margin-top: 20px; padding: 12px; background-color: #f7f2e6; border-radius: 6px; border-left: 4px solid #da0404;">
             <p style="margin: 0; font-weight: bold; color: #5a5046; margin-bottom: 6px;">Additional Message / Requirements:</p>
             <p style="margin: 0; color: #1e1b18; white-space: pre-wrap; font-size: 0.95rem; line-height: 1.5;">${message}</p>
           </div>
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     const thankYouHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ebdcb9; border-radius: 12px; background-color: #fdfaf4; color: #1e1b18;">
         <div style="text-align: center; margin-bottom: 25px;">
-          <h2 style="color: #e30613; margin: 0 0 8px 0; font-size: 22px;">Demo Request Received!</h2>
+          <h2 style="color: #da0404; margin: 0 0 8px 0; font-size: 22px;">Demo Request Received!</h2>
           <p style="color: #5a5046; font-size: 15px; margin: 0;">Hi ${fullName}, thank you for reaching out to Ordrji.</p>
         </div>
         

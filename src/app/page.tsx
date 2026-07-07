@@ -9,11 +9,8 @@ import OrderJourney from "@/components/OrderJourney";
 import Ecosystem from "@/components/Ecosystem";
 import ModulesShowcase from "@/components/ModulesShowcase";
 import RoleExperience from "@/components/RoleExperience";
-import Inventory from "@/components/Inventory";
 import SuccessStories from "@/components/SuccessStories";
 import Pricing from "@/components/Pricing";
-import Comparison from "@/components/Comparison";
-import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 import Integrations from "@/components/Integrations";
 import BookDemoModal from "@/components/BookDemoModal";
@@ -49,9 +46,9 @@ export default function Home() {
         <div className="divider" />
         <OrderJourney />
         <div className="divider" />
-        <ModulesShowcase />
+        <InstagramSection />
         <div className="divider" />
-        <Inventory />
+        <ModulesShowcase />
         <div className="divider" />
         <Integrations />
         <div className="divider" />
@@ -68,20 +65,9 @@ export default function Home() {
         <Pricing />
         <div className="divider" />
 
-        {/* 7. Comparison: Ordrji vs Legacy POS */}
-        <Comparison />
-        <div className="divider" />
 
         {/* 8. Testimonials / Success Stories */}
         <SuccessStories />
-        <div className="divider" />
-
-        {/* 9. FAQ Accordions */}
-        <Faq />
-        <div className="divider" />
-
-        {/* 10. Instagram Feed */}
-        <InstagramSection />
         <div className="divider" />
 
         {/* 11. Book Demo Final CTA */}

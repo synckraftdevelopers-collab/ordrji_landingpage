@@ -216,7 +216,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="meta-stats">
                   <div className="stat-item">
                     <Calendar size={13} />
-                    <span>Created: {blog.createdDate}</span>
+                    <span>Created: {blog.createdDate}{blog.createdTime ? ` at ${blog.createdTime}` : ""}</span>
                   </div>
                   <div className="stat-item">
                     <Clock size={13} />
@@ -348,7 +348,7 @@ export default async function BlogPostPage({ params }: Props) {
                 </div>
 
                 {/* Persistent Comments Section */}
-                <CommentsSection blogId={blog.id} />
+                <CommentsSection blogId={blog.id} blogSlug={blog.slug} />
               </article>
             </div>
 

@@ -426,7 +426,10 @@ export default function RegisterRestaurantModal({ isOpen, onClose, prefill }: Pr
                     </div>
                   )}
 
-                  <RegistrationForm prefill={activePrefill} />
+                  <RegistrationForm
+                    prefill={activePrefill}
+                    onSuccessModalClose={onClose}
+                  />
                 </motion.div>
               )}
 

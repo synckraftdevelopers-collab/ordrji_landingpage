@@ -28,12 +28,12 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
             </p>
             
             <div className="cta-actions">
-              <button onClick={onBookDemo} className="btn-primary btn-orange cta-btn font-semibold">
+              <button onClick={onBookDemo} className="btn-primary btn-red cta-btn font-semibold">
                 Book Free Demo <ArrowRight size={16} />
               </button>
               
               <a 
-                href="https://wa.me/919876543210?text=Hi%20OrderJi%20team,%20I%20am%20interested%20in%20a%20demo%20for%20my%20restaurant."
+                href="https://wa.me/919004402006?text=Hi%20OrderJi%20team,%20I%20am%20interested%20in%20a%20demo%20for%20my%20restaurant."
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="btn-secondary cta-btn-wa font-semibold"
@@ -42,10 +42,10 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
               </a>
 
               <a 
-                href="tel:+919876543210"
+                href="tel:+919004402006"
                 className="btn-text-call font-semibold"
               >
-                <Phone size={15} /> Talk to Sales: +91 98765 43210
+                <Phone size={15} /> Talk to Sales: +91 90044 02006
               </a>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
           right: -100px;
           width: 400px;
           height: 400px;
-          background: #e30613;
+          background: #da0404;
         }
 
         .cta-content {
@@ -172,14 +172,6 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
           }
         }
 
-        .btn-orange {
-          background: var(--accent-orange) !important;
-          color: #fff !important;
-          border: 1px solid transparent !important;
-        }
-        .btn-orange:hover {
-          background: #c4040f !important;
-        }
 
         .cta-btn-wa {
           display: inline-flex;

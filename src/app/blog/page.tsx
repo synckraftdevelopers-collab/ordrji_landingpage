@@ -21,6 +21,7 @@ interface BlogPost {
   status: string;
   createdBy: string;
   createdDate: string;
+  createdTime?: string;
   readingTime: string;
 }
 
@@ -328,7 +329,7 @@ export default function BlogLandingPage() {
                     <div className="blog-card-meta">
                       <div className="author-info-wrap">
                         <span className="author-name">By {post.createdBy}</span>
-                        <span className="post-date-sub">{post.createdDate}</span>
+                        <span className="post-date-sub">{post.createdDate}{post.createdTime ? ` at ${post.createdTime}` : ""}</span>
                       </div>
                       <div className="meta-read">
                         <Clock size={12} style={{ color: "var(--text-muted)" }} />
@@ -537,7 +538,7 @@ export default function BlogLandingPage() {
         .featured-badge-pill {
           background: rgba(227,6,19,0.08);
           border: 1px solid rgba(227,6,19,0.2);
-          color: #e30613;
+          color: #da0404;
           font-size: 0.65rem;
           font-weight: 800;
           padding: 0.25rem 0.5rem;

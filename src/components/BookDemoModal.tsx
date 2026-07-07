@@ -202,7 +202,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
           letter-spacing: -1.2px;
           line-height: 1.2;
           margin-bottom: 0.55rem;
-          background: linear-gradient(135deg, #1e1b18 30%, #e30613 100%);
+          background: linear-gradient(135deg, #1e1b18 30%, #da0404 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -273,7 +273,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
         }
 
         .bdm-input-wrap:focus-within .bdm-input-icon {
-          color: #e30613;
+          color: #da0404;
         }
 
         .bdm-input {
@@ -296,7 +296,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
 
         .bdm-input:focus {
           outline: none;
-          border-color: #e30613;
+          border-color: #da0404;
           background: #ffffff;
           box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
         }
@@ -327,7 +327,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
 
         .bdm-textarea:focus {
           outline: none;
-          border-color: #e30613;
+          border-color: #da0404;
           background: #ffffff;
           box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
         }
@@ -354,7 +354,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
           align-items: center;
           justify-content: center;
           gap: 0.5rem;
-          background: #e30613;
+          background: #da0404;
           color: #ffffff;
           padding: 0.9rem 1.5rem;
           border-radius: 12px;
@@ -480,7 +480,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
                     {/* Header */}
                     <div className="bdm-header">
                       <div className="bdm-badge">
-                        <Sparkles size={11} style={{ color: "#e30613" }} />
+                        <Sparkles size={11} style={{ color: "#da0404" }} />
                         Book a Live Demo
                       </div>
                       <h2 className="bdm-title">See Ordrji in Action</h2>
@@ -542,7 +542,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
                               id="bdm-phone"
                               name="phone"
                               required
-                              placeholder="+91 98765 43210"
+                              placeholder="+91 90044 02006"
                               value={formData.phone}
                               onChange={handleChange}
                               autoComplete="tel"

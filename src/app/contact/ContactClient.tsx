@@ -142,7 +142,7 @@ export default function ContactClient() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="form-row">
                     <div className="field-wrap">
                       <label className="field-label">Phone</label>
-                      <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 98765 43210" />
+                      <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 90044 02006" />
                     </div>
                     <div className="field-wrap">
                       <label className="field-label">Location *</label>

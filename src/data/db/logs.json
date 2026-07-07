@@ -1,5 +1,71 @@
 [
   {
+    "id": "log-1783340674610",
+    "user": "Ananya Gupta",
+    "role": "Admin",
+    "action": "Soft deleted blog '5 Ways a Modern POS System Helps Restaurants Grow Faster'",
+    "date": "July 6, 2026",
+    "time": "05:54 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop",
+    "browser": "Chrome"
+  },
+  {
+    "id": "log-1783323299578",
+    "user": "Ananya Gupta",
+    "role": "Admin",
+    "action": "Created blog '5 Ways a Modern POS System Helps Restaurants Grow Faster' with status 'Published'",
+    "date": "July 6, 2026",
+    "time": "01:04 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop",
+    "browser": "Chrome"
+  },
+  {
+    "id": "log-1783323179475",
+    "user": "Ananya Gupta",
+    "role": "Admin",
+    "action": "Soft deleted blog '5 Ways a Modern POS System Helps Restaurants Grow Faster'",
+    "date": "July 6, 2026",
+    "time": "01:02 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop",
+    "browser": "Chrome"
+  },
+  {
+    "id": "log-1783320381158",
+    "user": "Ananya Gupta",
+    "role": "Admin",
+    "action": "Created blog '5 Ways a Modern POS System Helps Restaurants Grow Faster' with status 'Published'",
+    "date": "July 6, 2026",
+    "time": "12:16 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop",
+    "browser": "Chrome"
+  },
+  {
+    "id": "log-1783166167119",
+    "user": "Ananya Gupta",
+    "role": "Admin",
+    "action": "Created blog 'How QR increase average bills' with status 'Published'",
+    "date": "July 4, 2026",
+    "time": "05:26 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop",
+    "browser": "Chrome"
+  },
+  {
+    "id": "log-1783166022337",
+    "user": "Ananya Gupta",
+    "role": "Admin",
+    "action": "Uploaded cover image file 'img5.jpg'",
+    "date": "July 4, 2026",
+    "time": "05:23 PM",
+    "ipAddress": "127.0.0.1",
+    "device": "Desktop",
+    "browser": "Chrome"
+  },
+  {
     "id": "log-1",
     "user": "Rohan Mehta",
     "role": "Admin",

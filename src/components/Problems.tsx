@@ -8,7 +8,7 @@ const PAIN_POINTS = [
     icon: <TrendingDown size={22} />,
     title: "The Commission Drain",
     desc: "Standard POS providers and checkout tools clip 1% to 3% of every transaction, eating directly into your restaurant's thin margins.",
-    color: "#e30613"
+    color: "#da0404"
   },
   {
     icon: <RefreshCw size={22} />,

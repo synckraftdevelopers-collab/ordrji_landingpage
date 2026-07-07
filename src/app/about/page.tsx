@@ -67,7 +67,7 @@ export default function AboutPage() {
           <div className="glow-spot glow-rose" style={{ top: "-50px", right: "20%", width: "400px", height: "400px" }} />
           <div className="container" style={{ maxWidth: 900, textAlign: "center" }}>
             <span className="about-badge font-semibold">
-              <Sparkles size={11} style={{ color: "#e30613" }} /> Our Story
+              <Sparkles size={11} style={{ color: "#da0404" }} /> Our Story
             </span>
             <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 900, letterSpacing: "-2px", marginTop: "0.5rem", marginBottom: "1.25rem" }}>
               Rebuilding the Operating Workspace <br />

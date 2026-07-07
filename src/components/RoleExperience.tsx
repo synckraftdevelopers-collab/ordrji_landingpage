@@ -342,7 +342,7 @@ export default function RoleExperience() {
 
         {/* Count-up stat row */}
         <div className={`re-stats-row${statsStarted ? " re-stats-started" : ""}`}>
-          <ReCountStatBadge icon={<User />} value={5} suffix=" roles" label="Dedicated interfaces" color="#e30613" started={statsStarted} delay={0} />
+          <ReCountStatBadge icon={<User />} value={5} suffix=" roles" label="Dedicated interfaces" color="#da0404" started={statsStarted} delay={0} />
           {/* "0.2s" — hardcoded, no count-up */}
           <ReStatBadge displayValue="0.2s" icon={<Sparkles />} label="Live sync delay" color="#059669" started={statsStarted} delay={120} />
           <ReCountStatBadge icon={<Monitor />} value={100} suffix="%" label="Real-time data" color="#0284c7" started={statsStarted} delay={240} />

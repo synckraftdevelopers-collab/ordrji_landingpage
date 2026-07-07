@@ -9,7 +9,9 @@ import {
   Check,
   LogOut,
   ArrowLeft,
+  Trash2,
   Bell,
+  Image as ImageIcon,
 } from "lucide-react";
 import RoleSwitcher from "@/components/RoleSwitcher";
 
@@ -26,6 +28,7 @@ interface BlogPost {
   status: "Draft" | "Published" | "Deleted" | "Scheduled" | "Archived";
   createdBy: string;
   createdDate: string;
+  createdTime?: string;
   readingTime: string;
 }
 
@@ -72,6 +75,34 @@ export default function AdminBlogsPage() {
   const [formStatus, setFormStatus] = useState<"Draft" | "Published">("Published");
   const [formAuthor, setFormAuthor] = useState("");
   const [formDate, setFormDate] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/media", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to upload image");
+      }
+
+      setFormCoverImage(data.url);
+    } catch (err: any) {
+      alert(err.message || "An error occurred during file upload.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
@@ -207,6 +238,55 @@ export default function AdminBlogsPage() {
     }
   };
 
+  const handleDeleteBlog = async (post: BlogPost) => {
+    const isSuperAdmin = activeRole === "Super Admin";
+    
+    let confirmMsg = `Are you sure you want to delete "${post.title}"?`;
+    if (isSuperAdmin) {
+      confirmMsg += "\n\nPress OK to Soft Delete (hide from public, keep in database).\nPress Cancel to skip or choose Permanent Purge.";
+    }
+
+    if (confirm(confirmMsg)) {
+      // Perform Soft Delete
+      try {
+        const res = await fetch(`/api/blogs/${post.id}`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          alert("Blog post soft-deleted successfully!");
+          loadCMSData();
+          if (editingId === post.id) {
+            triggerNewBlog();
+          }
+        } else {
+          const data = await res.json();
+          alert(`Error: ${data.error || "Failed to delete blog post"}`);
+        }
+      } catch (err) {
+        alert("An unexpected network error occurred.");
+      }
+    } else if (isSuperAdmin && confirm(`Do you want to PERMANENTLY PURGE "${post.title}"? This cannot be undone!`)) {
+      // Perform Hard Delete (purge=true)
+      try {
+        const res = await fetch(`/api/blogs/${post.id}?purge=true`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          alert("Blog post permanently purged from database!");
+          loadCMSData();
+          if (editingId === post.id) {
+            triggerNewBlog();
+          }
+        } else {
+          const data = await res.json();
+          alert(`Error: ${data.error || "Failed to purge blog post"}`);
+        }
+      } catch (err) {
+        alert("An unexpected network error occurred.");
+      }
+    }
+  };
+
   const handleLogout = async () => {
     if (confirm("Are you sure you want to log out?")) {
       const res = await fetch("/api/auth/logout", { method: "POST" });
@@ -271,7 +351,7 @@ export default function AdminBlogsPage() {
             {newLeadsCount > 0 && (
               <span style={{
                 position: "absolute", top: "-6px", right: "-6px",
-                background: "#e30613", color: "#fff",
+                background: "#da0404", color: "#fff",
                 fontSize: "0.6rem", fontWeight: 800,
                 width: "18px", height: "18px", borderRadius: "50%",
                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -309,7 +389,7 @@ export default function AdminBlogsPage() {
                 <div className="dir-card-body">
                   <h4>{post.title}</h4>
                   <span className="dir-card-meta">
-                    By {post.createdBy || "Admin"} • {post.createdDate || "Today"}
+                    By {post.createdBy || "Admin"} • {post.createdDate || "Today"}{post.createdTime ? ` at ${post.createdTime}` : ""}
                   </span>
                   <div className="dir-card-tags">
                     <span className={`status-badge ${post.status.toLowerCase()}`}>
@@ -321,7 +401,7 @@ export default function AdminBlogsPage() {
                   </div>
                 </div>
 
-                <div className="dir-card-actions">
+                <div className="dir-card-actions" style={{ display: "flex", gap: "0.35rem" }}>
                   <button 
                     onClick={() => loadBlogToForm(post)} 
                     className="dir-edit-btn"
@@ -329,6 +409,15 @@ export default function AdminBlogsPage() {
                   >
                     <Edit size={13} />
                     <span>Edit</span>
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => handleDeleteBlog(post)} 
+                    className="dir-delete-btn"
+                    title="Delete Post"
+                  >
+                    <Trash2 size={13} />
+                    <span>Delete</span>
                   </button>
                 </div>
               </div>
@@ -431,15 +520,52 @@ export default function AdminBlogsPage() {
 
               {/* Cover image url + presets selector */}
               <div className="form-group span-2">
-                <label className="form-label">Cover Photo Link</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="Paste cover photo URL link"
-                  value={formCoverImage}
-                  onChange={(e) => setFormCoverImage(e.target.value)}
-                  required
-                />
+                <label className="form-label">Cover Photo</label>
+                <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Paste cover photo URL or upload a file"
+                    value={formCoverImage}
+                    onChange={(e) => setFormCoverImage(e.target.value)}
+                    required
+                    style={{ flex: 1 }}
+                  />
+                  <label 
+                    className="btn-secondary flex-btn" 
+                    style={{ 
+                      padding: "0.6rem 1rem", 
+                      fontSize: "0.85rem", 
+                      cursor: "pointer", 
+                      display: "flex", 
+                      alignItems: "center", 
+                      gap: "0.35rem",
+                      whiteSpace: "nowrap",
+                      border: "1px solid #cbd5e1",
+                      borderRadius: "6px",
+                      background: "#fff"
+                    }}
+                  >
+                    {uploading ? (
+                      <>
+                        <span className="cms-spinner" style={{ width: "12px", height: "12px", borderWidth: "2px" }} />
+                        <span>Uploading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ImageIcon size={14} />
+                        <span>Upload File</span>
+                      </>
+                    )}
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      style={{ display: "none" }} 
+                      onChange={handleFileUpload} 
+                      disabled={uploading}
+                    />
+                  </label>
+                </div>
                 
                 <div className="preset-images-picker">
                   <span>Or select a preset:</span>
@@ -513,9 +639,22 @@ export default function AdminBlogsPage() {
 
               <div className="form-actions-row">
                 {editingId && (
-                  <button type="button" onClick={triggerNewBlog} className="btn-secondary cancel-btn">
-                    Discard Changes
-                  </button>
+                  <>
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        const post = blogs.find(b => b.id === editingId);
+                        if (post) handleDeleteBlog(post);
+                      }} 
+                      className="btn-secondary delete-form-btn flex-btn"
+                    >
+                      <Trash2 size={14} />
+                      <span>Delete Article</span>
+                    </button>
+                    <button type="button" onClick={triggerNewBlog} className="btn-secondary cancel-btn">
+                      Discard Changes
+                    </button>
+                  </>
                 )}
                 <button type="submit" className="btn-primary btn-red save-btn">
                   <Check size={14} style={{ marginRight: "4px" }} />
@@ -964,6 +1103,41 @@ export default function AdminBlogsPage() {
         .cancel-btn:hover {
           color: #ef4444 !important;
           border-color: rgba(239, 68, 68, 0.2) !important;
+        }
+
+        .dir-delete-btn {
+          background: #ffffff;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          padding: 0.3rem 0.5rem;
+          font-size: 0.68rem;
+          font-weight: 800;
+          color: #ef4444;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.2rem;
+          transition: all 0.15s;
+        }
+
+        .dir-delete-btn:hover {
+          border-color: #ef4444;
+          background: rgba(239, 68, 68, 0.05);
+        }
+
+        .delete-form-btn {
+          padding: 0.65rem 1.25rem !important;
+          border-radius: 8px !important;
+          font-size: 0.85rem !important;
+          color: #ef4444 !important;
+          border: 1px solid rgba(239, 68, 68, 0.2) !important;
+          background: #ffffff !important;
+          cursor: pointer;
+        }
+
+        .delete-form-btn:hover {
+          background: #fef2f2 !important;
+          border-color: #ef4444 !important;
         }
       `}</style>
     </div>

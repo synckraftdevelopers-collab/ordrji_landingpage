@@ -100,7 +100,7 @@ export default function PricingPage() {
         <div style={{ textAlign: "center", padding: "4rem 1.5rem 2rem", position: "relative" }}>
           <div className="glow-spot glow-rose" style={{ top: "0", left: "20%", width: "400px", height: "400px", opacity: 0.1 }} />
           <span className="pricing-tag font-semibold">
-            <Sparkles size={11} style={{ color: "#e30613" }} /> Fair, Predictable Pricing
+            <Sparkles size={11} style={{ color: "#da0404" }} /> Fair, Predictable Pricing
           </span>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, letterSpacing: "-2.5px", marginTop: "0.5rem" }}>
             The Complete OS. <br />
@@ -135,7 +135,7 @@ export default function PricingPage() {
                   <tr style={{ borderBottom: "1px solid var(--border-color)", background: "rgba(0,0,0,0.015)" }}>
                     <th style={{ padding: "1.5rem 1.25rem", textAlign: "left", width: "35%", fontSize: "0.85rem", fontWeight: 700, color: "var(--text-primary)" }}>Feature Overview</th>
                     <th style={{ padding: "1.5rem 1.25rem", textAlign: "center", width: "16.25%", fontSize: "0.85rem", fontWeight: 800, color: "#8b5cf6" }}>Starter</th>
-                    <th style={{ padding: "1.5rem 1.25rem", textAlign: "center", width: "16.25%", fontSize: "0.85rem", fontWeight: 800, color: "#e30613" }}>Growth</th>
+                    <th style={{ padding: "1.5rem 1.25rem", textAlign: "center", width: "16.25%", fontSize: "0.85rem", fontWeight: 800, color: "#da0404" }}>Growth</th>
                     <th style={{ padding: "1.5rem 1.25rem", textAlign: "center", width: "16.25%", fontSize: "0.85rem", fontWeight: 800, color: "#0284c7" }}>Scale</th>
                     <th style={{ padding: "1.5rem 1.25rem", textAlign: "center", width: "16.25%", fontSize: "0.85rem", fontWeight: 800, color: "#059669" }}>Enterprise</th>
                   </tr>

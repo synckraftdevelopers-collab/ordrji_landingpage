@@ -163,7 +163,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
           {/* Floating hero representation */}
           <div className="hero-visual-block">
             <div className="chef-image-wrapper">
-              <Image src="/hero.png" alt="OrderJi OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority />
+              <Image src="/hero.png?v=2" alt="OrderJi OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority unoptimized />
             </div>
           </div>
         </div>
