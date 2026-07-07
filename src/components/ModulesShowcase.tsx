@@ -1340,25 +1340,25 @@ export default function ModulesShowcase() {
         }
 
         .payment-methods-grid {
-          display: flex;
-          flex-direction: column;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
           gap: 0.4rem;
         }
 
         .payment-method-btn {
           width: 100%;
-          background: rgba(255, 255, 255, 0.8);
+          background: rgba(255, 255, 255, 0.85);
           border: 1px solid rgba(0, 0, 0, 0.04);
           color: var(--text-secondary);
-          padding: 0.5rem;
+          padding: 0.5rem 0.25rem;
           border-radius: 6px;
           font-size: 0.65rem;
           font-weight: 800;
-          text-align: left;
+          text-align: center;
           cursor: pointer;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
           transition: all 0.2s ease;
         }
 
@@ -1736,7 +1736,7 @@ function renderActiveVisual(panelId: number, state: VisualState) {
           <div className="invoice-card">
             <div className="invoice-header-block">
               <h5>OrderJi Invoice</h5>
-              <span>No: #INV-2026-928 | Table 14</span>
+              <span>Table 14 • #INV-928</span>
             </div>
             
             <div className="invoice-items-block">
@@ -1745,21 +1745,13 @@ function renderActiveVisual(panelId: number, state: VisualState) {
                 <span>₹850.00</span>
               </div>
               <div className="invoice-item-row">
-                <span>2x Truffle Fries</span>
-                <span>₹900.00</span>
-              </div>
-              <div className="invoice-item-row">
                 <span>1x Cold Brew Coffee</span>
                 <span>₹180.00</span>
               </div>
               <div className="invoice-item-row bold-row">
-                <span>Total Invoice</span>
-                <span>₹1,930.00</span>
+                <span>Total</span>
+                <span>₹1,030.00</span>
               </div>
-            </div>
-
-            <div style={{ fontSize: "0.55rem", textAlign: "center", color: "#8c7d6e", marginTop: "0.5rem" }}>
-              Reconciliation status: pending card/UPI tap
             </div>
 
             {/* Payment success overlay */}
@@ -1774,8 +1766,8 @@ function renderActiveVisual(panelId: number, state: VisualState) {
                   <div className="invoice-success-check">
                     <Check size={24} strokeWidth={3} />
                   </div>
-                  <h6>Payment Completed!</h6>
-                  <p>POS Register Reconciled</p>
+                  <h6>Paid!</h6>
+                  <p>Register Reconciled</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -1794,15 +1786,7 @@ function renderActiveVisual(panelId: number, state: VisualState) {
                   onClick={() => state.setSelectedPaymentMethod(method)}
                   className={`payment-method-btn ${state.selectedPaymentMethod === method ? "selected-btn" : ""}`}
                 >
-                  <span>{method} Payment</span>
-                  <div 
-                    style={{ 
-                      width: "8px", 
-                      height: "8px", 
-                      borderRadius: "50%", 
-                      background: state.selectedPaymentMethod === method ? "var(--accent-blue)" : "rgba(0,0,0,0.06)" 
-                    }} 
-                  />
+                  <span>{method}</span>
                 </button>
               ))}
             </div>
@@ -1816,7 +1800,7 @@ function renderActiveVisual(panelId: number, state: VisualState) {
               {state.billingState === "pending" && (
                 <>
                   <CreditCard size={12} />
-                  <span>Tap to Pay (₹1,930)</span>
+                  <span>Tap to Pay</span>
                 </>
               )}
               {state.billingState === "processing" && (
@@ -1828,7 +1812,7 @@ function renderActiveVisual(panelId: number, state: VisualState) {
                 </div>
               )}
               {state.billingState === "success" && (
-                <span>Done!</span>
+                <span>Paid Successfully</span>
               )}
             </button>
           </div>
