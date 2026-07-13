@@ -9,6 +9,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return Object.keys(SEO_PAGES_DATA).map((slug) => ({
     slug: slug,
@@ -24,7 +26,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: page.description,
   };
 }
-
 export default async function DynamicSeoPage({ params }: Props) {
   const { slug } = await params;
   const page = SEO_PAGES_DATA[slug];

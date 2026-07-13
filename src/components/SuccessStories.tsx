@@ -124,7 +124,7 @@ export default function SuccessStories() {
   const cs = CASES[current];
 
   return (
-    <section className="stories-section" ref={sectionRef}>
+    <section className="stories-section" id="testimonials" ref={sectionRef}>
       <div className="glow-spot glow-purple" style={{ top: "30%", left: "5%",  width: "400px", height: "400px" }} />
       <div className="glow-spot glow-rose"   style={{ bottom: "20%", right: "5%", width: "400px", height: "400px" }} />
 
