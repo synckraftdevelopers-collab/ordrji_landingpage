@@ -24,7 +24,7 @@ const JOURNEY_STEPS: JourneyStep[] = [
     image: "/journey-1-qr-scan-female.png",
     icon: QrCode,
     badgeColor: "var(--accent-purple)",
-    mockUiTitle: "ORDERJI WEB MENU",
+    mockUiTitle: "ORDRJI WEB MENU",
     mockUiLines: ["📍 Table 14 - Active Session", "✨ Personalized Recommendations Loaded", "🔥 Bestseller: Truffle Fries added to cart"]
   },
   {
@@ -80,7 +80,7 @@ const JOURNEY_STEPS: JourneyStep[] = [
   {
     number: 7,
     title: "Loyalty Awarded",
-    desc: "OrderJi loyalty engine awards points based on bill value, tracking real-time loyalty analytics on the dashboard.",
+    desc: "Ordrji loyalty engine awards points based on bill value, tracking real-time loyalty analytics on the dashboard.",
     image: "/journey-7-loyalty.png",
     icon: Gift,
     badgeColor: "var(--accent-blue)",

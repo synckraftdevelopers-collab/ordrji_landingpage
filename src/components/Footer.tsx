@@ -10,22 +10,22 @@ const NAV_COLS = [
   {
     heading: "Product",
     links: [
-      { label: "Billing Engine",        href: "#features" },
-      { label: "QR Order Journey",      href: "#journey"  },
-      { label: "Kitchen Display (KDS)", href: "#features" },
-      { label: "Inventory Control",     href: "#features" },
-      { label: "Marketing Automation",  href: "#crm"      },
-      { label: "Analytics Suite",       href: "#features" },
+      { label: "Billing Engine",        href: "/billing-engine",       isLink: true },
+      { label: "QR Order Journey",      href: "/qr-order-journey",     isLink: true },
+      { label: "Kitchen Display (KDS)", href: "/kitchen-display",      isLink: true },
+      { label: "Inventory Control",     href: "/inventory-control",    isLink: true },
+      { label: "Marketing Automation",  href: "/marketing-automation", isLink: true },
+      { label: "Analytics Suite",       href: "/analytics-suite",      isLink: true },
     ],
   },
   {
     heading: "Solutions",
     links: [
-      { label: "Fine Dining",         href: "#" },
-      { label: "Cafes & Bistros",     href: "#" },
-      { label: "Cloud Kitchens",      href: "#" },
-      { label: "Quick Service (QSR)", href: "#" },
-      { label: "Franchise Chains",    href: "#" },
+      { label: "Fine Dining",         href: "/solutions/fine-dining",         isLink: true },
+      { label: "Cafes & Bistros",     href: "/solutions/cafes-and-bistros",   isLink: true },
+      { label: "Cloud Kitchens",      href: "/solutions/cloud-kitchens",      isLink: true },
+      { label: "Quick Service (QSR)", href: "/solutions/quick-service-qsr",   isLink: true },
+      { label: "Franchise Chains",    href: "/solutions/franchise-chains",    isLink: true },
     ],
   },
   {
@@ -33,7 +33,7 @@ const NAV_COLS = [
     links: [
       { label: "About Us",              href: "/about",              isLink: true  },
       { label: "Restaurants",           href: "/restaurants",        isLink: true  },
-      { label: "Customers",             href: "/#testimonials",      isLink: true  },
+      { label: "Customers",             href: "/customers",          isLink: true  },
       { label: "User Guides",           href: "/how-to-use",         isLink: true  },
       { label: "Blog",                  href: "/blog",               isLink: true  },
       { label: "Contact Us",            href: "/contact",            isLink: true  },
@@ -91,8 +91,8 @@ export default function Footer() {
 
           {/* brand column */}
           <div className="ft-brand-col">
-            <Link href="/" className="ft-logo-wrap" aria-label="OrderJi Home">
-              <Image src="/logo.jpg" alt="OrderJi" width={120} height={48} className="ft-logo" style={{ objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.92 }} />
+            <Link href="/" className="ft-logo-wrap" aria-label="Ordrji Home">
+              <Image src="/logo.jpg" alt="Ordrji" width={120} height={48} className="ft-logo" style={{ objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.92 }} />
             </Link>
 
             <p className="ft-tagline">
@@ -173,7 +173,7 @@ export default function Footer() {
         <div className="ft-bottom">
           <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
             <span className="ft-copy">
-              &copy; {new Date().getFullYear()} OrderJi. All rights reserved.
+              &copy; {new Date().getFullYear()} Ordrji. All rights reserved.
             </span>
             <span style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.25)", fontWeight: 500 }}>
               Powered by Synckraft Technologies Pvt. Ltd.

@@ -228,7 +228,7 @@ export default function Inventory() {
             </div>
             <div className="inv-hdr-right">
               <p className="inv-subtitle">
-                Stop wasting ingredients. OrderJi tracks raw items down to grams,
+                Stop wasting ingredients. Ordrji tracks raw items down to grams,
                 predicts run-out times, and automatically triggers supplier purchases.
                 <Link href="/restaurant-inventory-management-software" className="inv-learn-more-link" style={{ display: "block", marginTop: "0.5rem", color: "var(--accent-orange)", fontWeight: 700, fontSize: "0.88rem", textDecoration: "underline" }}>
                   Learn more about Inventory Intelligence &rarr;

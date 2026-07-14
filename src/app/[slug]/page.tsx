@@ -77,7 +77,7 @@ export default async function DynamicSeoPage({ params }: Props) {
       "@type": "LocalBusiness",
       "name": `Ordrji ${page.localData.city}`,
       "image": "https://ordrji.com/logo-icon.jpg",
-      "telephone": "+919004402006",
+      "telephone": "+919867799655",
       "url": `https://ordrji.com/${page.slug}`,
       "address": {
         "@type": "PostalAddress",
@@ -130,7 +130,7 @@ export default async function DynamicSeoPage({ params }: Props) {
                 Book Free Demo
               </button>
               <a 
-                href="https://wa.me/919004402006?text=Hi%20OrderJi%20team,%20I%20want%20to%20know%20more%20about%20your%20POS%20system."
+                href="https://wa.me/919867799655?text=Hi%20Ordrji%20team,%20I%20want%20to%20know%20more%20about%20your%20POS%20system."
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="btn-secondary"

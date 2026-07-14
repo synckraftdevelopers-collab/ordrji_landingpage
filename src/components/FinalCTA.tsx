@@ -24,7 +24,7 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
             </h2>
             
             <p className="cta-subtitle">
-              Join over 3,500+ restaurants that use OrderJi to sync billing, table QR orders, kitchen workflows, and analytics in one premium dashboard.
+              Join over 3,500+ restaurants that use Ordrji to sync billing, table QR orders, kitchen workflows, and analytics in one premium dashboard.
             </p>
             
             <div className="cta-actions">
@@ -33,7 +33,7 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
               </button>
               
               <a 
-                href="https://wa.me/919004402006?text=Hi%20OrderJi%20team,%20I%20am%20interested%20in%20a%20demo%20for%20my%20restaurant."
+                href="https://wa.me/919867799655?text=Hi%20Ordrji%20team,%20I%20am%20interested%20in%20a%20demo%20for%20my%20restaurant."
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="btn-secondary cta-btn-wa font-semibold"
@@ -42,10 +42,10 @@ export default function FinalCTA({ onBookDemo }: FinalCTAProps) {
               </a>
 
               <a 
-                href="tel:+919004402006"
+                href="tel:+919867799655"
                 className="btn-text-call font-semibold"
               >
-                <Phone size={15} /> Talk to Sales: +91 90044 02006
+                <Phone size={15} /> Talk to Sales: +91 98677 99655
               </a>
             </div>
           </div>

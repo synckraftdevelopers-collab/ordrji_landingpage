@@ -69,7 +69,7 @@ const PLANS: PricingPlan[] = [
     features: [
       "Everything in Growth",
       "Multi-outlet Central Inventory hub",
-      "OrderJi AI Restaurant Manager terminal",
+      "Ordrji AI Restaurant Manager terminal",
       "Advanced Custom Bento SVG analytics",
       "Custom role dashboard permissions",
       "Priority Account Manager",

@@ -86,8 +86,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <div
               className="pf-logo-placeholder"
               style={{
-                width: "64px",
-                height: "64px",
+                width: "90px",
+                height: "90px",
                 flexShrink: 0,
                 visibility: "hidden"
               }}
@@ -97,13 +97,13 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           <Link
             href="/"
             className={`pf-logo-link ${introPhase}`}
-            aria-label="OrderJi Home"
+            aria-label="Ordrji Home"
           >
             <Image
               src="/logo-icon.jpg"
-              alt="OrderJi"
-              width={120}
-              height={120}
+              alt="Ordrji"
+              width={160}
+              height={160}
               className="pf-logo-img"
               priority
             />
@@ -292,11 +292,11 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           transition: width 0.75s cubic-bezier(0.16,1,0.3,1),
                       height 0.75s cubic-bezier(0.16,1,0.3,1);
           /* center phase: large */
-          width: 120px; height: 120px;
+          width: 160px; height: 160px;
         }
         .pf-logo-link.move  .pf-logo-img,
         .pf-logo-link.done  .pf-logo-img {
-          width: 64px; height: 64px;
+          width: 90px; height: 90px;
         }
 
         /* wordmark hidden */

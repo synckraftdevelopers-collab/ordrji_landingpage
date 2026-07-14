@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { FileText, QrCode, TrendingUp } from "lucide-react";
 import { ArrowRight, Play, MapPin, Compass, Layers } from "lucide-react";
 import LocationAutocomplete from "./LocationAutocomplete";
 import { SearchResult } from "@/data/locations";
@@ -51,28 +53,56 @@ export default function Hero({ onBookDemo }: HeroProps) {
       <div className="container hero-content">
         <div className="hero-grid">
           {/* Headline and CTAs */}
-          <div className="hero-text-block">
-
-            <h1 className="hero-title" style={{ fontSize: "clamp(1.9rem, 4.2vw, 3.1rem)", lineHeight: "1.2", letterSpacing: "-1.5px" }}>
+          
+          <motion.div 
+            className="hero-text-block"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, staggerChildren: 0.15 }}
+          >
+            <motion.h1 
+              className="hero-title" 
+              style={{ fontSize: "clamp(1.9rem, 4.2vw, 3.1rem)", lineHeight: "1.2", letterSpacing: "-1.5px" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               Restaurant POS, Billing, KOT &amp; <br className="hide-mobile" />
               QR Ordering Software <br className="hide-mobile" />
               <span className="gradient-text">for Indian Restaurants</span>
-            </h1>
-            <p className="hero-subtitle" style={{ fontSize: "1.05rem", lineHeight: "1.6" }}>
-              Ordrji helps restaurants, cafes, QSRs, cloud kitchens and bakeries manage billing, kitchen orders, QR ordering, inventory, customer data and reports from one simple system.
-            </p>
+            </motion.h1>
 
-            <div className="hero-ctas">
+            <motion.p 
+              className="hero-subtitle" 
+              style={{ fontSize: "1.05rem", lineHeight: "1.6" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Ordrji helps restaurants, cafes, QSRs, cloud kitchens and bakeries manage billing, kitchen orders, QR ordering, inventory, customer data and reports from one simple system.
+            </motion.p>
+
+            <motion.div 
+              className="hero-ctas"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <button onClick={onBookDemo} className="btn-primary btn-red" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                 Book Free Demo <ArrowRight size={18} />
               </button>
               <a href="#features" className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
                 <Play size={16} fill="currentColor" /> Watch Product Tour
               </a>
-            </div>
+            </motion.div>
 
             {/* Location Selector Widget */}
-            <div className="hero-location-widget">
+            <motion.div 
+              className="hero-location-widget"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <span className="location-widget-label">
               </span>
               <div className="location-search-bar">
@@ -103,7 +133,11 @@ export default function Hero({ onBookDemo }: HeroProps) {
               </div>
 
               {locationDetails && (
-                <div className={`location-info-card ${locationDetails.type}`}>
+                <motion.div 
+                  className={`location-info-card ${locationDetails.type}`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
                   <div style={{ display: "flex", gap: "0.85rem", alignItems: "flex-start" }}>
                     <div className={`info-card-icon-wrap ${locationDetails.type}`}>
                       {locationDetails.type === "city" ? (
@@ -146,24 +180,29 @@ export default function Hero({ onBookDemo }: HeroProps) {
                       </button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
 
-            <div className="hero-metrics-summary">
+            <motion.div 
+              className="hero-metrics-summary"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
               <div className="metric-dot">
                 <span className="dot pulse-green" /> <span>3,500+ Restaurants Active</span>
               </div>
               <div className="metric-dot">
                 <span className="dot pulse-purple" /> <span>99.99% Core Uptime</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Floating hero representation */}
           <div className="hero-visual-block">
             <div className="chef-image-wrapper">
-              <Image src="/hero.png?v=2" alt="OrderJi OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority unoptimized />
+              <Image src="/hero.png?v=2" alt="Ordrji OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority unoptimized />
             </div>
           </div>
         </div>
@@ -531,12 +570,277 @@ export default function Hero({ onBookDemo }: HeroProps) {
 
         .location-action-btn.btn-purple {
           background-color: var(--accent-purple) !important;
+          height: auto;
+          border-radius: 20px;
+          filter: drop-shadow(0 20px 40px rgba(227, 6, 19, 0.18));
+          animation: float 6s ease-in-out infinite;
+        }
+
+        /* ── Location Checker Widget Styles ── */
+        .hero-location-widget {
+          margin-top: 0.5rem;
+          margin-bottom: 2rem;
+          width: 100%;
+          max-width: 540px;
+          text-align: left;
+        }
+
+        .location-widget-label {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.74rem;
+          font-weight: 800;
+          color: var(--accent-orange);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          background: rgba(227, 6, 19, 0.05);
+          border: 1px solid rgba(227, 6, 19, 0.12);
+          padding: 0.3rem 0.7rem;
+          border-radius: 999px;
+          margin-bottom: 0.75rem;
+        }
+
+        .location-search-bar {
+          background: rgba(255, 255, 255, 0.6);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          padding: 0.4rem;
+          border-radius: 16px;
+          border: 1px solid var(--border-color);
+          box-shadow: 0 4px 18px rgba(0,0,0,0.02);
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .location-search-bar:focus-within {
+          border-color: rgba(227, 6, 19, 0.22);
+          box-shadow: 0 8px 24px rgba(227, 6, 19, 0.06);
+        }
+        .location-search-bar .autocomplete-input {
+          width: 100%;
+          background: transparent !important;
+          border: none !important;
+          outline: none !important;
+          box-shadow: none !important;
+          padding: 0.5rem 0.8rem;
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: var(--text-primary) !important;
+          font-family: inherit;
+        }
+        .location-search-bar .autocomplete-input::placeholder {
+          color: var(--text-muted);
+        }
+
+        .location-info-card {
+          margin-top: 1rem;
+          background: var(--bg-card) !important;
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-radius: 16px;
+          padding: 1.5rem;
+          animation: widgetSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1px solid var(--border-color) !important;
+          border-left-width: 4px !important;
+        }
+
+        .location-info-card.city {
+          border-left-color: var(--accent-rose, #dc2626) !important;
+          box-shadow: 0 10px 30px -10px rgba(220, 38, 38, 0.08), var(--shadow-card) !important;
+        }
+        .location-info-card.city:hover {
+          box-shadow: 0 12px 36px -8px rgba(220, 38, 38, 0.12), var(--shadow-card) !important;
+          border-color: rgba(220, 38, 38, 0.2) !important;
+          border-left-color: var(--accent-rose, #dc2626) !important;
+        }
+
+        .location-info-card.district {
+          border-left-color: var(--accent-blue) !important;
+          box-shadow: 0 10px 30px -10px rgba(2, 132, 199, 0.08), var(--shadow-card) !important;
+        }
+        .location-info-card.district:hover {
+          box-shadow: 0 12px 36px -8px rgba(2, 132, 199, 0.12), var(--shadow-card) !important;
+          border-color: rgba(2, 132, 199, 0.2) !important;
+          border-left-color: var(--accent-blue) !important;
+        }
+
+        .location-info-card.state {
+          border-left-color: var(--accent-purple) !important;
+          box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.08), var(--shadow-card) !important;
+        }
+        .location-info-card.state:hover {
+          box-shadow: 0 12px 36px -8px rgba(124, 58, 237, 0.12), var(--shadow-card) !important;
+          border-color: rgba(124, 58, 237, 0.2) !important;
+          border-left-color: var(--accent-purple) !important;
+        }
+
+        @keyframes widgetSlideDown {
+          from { opacity: 0; transform: translateY(-6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-card-icon-wrap {
+          padding: 0.65rem;
+          border-radius: 12px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s ease;
+        }
+        .info-card-icon-wrap.city {
+          color: var(--accent-rose, #dc2626);
+          background: rgba(220, 38, 38, 0.08);
+          box-shadow: 0 4px 10px rgba(220, 38, 38, 0.08);
+        }
+        .info-card-icon-wrap.district {
+          color: var(--accent-blue);
+          background: rgba(2, 132, 199, 0.08);
+          box-shadow: 0 4px 10px rgba(2, 132, 199, 0.08);
+        }
+        .info-card-icon-wrap.state {
+          color: var(--accent-purple);
+          background: rgba(124, 58, 237, 0.08);
+          box-shadow: 0 4px 10px rgba(124, 58, 237, 0.08);
+        }
+
+        .info-card-header {
+          font-size: 0.98rem;
+          font-weight: 800;
+          color: var(--text-primary);
+          margin: 0;
+          letter-spacing: -0.2px;
+        }
+
+        .info-card-text {
+          font-size: 0.85rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          margin-top: 0.35rem;
+          margin-bottom: 1rem;
+        }
+
+        .location-action-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.55rem 1.35rem;
+          font-size: 0.8rem;
+          font-weight: 700;
+          border-radius: 9999px;
+          border: 1px solid transparent;
+          cursor: pointer;
+          transition: var(--transition-fast);
+          color: #ffffff;
+        }
+        
+        .location-action-btn .btn-arrow {
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .location-action-btn:hover .btn-arrow {
+          transform: translateX(3px);
+        }
+
+        .location-action-btn:hover {
+          transform: translateY(-1.5px);
+        }
+
+        .location-action-btn.btn-red {
+          background-color: var(--accent-rose, #dc2626) !important;
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.16) !important;
+        }
+        .location-action-btn.btn-red:hover {
+          background-color: #bd040f !important;
+          box-shadow: 0 6px 18px rgba(220, 38, 38, 0.28) !important;
+        }
+
+        .location-action-btn.btn-blue {
+          background-color: var(--accent-blue) !important;
+          box-shadow: 0 4px 12px rgba(2, 132, 199, 0.16) !important;
+        }
+        .location-action-btn.btn-blue:hover {
+          background-color: #0274b0 !important;
+          box-shadow: 0 6px 18px rgba(2, 132, 199, 0.28) !important;
+        }
+
+        .location-action-btn.btn-purple {
+          background-color: var(--accent-purple) !important;
           box-shadow: 0 4px 12px rgba(124, 58, 237, 0.16) !important;
         }
         .location-action-btn.btn-purple:hover {
           background-color: #6d28d9 !important;
           box-shadow: 0 6px 18px rgba(124, 58, 237, 0.28) !important;
         }
+
+        .glass-widget {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          padding: 0.6rem 0.8rem;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+          z-index: 10;
+        }
+
+        .widget-tl {
+          top: 10%;
+          left: -10%;
+        }
+
+        .widget-bl {
+          bottom: 15%;
+          left: -5%;
+        }
+
+        .widget-tr {
+          top: 25%;
+          right: -15%;
+        }
+
+        @media (max-width: 768px) {
+          .widget-tl { left: 0; top: 0; }
+          .widget-bl { left: 0; bottom: 0; }
+          .widget-tr { right: 0; top: 15%; }
+          .glass-widget {
+            transform: scale(0.85);
+          }
+        }
+
+        .widget-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          color: white;
+        }
+
+        .bg-orange { background-color: var(--accent-orange, #e95505); }
+        .bg-green { background-color: var(--accent-green, #10b981); }
+        .bg-purple { background-color: var(--accent-purple, #8b5cf6); }
+
+        .widget-text {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .widget-title {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+
+        .widget-sub {
+          font-size: 0.7rem;
+          color: var(--text-secondary);
+        }
+
       `}</style>
     </section>
   );

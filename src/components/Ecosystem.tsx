@@ -159,7 +159,7 @@ export default function Ecosystem() {
             The Connected Restaurant Ecosystem
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
-            No more fragmented modules. OrderJi links every aspect of restaurant management into a single, cohesive engine.
+            No more fragmented modules. Ordrji links every aspect of restaurant management into a single, cohesive engine.
           </p>
         </div>
 
@@ -280,7 +280,7 @@ export default function Ecosystem() {
                 <circle cx="0" cy="0" r="70" fill="rgba(227,6,19,0.04)" className="eco-hub-pulse" />
                 <circle cx="0" cy="0" r="58" fill="var(--bg-card)" stroke="#da0404" strokeWidth="2" />
                 <text x="0" y="-10" textAnchor="middle" fontSize="7" fontWeight="700" letterSpacing="2" fill="#999" fontFamily="inherit">SYSTEM</text>
-                <text x="0" y="7"  textAnchor="middle" fontSize="10" fontWeight="800" fill="#da0404" fontFamily="inherit">ORDERJI OS</text>
+                <text x="0" y="7"  textAnchor="middle" fontSize="10" fontWeight="800" fill="#da0404" fontFamily="inherit">ORDRJI OS</text>
               </g>
 
               {/* Orbital nodes */}

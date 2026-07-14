@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
 type Category = "software" | "hardware" | "payment";
@@ -111,31 +112,36 @@ function OrbNode({ p, rot }: { p: Partner; rot: number }) {
   const angleRad = ((p.startAngle + rot) * Math.PI) / 180;
   const nx       = CX + radius * Math.cos(angleRad);
   const ny       = CY + radius * Math.sin(angleRad);
-  const d        = NODE_R * 2;
 
   return (
     <div
       title={p.name}
       style={{
         position: "absolute",
-        left: nx - NODE_R, top: ny - NODE_R,
-        width: d, height: d,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        filter: `drop-shadow(0 0 5px ${p.color}99)`,
+        left: nx, top: ny,
+        transform: "translate(-50%, -50%)",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
+        whiteSpace: "nowrap"
       }}
     >
       {!imgFailed ? (
-        <Image
-          src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=64`}
-          alt={p.name} width={d - 4} height={d - 4} unoptimized
-          style={{ objectFit: "contain", filter: "brightness(1.1) saturate(1.1)" }}
+        <img
+          src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=32`}
+          alt={p.name} width={18} height={18}
+          loading="lazy"
+          style={{ objectFit: "contain", flexShrink: 0 }}
           onError={() => setImgFailed(true)}
         />
       ) : (
-        <span style={{ fontSize: "8px", fontWeight: 800, color: p.color, userSelect: "none", fontFamily: "Inter,sans-serif", textShadow: `0 0 6px ${p.color}` }}>
-          {p.short}
-        </span>
+        <span style={{ fontSize: "10px", fontWeight: 800, color: p.color }}>{p.short}</span>
       )}
+      <span style={{ 
+        fontSize: "14px", fontWeight: 700, color: "#444", 
+        fontFamily: "Inter, sans-serif",
+        textShadow: "0 0 4px #fff, 0 0 8px #fff"
+      }}>
+        {p.name}
+      </span>
     </div>
   );
 }
@@ -176,22 +182,21 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
         {/* hub glow pulse */}
         <circle cx={CX} cy={CY} r="68" fill="rgba(194,65,12,0.06)" className="igHubPulse" />
 
-        {/* hub disc */}
-        <circle cx={CX} cy={CY} r="52"
-          fill="white" stroke="rgba(194,65,12,0.25)" strokeWidth="1.5"
-          filter="url(#igHubF)" />
-
-        {/* logo */}
-        <image href="/logo-icon.jpg"
-          x={CX - 34} y={CY - 34} width="68" height="68"
-          clipPath="url(#igHub)" preserveAspectRatio="xMidYMid meet" />
-
-        {/* label */}
-        <text x={CX} y={CY + 72} textAnchor="middle" fontSize="8.5" fontWeight="800"
-          letterSpacing="1.5" fill="#c2410c" fontFamily="Inter,sans-serif">
-          ORDRJI OS
-        </text>
+        {/* center html hub will be added outside SVG */}
       </svg>
+
+      {/* HTML center hub */}
+      <div style={{
+        position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 10
+      }}>
+        <div style={{
+          width: 110, height: 110, borderRadius: "50%", background: "#e30613", 
+          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 8px 24px rgba(227,6,19,0.3)"
+        }}>
+          <span style={{ fontSize: "1.25rem", fontWeight: 800, color: "#fff", letterSpacing: "1px" }}>ORDRJI</span>
+        </div>
+      </div>
 
       {/* HTML nodes — on top */}
       {partners.map((p, i) => (
@@ -222,6 +227,8 @@ export default function Integrations() {
     if (tickRef.current) rafId.current = requestAnimationFrame(tickRef.current);
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => { tickRef.current = tick; }, [tick]);
@@ -266,44 +273,55 @@ export default function Integrations() {
 
           {/* ── RIGHT: content ────────────────────────────────────────── */}
           <div className={`ig-right ${show ? "ig-right-in" : ""}`}>
+            <div className="ig-tabs-accordion">
+              {CATS.map(c => {
+                const isActive = tab === c.key;
+                let activeBg = "transparent";
+                let activeColor = "#333";
+                
+                if (c.key === "software") {
+                  activeBg = "#f3f4f6";
+                  activeColor = "#4b5563";
+                } else if (c.key === "hardware") {
+                  activeBg = "#e0f2fe";
+                  activeColor = "#0284c7";
+                } else if (c.key === "payment") {
+                  activeBg = "#ffedd5";
+                  activeColor = "#c2410c";
+                }
 
-            <p className="ig-eyebrow">We&apos;re a great fit — and we add some more.</p>
-            <h2 className="ig-heading">{activeCat.label}</h2>
-            <p className="ig-desc">{activeCat.desc}</p>
-
-            {/* category tabs */}
-            <div className="ig-tabs" role="tablist" aria-label="Integration categories">
-              {CATS.map(c => (
-                <button
-                  key={c.key}
-                  role="tab"
-                  aria-selected={tab === c.key}
-                  onClick={() => setTab(c.key)}
-                  className={`ig-tab ${tab === c.key ? "ig-tab-on" : ""}`}
-                >
-                  <span className="ig-dot" aria-hidden />
-                  <span className="ig-tab-txt">{c.label}</span>
-                  <ChevronRight size={14} className="ig-arrow" aria-hidden />
-                </button>
-              ))}
+                return (
+                  <div
+                    key={c.key}
+                    className={`ig-acc-panel ${isActive ? "active" : ""}`}
+                    onClick={() => setTab(c.key)}
+                    style={{ background: isActive ? activeBg : "transparent" }}
+                  >
+                    <h3 className="ig-acc-title" style={{ color: isActive ? "#111" : "#666" }}>{c.label}</h3>
+                    
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="ig-acc-content-wrapper"
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div className="ig-acc-content">
+                            <p>{c.desc}</p>
+                            <div className="ig-acc-arrow" style={{ background: activeColor }}>
+                              <ArrowRight size={14} color="#fff" />
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
             </div>
-
-            {/* partner chips */}
-            <div className="ig-chips" aria-label={`${activeCat.label} partners`}>
-              {partners.map(p => (
-                <span key={p.name + p.ring} className="ig-chip"
-                  style={{ borderColor: p.color + "40", background: p.color + "0f" }}>
-                  <ChipLogo domain={p.logo} name={p.name} color={p.color} />
-                  <span style={{ color: p.color, fontWeight: 700, fontSize: "0.72rem" }}>{p.name}</span>
-                </span>
-              ))}
-            </div>
-
-            <a href="#pricing" className="ig-cta">
-              View All Integrations <ArrowRight size={14} aria-hidden />
-            </a>
           </div>
-
         </div>
       </div>
 
@@ -444,6 +462,63 @@ export default function Integrations() {
           .ig-left { max-width: 380px; margin: 0 auto; width: 100%; }
           .ig-desc { max-width: 100%; }
         }
+        /* ── accordion ───────────────────────────────────────── */
+        .ig-tabs-accordion {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          width: 100%;
+          max-width: 500px;
+        }
+
+        .ig-acc-panel {
+          border-radius: 16px;
+          padding: 1.5rem;
+          cursor: pointer;
+          transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+          border: 1px solid transparent;
+        }
+        
+        .ig-acc-panel:not(.active):hover {
+          background: rgba(0,0,0,0.02) !important;
+          transform: translateX(4px);
+        }
+
+        .ig-acc-panel.active {
+          border-color: rgba(0,0,0,0.05);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+          cursor: default;
+        }
+
+        .ig-acc-title {
+          font-size: 1.3rem;
+          font-weight: 700;
+          margin: 0;
+          transition: color 0.3s;
+        }
+
+        .ig-acc-content {
+          margin-top: 1rem;
+          color: var(--text-secondary);
+          font-size: 1rem;
+          line-height: 1.6;
+          position: relative;
+          padding-bottom: 2rem;
+        }
+
+        .ig-acc-arrow {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+      
       `}</style>
     </section>
   );

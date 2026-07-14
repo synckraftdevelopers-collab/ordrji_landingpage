@@ -97,7 +97,7 @@ export default function ContactClient() {
                 </div>
                 <div style={{ border: "1px solid var(--border-color)", borderRadius: 14, overflow: "hidden", height: 220, position: "relative" }}>
                   <iframe
-                    title="OrderJi Office Location — Amravati"
+                    title="Ordrji Office Location — Amravati"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.5!2d77.7499!3d20.9340!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd6a9a3a3a3a3a3%3A0x0!2sDaga+Plazzo+Biyani+Square%2C+Amravati%2C+Maharashtra+444602!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
@@ -142,7 +142,7 @@ export default function ContactClient() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="form-row">
                     <div className="field-wrap">
                       <label className="field-label">Phone</label>
-                      <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 90044 02006" />
+                      <input className="field-input" name="phone" value={form.phone} onChange={handle} placeholder="+91 98677 99655" />
                     </div>
                     <div className="field-wrap">
                       <label className="field-label">Location *</label>

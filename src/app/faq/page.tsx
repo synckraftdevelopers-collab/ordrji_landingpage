@@ -11,27 +11,27 @@ const CATEGORIES = ["All", "POS & Billing", "QR Ordering", "Kitchen (KDS)", "Inv
 
 const FAQS = [
   {
-    q: "Is OrderJi another POS billing software?",
-    a: "No. Traditional POS systems only act as legacy cash registers and receipt printers. OrderJi is a complete Restaurant Operating System (OS). It connects and synchronizes table QR menus, chef kitchen displays (KDS), automated WhatsApp/SMS marketing campaigns, live raw inventory tracking, and centralized accounting into a single unified cloud workspace.",
+    q: "Is Ordrji another POS billing software?",
+    a: "No. Traditional POS systems only act as legacy cash registers and receipt printers. Ordrji is a complete Restaurant Operating System (OS). It connects and synchronizes table QR menus, chef kitchen displays (KDS), automated WhatsApp/SMS marketing campaigns, live raw inventory tracking, and centralized accounting into a single unified cloud workspace.",
     category: "POS & Billing"
   },
   {
     q: "Do you charge order commissions on QR and table checkouts?",
-    a: "Absolutely not. OrderJi believes that your restaurant revenue belongs entirely to you. We operate on a flat subscription pricing model. We never charge commission percentages or lookup fees on QR ordering, table reservations, or self-service kiosks.",
+    a: "Absolutely not. Ordrji believes that your restaurant revenue belongs entirely to you. We operate on a flat subscription pricing model. We never charge commission percentages or lookup fees on QR ordering, table reservations, or self-service kiosks.",
     category: "Pricing & Setup"
   },
   {
     q: "Can we integrate food delivery aggregators like Swiggy and Zomato?",
-    a: "Yes. OrderJi is built to consolidate channel fragmentation. All incoming orders from Zomato, Swiggy, and your own custom web ordering stores flow directly into the central Live Feed console, printing automatically and dispatching directly to chef station displays.",
+    a: "Yes. Ordrji is built to consolidate channel fragmentation. All incoming orders from Zomato, Swiggy, and your own custom web ordering stores flow directly into the central Live Feed console, printing automatically and dispatching directly to chef station displays.",
     category: "POS & Billing"
   },
   {
     q: "What happens if our restaurant internet goes down?",
-    a: "OrderJi features local-cache offline safety loops. The billing terminal queues transaction invoices locally inside the browser. As soon as the network connection is restored, the queue syncs with the cloud database. Customers can continue QR scanning as long as their mobile data is active.",
+    a: "Ordrji features local-cache offline safety loops. The billing terminal queues transaction invoices locally inside the browser. As soon as the network connection is restored, the queue syncs with the cloud database. Customers can continue QR scanning as long as their mobile data is active.",
     category: "POS & Billing"
   },
   {
-    q: "Does OrderJi support multi-outlet franchises and warehouses?",
+    q: "Does Ordrji support multi-outlet franchises and warehouses?",
     a: "Yes. Our Scale and Enterprise plans feature centralized multi-outlet inventory dashboards. You can manage central supply warehouses, handle internal stock transfer requests, monitor recipe usage, and track material depletion forecasts across all branches.",
     category: "Inventory & Stock"
   },
@@ -47,7 +47,7 @@ const FAQS = [
   },
   {
     q: "How long does it take to migrate from Petpooja or Posist?",
-    a: "We usually complete standard migrations within 24 hours. Our technical team takes your menu sheet, recipe logs, and customer contacts, cleans the formatting, maps it into your OrderJi database, and tests printer connectivity so you don't face any downtime.",
+    a: "We usually complete standard migrations within 24 hours. Our technical team takes your menu sheet, recipe logs, and customer contacts, cleans the formatting, maps it into your Ordrji database, and tests printer connectivity so you don't face any downtime.",
     category: "Pricing & Setup"
   }
 ];
@@ -172,7 +172,7 @@ export default function FaqPage() {
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
-              <a href="https://wa.me/919004402006?text=Hi%20OrderJi%20team,%20I%20have%20some%20queries%20about%20your%20POS%20system." target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", color: "#fff", background: "#25d366", padding: "0.75rem 1.25rem", borderRadius: 10, fontSize: "0.9rem", fontWeight: 600 }} className="btn-hover-shift">
+              <a href="https://wa.me/919867799655?text=Hi%20Ordrji%20team,%20I%20have%20some%20queries%20about%20your%20POS%20system." target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", color: "#fff", background: "#25d366", padding: "0.75rem 1.25rem", borderRadius: 10, fontSize: "0.9rem", fontWeight: 600 }} className="btn-hover-shift">
                 <MessageSquare size={18} /> Chat on WhatsApp
               </a>
               
@@ -180,8 +180,8 @@ export default function FaqPage() {
                 <a href="mailto:support@ordrji.com" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", color: "inherit", textDecoration: "none" }} className="hover-link">
                   <Mail size={14} /> support@ordrji.com
                 </a>
-                <a href="tel:+919004402006" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", color: "inherit", textDecoration: "none" }} className="hover-link">
-                  <Phone size={14} /> +91 90044 02006
+                <a href="tel:+919867799655" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", color: "inherit", textDecoration: "none" }} className="hover-link">
+                  <Phone size={14} /> +91 98677 99655
                 </a>
               </div>
             </div>

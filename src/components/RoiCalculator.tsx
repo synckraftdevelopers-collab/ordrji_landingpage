@@ -187,7 +187,7 @@ export default function RoiCalculator() {
             Calculate Your Operating Leverage
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: 1.6 }}>
-            See how much manual labor, table turnaround delay, order errors, and ingredient wastage you can save with OrderJi.
+            See how much manual labor, table turnaround delay, order errors, and ingredient wastage you can save with Ordrji.
           </p>
         </div>
 
@@ -303,7 +303,7 @@ export default function RoiCalculator() {
 
               {/* bottom bezel bar — like a screen brand strip */}
               <div className="roi-bezel-bar">
-                <span className="roi-bezel-label">ORDERJI LIVE PROJECTION</span>
+                <span className="roi-bezel-label">ORDRJI LIVE PROJECTION</span>
                 <span className="roi-bezel-dot" />
               </div>
             </div>

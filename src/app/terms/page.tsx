@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions — OrderJi",
-  description: "Read the Terms & Conditions governing your use of the OrderJi platform.",
+  title: "Terms & Conditions — Ordrji",
+  description: "Read the Terms & Conditions governing your use of the Ordrji platform.",
 };
 
 const SECTIONS = [
   {
     title: "1. Acceptance of Terms",
-    body: `By accessing or using the OrderJi platform ("Service"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, please do not use the Service. These Terms apply to all users, including restaurant owners, managers, staff members, and any other parties who access the platform.`,
+    body: `By accessing or using the Ordrji platform ("Service"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, please do not use the Service. These Terms apply to all users, including restaurant owners, managers, staff members, and any other parties who access the platform.`,
   },
   {
     title: "2. Description of Service",
-    body: `OrderJi provides a cloud-based restaurant management operating system encompassing point-of-sale billing, QR-based digital ordering, kitchen display systems (KDS), inventory management, customer relationship management (CRM), marketing automation, and analytics reporting. The Service is provided on a subscription basis as described in our Pricing page.`,
+    body: `Ordrji provides a cloud-based restaurant management operating system encompassing point-of-sale billing, QR-based digital ordering, kitchen display systems (KDS), inventory management, customer relationship management (CRM), marketing automation, and analytics reporting. The Service is provided on a subscription basis as described in our Pricing page.`,
   },
   {
     title: "3. Account Registration",
@@ -21,23 +21,23 @@ const SECTIONS = [
   },
   {
     title: "4. Subscription & Payment",
-    body: `OrderJi offers Starter, Growth, Scale, and Enterprise plans billed monthly or annually. Subscription fees are charged in advance. All prices are in Indian Rupees (INR) and exclusive of applicable taxes unless stated otherwise. We reserve the right to modify pricing with 30 days' prior notice. Non-payment may result in suspension or termination of your account.`,
+    body: `Ordrji offers Starter, Growth, Scale, and Enterprise plans billed monthly or annually. Subscription fees are charged in advance. All prices are in Indian Rupees (INR) and exclusive of applicable taxes unless stated otherwise. We reserve the right to modify pricing with 30 days' prior notice. Non-payment may result in suspension or termination of your account.`,
   },
   {
     title: "5. Acceptable Use",
-    body: `You agree not to misuse the Service. Prohibited activities include: (a) violating any applicable law or regulation; (b) transmitting harmful, fraudulent, or unlawful content; (c) attempting to gain unauthorized access to our systems; (d) reverse-engineering or scraping any part of the platform; (e) using the Service to compete with OrderJi without prior written consent.`,
+    body: `You agree not to misuse the Service. Prohibited activities include: (a) violating any applicable law or regulation; (b) transmitting harmful, fraudulent, or unlawful content; (c) attempting to gain unauthorized access to our systems; (d) reverse-engineering or scraping any part of the platform; (e) using the Service to compete with Ordrji without prior written consent.`,
   },
   {
     title: "6. Data & Privacy",
-    body: `Your use of the Service is also governed by our Privacy Policy. You retain ownership of all data you input into the platform ("Customer Data"). By using the Service, you grant OrderJi a limited, non-exclusive licence to process your Customer Data solely to provide and improve the Service. We implement industry-standard security measures to protect your data.`,
+    body: `Your use of the Service is also governed by our Privacy Policy. You retain ownership of all data you input into the platform ("Customer Data"). By using the Service, you grant Ordrji a limited, non-exclusive licence to process your Customer Data solely to provide and improve the Service. We implement industry-standard security measures to protect your data.`,
   },
   {
     title: "7. Intellectual Property",
-    body: `All intellectual property rights in the OrderJi platform, including software, design, trademarks, and content, are owned by or licensed to OrderJi. Nothing in these Terms grants you any rights to use our trademarks, logos, or branding without prior written permission. Customer Data remains the property of the respective customer.`,
+    body: `All intellectual property rights in the Ordrji platform, including software, design, trademarks, and content, are owned by or licensed to Ordrji. Nothing in these Terms grants you any rights to use our trademarks, logos, or branding without prior written permission. Customer Data remains the property of the respective customer.`,
   },
   {
     title: "8. Limitation of Liability",
-    body: `To the fullest extent permitted by applicable law, OrderJi shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Service. Our total liability shall not exceed the amounts paid by you in the three months preceding the claim.`,
+    body: `To the fullest extent permitted by applicable law, Ordrji shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Service. Our total liability shall not exceed the amounts paid by you in the three months preceding the claim.`,
   },
   {
     title: "9. Termination",
@@ -53,7 +53,7 @@ const SECTIONS = [
   },
   {
     title: "12. Contact",
-    body: `If you have any questions about these Terms, please contact us at legal@ordrji.com or write to us at OrderJi, 414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602.`,
+    body: `If you have any questions about these Terms, please contact us at legal@ordrji.com or write to us at Ordrji, 414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602.`,
   },
 ];
 
@@ -62,7 +62,7 @@ export default function TermsPage() {
     <LegalPage
       badge="Legal"
       title="Terms & Conditions"
-      subtitle="Please read these terms carefully before using the OrderJi platform."
+      subtitle="Please read these terms carefully before using the Ordrji platform."
       lastUpdated="June 1, 2025"
       sections={SECTIONS}
     />

@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — OrderJi",
-  description: "Learn how OrderJi collects, uses, and protects your personal information.",
+  title: "Privacy Policy — Ordrji",
+  description: "Learn how Ordrji collects, uses, and protects your personal information.",
 };
 
 const SECTIONS = [
   {
     title: "1. Introduction",
-    body: `OrderJi ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our restaurant management platform and related services. By using OrderJi, you consent to the practices described in this policy.`,
+    body: `Ordrji ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our restaurant management platform and related services. By using Ordrji, you consent to the practices described in this policy.`,
   },
   {
     title: "2. Information We Collect",
@@ -41,7 +41,7 @@ const SECTIONS = [
   },
   {
     title: "9. Children's Privacy",
-    body: `The OrderJi Service is not intended for individuals under the age of 18. We do not knowingly collect personal information from minors. If we become aware that we have inadvertently collected such information, we will take steps to delete it promptly.`,
+    body: `The Ordrji Service is not intended for individuals under the age of 18. We do not knowingly collect personal information from minors. If we become aware that we have inadvertently collected such information, we will take steps to delete it promptly.`,
   },
   {
     title: "10. Third-Party Links",
@@ -53,7 +53,7 @@ const SECTIONS = [
   },
   {
     title: "12. Contact Us",
-    body: `If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection team at privacy@ordrji.com or write to OrderJi, 414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602.`,
+    body: `If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection team at privacy@ordrji.com or write to Ordrji, 414, 4th Floor, Daga Plazzo Biyani Square, opp. Dmart Camp, Amravati, Maharashtra 444602.`,
   },
 ];
 
