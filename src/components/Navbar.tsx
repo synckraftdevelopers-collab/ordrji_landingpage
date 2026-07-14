@@ -279,11 +279,21 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
           transform: translate(0, 0) scale(1);
         }
+        @media (min-width: 992px) {
+          .pf-logo-link.move {
+            left: max(3.5rem, calc((100vw - 1280px) / 2 + 3.5rem));
+          }
+        }
         /* DONE phase — back in normal flow */
         .pf-logo-link.done {
           position: relative;
           top: auto; left: auto;
           transform: none;
+        }
+        @media (min-width: 992px) {
+          .pf-logo-link.done, .pf-logo-placeholder {
+            margin-left: 2rem;
+          }
         }
 
         /* logo image */

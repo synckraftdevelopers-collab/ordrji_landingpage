@@ -3,12 +3,17 @@
 import React, { useEffect, useRef, useState } from "react";
 /* ─── brand logos (real culinary brands - colorful original colors) ──────── */
 const BRANDS = [
+  { name: "Virsa Restro", localImg: "/images/logos/virsa.jpg" },
+  { name: "Mirabel", localImg: "/images/logos/mirabel.jpg" },
+  { name: "Kitchen 365", localImg: "/images/logos/kitchen365.jpg" },
+  { name: "Point Mansarovar", localImg: "/images/logos/mansarovar.jpg" },
+  { name: "Up & Above", localImg: "/images/logos/upabove.jpg" },
+  { name: "Shivai Misal House", localImg: "/images/logos/shivai.jpg" },
+  { name: "New Eagle Restaurant", localImg: "/images/logos/eagle.jpg" },
+  { name: "Gulmohar Fine Dine", localImg: "/images/logos/gulmohar.jpg" },
   { name: "McDonald's", domain: "mcdonalds.com" },
-  { name: "Starbucks", domain: "starbucks.com" },
   { name: "Subway", domain: "subway.com" },
-  { name: "Domino's", domain: "dominos.com" },
   { name: "Pizza Hut", domain: "pizzahut.com" },
-  { name: "Burger King", domain: "bk.com" },
   { name: "KFC", domain: "kfc.com" },
   { name: "Taco Bell", domain: "tacobell.com" },
   { name: "Dunkin'", domain: "dunkindonuts.com" },
@@ -80,7 +85,7 @@ function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
               aria-label={item.name}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", minWidth: "80px" }}
             >
-              <img src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`} alt={item.name} width={44} height={44} loading="lazy" style={{ objectFit: "contain", borderRadius: "8px" }} />
+              <img src={item.localImg || `https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`} alt={item.name} width={44} height={44} loading="lazy" style={{ objectFit: "contain", borderRadius: "8px" }} />
               <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>{item.name}</span>
             </div>
           );

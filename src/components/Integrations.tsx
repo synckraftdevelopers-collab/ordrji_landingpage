@@ -190,11 +190,11 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
         position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 10
       }}>
         <div style={{
-          width: 110, height: 110, borderRadius: "50%", background: "#e30613", 
+          width: 110, height: 110, borderRadius: "50%", background: "#fff", 
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 8px 24px rgba(227,6,19,0.3)"
+          boxShadow: "0 8px 24px rgba(227,6,19,0.3)", overflow: "hidden"
         }}>
-          <span style={{ fontSize: "1.25rem", fontWeight: 800, color: "#fff", letterSpacing: "1px" }}>ORDRJI</span>
+          <img src="/logo-icon.jpg" alt="Ordrji Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
       </div>
 
