@@ -48,10 +48,69 @@ export default function KitchenDisplayPage() {
     <ProductFeaturePage 
       title="Kitchen Display System"
       subtitle="Bring calm to the chaos. Synchronize your front-of-house and kitchen staff with real-time digital ticket management."
-      heroIcon={<ChefHat size={40} />}
       heroColor="var(--accent-green)"
       features={features}
       benefits={benefits}
+      heroVisual={
+        <div style={{
+          background: "#1c1c1e",
+          borderRadius: "16px",
+          padding: "1.5rem",
+          boxShadow: "0 25px 50px rgba(0,0,0,0.3)",
+          border: "1px solid #333",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "1rem",
+          transform: "perspective(1000px) rotateY(-5deg)",
+          transformOrigin: "center right",
+          transition: "transform 0.5s ease"
+        }}>
+          {/* Ticket 1 */}
+          <div style={{ background: "#2c2c2e", borderRadius: "12px", overflow: "hidden", border: "1px solid #444" }}>
+            <div style={{ background: "#d9534f", color: "#fff", padding: "0.5rem 1rem", fontWeight: 700, display: "flex", justifyContent: "space-between" }}>
+              <span>Table 4 (Dine-in)</span>
+              <span>12m</span>
+            </div>
+            <div style={{ padding: "1rem", color: "#eee", fontSize: "0.95rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", borderBottom: "1px solid #444", paddingBottom: "0.5rem" }}>
+                <span>1x Paneer Tikka</span>
+                <span style={{ color: "#d9534f", fontWeight: 600 }}>Spicy</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", borderBottom: "1px solid #444", paddingBottom: "0.5rem" }}>
+                <span>2x Garlic Naan</span>
+                <span></span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span>1x Dal Makhani</span>
+                <span style={{ color: "#f0ad4e", fontSize: "0.8rem" }}>No butter</span>
+              </div>
+            </div>
+            <div style={{ padding: "0.8rem 1rem", background: "#333", textAlign: "center", color: "#888", fontSize: "0.85rem", fontWeight: 600 }}>
+              BUMP TICKET
+            </div>
+          </div>
+          {/* Ticket 2 */}
+          <div style={{ background: "#2c2c2e", borderRadius: "12px", overflow: "hidden", border: "1px solid #444" }}>
+            <div style={{ background: "#5cb85c", color: "#fff", padding: "0.5rem 1rem", fontWeight: 700, display: "flex", justifyContent: "space-between" }}>
+              <span>Zomato #9822</span>
+              <span>2m</span>
+            </div>
+            <div style={{ padding: "1rem", color: "#eee", fontSize: "0.95rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", borderBottom: "1px solid #444", paddingBottom: "0.5rem" }}>
+                <span>1x Veg Biryani</span>
+                <span></span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span>1x Raita</span>
+                <span></span>
+              </div>
+            </div>
+            <div style={{ padding: "0.8rem 1rem", background: "#5cb85c", textAlign: "center", color: "#fff", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
+              MARK READY
+            </div>
+          </div>
+        </div>
+      }
     />
   );
 }

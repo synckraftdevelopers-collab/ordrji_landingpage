@@ -1,65 +1,57 @@
-"use client";
+import React from "react";
+import SolutionFeaturePage from "@/components/SolutionFeaturePage";
+import { Laptop, ChefHat, Truck, Database, PackageOpen } from "lucide-react";
 
-import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import BookDemoModal from "@/components/BookDemoModal";
-import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
-import FinalCTA from "@/components/FinalCTA";
-import { HardHat } from "lucide-react";
+export const metadata = {
+  title: "Cloud Kitchen POS System | Ordrji",
+  description: "Centralized aggregator sync, unified KDS, and multi-brand routing for dark kitchens."
+};
 
 export default function CloudKitchensPage() {
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const features = [
+    {
+      icon: <Laptop size={24} />,
+      title: "Unified Aggregator Dashboard",
+      description: "Manage Swiggy, Zomato, and direct orders from one single screen. Say goodbye to the wall of tablets."
+    },
+    {
+      icon: <ChefHat size={24} />,
+      title: "Multi-Brand KDS Routing",
+      description: "Running 5 virtual brands from one kitchen? Route orders automatically to the correct prep station with clear brand tags."
+    },
+    {
+      icon: <Truck size={24} />,
+      title: "Rider Dispatch Sync",
+      description: "Track delivery partner arrival times and automatically bump tickets to packaging exactly when the rider is nearby."
+    },
+    {
+      icon: <Database size={24} />,
+      title: "Centralized Menu Management",
+      description: "Update prices, mark items out of stock, or launch new combos across all delivery platforms simultaneously with one click."
+    },
+    {
+      icon: <PackageOpen size={24} />,
+      title: "Recipe & Variance Tracking",
+      description: "Track theoretical food costs across all virtual brands to ensure your high volume isn't leaking profits through waste."
+    }
+  ];
+
+  const benefits = [
+    "Never miss an aggregator order during peak weekend rushes",
+    "Reduce dispatch errors and wrong items sent to customers",
+    "Scale to multiple virtual brands without adding management overhead",
+    "Identify which virtual brands are truly profitable vs money pits",
+    "Save hours daily by avoiding manual menu updates across apps"
+  ];
 
   return (
-    <>
-      <Navbar 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-        onRegister={() => setIsRegisterModalOpen(true)}
-      />
-
-      <main style={{ minHeight: "60vh", paddingTop: "140px", paddingBottom: "80px", backgroundColor: "var(--bg-primary)" }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem", color: "var(--accent-orange)" }}>
-            <HardHat size={64} />
-          </div>
-          <h1 style={{ fontSize: "3rem", fontWeight: "800", marginBottom: "1.5rem", letterSpacing: "-1px" }}>
-            Cloud Kitchens
-          </h1>
-          <p style={{ fontSize: "1.2rem", color: "var(--text-secondary)", lineHeight: "1.6", marginBottom: "3rem" }}>
-            We are currently building this dedicated page to showcase our powerful Cloud Kitchens capabilities. 
-            Check back soon for comprehensive details, features, and success stories!
-          </p>
-          <div style={{ padding: "2rem", backgroundColor: "var(--bg-card)", borderRadius: "16px", border: "1px dashed var(--border-color)" }}>
-            <h3 style={{ marginBottom: "1rem", fontSize: "1.3rem" }}>In the meantime...</h3>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "1.5rem" }}>
-              You can explore our core features on the homepage or book a personalized demo to see Cloud Kitchens in action.
-            </p>
-            <button 
-              onClick={() => setIsDemoModalOpen(true)}
-              className="btn-primary btn-red"
-              style={{ padding: "0.8rem 2rem", fontSize: "1rem" }}
-            >
-              Book a Live Demo
-            </button>
-          </div>
-        </div>
-      </main>
-
-      <FinalCTA 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-      />
-      <Footer />
-
-      <BookDemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
-      />
-      <RegisterRestaurantModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-      />
-    </>
+    <SolutionFeaturePage 
+      title="Dominance in the Dark Kitchen"
+      subtitle="Volume is the name of the game. Ordrji consolidates your delivery chaos into a streamlined, high-throughput digital assembly line."
+      heroImage="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&q=80&w=1200"
+      heroColor="#8b5cf6" // violet
+      features={features}
+      benefits={benefits}
+    />
   );
 }

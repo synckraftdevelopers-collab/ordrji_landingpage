@@ -8,32 +8,31 @@ import FinalCTA from "@/components/FinalCTA";
 import BookDemoModal from "@/components/BookDemoModal";
 import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
-export interface FeatureItem {
+export interface SolutionFeatureItem {
   icon: React.ReactNode;
   title: string;
   description: string;
 }
 
-interface ProductFeaturePageProps {
+interface SolutionFeaturePageProps {
   title: string;
   subtitle: string;
-  heroIcon?: React.ReactNode;
-  heroVisual?: React.ReactNode;
-  heroColor?: string; // e.g. "var(--accent-red)"
-  features: FeatureItem[];
+  heroImage: string;
+  heroColor?: string;
+  features: SolutionFeatureItem[];
   benefits: string[];
 }
 
-export default function ProductFeaturePage({
+export default function SolutionFeaturePage({
   title,
   subtitle,
-  heroIcon,
-  heroVisual,
-  heroColor = "var(--accent-rose)",
+  heroImage,
+  heroColor = "var(--accent-orange)",
   features,
   benefits
-}: ProductFeaturePageProps) {
+}: SolutionFeaturePageProps) {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
@@ -49,29 +48,27 @@ export default function ProductFeaturePage({
         <div className="container">
           <div style={{ 
             display: "grid", 
-            gridTemplateColumns: heroVisual ? "1fr 1fr" : "1fr", 
+            gridTemplateColumns: "1fr 1fr", 
             gap: "4rem", 
             alignItems: "center",
-            maxWidth: heroVisual ? "1200px" : "800px",
-            margin: "0 auto",
-            textAlign: heroVisual ? "left" : "center"
-          }}>
-            <div className="hero-text-col">
-              {heroIcon && !heroVisual && (
-                <div style={{ 
-                  display: "inline-flex", 
-                  alignItems: "center", 
-                  justifyContent: "center", 
-                  width: "80px", 
-                  height: "80px", 
-                  borderRadius: "24px", 
-                  background: `color-mix(in srgb, ${heroColor} 12%, transparent)`,
-                  color: heroColor,
-                  marginBottom: "2rem"
-                }}>
-                  {heroIcon}
-                </div>
-              )}
+            maxWidth: "1200px",
+            margin: "0 auto"
+          }} className="solution-hero-grid">
+            
+            <div className="solution-text-col">
+              <div style={{ 
+                display: "inline-block", 
+                padding: "0.4rem 1rem", 
+                borderRadius: "100px", 
+                background: `color-mix(in srgb, ${heroColor} 12%, transparent)`,
+                color: heroColor,
+                fontWeight: 600,
+                fontSize: "0.9rem",
+                marginBottom: "1.5rem",
+                border: `1px solid color-mix(in srgb, ${heroColor} 30%, transparent)`
+              }}>
+                Industry Solutions
+              </div>
               
               <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-1px", marginBottom: "1.5rem" }}>
                 {title}
@@ -80,7 +77,7 @@ export default function ProductFeaturePage({
                 {subtitle}
               </p>
               
-              <div style={{ display: "flex", gap: "1rem", justifyContent: heroVisual ? "flex-start" : "center", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }} className="solution-buttons">
                 <button 
                   onClick={() => setIsDemoModalOpen(true)} 
                   className="btn-primary"
@@ -91,27 +88,26 @@ export default function ProductFeaturePage({
               </div>
             </div>
 
-            {heroVisual && (
-              <div className="hero-visual-col" style={{ display: "flex", justifyContent: "center", position: "relative" }}>
-                {/* Optional glow behind visual */}
-                <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "120%", height: "120%", background: `radial-gradient(circle, color-mix(in srgb, ${heroColor} 15%, transparent) 0%, transparent 70%)`, zIndex: 0 }} />
-                <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-                  {heroVisual}
-                </div>
-              </div>
-            )}
+            <div className="solution-visual-col" style={{ position: "relative", height: "450px", borderRadius: "24px", overflow: "hidden", border: "1px solid var(--border-color)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
+              <Image 
+                src={heroImage} 
+                alt={title}
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+              <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top right, color-mix(in srgb, ${heroColor} 40%, transparent), transparent)` }} />
+            </div>
+
           </div>
         </div>
 
         {/* Inline styles for responsive stacking */}
         <style dangerouslySetInnerHTML={{__html: `
           @media (max-width: 900px) {
-            .hero-text-col { text-align: center; }
-            .hero-text-col > div { justify-content: center !important; }
-            .hero-visual-col { margin-top: 2rem; }
-            .container > div[style*="grid-template-columns"] {
-              grid-template-columns: 1fr !important;
-            }
+            .solution-hero-grid { grid-template-columns: 1fr !important; text-align: center; }
+            .solution-buttons { justify-content: center; }
+            .solution-visual-col { height: 300px !important; margin-top: 2rem; }
           }
         `}} />
       </main>
@@ -125,8 +121,8 @@ export default function ProductFeaturePage({
       <section style={{ padding: "6rem 0", background: "var(--bg-secondary)" }}>
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-            <h2 style={{ fontSize: "2.5rem", fontWeight: 800, marginBottom: "1rem" }}>Core Capabilities</h2>
-            <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem" }}>Everything you need to run your operations smoothly.</p>
+            <h2 style={{ fontSize: "2.5rem", fontWeight: 800, marginBottom: "1rem" }}>Tailored for your operations</h2>
+            <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem" }}>Specific tools built for the way you run your business.</p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
@@ -159,8 +155,8 @@ export default function ProductFeaturePage({
       {/* Key Benefits List */}
       <section style={{ padding: "6rem 0", background: "var(--bg-primary)" }}>
         <div className="container">
-          <div style={{ maxWidth: "900px", margin: "0 auto", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "24px", padding: "4rem" }}>
-            <h2 style={{ fontSize: "2.2rem", fontWeight: 800, marginBottom: "2rem", textAlign: "center" }}>Why choose Ordrji for this?</h2>
+          <div style={{ maxWidth: "900px", margin: "0 auto", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "24px", padding: "4rem" }} className="benefits-card">
+            <h2 style={{ fontSize: "2.2rem", fontWeight: 800, marginBottom: "2rem", textAlign: "center" }}>Why choose Ordrji?</h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>
               {benefits.map((benefit, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
@@ -173,6 +169,11 @@ export default function ProductFeaturePage({
             </div>
           </div>
         </div>
+        <style dangerouslySetInnerHTML={{__html: `
+          @media (max-width: 600px) {
+            .benefits-card { padding: 2rem !important; }
+          }
+        `}} />
       </section>
 
       <FinalCTA onBookDemo={() => setIsDemoModalOpen(true)} />

@@ -1,65 +1,57 @@
-"use client";
+import React from "react";
+import SolutionFeaturePage from "@/components/SolutionFeaturePage";
+import { Coffee, QrCode, CreditCard, Sparkles, Smartphone } from "lucide-react";
 
-import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import BookDemoModal from "@/components/BookDemoModal";
-import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
-import FinalCTA from "@/components/FinalCTA";
-import { HardHat } from "lucide-react";
+export const metadata = {
+  title: "POS for Cafes & Bistros | Ordrji",
+  description: "Fast counter service, QR ordering, and loyalty points for your cafe."
+};
 
 export default function CafesBistrosPage() {
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const features = [
+    {
+      icon: <CreditCard size={24} />,
+      title: "Lightning Fast Counter POS",
+      description: "Keep the morning coffee line moving. Our intuitive UI lets your baristas punch in complex coffee modifications in seconds."
+    },
+    {
+      icon: <QrCode size={24} />,
+      title: "Order & Pay at Table",
+      description: "Let guests scan a QR code to view the menu, order, and pay directly from their phone, freeing up your staff."
+    },
+    {
+      icon: <Coffee size={24} />,
+      title: "Item Modifiers & Variations",
+      description: "Easily handle 'Oat milk, extra hot, half-sweet vanilla latte' with unlimited modifier groups and upcharges."
+    },
+    {
+      icon: <Sparkles size={24} />,
+      title: "Digital Loyalty & Rewards",
+      description: "Ditch the paper punch cards. Automatically reward points to customers by their phone number to keep them coming back."
+    },
+    {
+      icon: <Smartphone size={24} />,
+      title: "Online Ordering Pages",
+      description: "Launch your own branded web link for pickup orders, avoiding hefty third-party aggregator commissions."
+    }
+  ];
+
+  const benefits = [
+    "Serve more customers during the critical morning rush",
+    "Increase average ticket size through smart digital upsells",
+    "Build a loyal community of daily regulars",
+    "Reduce front-of-house labor costs with QR ordering",
+    "Track which pastries and roasts are actually driving profit"
+  ];
 
   return (
-    <>
-      <Navbar 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-        onRegister={() => setIsRegisterModalOpen(true)}
-      />
-
-      <main style={{ minHeight: "60vh", paddingTop: "140px", paddingBottom: "80px", backgroundColor: "var(--bg-primary)" }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem", color: "var(--accent-orange)" }}>
-            <HardHat size={64} />
-          </div>
-          <h1 style={{ fontSize: "3rem", fontWeight: "800", marginBottom: "1.5rem", letterSpacing: "-1px" }}>
-            Cafes & Bistros
-          </h1>
-          <p style={{ fontSize: "1.2rem", color: "var(--text-secondary)", lineHeight: "1.6", marginBottom: "3rem" }}>
-            We are currently building this dedicated page to showcase our powerful Cafes & Bistros capabilities. 
-            Check back soon for comprehensive details, features, and success stories!
-          </p>
-          <div style={{ padding: "2rem", backgroundColor: "var(--bg-card)", borderRadius: "16px", border: "1px dashed var(--border-color)" }}>
-            <h3 style={{ marginBottom: "1rem", fontSize: "1.3rem" }}>In the meantime...</h3>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "1.5rem" }}>
-              You can explore our core features on the homepage or book a personalized demo to see Cafes & Bistros in action.
-            </p>
-            <button 
-              onClick={() => setIsDemoModalOpen(true)}
-              className="btn-primary btn-red"
-              style={{ padding: "0.8rem 2rem", fontSize: "1rem" }}
-            >
-              Book a Live Demo
-            </button>
-          </div>
-        </div>
-      </main>
-
-      <FinalCTA 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-      />
-      <Footer />
-
-      <BookDemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
-      />
-      <RegisterRestaurantModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-      />
-    </>
+    <SolutionFeaturePage 
+      title="Speed & Charm for Cafes"
+      subtitle="From the morning rush to the afternoon slump, Ordrji gives your cafe the speed to crush queues and the tools to build a loyal local following."
+      heroImage="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1200"
+      heroColor="var(--accent-orange)"
+      features={features}
+      benefits={benefits}
+    />
   );
 }

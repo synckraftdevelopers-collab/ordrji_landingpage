@@ -1,65 +1,57 @@
-"use client";
+import React from "react";
+import SolutionFeaturePage from "@/components/SolutionFeaturePage";
+import { Network, LineChart, FileJson, Link, ShieldCheck } from "lucide-react";
 
-import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import BookDemoModal from "@/components/BookDemoModal";
-import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
-import FinalCTA from "@/components/FinalCTA";
-import { HardHat } from "lucide-react";
+export const metadata = {
+  title: "Enterprise POS for Franchise Chains | Ordrji",
+  description: "Centralized HQ controls, multi-outlet reporting, and role-based permissions."
+};
 
 export default function FranchiseChainsPage() {
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const features = [
+    {
+      icon: <Network size={24} />,
+      title: "Master Menu Management",
+      description: "Push new menus, promotional combos, and price updates to 10 or 10,000 outlets simultaneously from the HQ dashboard."
+    },
+    {
+      icon: <LineChart size={24} />,
+      title: "Consolidated Analytics",
+      description: "View aggregate revenue across the entire brand, or drill down to compare top-performing outlets vs underperforming ones."
+    },
+    {
+      icon: <ShieldCheck size={24} />,
+      title: "Role-Based Access Control",
+      description: "Ensure that local outlet managers can only see their store's data, while area managers and HQ executives see the full picture."
+    },
+    {
+      icon: <FileJson size={24} />,
+      title: "Automated Royalty Reports",
+      description: "Automatically calculate franchise royalty fees based on daily outlet sales and generate invoices instantly."
+    },
+    {
+      icon: <Link size={24} />,
+      title: "Open API & Integrations",
+      description: "Seamlessly pipe your multi-outlet data into your existing enterprise ERPs like SAP, Oracle, or Microsoft Dynamics."
+    }
+  ];
+
+  const benefits = [
+    "Maintain strict brand consistency across all franchise locations",
+    "Onboard new outlets in minutes instead of weeks",
+    "Prevent local managers from making unauthorized menu or price changes",
+    "Identify systemic brand-wide trends vs localized store issues",
+    "Reduce the IT overhead required to run a massive F&B operation"
+  ];
 
   return (
-    <>
-      <Navbar 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-        onRegister={() => setIsRegisterModalOpen(true)}
-      />
-
-      <main style={{ minHeight: "60vh", paddingTop: "140px", paddingBottom: "80px", backgroundColor: "var(--bg-primary)" }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem", color: "var(--accent-orange)" }}>
-            <HardHat size={64} />
-          </div>
-          <h1 style={{ fontSize: "3rem", fontWeight: "800", marginBottom: "1.5rem", letterSpacing: "-1px" }}>
-            Franchise Chains
-          </h1>
-          <p style={{ fontSize: "1.2rem", color: "var(--text-secondary)", lineHeight: "1.6", marginBottom: "3rem" }}>
-            We are currently building this dedicated page to showcase our powerful Franchise Chains capabilities. 
-            Check back soon for comprehensive details, features, and success stories!
-          </p>
-          <div style={{ padding: "2rem", backgroundColor: "var(--bg-card)", borderRadius: "16px", border: "1px dashed var(--border-color)" }}>
-            <h3 style={{ marginBottom: "1rem", fontSize: "1.3rem" }}>In the meantime...</h3>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "1.5rem" }}>
-              You can explore our core features on the homepage or book a personalized demo to see Franchise Chains in action.
-            </p>
-            <button 
-              onClick={() => setIsDemoModalOpen(true)}
-              className="btn-primary btn-red"
-              style={{ padding: "0.8rem 2rem", fontSize: "1rem" }}
-            >
-              Book a Live Demo
-            </button>
-          </div>
-        </div>
-      </main>
-
-      <FinalCTA 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-      />
-      <Footer />
-
-      <BookDemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
-      />
-      <RegisterRestaurantModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-      />
-    </>
+    <SolutionFeaturePage 
+      title="Scale with Absolute Control"
+      subtitle="Running a chain requires discipline, standardization, and visibility. Ordrji gives your HQ the master controls to scale your franchise globally."
+      heroImage="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200"
+      heroColor="var(--accent-blue)"
+      features={features}
+      benefits={benefits}
+    />
   );
 }

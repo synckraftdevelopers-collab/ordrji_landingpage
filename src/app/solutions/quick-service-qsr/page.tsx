@@ -1,65 +1,57 @@
-"use client";
+import React from "react";
+import SolutionFeaturePage from "@/components/SolutionFeaturePage";
+import { Zap, MonitorSmartphone, Receipt, MonitorUp, ListOrdered } from "lucide-react";
 
-import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import BookDemoModal from "@/components/BookDemoModal";
-import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
-import FinalCTA from "@/components/FinalCTA";
-import { HardHat } from "lucide-react";
+export const metadata = {
+  title: "QSR POS & Management System | Ordrji",
+  description: "High-speed billing, self-order kiosks, and token displays for Quick Service Restaurants."
+};
 
-export default function QuickServiceQSRPage() {
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+export default function QSRPage() {
+  const features = [
+    {
+      icon: <Zap size={24} />,
+      title: "Sub-second Billing",
+      description: "Process orders and payments in under 3 seconds. The interface is optimized for minimal clicks to bust long queues during rush hours."
+    },
+    {
+      icon: <MonitorSmartphone size={24} />,
+      title: "Self-Order Kiosks",
+      description: "Let customers order and pay at digital touchscreens, automatically upselling combos and sides while freeing up counter staff."
+    },
+    {
+      icon: <MonitorUp size={24} />,
+      title: "Customer Facing Display",
+      description: "Show a digital screen to the customer highlighting their order details, QR code for payment, and promotional videos."
+    },
+    {
+      icon: <ListOrdered size={24} />,
+      title: "Token Number Screens",
+      description: "Automatically push ready orders to a digital TV screen so customers know exactly when to collect their food."
+    },
+    {
+      icon: <Receipt size={24} />,
+      title: "Combo & Meal Deal Engines",
+      description: "Automatically suggest or trigger meal deals when a customer orders a burger and a drink, improving customer satisfaction and speed."
+    }
+  ];
+
+  const benefits = [
+    "Dramatically reduce customer wait times during peak hours",
+    "Increase average order value by 15% through kiosk upselling",
+    "Eliminate order-taking errors in noisy environments",
+    "Optimize staff utilization by shifting ordering to kiosks",
+    "Maintain strict portion and inventory control for fast food items"
+  ];
 
   return (
-    <>
-      <Navbar 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-        onRegister={() => setIsRegisterModalOpen(true)}
-      />
-
-      <main style={{ minHeight: "60vh", paddingTop: "140px", paddingBottom: "80px", backgroundColor: "var(--bg-primary)" }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem", color: "var(--accent-orange)" }}>
-            <HardHat size={64} />
-          </div>
-          <h1 style={{ fontSize: "3rem", fontWeight: "800", marginBottom: "1.5rem", letterSpacing: "-1px" }}>
-            Quick Service (QSR)
-          </h1>
-          <p style={{ fontSize: "1.2rem", color: "var(--text-secondary)", lineHeight: "1.6", marginBottom: "3rem" }}>
-            We are currently building this dedicated page to showcase our powerful Quick Service (QSR) capabilities. 
-            Check back soon for comprehensive details, features, and success stories!
-          </p>
-          <div style={{ padding: "2rem", backgroundColor: "var(--bg-card)", borderRadius: "16px", border: "1px dashed var(--border-color)" }}>
-            <h3 style={{ marginBottom: "1rem", fontSize: "1.3rem" }}>In the meantime...</h3>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "1.5rem" }}>
-              You can explore our core features on the homepage or book a personalized demo to see Quick Service (QSR) in action.
-            </p>
-            <button 
-              onClick={() => setIsDemoModalOpen(true)}
-              className="btn-primary btn-red"
-              style={{ padding: "0.8rem 2rem", fontSize: "1rem" }}
-            >
-              Book a Live Demo
-            </button>
-          </div>
-        </div>
-      </main>
-
-      <FinalCTA 
-        onBookDemo={() => setIsDemoModalOpen(true)}
-      />
-      <Footer />
-
-      <BookDemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
-      />
-      <RegisterRestaurantModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-      />
-    </>
+    <SolutionFeaturePage 
+      title="High Speed QSR Operations"
+      subtitle="In fast food, seconds translate directly to revenue. Ordrji provides the ultra-fast billing and automated displays you need to serve more people in less time."
+      heroImage="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=1200"
+      heroColor="var(--accent-green)"
+      features={features}
+      benefits={benefits}
+    />
   );
 }

@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Menu, X, ChevronDown } from "lucide-react";
+import { ArrowRight, Menu, X, ChevronDown, Search } from "lucide-react";
+import SearchRestaurantModal from "./SearchRestaurantModal";
 
 interface NavbarProps {
   onBookDemo?: () => void;
@@ -17,6 +18,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
   const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   useEffect(() => {
     const handleClose = () => setIsDesktopDropdownOpen(false);
@@ -143,6 +145,13 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
             <button
+              onClick={() => setIsSearchModalOpen(true)}
+              className="pf-btn pf-nav-link"
+              style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.6rem 1rem", border: "1px solid var(--border-color)", borderRadius: "999px" }}
+            >
+              <Search size={14} /> Search Restaurants
+            </button>
+            <button
               onClick={onBookDemo}
               className="btn-primary btn-red pf-btn"
             >
@@ -205,6 +214,15 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
+                  setIsSearchModalOpen(true);
+                }}
+                className="btn-primary" style={{ justifyContent: "center", background: "#f8fafc", color: "#0f172a", border: "1px solid #e2e8f0" }}
+              >
+                <Search size={14} style={{ marginRight: 8 }} /> Search Restaurants
+              </button>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
                   onBookDemo?.();
                 }}
                 className="btn-primary btn-red" style={{ justifyContent: "center" }}
@@ -220,6 +238,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           </div>
         )}
       </header>
+
+      <SearchRestaurantModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
 
       {/* ── ALL STYLES ────────────────────────────────────────────────── */}
       <style jsx global>{`
