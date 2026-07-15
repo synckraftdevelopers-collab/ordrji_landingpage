@@ -92,7 +92,7 @@ export default function Footer() {
           {/* brand column */}
           <div className="ft-brand-col">
             <Link href="/" className="ft-logo-wrap" aria-label="Ordrji Home">
-              <Image src="/logo.jpg" alt="Ordrji" width={120} height={48} className="ft-logo" style={{ objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.92, width: "auto" }} />
+              <Image src="/logo.jpg" alt="Ordrji" width={120} height={48} style={{ height: "48px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.92 }} />
             </Link>
 
             <p className="ft-tagline">

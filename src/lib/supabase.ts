@@ -25,6 +25,14 @@ if (process.env.NODE_ENV !== 'production') {
  * Server-only admin client — uses service_role key, bypasses RLS.
  * Import ONLY in API routes (src/app/api/). Never in Client Components.
  */
-export const supabaseAdmin = createClient(url, svc ?? anon, {
-  auth: { persistSession: false },
+const globalThisWithSupabaseAdmin = globalThis as typeof globalThis & { supabaseAdminClient?: ReturnType<typeof createClient> };
+export const supabaseAdmin = globalThisWithSupabaseAdmin.supabaseAdminClient ?? createClient(url, svc ?? anon, {
+  auth: { 
+    persistSession: false,
+    storageKey: 'supabase-admin-auth' 
+  },
 });
+
+if (process.env.NODE_ENV !== 'production') {
+  globalThisWithSupabaseAdmin.supabaseAdminClient = supabaseAdmin;
+}
