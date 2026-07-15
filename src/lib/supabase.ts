@@ -14,7 +14,12 @@ if (!url || !anon) {
  * Browser-safe client — uses anon/publishable key, respects RLS.
  * Safe to import in Client Components.
  */
-export const supabase = createClient(url, anon);
+const globalThisWithSupabase = globalThis as typeof globalThis & { supabaseClient?: ReturnType<typeof createClient> };
+export const supabase = globalThisWithSupabase.supabaseClient ?? createClient(url, anon);
+
+if (process.env.NODE_ENV !== 'production') {
+  globalThisWithSupabase.supabaseClient = supabase;
+}
 
 /**
  * Server-only admin client — uses service_role key, bypasses RLS.
