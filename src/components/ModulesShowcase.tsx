@@ -606,7 +606,7 @@ export default function ModulesShowcase() {
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
       <style jsx global>{`
         .showcase-section {
