@@ -233,19 +233,7 @@ export default function Integrations() {
 
   useEffect(() => { tickRef.current = tick; }, [tick]);
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        setInView(true);
-        setTimeout(() => setShow(true), 80);
-        obs.disconnect();
-      }
-    }, { threshold: 0.1 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+
 
   useEffect(() => {
     if (!inView) return;
@@ -263,16 +251,29 @@ export default function Integrations() {
         <div className="ig-grid">
 
           {/* ── LEFT: orbital ─────────────────────────────────────────── */}
-          <div className={`ig-left ${inView ? "ig-left-in" : ""}`}>
+          <motion.div 
+            className="ig-left"
+            initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            onViewportEnter={() => setInView(true)}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ type: "spring", stiffness: 180, damping: 25 }}
+          >
             {mounted ? (
               <Orbital partners={partners} rot={rot} />
             ) : (
               <div style={{ width: SIZE, height: SIZE }} />
             )}
-          </div>
+          </motion.div>
 
           {/* ── RIGHT: content ────────────────────────────────────────── */}
-          <div className={`ig-right ${show ? "ig-right-in" : ""}`}>
+          <motion.div 
+            className="ig-right"
+            initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.2 }}
+          >
             <div className="ig-tabs-accordion">
               {CATS.map(c => {
                 const isActive = tab === c.key;
@@ -321,7 +322,7 @@ export default function Integrations() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 

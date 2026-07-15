@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Menu, X, ChevronDown, Search } from "lucide-react";
 import SearchRestaurantModal from "./SearchRestaurantModal";
 
@@ -144,26 +145,32 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(0,0,0,0.05)" }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setIsSearchModalOpen(true)}
               className="pf-btn pf-nav-link"
-              style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.6rem 1rem", border: "1px solid var(--border-color)", borderRadius: "999px" }}
+              style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.6rem 1rem", border: "1px solid var(--border-color)", borderRadius: "999px", background: "transparent" }}
             >
               <Search size={14} /> Search Restaurants
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(227,6,19,0.3)" }}
+              whileTap={{ scale: 0.97 }}
               onClick={onBookDemo}
               className="btn-primary btn-red pf-btn"
             >
               Book a Demo
-            </button>
-            <a
+            </motion.button>
+            <motion.a
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(227,6,19,0.3)" }}
+              whileTap={{ scale: 0.97 }}
               href="https://pos.ordrji.com/login"
               target="_blank" rel="noopener noreferrer"
               className="btn-primary btn-red pf-btn"
             >
               Start Free Trial <ArrowRight size={14} />
-            </a>
+            </motion.a>
           </div>
 
           {/* ── MOBILE HAMBURGER ──────────────────────────────────────── */}

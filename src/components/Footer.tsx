@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 /* ─── nav columns ─────────────────────────────────────────────────────────── */
 const NAV_COLS = [
@@ -87,7 +88,13 @@ export default function Footer() {
       <div className="container">
 
         {/* ── main grid ──────────────────────────────────────────────── */}
-        <div className="ft-grid">
+        <motion.div 
+          className="ft-grid"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
+        >
 
           {/* brand column */}
           <div className="ft-brand-col">
@@ -167,7 +174,7 @@ export default function Footer() {
               Register Restaurant <ArrowRight size={14} />
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── bottom bar ─────────────────────────────────────────────── */}
         <div className="ft-bottom">

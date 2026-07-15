@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { FileText, QrCode, TrendingUp } from "lucide-react";
 import { ArrowRight, Play, MapPin, Compass, Layers } from "lucide-react";
 import LocationAutocomplete from "./LocationAutocomplete";
@@ -25,6 +25,22 @@ export default function Hero({ onBookDemo }: HeroProps) {
   const [selectedLocName, setSelectedLocName] = useState("");
   const [locationDetails, setLocationDetails] = useState<SearchResult | null>(null);
 
+  // Global subtle camera movement
+  const globalMouseX = useMotionValue(0.5);
+  const globalMouseY = useMotionValue(0.5);
+  const smoothGlobalX = useSpring(globalMouseX, { stiffness: 50, damping: 50, mass: 1 });
+  const smoothGlobalY = useSpring(globalMouseY, { stiffness: 50, damping: 50, mass: 1 });
+  
+  const globalRotateY = useTransform(smoothGlobalX, [0, 1], [-2, 2]);
+  const globalRotateX = useTransform(smoothGlobalY, [0, 1], [2, -2]);
+
+  const handleGlobalMove = (e: React.MouseEvent<HTMLElement>) => {
+    const x = e.clientX / (typeof window !== "undefined" ? window.innerWidth : 1000);
+    const y = e.clientY / (typeof window !== "undefined" ? window.innerHeight : 1000);
+    globalMouseX.set(x);
+    globalMouseY.set(y);
+  };
+
   useEffect(() => {
     // Cinematic background slider interval
     const bgInterval = setInterval(() => {
@@ -37,7 +53,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
   }, []);
 
   return (
-    <section className="hero-section">
+    <section className="hero-section" onMouseMove={handleGlobalMove} style={{ perspective: "2000px" }}>
       {/* Cinematic Image Slider with Ken Burns Effect */}
       <div className="hero-slider">
         {HERO_IMAGES.map((img, index) => (
@@ -50,22 +66,29 @@ export default function Hero({ onBookDemo }: HeroProps) {
         <div className="hero-overlay" />
       </div>
 
-      <div className="container hero-content">
-        <div className="hero-grid">
+      <motion.div 
+        className="container hero-content"
+        style={{
+          rotateX: globalRotateX,
+          rotateY: globalRotateY,
+          transformStyle: "preserve-3d"
+        }}
+      >
+        <div className="hero-grid" style={{ transformStyle: "preserve-3d" }}>
           {/* Headline and CTAs */}
           
           <motion.div 
             className="hero-text-block"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, filter: "blur(10px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.8, staggerChildren: 0.15 }}
           >
             <motion.h1 
               className="hero-title" 
               style={{ fontSize: "clamp(1.9rem, 4.2vw, 3.1rem)", lineHeight: "1.2", letterSpacing: "-1.5px" }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
             >
               Restaurant POS, Billing, KOT &amp; <br className="hide-mobile" />
               QR Ordering Software <br className="hide-mobile" />
@@ -75,9 +98,9 @@ export default function Hero({ onBookDemo }: HeroProps) {
             <motion.p 
               className="hero-subtitle" 
               style={{ fontSize: "1.05rem", lineHeight: "1.6" }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.1 }}
             >
               Ordrji helps restaurants, cafes, QSRs, cloud kitchens and bakeries manage billing, kitchen orders, QR ordering, inventory, customer data and reports from one simple system.
             </motion.p>
@@ -86,14 +109,26 @@ export default function Hero({ onBookDemo }: HeroProps) {
               className="hero-ctas"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.2 }}
             >
-              <button onClick={onBookDemo} className="btn-primary btn-red" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+              <motion.button 
+                whileHover={{ scale: 1.02, y: -2, boxShadow: "0 15px 35px rgba(227,6,19,0.3)" }}
+                whileTap={{ scale: 0.97 }}
+                onClick={onBookDemo} 
+                className="btn-primary btn-red" 
+                style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+              >
                 Book Free Demo <ArrowRight size={18} />
-              </button>
-              <a href="#features" className="btn-secondary" style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
+              </motion.button>
+              <motion.a 
+                whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+                whileTap={{ scale: 0.97 }}
+                href="#features" 
+                className="btn-secondary" 
+                style={{ padding: "1rem 2.25rem", fontSize: "1.05rem", display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
+              >
                 <Play size={16} fill="currentColor" /> Watch Product Tour
-              </a>
+              </motion.a>
             </motion.div>
 
             {/* Location Selector Widget */}
@@ -101,7 +136,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
               className="hero-location-widget"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.3 }}
             >
               <span className="location-widget-label">
               </span>
@@ -200,13 +235,23 @@ export default function Hero({ onBookDemo }: HeroProps) {
           </motion.div>
 
           {/* Floating hero representation */}
-          <div className="hero-visual-block">
-            <div className="chef-image-wrapper">
+          <motion.div 
+            className="hero-visual-block"
+            initial={{ opacity: 0, scale: 0.92, filter: "blur(12px)", y: 20 }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }}
+            transition={{ type: "spring", stiffness: 180, damping: 22, delay: 0.35 }}
+          >
+            <motion.div 
+              className="chef-image-wrapper"
+              whileHover={{ rotateX: 4, rotateY: -4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              style={{ perspective: 1000, cursor: "pointer" }}
+            >
               <Image src="/hero.png?v=2" alt="Ordrji OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority unoptimized />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       <style jsx global>{`
         .hero-section {
