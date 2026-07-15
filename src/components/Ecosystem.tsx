@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { TrendingUp, Users, Zap, BarChart2, CheckCircle } from "lucide-react";
 
 interface EcosystemNode {
@@ -150,9 +151,13 @@ export default function Ecosystem() {
       <div className="container">
 
         {/* ── header ───────────────────────────────────────────────────── */}
-        <div
-          className={`eco-header ${inView ? "eco-fadein" : ""}`}
+        <motion.div
+          className="eco-header"
           style={{ textAlign: "center", marginBottom: "3.5rem" }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
 
           <h2 className="gradient-text" style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
@@ -161,7 +166,7 @@ export default function Ecosystem() {
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
             No more fragmented modules. Ordrji links every aspect of restaurant management into a single, cohesive engine.
           </p>
-        </div>
+        </motion.div>
 
         {/* ── metric counters bar  (ChefDesk-style count-up) ───────────── */}
         <div className="eco-metrics-bar">
@@ -174,8 +179,12 @@ export default function Ecosystem() {
         <div className="ecosystem-grid-layout" style={{ marginTop: "3rem" }}>
 
           {/* Left detail panel — slides in from left */}
-          <div
-            className={`node-detail-panel glass-card eco-slide-left ${detailVisible ? "eco-visible" : ""}`}
+          <motion.div
+            className="node-detail-panel glass-card"
+            initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.2 }}
           >
             {activeNode && (
               <div className="node-detail-content">
@@ -219,12 +228,15 @@ export default function Ecosystem() {
                 </ul>
               </div>
             )}
-          </div>
+          </motion.div>
 
           {/* SVG orbital — slides in from right */}
-          <div
-            className={`eco-slide-right ${svgVisible ? "eco-visible" : ""}`}
+          <motion.div
             style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.3 }}
           >
             <svg
               viewBox="0 0 500 500"
@@ -333,7 +345,7 @@ export default function Ecosystem() {
                 );
               })}
             </svg>
-          </div>
+          </motion.div>
         </div>
       </div>
 

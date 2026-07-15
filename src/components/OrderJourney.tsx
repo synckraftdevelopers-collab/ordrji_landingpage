@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, QrCode, Smartphone, Wifi, ChefHat, Receipt, CheckCircle, Gift, UserCheck, MessageSquare } from "lucide-react";
 
 import type { LucideProps } from "lucide-react";
@@ -198,7 +199,13 @@ export default function OrderJourney() {
     <section className="journey-section" id="journey">
       <div className="container">
         {/* Header Block */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", gap: "2rem" }}>
+        <motion.div 
+          style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", gap: "2rem" }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
+        >
           <div>
             <h2 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", margin: "0.5rem 0" }}>
               One Seamless Order Journey
@@ -209,14 +216,14 @@ export default function OrderJourney() {
           </div>
 
           <div style={{ display: "flex", gap: "0.75rem" }}>
-            <button className="nav-arrow-btn" onClick={scrollLeft} aria-label="Scroll left">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="nav-arrow-btn" onClick={scrollLeft} aria-label="Scroll left">
               <ChevronLeft size={20} />
-            </button>
-            <button className="nav-arrow-btn" onClick={scrollRight} aria-label="Scroll right">
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="nav-arrow-btn" onClick={scrollRight} aria-label="Scroll right">
               <ChevronRight size={20} />
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Horizontal Scroll Cards Track */}
@@ -231,7 +238,13 @@ export default function OrderJourney() {
       >
         {JOURNEY_STEPS.map((step) => {
           return (
-            <div key={step.number} className="journey-card-wrapper">
+            <motion.div 
+              key={step.number} 
+              className="journey-card-wrapper"
+              whileHover={{ y: -6, rotateX: 2, rotateY: -2, zIndex: 10 }}
+              style={{ perspective: 1000 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            >
               <div className="journey-card glass-card">
                 {/* Image and product UI overlays */}
                 <div className="card-visual-wrapper" style={{ backgroundImage: `url(${step.image})` }}>
@@ -247,7 +260,7 @@ export default function OrderJourney() {
                   <p className="step-desc">{step.desc}</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

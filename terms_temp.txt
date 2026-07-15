@@ -1,0 +1,1421 @@
+ORDRJI TERMS OF SERVICE
+Effective date: 15 July 2026Last updated: 15 July 2026
+1. Introduction
+These Terms of Service constitute a legally binding agreement between:
+SYNCKRAFT TECHNOLOGIES PVT. LTD., operating under the brand name “Ordrji”, having its registered office at  414, 4th Floor, Daga Plazzo Biyani Sqaure, opp. Dmart Camp, Amravati, Maharashtra 444602, hereinafter referred to as “Ordrji,” “Company,” “we,” “us” or “our”;
+and
+the person or legal entity accessing, subscribing to, purchasing, installing or using the Services, hereinafter referred to as “Customer,” “you” or “your.”
+These Terms govern access to and use of:
+ordrji.com and related websites; 
+Ordrji restaurant POS and billing software; 
+Windows, desktop, web, Android, iOS or other applications made available by Ordrji; 
+owner, manager, cashier, waiter, kitchen and administrative dashboards; 
+KOT and Kitchen Display Systems; 
+QR menus and QR ordering; 
+online ordering pages; 
+table and order management; 
+inventory, recipe and purchase management; 
+customer relationship management; 
+loyalty, offers, campaigns and feedback; 
+staff, attendance and role-management modules; 
+multi-outlet and franchise-management modules; 
+reports, analytics and business insights; 
+payment and third-party integrations; 
+onboarding, migration, training and support services; 
+APIs, software development kits and integration tools; and 
+any other Ordrji product or service referring to these Terms. 
+Collectively, these are referred to as the “Services.”
+2. Acceptance of these Terms
+You accept these Terms when you:
+click “I Agree,” “Accept,” “Sign Up,” “Subscribe” or a similar button; 
+create an Ordrji account; 
+sign an order form, proposal or subscription agreement; 
+pay an Ordrji invoice; 
+install or activate an Ordrji application; 
+access a demo, trial or production account; 
+permit Ordrji to configure your restaurant account; or 
+otherwise access or use the Services. 
+If you do not agree to these Terms, you must not access or use the Services.
+If an individual accepts these Terms on behalf of a company, restaurant, partnership, franchise, organisation or other legal entity, that individual confirms that they have authority to bind that entity.
+3. Contract documents and order of priority
+The agreement between you and Ordrji may include:
+an Order Form, quotation, proposal or subscription confirmation; 
+a Master Services Agreement, where separately signed; 
+a Service-Level Agreement; 
+a Data Processing Agreement; 
+these Terms; 
+the Ordrji Privacy Policy; 
+an Acceptable Use Policy; 
+applicable module-specific or integration-specific terms; and 
+documentation and policies incorporated by reference. 
+In the event of a conflict, the following order of priority will generally apply:
+signed Master Services Agreement; 
+signed Order Form; 
+signed Service-Level Agreement; 
+signed Data Processing Agreement; 
+module-specific terms; 
+these Terms; 
+other published policies. 
+A document will override another document only regarding the specific subject matter of the conflicting provision.
+4. Definitions
+For these Terms:
+4.1 Authorised User
+An “Authorised User” is an owner, director, administrator, manager, cashier, waiter, captain, kitchen employee, accountant, inventory manager, franchise operator, consultant or other person authorised by the Customer to access the Services.
+4.2 Customer Data
+“Customer Data” means information submitted, uploaded, stored, generated or processed through the Services by or on behalf of the Customer, including:
+restaurant and outlet information; 
+menus and pricing; 
+customer information; 
+staff information; 
+orders and KOTs; 
+invoices; 
+payment records; 
+inventory records; 
+supplier and purchase records; 
+loyalty information; 
+feedback; 
+reports; 
+images, logos and business content; and 
+configuration data. 
+4.3 End Customer
+An “End Customer” is a consumer who interacts with a Customer through Ordrji, including a person who:
+places an order; 
+scans a QR code; 
+browses a digital menu; 
+makes or attempts a payment; 
+joins a loyalty programme; 
+receives a digital bill; 
+provides feedback; or 
+communicates with the restaurant. 
+4.4 Order Form
+An “Order Form” means any quotation, proposal, subscription selection, invoice, online checkout confirmation or written agreement identifying the Services, plan, outlets, fees, term or other commercial conditions.
+4.5 Restaurant Customer
+A “Restaurant Customer” means a restaurant, café, QSR, cloud kitchen, bakery, cake shop, dessert shop, food court, franchise, chain, bar, takeaway counter or other food business subscribing to Ordrji.
+4.6 Subscription Term
+The “Subscription Term” means the period during which the Customer is authorised to access paid Services.
+4.7 Third-Party Service
+A “Third-Party Service” means any product, platform, payment provider, delivery aggregator, messaging provider, accounting application, hardware device or other service not owned and controlled by Ordrji.
+5. Eligibility
+You may use the Services only if:
+you are legally competent to enter into a binding agreement; 
+you are at least 18 years old; 
+you are authorised to act for the relevant business; 
+your use is lawful; 
+the information submitted by you is accurate; and 
+you are not prohibited from using the Services under applicable law. 
+Ordrji’s business administration and restaurant-management accounts are not intended to be independently operated by children.
+6. Description of the Services
+Ordrji provides technology tools intended to assist restaurants and food businesses with operations.
+Depending on the subscription plan and modules enabled, the Services may include:
+POS billing; 
+GST invoice generation; 
+dine-in, takeaway, pickup and delivery orders; 
+KOT and kitchen routing; 
+Kitchen Display Systems; 
+table management; 
+waiter or captain ordering; 
+menu and pricing management; 
+QR menus; 
+QR and online ordering; 
+customer database; 
+loyalty and CRM; 
+inventory and recipe management; 
+purchase and supplier management; 
+staff accounts and role permissions; 
+reports and analytics; 
+multi-outlet controls; 
+messaging and campaign features; 
+payment-service integrations; 
+delivery-platform integrations; 
+APIs and webhooks; 
+onboarding and migration; and 
+support and training. 
+Features may vary by:
+subscription plan; 
+device; 
+operating system; 
+outlet configuration; 
+geographical location; 
+integration availability; 
+technical compatibility; 
+regulatory requirements; and 
+product-development stage. 
+The presence of a feature in a demo, brochure, development roadmap, mock-up or marketing communication does not mean that the feature is included in every subscription.
+7. Ordrji is a technology provider
+Unless expressly stated otherwise in a signed agreement:
+Ordrji is a software and technology-service provider; 
+Ordrji does not own or operate the Customer’s restaurant; 
+Ordrji does not prepare, package, sell or deliver food; 
+Ordrji does not determine food quality, ingredients, menu prices, taxes or availability; 
+Ordrji is not the merchant, seller or supplier of food ordered from a Restaurant Customer; 
+Ordrji is not responsible for food licences, food safety, hygiene, allergens or product descriptions; 
+Ordrji does not employ or supervise the Customer’s employees; and 
+Ordrji is not a tax, accounting, legal, investment or business adviser. 
+The Restaurant Customer remains responsible for its food, operations, employees, customers, licences, taxes and legal compliance.
+8. Account registration
+To use the Services, the Customer may be required to provide:
+legal business name; 
+trading or outlet name; 
+owner or authorised representative details; 
+email address; 
+mobile number; 
+operating address; 
+GSTIN, PAN or other tax information; 
+outlet details; 
+subscription information; 
+payment details; 
+menu and pricing information; and 
+other information reasonably required for onboarding. 
+The Customer must ensure that this information is complete, current and accurate.
+Ordrji may request reasonable documentation to:
+verify the business; 
+verify authority; 
+prevent fraud; 
+enable payment processing; 
+comply with law; 
+configure tax settings; or 
+provide a regulated integration. 
+Ordrji may refuse or delay activation where verification cannot reasonably be completed.
+9. Account ownership
+The account belongs to the Customer identified in the Order Form or account-registration records.
+Where an employee, consultant, franchisee, implementation partner or other person initially creates the account:
+that person does not personally own the account merely because they created it; 
+the verified legal business or authorised proprietor will ordinarily control the account; 
+Ordrji may request evidence of account ownership or authority; and 
+Ordrji may temporarily restrict account changes while an ownership dispute is investigated. 
+Ordrji is not responsible for internal ownership, employment, partnership, franchise or management disputes within the Customer’s organisation.
+10. Authorised Users
+The Customer may create Authorised User accounts according to the applicable subscription plan.
+The Customer is responsible for:
+deciding who receives access; 
+assigning correct roles and permissions; 
+reviewing access regularly; 
+disabling access when employment or authority ends; 
+ensuring that credentials are not shared improperly; 
+supervising actions performed by Authorised Users; and 
+ensuring that Authorised Users comply with these Terms. 
+An action taken through an Authorised User account will generally be treated as authorised by the Customer unless the Customer promptly reports unauthorised access.
+11. Account credentials and security
+The Customer and Authorised Users must:
+maintain confidential passwords and PINs; 
+use strong authentication credentials; 
+avoid sharing owner or administrator credentials; 
+secure registered devices; 
+lock unattended POS terminals; 
+protect local networks; 
+maintain current operating-system security; 
+use appropriate antivirus and endpoint protection; 
+notify Ordrji promptly of suspected unauthorised access; and 
+cooperate with reasonable security investigations. 
+Ordrji will never request a Customer’s:
+UPI PIN; 
+card CVV; 
+online-banking password; or 
+complete payment-card credentials. 
+The Customer must immediately notify Ordrji at security@ordrji.com if it suspects that an account, device or credential has been compromised.
+12. Device activation
+Ordrji may use device activation, registration or licensing to control access.
+The Customer agrees that:
+only authorised devices may access the Services; 
+device limits may depend on the subscription plan; 
+an additional-device fee may apply; 
+device transfers may require verification; 
+Ordrji may deactivate a lost, compromised or unauthorised device; 
+local data should be synchronised or exported before a device is reset; and 
+the Customer is responsible for secure disposal or transfer of devices. 
+Attempts to bypass device limits or activation controls are prohibited.
+13. Software licence
+Subject to payment of applicable fees and compliance with these Terms, Ordrji grants the Customer a limited, non-exclusive, non-transferable, non-sublicensable and revocable right to access and use the Services:
+during the Subscription Term; 
+for the Customer’s internal restaurant operations; 
+for the number of outlets, devices and Authorised Users purchased; and 
+according to the applicable documentation and plan limits. 
+The licence does not transfer ownership of any Ordrji software or intellectual property.
+14. Licence restrictions
+The Customer must not, and must not permit another person to:
+copy the Services except as expressly permitted; 
+sell, lease, rent, sublicense or commercially redistribute the Services; 
+reverse engineer, decompile or disassemble the Services, except where such restriction is prohibited by law; 
+bypass security, activation or subscription controls; 
+gain unauthorised access to another Customer’s data; 
+scrape or systematically extract data from the Services; 
+use the Services to build or train a competing product without written permission; 
+copy Ordrji’s workflows, screens, documentation or proprietary material for commercial replication; 
+remove copyright, trademark or ownership notices; 
+upload malicious code; 
+conduct unauthorised penetration testing; 
+overload or disrupt the platform; 
+impersonate another person or entity; 
+use another Customer’s account; 
+use the Services for unlawful surveillance; 
+use the Services to send unlawful or unsolicited communications; or 
+use the Services in a manner that infringes third-party rights. 
+15. Subscription plans and modules
+Ordrji may offer:
+free trials; 
+launch offers; 
+Starter plans; 
+Growth plans; 
+Pro plans; 
+Enterprise plans; 
+per-outlet subscriptions; 
+per-device subscriptions; 
+module-based subscriptions; 
+annual subscriptions; 
+usage-based services; and 
+customised plans. 
+The applicable plan, features, limits, fees and duration will be identified in the Order Form or account dashboard.
+Features not included in the Customer’s plan may require:
+a plan upgrade; 
+an additional module fee; 
+a per-outlet fee; 
+a per-device fee; 
+usage credits; 
+integration charges; or 
+implementation charges. 
+16. Trials, pilots and launch offers
+Ordrji may offer limited trials or pilot programmes.
+Unless otherwise stated:
+a trial is provided for evaluation only; 
+trial features may be limited; 
+trial data may be deleted after the trial period; 
+technical support may be limited; 
+trial Services may be changed or withdrawn; 
+trial accounts may not include service-level commitments; 
+the Customer should not depend exclusively on a trial system for business-critical operations; and 
+the trial automatically expires unless converted to a paid subscription. 
+A launch offer may be restricted by:
+number of Customers; 
+number of outlets; 
+enrolment date; 
+geographical area; 
+subscription term; 
+specified modules; or 
+other published eligibility conditions. 
+Promotional pricing applies only for the stated promotional period. The regular price may apply afterward.
+17. Beta and early-access features
+Ordrji may provide beta, preview, experimental or early-access features.
+Such features:
+may be incomplete; 
+may contain errors; 
+may change substantially; 
+may not be suitable for production use; 
+may be discontinued; 
+may have limited support; and 
+may not be covered by a service-level commitment. 
+The Customer uses beta features voluntarily and at its own reasonable operational risk.
+Confidential beta information must not be publicly disclosed without Ordrji’s written permission.
+18. Onboarding and implementation
+Depending on the Order Form, onboarding may include:
+restaurant account creation; 
+outlet configuration; 
+menu upload; 
+tax configuration assistance; 
+table setup; 
+printer setup; 
+QR-code generation; 
+staff account setup; 
+training; 
+data migration; and 
+initial testing. 
+The Customer must provide accurate information and reasonable cooperation.
+Implementation timelines depend on:
+timely data submission; 
+menu complexity; 
+number of outlets; 
+hardware availability; 
+network readiness; 
+third-party access; 
+data quality; 
+Customer approvals; and 
+requested customisation. 
+A delay caused by the Customer or a Third-Party Service will not constitute a failure by Ordrji.
+19. Data migration
+Where Ordrji agrees to migrate data from another system:
+the Customer must have lawful authority to export and transfer the data; 
+the Customer must obtain required permissions and consents; 
+the Customer must provide data in a supported format; 
+Ordrji may refuse corrupted, unlawful or incompatible data; 
+Ordrji may transform or normalise data to fit Ordrji’s structure; 
+not all historical fields, layouts, identifiers or audit logs may be transferable; 
+migrated data must be reviewed by the Customer; and 
+the Customer remains responsible for validating balances, taxes, inventory, invoices and opening records. 
+Unless expressly included in the Order Form, extensive cleansing, mapping, custom migration or repeated migration may be chargeable.
+20. Customer configuration responsibilities
+The Customer is responsible for reviewing and approving:
+restaurant name and address; 
+GSTIN and tax identifiers; 
+invoice format; 
+menu items; 
+menu prices; 
+applicable taxes; 
+HSN or SAC classifications; 
+discounts; 
+service charges; 
+packaging charges; 
+delivery charges; 
+printer routing; 
+table configuration; 
+staff roles; 
+opening inventory; 
+recipes; 
+supplier details; 
+payment modes; 
+order types; and 
+reports used for accounting or tax filing. 
+Ordrji may assist with setup but does not assume responsibility for the Customer’s commercial, accounting or tax decisions.
+21. POS billing and invoices
+Ordrji provides tools for creating bills and invoices based on Customer configuration.
+The Customer is responsible for:
+ensuring invoice information is accurate; 
+complying with applicable tax and invoicing rules; 
+maintaining legally required invoice records; 
+choosing the correct tax treatment; 
+verifying bill-number sequences; 
+reviewing discounts and refunds; 
+reconciling payments; 
+controlling credit transactions; 
+conducting day and shift closing; 
+preserving required records; and 
+making legally required tax filings. 
+The Customer must review generated invoices before relying on them for statutory filing.
+Ordrji does not guarantee that default settings are appropriate for every state, business type, product, transaction or tax structure.
+22. KOT and kitchen operations
+The Customer remains responsible for:
+reviewing KOTs; 
+checking item modifications; 
+monitoring printer and KDS status; 
+confirming allergy or dietary instructions; 
+preventing duplicate preparation; 
+managing cancelled or modified orders; 
+confirming items before serving; 
+maintaining backup kitchen procedures; and 
+training kitchen and service staff. 
+The Customer should maintain an operational fallback procedure for temporary device, printer, network or power failures.
+Ordrji is not responsible for food preparation errors, food safety incidents or service delays caused by restaurant personnel.
+23. Menu and restaurant content
+The Customer controls and is responsible for:
+menu descriptions; 
+prices; 
+photographs; 
+food classifications; 
+ingredient statements; 
+allergen notices; 
+dietary claims; 
+portion descriptions; 
+offers; 
+availability; 
+taxes; 
+delivery times; 
+restaurant policies; and 
+promotional content. 
+The Customer represents that it has all required rights to upload and display this content.
+Ordrji may remove or restrict content that:
+infringes intellectual-property rights; 
+is unlawful or misleading; 
+contains malware; 
+impersonates another business; 
+promotes prohibited goods or services; 
+exposes unnecessary sensitive information; or 
+creates a legal or security risk. 
+24. QR ordering and online orders
+When an End Customer orders from a Restaurant Customer through an Ordrji-powered page:
+the order is placed with the Restaurant Customer; 
+the Restaurant Customer is the seller and merchant of the food; 
+the Restaurant Customer determines the menu, prices and availability; 
+the Restaurant Customer may accept or reject the order according to its disclosed policy; 
+the Restaurant Customer is responsible for preparation, packaging, delivery and refunds; 
+Ordrji provides the technology used to transmit or manage the order; and 
+Ordrji does not become a party to the food-sale contract merely by providing the technology. 
+The Restaurant Customer must clearly disclose:
+its legal or trading name; 
+contact information; 
+menu prices; 
+applicable taxes and charges; 
+cancellation rules; 
+refund rules; 
+estimated preparation or delivery time; 
+dietary and allergen information where legally required; and 
+other information required by applicable law. 
+25. End-Customer disputes
+Complaints concerning:
+food quality; 
+quantity; 
+freshness; 
+preparation; 
+allergens; 
+ingredients; 
+packaging; 
+missing items; 
+delivery; 
+restaurant service; 
+pricing; 
+restaurant cancellation; 
+restaurant refunds; or 
+restaurant promotions 
+must ordinarily be resolved by the Restaurant Customer.
+Ordrji may provide technical records or reasonable platform assistance but is not required to refund a food order paid to the Restaurant Customer unless Ordrji expressly collected the amount as principal and accepted that obligation.
+Nothing in these Terms removes any right an End Customer may have under applicable consumer law.
+26. Food safety and legal compliance
+The Restaurant Customer is solely responsible for:
+obtaining and maintaining food-business licences; 
+complying with food-safety and hygiene requirements; 
+maintaining appropriate kitchen and storage conditions; 
+correctly labelling food; 
+managing allergens; 
+complying with packaging and legal-metrology requirements; 
+maintaining GST and tax registrations; 
+complying with labour and employment law; 
+complying with municipal and fire-safety requirements; 
+maintaining required records; and 
+responding to regulators and customers. 
+Ordrji does not inspect or certify the Customer’s food, premises, licences, employees or legal compliance.
+27. Payment services
+Ordrji may integrate with banks, UPI services, payment gateways, card processors or other payment providers.
+Payment services may be subject to:
+separate provider terms; 
+provider verification; 
+KYC requirements; 
+transaction charges; 
+settlement periods; 
+reserve requirements; 
+refund rules; 
+chargebacks; 
+provider risk controls; and 
+regulatory restrictions. 
+Unless expressly agreed otherwise:
+the payment provider processes payment credentials; 
+Ordrji does not store full card numbers, CVVs or UPI PINs; 
+Ordrji does not guarantee payment authorisation; 
+the Customer is responsible for settlement-account accuracy; 
+the Customer is responsible for chargebacks and payment disputes relating to its food or services; 
+payment-provider downtime is outside Ordrji’s direct control; and 
+a successful status displayed by Ordrji should be reconciled against the payment-provider record. 
+28. Refunds and chargebacks for restaurant orders
+The Restaurant Customer must establish and communicate its End-Customer refund policy.
+The Restaurant Customer is responsible for:
+deciding whether a restaurant-order refund is due; 
+initiating authorised refunds; 
+maintaining sufficient settlement balance where required; 
+responding to chargeback evidence requests; 
+providing invoices or proof of delivery; 
+handling duplicate or incorrect restaurant charges; and 
+complying with applicable consumer law. 
+Ordrji may suspend payment functionality where excessive chargebacks, fraud, unlawful transactions or provider restrictions occur.
+29. Subscription fees
+The Customer must pay all fees stated in the Order Form.
+Fees may include:
+subscription charges; 
+per-outlet charges; 
+additional-device charges; 
+setup fees; 
+onboarding fees; 
+migration fees; 
+hardware charges; 
+installation charges; 
+premium-support charges; 
+messaging credits; 
+payment-processing charges; 
+online-ordering charges; 
+integration fees; 
+API fees; 
+custom-development fees; and 
+applicable taxes. 
+Unless expressly stated otherwise, fees are quoted exclusive of GST and other applicable taxes.
+30. Billing and payment terms
+Unless the Order Form states otherwise:
+subscription fees are payable in advance; 
+invoices are due within the period stated on the invoice; 
+monthly subscriptions cover the relevant monthly billing cycle; 
+annual subscriptions cover the relevant annual billing cycle; 
+usage charges may be billed in arrears; 
+late payments may result in suspension; 
+the Customer must maintain accurate billing details; and 
+bank or payment-provider charges are borne by the Customer. 
+Ordrji may apply reasonable collection costs or late-payment charges where permitted by law and disclosed in the Order Form or invoice.
+31. Renewal
+The renewal arrangement stated in the Order Form will control.
+Where a subscription is configured to renew automatically:
+it will renew for the stated renewal period; 
+the Customer authorises collection through the saved payment method; 
+Ordrji may send a renewal reminder; 
+the Customer must cancel within the stated notice period to prevent renewal; and 
+failure of automatic payment may result in a grace period or suspension. 
+Where auto-renewal is not enabled, the Customer must make payment before expiry to avoid interruption.
+32. Price changes
+Ordrji may revise prices for future subscription periods.
+For an existing paid subscription:
+the current prepaid period will ordinarily remain unaffected; 
+new pricing may apply at renewal; 
+Ordrji will provide reasonable advance notice of a material increase; and 
+continued use after renewal constitutes acceptance of the revised price. 
+Price changes may occur due to:
+new features; 
+increased infrastructure costs; 
+third-party charges; 
+tax changes; 
+messaging or payment costs; 
+integration costs; 
+inflation; 
+regulatory requirements; or 
+changes to the Customer’s usage. 
+33. Subscription refunds
+Unless an Order Form or refund policy states otherwise:
+setup and onboarding fees are non-refundable once work begins; 
+migration fees are non-refundable once migration begins; 
+hardware charges are governed by the applicable hardware warranty and return policy; 
+messaging, SMS, API or usage credits are non-refundable once consumed; 
+monthly subscription fees are not refundable for a partially used billing cycle; 
+annual fees are not refundable merely because the Customer stops using the Services; 
+promotional fees are non-refundable; and 
+taxes already deposited with authorities may not be refundable. 
+A refund may be provided where:
+required by law; 
+expressly promised in a written trial or launch offer; 
+Ordrji fails to provision the purchased Service; 
+Ordrji permanently discontinues a prepaid Service without offering a reasonable substitute; or 
+a signed Order Form provides another refund right. 
+Approved refunds may be reduced by:
+Services already provided; 
+consumed usage; 
+non-refundable third-party charges; 
+hardware delivered; 
+completed migration or onboarding; and 
+applicable taxes. 
+34. Hardware and peripheral devices
+Ordrji may work with:
+computers; 
+POS terminals; 
+Android devices; 
+tablets; 
+thermal printers; 
+KOT printers; 
+LAN or Wi-Fi printers; 
+Bluetooth printers; 
+cash drawers; 
+barcode scanners; 
+label printers; 
+customer displays; 
+routers; 
+kitchen displays; and 
+other devices. 
+Compatibility may depend on:
+operating system; 
+drivers; 
+firmware; 
+printer language; 
+port configuration; 
+network setup; 
+device quality; 
+manufacturer support; and 
+local permissions. 
+The Customer is responsible for ensuring that its hardware meets published requirements.
+35. Third-party hardware
+Where hardware is supplied by a third party:
+the manufacturer’s warranty applies; 
+Ordrji does not extend the manufacturer’s warranty unless expressly stated; 
+repair or replacement may depend on the manufacturer; 
+physical damage, liquid damage, voltage damage and misuse may be excluded; 
+replacement timelines may depend on parts and logistics; and 
+the Customer should maintain backup hardware for business-critical operations. 
+Ordrji may provide reasonable configuration assistance but is not responsible for defects in third-party hardware.
+36. Offline operation
+Certain Ordrji POS features may be designed to continue functioning during internet interruption.
+Offline availability may depend on:
+initial account activation; 
+prior successful synchronisation; 
+local database health; 
+device storage; 
+local user credentials; 
+printer availability; 
+operating-system permissions; and 
+the enabled module. 
+The Customer acknowledges that not every feature may work offline. Cloud dashboards, remote changes, payment gateways, messaging, aggregator integrations and real-time cross-outlet features may require internet access.
+37. Local device data
+Where the POS stores information locally:
+the Customer must secure the device; 
+local data may remain until synchronised or deleted; 
+reinstalling, formatting or replacing the device may remove unsynchronised data; 
+the Customer should not manually alter application files or databases; 
+the Customer must permit the application to perform required backups and updates; 
+unauthorised database modification may corrupt records; and 
+Ordrji may not be able to recover data deleted before synchronisation or backup. 
+The Customer must notify Ordrji before replacing or resetting a device containing unsynchronised records.
+38. Synchronisation
+Ordrji may synchronise local POS data with cloud systems.
+Synchronisation may be delayed by:
+internet interruption; 
+power failure; 
+device shutdown; 
+software conflict; 
+insufficient storage; 
+account suspension; 
+corrupted local data; 
+server maintenance; 
+third-party integration delay; or 
+unsupported manual data changes. 
+The Customer should review the sync-status indicator and promptly report repeated failures.
+Ordrji will use reasonable measures intended to reduce duplicate transactions and retry failed synchronisation. However, the Customer remains responsible for reconciliation and should not ignore sync warnings.
+39. Printing
+The Customer is responsible for:
+maintaining paper; 
+maintaining printer power; 
+maintaining network or cable connections; 
+installing compatible drivers; 
+checking printer routing; 
+reviewing failed-print alerts; 
+confirming successful KOT printing; 
+maintaining backup printing procedures; and 
+preventing unauthorised reprints. 
+A print command recorded by the software does not always prove that the physical printer produced a readable document.
+Restaurant staff must monitor printer output during operations.
+40. Updates and maintenance
+Ordrji may release:
+security updates; 
+bug fixes; 
+performance improvements; 
+regulatory updates; 
+compatibility updates; 
+user-interface changes; 
+new features; and 
+deprecated-feature notices. 
+The Customer must install mandatory desktop or mobile updates within the communicated period.
+Ordrji may restrict access to outdated versions where necessary for:
+security; 
+data integrity; 
+compatibility; 
+regulatory compliance; 
+integration continuity; or 
+platform reliability. 
+Where practical, critical billing changes will be tested and introduced gradually.
+41. Service availability
+Ordrji will use commercially reasonable efforts to maintain the Services.
+However, unless a signed Service-Level Agreement states otherwise, Ordrji does not guarantee uninterrupted or error-free availability.
+Service interruptions may arise from:
+maintenance; 
+software updates; 
+internet or telecom failure; 
+cloud-provider failure; 
+power failure; 
+cyberattack; 
+hardware failure; 
+third-party integration failure; 
+payment-provider failure; 
+regulatory action; 
+force majeure; 
+emergency security work; or 
+Customer configuration. 
+Planned maintenance will ordinarily be communicated when reasonably practical.
+42. Service-Level Agreements
+A guaranteed uptime, response time, resolution time, service credit or dedicated-support commitment applies only where included in a signed Service-Level Agreement or eligible plan.
+Marketing phrases such as:
+priority support; 
+dedicated support; 
+fast support; 
+emergency assistance; or 
+human support 
+describe the intended support category and do not create a legally guaranteed response time unless a specific measurable commitment is stated in writing.
+43. Support
+Support may be provided through:
+telephone; 
+WhatsApp; 
+email; 
+ticketing system; 
+remote support; 
+knowledge base; 
+video tutorials; or 
+onsite visits. 
+Support coverage depends on the subscription plan.
+The Customer must provide:
+an accurate description of the problem; 
+screenshots or logs where appropriate; 
+device and printer details; 
+authorised remote access where necessary; 
+a contact person; 
+safe access to onsite equipment; and 
+reasonable cooperation. 
+Ordrji may prioritise issues according to operational severity.
+44. Remote support
+With Customer authorisation, Ordrji may use remote-access tools to diagnose or resolve issues.
+The Customer must:
+ensure that an authorised person approves the session; 
+close unrelated confidential applications; 
+supervise the session where reasonably possible; 
+avoid displaying payment credentials; 
+terminate access when support is completed; and 
+inform Ordrji of restrictions before access begins. 
+Ordrji will use remote access only for authorised support purposes.
+45. Onsite services
+Onsite installation, support or training may be:
+included in a plan; 
+limited to specified locations; 
+subject to appointment availability; 
+subject to travel charges; 
+subject to working-hour restrictions; or 
+separately chargeable. 
+The Customer must provide safe and lawful access to its premises.
+Ordrji personnel may refuse unsafe, abusive or unlawful working conditions.
+46. Customer Data ownership
+As between Ordrji and the Customer:
+the Customer retains ownership of Customer Data; 
+Ordrji retains ownership of the Services, software and platform; 
+End Customers retain rights in their personal data as provided by law; and 
+the relevant Restaurant Customer determines the business purpose for restaurant-controlled End-Customer data. 
+The Customer grants Ordrji a limited licence to host, copy, transmit, process, display and otherwise use Customer Data as reasonably necessary to:
+provide the Services; 
+fulfil support requests; 
+maintain security; 
+perform backup and recovery; 
+enable authorised integrations; 
+comply with law; 
+prevent fraud; 
+enforce the agreement; and 
+improve the Services using aggregated or de-identified information. 
+47. Personal data and Privacy Policy
+The Ordrji Privacy Policy forms part of these Terms.
+Depending on the context:
+Ordrji may act as the Data Fiduciary for account, website, subscription and support information; 
+the Restaurant Customer may act as the Data Fiduciary for its customer, employee and supplier information; and 
+Ordrji may process such restaurant-controlled information as a Data Processor or service provider. 
+The Customer is responsible for:
+giving required privacy notices; 
+obtaining required consents; 
+collecting only necessary personal data; 
+responding to End-Customer requests; 
+managing marketing preferences; 
+honouring opt-outs; 
+configuring appropriate access; 
+maintaining a lawful purpose for processing; and 
+complying with applicable data-protection law. 
+Where required, the parties may enter into a separate Data Processing Agreement.
+48. Marketing and communications
+Where the Customer uses Ordrji to send:
+WhatsApp messages; 
+SMS messages; 
+email campaigns; 
+loyalty messages; 
+promotional offers; 
+review requests; 
+birthday messages; or 
+customer win-back campaigns, 
+the Customer is responsible for:
+obtaining required consent; 
+maintaining evidence of consent where required; 
+respecting opt-outs; 
+using accurate sender information; 
+complying with platform policies; 
+complying with telecom and anti-spam requirements; 
+avoiding misleading claims; 
+maintaining lawful contact lists; and 
+ensuring that messages relate to the Customer’s legitimate business. 
+Ordrji may suspend campaign functionality where there is suspected spam, abuse, excessive complaints or platform-policy violation.
+49. Data accuracy
+The Customer is responsible for reviewing the accuracy of:
+menu data; 
+tax information; 
+customer information; 
+inventory records; 
+opening balances; 
+recipes; 
+supplier records; 
+payment status; 
+financial reports; 
+migrated data; 
+staff permissions; 
+outlet mappings; and 
+integration results. 
+Analytics and reports are dependent on the accuracy and completeness of underlying data.
+50. Data export
+During an active paid subscription, the Customer may request or use available tools to export supported data.
+Exports may be subject to:
+role permissions; 
+identity verification; 
+plan limitations; 
+supported formats; 
+reasonable processing time; 
+third-party restrictions; 
+technical feasibility; and 
+payment of outstanding fees. 
+Custom export formats or large historical exports may be chargeable.
+The Customer is responsible for storing exported data securely and maintaining legally required records.
+51. Data retention after termination
+Following termination or expiry:
+access may be suspended; 
+production data may remain available for a limited export or recovery period; 
+the Customer should export required data during that period; 
+data may then be deleted or de-identified; 
+residual copies may remain in backups until overwritten; 
+limited information may be retained for legal, tax, security, fraud-prevention or dispute purposes; and 
+unsynchronised local device data may remain on Customer-controlled devices. 
+Unless another period is stated in the Order Form or Privacy Policy, Ordrji may ordinarily provide up to 90 days for supported data recovery or export after termination.
+52. Data backup
+Ordrji may maintain backups according to its operational policies.
+Backups are intended for disaster recovery and may not:
+restore individual records on demand; 
+contain the most recent unsynchronised local data; 
+preserve every historical version; 
+replace the Customer’s statutory recordkeeping; 
+replace the Customer’s export obligations; or 
+correct data entered inaccurately by the Customer. 
+The Customer should maintain separate exports of legally or commercially critical information.
+53. Security
+Ordrji will use reasonable technical and organisational safeguards appropriate to the nature of the Services.
+Safeguards may include:
+encryption in transit; 
+access controls; 
+secure credential storage; 
+role-based permissions; 
+audit logs; 
+device registration; 
+security monitoring; 
+backups; 
+vulnerability management; 
+synchronisation controls; 
+incident-response procedures; and 
+vendor security requirements. 
+No system can be guaranteed completely secure. The Customer must also maintain appropriate physical, operational and account security.
+54. Security incidents
+The Customer must promptly report suspected:
+unauthorised access; 
+credential compromise; 
+malware; 
+data loss; 
+suspicious staff activity; 
+device theft; 
+abnormal transactions; 
+unauthorised exports; 
+fraudulent refunds; or 
+security vulnerabilities. 
+The Customer must not publicly disclose an unremediated vulnerability in a manner that creates avoidable risk.
+Ordrji may temporarily restrict access where reasonably necessary to contain a security incident.
+55. Confidentiality
+Each party may receive confidential information from the other.
+Confidential information includes:
+non-public pricing; 
+product roadmaps; 
+software architecture; 
+source code; 
+security information; 
+business plans; 
+customer lists; 
+financial information; 
+restaurant recipes; 
+operational information; 
+personal data; and 
+information marked or reasonably understood as confidential. 
+The receiving party must:
+use confidential information only for the agreement; 
+protect it with reasonable care; 
+disclose it only to personnel and service providers who need it; 
+ensure those recipients are bound by confidentiality; and 
+not disclose it to third parties without permission. 
+Confidentiality obligations do not apply to information that:
+becomes public without breach; 
+was already lawfully known; 
+is independently developed; 
+is received lawfully from another source; or 
+must be disclosed by law. 
+Where legally permitted, the receiving party will give reasonable advance notice of compulsory disclosure.
+56. Ordrji intellectual property
+Ordrji and its licensors own all rights in:
+Ordrji software; 
+source code; 
+object code; 
+interfaces; 
+workflows; 
+databases; 
+designs; 
+dashboards; 
+documentation; 
+templates; 
+APIs; 
+reports; 
+algorithms; 
+artificial-intelligence systems; 
+trademarks; 
+logos; 
+domain names; 
+training material; 
+support material; and 
+improvements to the Services. 
+Except for the limited licence expressly granted, no intellectual-property right is transferred to the Customer.
+57. Customer trademarks and branding
+The Customer grants Ordrji a limited licence to use its:
+restaurant name; 
+logo; 
+menu; 
+images; 
+outlet details; and 
+branding 
+to provide the Services and display the Customer’s digital menu, QR page, invoice or ordering page.
+Ordrji will not use the Customer’s name or logo in public case studies, advertisements or customer lists without permission, except where:
+the Customer has opted into an early-partner or promotional programme; 
+the use is already public through the Customer’s Ordrji-powered page; or 
+another written agreement permits it. 
+58. Feedback
+If the Customer provides suggestions, ideas, feature requests, workflows or feedback, Ordrji may use them without restriction or payment.
+Feedback will not transfer ownership of the Customer’s confidential business data.
+The Customer should not submit an idea subject to a third party’s confidentiality or intellectual-property restriction.
+59. Aggregated and de-identified information
+Ordrji may create aggregated or de-identified information from Service usage.
+Such information may be used to:
+improve performance; 
+understand feature adoption; 
+develop benchmarks; 
+improve fraud detection; 
+create industry insights; 
+improve support; 
+train internal analytical systems; 
+forecast infrastructure requirements; and 
+develop new products. 
+Ordrji will take reasonable steps not to identify an individual or reveal a Customer’s confidential business information through such use.
+60. Artificial intelligence and analytical insights
+Where Ordrji provides forecasts, recommendations, anomaly alerts, AI-generated content or business insights:
+they are based on available data and assumptions; 
+they may contain errors; 
+they may not consider every business factor; 
+they are not guaranteed predictions; 
+they are not professional accounting, legal, tax or investment advice; 
+the Customer must review them before acting; and 
+the Customer remains responsible for business decisions. 
+Ordrji may restrict AI features where the Customer lacks sufficient or reliable data.
+Unless separately disclosed and authorised, Ordrji will not use identifiable Restaurant Customer or End-Customer personal data to train unrelated third-party general-purpose AI models.
+61. Third-Party Services
+The Customer may connect Ordrji to Third-Party Services, including:
+payment gateways; 
+delivery aggregators; 
+WhatsApp or messaging providers; 
+SMS providers; 
+accounting platforms; 
+cloud storage; 
+analytics tools; 
+social platforms; 
+hardware manufacturers; 
+logistics providers; and 
+restaurant marketplaces. 
+Third-Party Services are governed by their own terms and privacy policies.
+Ordrji is not responsible for:
+a third party’s availability; 
+changes to its API; 
+suspension of the Customer’s third-party account; 
+third-party fees; 
+settlement delays; 
+inaccurate third-party data; 
+third-party security incidents; 
+content removed by the third party; 
+changes to third-party policies; or 
+discontinuation of an integration. 
+62. Integration permissions
+By enabling an integration, the Customer authorises Ordrji to exchange information reasonably necessary to operate that integration.
+The Customer is responsible for:
+possessing a valid third-party account; 
+granting correct permissions; 
+safeguarding API keys; 
+maintaining required subscriptions; 
+confirming the lawfulness of transferred data; 
+reviewing imported data; and 
+disabling access when no longer required. 
+Ordrji may disable an integration that creates security, legal, reliability or performance risks.
+63. Acceptable use
+The Services must not be used to:
+violate law; 
+commit fraud; 
+evade tax; 
+create false invoices; 
+manipulate payment records; 
+conceal unlawful transactions; 
+unlawfully monitor employees; 
+process stolen data; 
+infringe intellectual-property rights; 
+distribute malware; 
+attack systems; 
+send spam; 
+harass individuals; 
+impersonate another business; 
+advertise unlawful goods or services; 
+collect unnecessary sensitive information; 
+bypass subscription controls; 
+interfere with another Customer; 
+conduct unauthorised security testing; or 
+create material risk to Ordrji or another person. 
+64. Audit and investigation
+Where Ordrji reasonably suspects misuse, fraud, security risk or a breach of these Terms, Ordrji may:
+request information; 
+review relevant logs; 
+restrict affected features; 
+suspend an Authorised User; 
+require credential reset; 
+disable a compromised integration; 
+preserve relevant records; 
+cooperate with lawful authorities; and 
+terminate the account for material breach. 
+Any review will be limited to what is reasonably necessary for security, compliance and enforcement.
+65. Suspension
+Ordrji may suspend some or all Services where:
+fees are overdue; 
+the Customer breaches these Terms; 
+the account creates a security risk; 
+fraud is suspected; 
+unlawful activity is suspected; 
+a payment provider or authority requires suspension; 
+the Customer’s use harms the platform; 
+the Customer abuses support personnel; 
+required verification is not completed; 
+an integration creates material risk; or 
+suspension is needed to protect data or other Customers. 
+Where reasonably practical, Ordrji will provide notice and an opportunity to cure the issue.
+Immediate suspension may occur where delay would create material risk.
+Suspension does not remove the obligation to pay accrued fees.
+66. Term and termination by the Customer
+The agreement begins when the Customer accepts these Terms and continues until terminated.
+The Customer may terminate:
+according to the Order Form; 
+through available account controls; 
+by giving the required written notice; 
+at the end of the current Subscription Term; or 
+for Ordrji’s uncured material breach. 
+Unless otherwise stated, cancellation prevents future renewal but does not create a refund for the current prepaid period.
+67. Termination by Ordrji
+Ordrji may terminate the agreement:
+for material breach; 
+for repeated non-payment; 
+for unlawful or fraudulent use; 
+for a serious security threat; 
+where required by law; 
+where a Customer repeatedly abuses staff or support channels; 
+where verification information is materially false; 
+where the Customer infringes Ordrji’s intellectual property; 
+where continued service creates unreasonable legal or technical risk; or 
+where Ordrji discontinues the relevant Service. 
+Where the breach is capable of remedy, Ordrji will ordinarily provide a reasonable cure period.
+68. Effect of termination
+Upon termination:
+the Customer’s licence ends; 
+access may be disabled; 
+Authorised Users may lose access; 
+outstanding fees become payable; 
+the Customer should export required data; 
+Ordrji may delete or de-identify data after the applicable retention period; 
+local applications may become limited or inactive; 
+paid third-party services may end; and 
+provisions intended to survive will remain effective. 
+The following provisions survive termination:
+payment obligations; 
+intellectual-property rights; 
+confidentiality; 
+data-retention rights; 
+disclaimers; 
+indemnities; 
+liability limitations; 
+dispute resolution; and 
+general contractual provisions. 
+69. Customer representations and warranties
+The Customer represents and warrants that:
+it has authority to enter the agreement; 
+information provided to Ordrji is accurate; 
+it has required business registrations and licences; 
+it has rights to Customer Data; 
+its processing of personal data is lawful; 
+its menu and advertising content is accurate; 
+it will use the Services lawfully; 
+it will not infringe third-party rights; 
+it will configure taxes and prices accurately; 
+it will supervise Authorised Users; and 
+it will maintain reasonable business-continuity procedures. 
+70. Limited Ordrji warranty
+During a paid Subscription Term, Ordrji warrants that it will provide the Services:
+substantially according to applicable documentation; 
+using reasonable skill and care; 
+subject to the selected plan; 
+subject to these Terms; and 
+subject to Customer cooperation and compatible systems. 
+If the Customer reports a reproducible material failure, Ordrji’s primary obligation will be to use reasonable efforts to:
+correct the failure; 
+provide a workaround; 
+restore the affected Service; or 
+where correction is not reasonably possible, terminate the affected Service and provide an appropriate prepaid credit or refund for the unusable period. 
+71. Disclaimers
+Except for the limited warranty expressly stated, the Services are provided on an “as available” basis to the maximum extent permitted by law.
+Ordrji does not warrant that:
+the Services will be completely uninterrupted; 
+every defect will be corrected immediately; 
+every device or printer will be compatible; 
+every integration will remain available; 
+every report will be error-free where source data is inaccurate; 
+every message will be delivered; 
+every online payment will succeed; 
+every forecast or recommendation will be correct; 
+the Services will meet every Customer-specific requirement; or 
+use of the Services alone will increase revenue or profitability. 
+No oral statement creates a warranty unless included in a written agreement signed by an authorised Ordrji representative.
+72. Business-continuity responsibility
+Because restaurant operations are time-sensitive, the Customer must maintain reasonable fallback arrangements, which may include:
+backup internet; 
+backup power; 
+spare printer; 
+manual KOT process; 
+emergency invoice procedure; 
+backup device; 
+printed menu; 
+payment alternative; 
+regular exports; and 
+trained staff procedures. 
+Ordrji’s offline features and backups assist business continuity but do not replace the Customer’s own contingency planning.
+73. Indemnity by the Customer
+To the extent permitted by law, the Customer will defend, indemnify and hold harmless Ordrji, its affiliates, directors, officers, employees and representatives from third-party claims, losses, liabilities, penalties, damages and reasonable legal costs arising from:
+the Customer’s food, products or restaurant services; 
+food-safety or allergen incidents; 
+inaccurate menus or pricing; 
+the Customer’s legal or regulatory non-compliance; 
+Customer Data; 
+unlawful marketing communications; 
+intellectual-property infringement by Customer content; 
+misuse by Authorised Users; 
+fraudulent or unlawful transactions; 
+tax or invoice errors caused by Customer configuration; 
+End-Customer disputes attributable to the Restaurant Customer; 
+violation of a Third-Party Service’s terms; or 
+the Customer’s breach of these Terms. 
+Ordrji will provide reasonable notice of an indemnified claim and permit the Customer to participate in its defence, subject to Ordrji’s right to protect its own interests.
+74. Exclusion of indirect damages
+To the maximum extent permitted by law, neither party will be liable for:
+indirect damages; 
+special damages; 
+incidental damages; 
+punitive damages; 
+loss of goodwill; 
+loss of anticipated savings; 
+loss of opportunity; 
+loss of profits; 
+loss caused by business interruption; or 
+loss of data not caused by that party’s breach of its express obligations, 
+even if advised that such loss may occur.
+This exclusion does not apply where such liability cannot lawfully be excluded.
+75. Limitation of liability
+To the maximum extent permitted by law, Ordrji’s total aggregate liability arising from or relating to the Services will not exceed:
+the total subscription fees actually paid by the Customer to Ordrji for the affected Services during the 12 months immediately preceding the event giving rise to the claim.
+For a free trial or unpaid Service, Ordrji’s aggregate liability will not exceed ₹10,000.
+The limitation will not apply to liability that cannot be limited under applicable law.
+Nothing in these Terms excludes liability for:
+fraud; 
+wilful misconduct; 
+death or personal injury caused by negligence where such exclusion is prohibited; or 
+another liability that applicable law does not permit the parties to exclude. 
+76. No double recovery
+A Customer may not recover more than once for the same loss.
+Any:
+refund; 
+service credit; 
+insurance payment; 
+third-party recovery; or 
+amount already reimbursed 
+will be taken into account when calculating recoverable loss.
+77. Force majeure
+Neither party will be liable for delay or failure caused by an event beyond its reasonable control, including:
+natural disaster; 
+flood; 
+fire; 
+epidemic; 
+pandemic; 
+war; 
+terrorism; 
+riot; 
+civil disturbance; 
+government action; 
+internet failure; 
+telecom failure; 
+power-grid failure; 
+cloud-provider outage; 
+cyberattack not caused by failure to use reasonable safeguards; 
+labour disruption; 
+supply-chain interruption; or 
+failure of essential third-party infrastructure. 
+The affected party will use reasonable efforts to reduce the effect of the event.
+Payment obligations for Services already provided are not excused by force majeure.
+78. Changes to the Services
+Ordrji may modify the Services to:
+improve functionality; 
+improve security; 
+comply with law; 
+address technical risk; 
+maintain third-party compatibility; 
+remove obsolete features; 
+improve usability; or 
+introduce new products. 
+Where a change materially reduces a paid core feature during the current Subscription Term, Ordrji will use reasonable efforts to:
+provide advance notice; 
+offer a reasonable alternative; 
+continue the feature for a transition period; or 
+provide an appropriate remedy. 
+Roadmap statements do not create a binding obligation to release a feature by a specific date.
+79. Changes to these Terms
+Ordrji may update these Terms for:
+legal changes; 
+new products; 
+security requirements; 
+pricing structures; 
+operational changes; 
+third-party integrations; or 
+clarification. 
+The revised Terms will display an updated date.
+Where a change materially affects an existing paid Customer, Ordrji will provide reasonable notice through:
+email; 
+account dashboard; 
+application notification; 
+website notice; or 
+another appropriate channel. 
+Continued use after the effective date constitutes acceptance, except where law or a signed agreement requires express acceptance.
+80. Electronic communications
+The Customer consents to receiving contractual and service communications electronically, including:
+account notices; 
+invoices; 
+renewal notices; 
+support communications; 
+security alerts; 
+legal notices; 
+product changes; and 
+policy updates. 
+Electronic communications may be sent through:
+registered email; 
+dashboard notification; 
+application notification; 
+WhatsApp; 
+SMS; or 
+the Ordrji website. 
+The Customer must keep contact information current.
+81. Legal notices
+Formal legal notices to Ordrji must be sent to:
+SYNCKRAFT TECHNOLOGIES PVT. LTD.Operating as OrdrjiRegistered office: 414, 4th Floor, Daga Plazzo Biyani Sqaure, opp. Dmart Camp, Amravati, Maharashtra 444602Email: legal@ordrji.com
+A notice is considered received according to the delivery method and applicable law.
+Routine support requests sent as legal notices will continue to be handled through support procedures.
+82. Assignment
+The Customer may not assign or transfer the agreement without Ordrji’s prior written consent, except as part of a genuine transfer of substantially all of the Customer’s relevant business, subject to:
+written notice; 
+verification; 
+settlement of outstanding fees; 
+the successor accepting the agreement; and 
+applicable law. 
+Ordrji may assign the agreement to an affiliate or in connection with:
+restructuring; 
+financing; 
+merger; 
+acquisition; 
+sale of business; or 
+transfer of relevant assets. 
+83. Subcontractors
+Ordrji may use affiliates, employees, contractors and service providers to provide the Services.
+Ordrji remains responsible for its contractual obligations to the extent stated in these Terms.
+Data-processing vendors will be managed according to the Privacy Policy and applicable Data Processing Agreement.
+84. Independent contractors
+The parties are independent contractors.
+These Terms do not create:
+employment; 
+partnership; 
+agency; 
+franchise; 
+joint venture; 
+fiduciary relationship; or 
+exclusive relationship. 
+Neither party may bind the other without written authority.
+85. No third-party beneficiaries
+Except where expressly stated, these Terms do not give rights to a person who is not a party to the agreement.
+This provision does not remove any independent statutory right held by an End Customer or another person.
+86. Waiver
+A failure or delay in enforcing a provision does not waive that provision.
+A waiver must be in writing and applies only to the specific situation described.
+87. Severability
+If a provision is found invalid, illegal or unenforceable:
+it will be modified to the minimum extent necessary; 
+the remaining provisions will continue in effect; and 
+the parties will preserve the original commercial intent as far as legally possible. 
+88. Entire agreement
+The contract documents identified in Section 3 constitute the entire agreement concerning the Services and replace prior discussions, proposals or communications on the same subject.
+This does not exclude liability for fraud or fraudulent misrepresentation.
+89. Interpretation
+In these Terms:
+headings are for convenience only; 
+“including” means “including without limitation”; 
+singular includes plural and vice versa; 
+a reference to law includes amendments and replacements; 
+“written” includes an electronic record where legally recognised; 
+“days” means calendar days unless stated otherwise; and 
+an obligation not to do something includes an obligation not to permit it. 
+90. Governing law
+These Terms are governed by the laws of India.
+The parties will attempt in good faith to resolve a dispute through direct discussion before commencing formal proceedings.
+91. Dispute-notice procedure
+Before beginning arbitration, a party must ordinarily send a written dispute notice describing:
+the nature of the dispute; 
+relevant facts; 
+the requested remedy; 
+supporting documents; and 
+an authorised contact person. 
+The parties will attempt to resolve the dispute within 30 days after receipt of the notice.
+Either party may seek urgent interim or protective relief where waiting would cause material harm.
+92. Arbitration
+If a business dispute is not resolved through discussion, it will be referred to arbitration under the Arbitration and Conciliation Act, 1996, as amended.
+The arbitration will be conducted as follows:
+the tribunal will consist of one arbitrator; 
+the arbitrator will be mutually appointed by the parties; 
+if the parties cannot agree, appointment will be made according to the Arbitration and Conciliation Act, 1996; 
+the seat and legal place of arbitration will be Amravati, Maharashtra, India; 
+hearings may be conducted physically or through video conference; 
+the language will be English; 
+the award will be written and reasoned; 
+the proceedings will be confidential; and 
+arbitration costs will be allocated by the arbitrator. 
+This clause applies primarily to commercial disputes between Ordrji and Restaurant Customers.
+93. Court jurisdiction
+Subject to the arbitration clause and mandatory law, courts having jurisdiction over Amravati, Maharashtra will have exclusive jurisdiction over:
+interim relief; 
+enforcement; 
+non-arbitrable disputes; and 
+proceedings permitted under applicable arbitration law. 
+94. Consumer-law protection
+Nothing in these Terms:
+excludes a mandatory consumer right; 
+prevents an eligible consumer from approaching a consumer commission; 
+excludes liability that cannot legally be excluded; 
+permits unfair trade practices; 
+validates misleading advertising; or 
+limits a statutory remedy that cannot be waived. 
+Where an End Customer qualifies as a consumer under applicable law, mandatory consumer-protection law will prevail over an inconsistent contractual provision.
+95. Grievance redressal
+Questions, complaints or grievances concerning the Services may be submitted to:
+Grievance Officer: ASIYA IMRAN SHAIKHDesignation: Software DeveloperCompany: SYNCKRAFT TECHNOLOGIES PVT. LTD.Brand: OrdrjiAddress: 414, 4th Floor, Daga Plazzo Biyani Sqaure, opp. Dmart Camp, Amravati, Maharashtra 444602Email: [legal@ordrji.com]Support email: hello@ordrji.comPrivacy email: privacy@ordrji.comPhone/WhatsApp: +91 90044 02006Business hours: [11AM to 6PM , Monday to Saturday]
+The complaint should include:
+Customer name; 
+restaurant or outlet name; 
+registered email or mobile number; 
+description of the issue; 
+relevant invoice or order reference; 
+supporting screenshots or documents; and 
+requested resolution. 
+Ordrji aims to acknowledge complaints promptly and resolve them within the period published in its grievance process or required by applicable law.
+96. Contact information
+SYNCKRAFT TECHNOLOGIES PVT. LTD.Operating under the brand name Ordrji
+Registered office: 414, 4th Floor, Daga Plazzo Biyani Sqaure, opp. Dmart Camp, Amravati, Maharashtra 444602CIN: U62020MH2026PTC467409GSTIN: 27ABSCS6491B1ZVWebsite: ordrji.comGeneral email: hello@ordrji.comSales email: sales@ordrji.comPrivacy email: privacy@ordrji.comLegal email: [legal@ordrji.com]Phone/WhatsApp: +91 90044 02006
+
+END-CUSTOMER ORDERING TERMS
+The following compact terms should also appear on Ordrji-powered QR and online-ordering pages.
+1. Restaurant transaction
+Your order is placed directly with the restaurant identified on the ordering page. Ordrji provides the ordering technology and is not the seller or manufacturer of the food.
+2. Menu and availability
+The restaurant controls menu items, prices, taxes, ingredients, availability and preparation times. Items may become unavailable after an order is submitted.
+3. Order acceptance
+Submitting an order does not guarantee acceptance. The restaurant may reject or modify an order because of item availability, operating hours, delivery area, payment failure or another reasonable operational reason.
+4. Food information
+Contact the restaurant before ordering where you have an allergy, intolerance or dietary requirement. Ordrji does not prepare the food and cannot verify ingredients or kitchen practices.
+5. Payment
+Payments may be processed by an independent payment provider. Do not share your UPI PIN, CVV or online-banking password with the restaurant or Ordrji.
+6. Cancellation and refund
+The restaurant’s displayed cancellation and refund policy applies. Refund timing may also depend on the bank or payment provider.
+7. Delivery and pickup
+Preparation and delivery times are estimates. The restaurant or its delivery provider is responsible for food preparation and delivery.
+8. Complaints
+Food, order, delivery and refund complaints should first be directed to the restaurant. Technical issues with the ordering page may be reported to Ordrji.
+9. Privacy
+Personal data is handled according to the restaurant’s privacy notice and the Ordrji Privacy Policy.
+10. Mandatory rights
+Nothing in these terms limits rights available under applicable consumer law.
+

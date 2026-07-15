@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Menu, X, ChevronDown, Search } from "lucide-react";
 import SearchRestaurantModal from "./SearchRestaurantModal";
 
@@ -144,7 +145,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(0,0,0,0.05)" }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setIsSearchModalOpen(true)}
               style={{
                 display: "flex",
@@ -163,20 +166,24 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               className="pf-search-trigger"
             >
               <Search size={13} style={{ opacity: 0.8 }} /> Search Restaurants
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(227,6,19,0.3)" }}
+              whileTap={{ scale: 0.97 }}
               onClick={onBookDemo}
               className="btn-primary btn-red pf-btn"
             >
               Book a Demo
-            </button>
-            <a
+            </motion.button>
+            <motion.a
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 10px 25px rgba(227,6,19,0.3)" }}
+              whileTap={{ scale: 0.97 }}
               href="https://pos.ordrji.com/login"
               target="_blank" rel="noopener noreferrer"
               className="btn-primary btn-red pf-btn"
             >
               Start Free Trial <ArrowRight size={14} />
-            </a>
+            </motion.a>
           </div>
 
           {/* ── MOBILE HAMBURGER ──────────────────────────────────────── */}

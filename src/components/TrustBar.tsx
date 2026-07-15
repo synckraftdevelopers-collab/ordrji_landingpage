@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 /* ─── brand logos (real culinary brands - colorful original colors) ──────── */
 const BRANDS = [
   { name: "Virsa Restro", localImg: "/images/logos/virsa.jpg" },
@@ -85,63 +86,63 @@ function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
 /* ─── main component ──────────────────────────────────────────────────────── */
 export default function TrustBar() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [inView,   setInView]   = useState(false);
-  const [counting, setCounting] = useState(false);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          setTimeout(() => setCounting(true), 300);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const inView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   return (
     <section className="tb-section" ref={sectionRef}>
 
-      {/* ambient glow behind stats — Restroworks has a subtle radial wash */}
+      {/* ambient glow behind stats */}
       <div className="tb-bg-glow" />
 
       <div className="container">
 
-        {/* ── eyebrow label — clips up on enter ──────────────────────── */}
+        {/* ── eyebrow label ──────────────────────── */}
         <div className="tb-eyebrow-clip">
-          <p className={`tb-eyebrow ${inView ? "tb-reveal" : ""}`}>
+          <motion.p 
+            className="tb-eyebrow"
+            initial={{ opacity: 0, y: "100%" }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.1 }}
+          >
             TRUSTED BY MODERN CULINARY BRAND FORMATS NATIONWIDE
-          </p>
+          </motion.p>
         </div>
 
         {/* ── Restroworks-style hero stat row ────────────────────────── */}
-        {/* Large isolated numbers that count up — exact Restroworks treatment */}
-        <div className={`tb-stats-row ${inView ? "tb-stats-in" : ""}`}>
+        <motion.div 
+          className="tb-stats-row"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.2 }}
+        >
           {STATS.map((s, i) => (
             <React.Fragment key={s.label}>
-              <StatBlock s={s} started={counting} delay={i * 120} />
+              <StatBlock s={s} started={inView} delay={i * 120} />
               {i < STATS.length - 1 && <div className="tb-stat-divider" />}
             </React.Fragment>
           ))}
-        </div>
+        </motion.div>
 
         {/* thin rule below stats */}
-        <div className={`tb-divider-line ${inView ? "tb-line-in" : ""}`} />
+        <motion.div 
+          className="tb-divider-line"
+          initial={{ opacity: 0, scaleX: 0.3 }}
+          animate={inView ? { opacity: 1, scaleX: 1 } : {}}
+          transition={{ type: "spring", stiffness: 100, damping: 25, delay: 0.4 }}
+        />
       </div>
 
       {/* ── Dual marquee belt with LARGE icons ─────────────────────────── */}
-      <div className={`tb-belt ${inView ? "tb-belt-in" : ""}`}>
-        {/* edge fade masks */}
+      <motion.div 
+        className="tb-belt"
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.5 }}
+      >
         <div className="tb-edge tb-edge-l" />
         <div className="tb-edge tb-edge-r" />
         <MarqueeRow reverse={false} />
-      </div>
+      </motion.div>
 
       {/* ── all styles ──────────────────────────────────────────────────── */}
       <style jsx global>{`

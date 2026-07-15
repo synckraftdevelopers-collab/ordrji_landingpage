@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Sparkles, TrendingUp, BarChart2, Shield, Calendar, Users, AlertTriangle, Printer, CreditCard, CheckCircle, User, Monitor } from "lucide-react";
 
 // ── Count-up hook (quartic ease-out, rAF) ──────────────────────────────────
@@ -92,33 +93,10 @@ interface RoleConfig {
 
 export default function RoleExperience() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
-  const [headerVisible, setHeaderVisible] = useState(false);
-  const [statsStarted, setStatsStarted] = useState(false);
-  const [tabsVisible, setTabsVisible] = useState(false);
-  const [contentVisible, setContentVisible] = useState(false);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
   const [activeRole, setActiveRole] = useState<RoleName>("Owner");
 
-  // IntersectionObserver
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !inView) {
-          setInView(true);
-          setTimeout(() => setHeaderVisible(true), 80);
-          setTimeout(() => setStatsStarted(true), 200);
-          setTimeout(() => setTabsVisible(true), 350);
-          setTimeout(() => setContentVisible(true), 500);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [inView]);
+
 
   const roles: RoleConfig[] = [
     {
@@ -330,7 +308,14 @@ export default function RoleExperience() {
 
       <div className="container">
         {/* Title Block */}
-        <div className={`re-header${headerVisible ? " re-header-in" : ""}`} style={{ textAlign: "center", marginBottom: "4rem" }}>
+        <motion.div 
+          className="re-header" 
+          style={{ textAlign: "center", marginBottom: "4rem" }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
+        >
 
           <h2 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-1.5px", marginBottom: "1rem" }}>
             Tailored Experiences for Every Role
@@ -338,38 +323,57 @@ export default function RoleExperience() {
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
             Ordrji acts as a multi-headed operating system, changing its entire interface layout and data tools based on who is using it.
           </p>
-        </div>
+        </motion.div>
 
         {/* Count-up stat row */}
-        <div className={`re-stats-row${statsStarted ? " re-stats-started" : ""}`}>
-          <ReCountStatBadge icon={<User />} value={5} suffix=" roles" label="Dedicated interfaces" color="#da0404" started={statsStarted} delay={0} />
+        <motion.div 
+          className="re-stats-row"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.1 }}
+        >
+          <ReCountStatBadge icon={<User />} value={5} suffix=" roles" label="Dedicated interfaces" color="#da0404" started={isInView} delay={0} />
           {/* "0.2s" — hardcoded, no count-up */}
-          <ReStatBadge displayValue="0.2s" icon={<Sparkles />} label="Live sync delay" color="#059669" started={statsStarted} delay={120} />
-          <ReCountStatBadge icon={<Monitor />} value={100} suffix="%" label="Real-time data" color="#0284c7" started={statsStarted} delay={240} />
-          <ReCountStatBadge icon={<Shield />} value={99} suffix=".99%" label="Session uptime" color="#7c3aed" started={statsStarted} delay={360} />
-        </div>
+          <ReStatBadge displayValue="0.2s" icon={<Sparkles />} label="Live sync delay" color="#059669" started={isInView} delay={120} />
+          <ReCountStatBadge icon={<Monitor />} value={100} suffix="%" label="Real-time data" color="#0284c7" started={isInView} delay={240} />
+          <ReCountStatBadge icon={<Shield />} value={99} suffix=".99%" label="Session uptime" color="#7c3aed" started={isInView} delay={360} />
+        </motion.div>
 
         {/* Tab Buttons */}
-        <div className={`role-tabs-bar glass-card re-tabs-slide${tabsVisible ? " re-tabs-in" : ""}`}>
+        <motion.div 
+          className="role-tabs-bar glass-card"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.2 }}
+        >
           {roles.map((r, idx) => (
-            <button
+            <motion.button
               key={r.role}
               onClick={() => setActiveRole(r.role)}
-              className={`role-tab-btn re-tab-pop${activeRole === r.role ? " active" : ""}`}
+              className={`role-tab-btn ${activeRole === r.role ? "active" : ""}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               style={{
                 borderColor: activeRole === r.role ? r.color : "transparent",
                 color: activeRole === r.role ? "var(--accent-orange)" : "var(--text-secondary)",
-                animationDelay: tabsVisible ? `${idx * 60}ms` : "0ms",
-                animationPlayState: tabsVisible ? "running" : "paused",
               }}
             >
               {r.role}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Role Content Details */}
-        <div className={`role-content-display glass-card re-content-slide${contentVisible ? " re-content-in" : ""}`} style={{ borderTopColor: currentRoleConfig.color }}>
+        <motion.div 
+          className="role-content-display glass-card" 
+          style={{ borderTopColor: currentRoleConfig.color }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.3 }}
+        >
           <div className="role-info-sidebar">
             <span className="role-tag" style={{ color: currentRoleConfig.color }}>{currentRoleConfig.role} INTERFACE</span>
             <h2>{currentRoleConfig.title}</h2>
@@ -391,10 +395,18 @@ export default function RoleExperience() {
               <span className="window-address">ordrji_os_{currentRoleConfig.role.toLowerCase()}.app</span>
             </div>
             <div className="role-workspace-view">
-              {currentRoleConfig.widgets}
+              <motion.div
+                key={currentRoleConfig.role}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                style={{ width: "100%" }}
+              >
+                {currentRoleConfig.widgets}
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <style jsx global>{`
