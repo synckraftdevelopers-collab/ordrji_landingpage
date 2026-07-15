@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -136,19 +136,31 @@ export default function ModulesShowcase() {
               <motion.div
                 key={panel.id}
                 layout
-                initial={false}
-                animate={{
-                  flex: isActive ? 4.2 : 1,
+                initial="rest"
+                whileHover="hover"
+                animate={isActive ? "active" : "rest"}
+                variants={{
+                  rest: { flex: 1, y: 0, rotateX: 0, rotateY: 0, scale: 1, boxShadow: "0 10px 25px rgba(0,0,0,0.03)" },
+                  hover: isActive 
+                    ? { rotateX: 1, rotateY: -1, y: -8, scale: 1.01, boxShadow: `0 25px 50px ${panel.accentColor}40` }
+                    : { rotateX: 4, rotateY: -6, y: -4, scale: 1.01, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" },
+                  active: { 
+                    flex: 4.2, y: -6, rotateX: 0, rotateY: 0, scale: 1, 
+                    boxShadow: [
+                      `0 20px 45px rgba(0,0,0,0.1)`, 
+                      `0 20px 65px ${panel.accentColor}40`, 
+                      `0 20px 45px rgba(0,0,0,0.1)`
+                    ],
+                    transition: {
+                      boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      default: { type: "spring", stiffness: 250, damping: 25, mass: 0.8 }
+                    }
+                  }
                 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 90,
-                  damping: 17,
-                  duration: 0.7
-                }}
+                transition={{ type: "spring", stiffness: 250, damping: 25, mass: 0.8 }}
                 onClick={() => setActivePanel(activePanel === panel.id ? null : panel.id)}
                 className={`desktop-panel ${isActive ? "active" : "collapsed"}`}
-                style={{ background: panel.gradient }}
+                style={{ background: panel.gradient, transformPerspective: 1000 }}
               >
                 {/* Visual Glass Highlights */}
                 <div className="panel-highlight" />
@@ -163,7 +175,16 @@ export default function ModulesShowcase() {
                       exit={{ opacity: 0, transition: { duration: 0.15 } }}
                     >
                       <div className="collapsed-icon-wrap" style={{ color: panel.accentColor, borderColor: `${panel.accentColor}2a` }}>
-                        <Icon size={22} />
+                        <motion.div
+                          variants={{
+                            rest: { scale: 1, y: 0, rotate: 0 },
+                            hover: { scale: 1.05, y: -4, rotate: 0 },
+                            active: { scale: 1.1, y: 0, rotate: 8 }
+                          }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                          <Icon size={22} />
+                        </motion.div>
                       </div>
                       <h3 className="collapsed-title">{panel.title}</h3>
                     </motion.div>
@@ -179,8 +200,8 @@ export default function ModulesShowcase() {
                       animate="visible"
                       exit="hidden"
                       variants={{
-                        visible: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
-                        hidden: {}
+                        visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+                        hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } }
                       }}
                     >
                       
@@ -189,29 +210,37 @@ export default function ModulesShowcase() {
                           className="expanded-headline"
                           style={{ marginBottom: "1.5rem", textAlign: "left", fontSize: "1.8rem" }}
                           variants={{
-                            hidden: { opacity: 0, y: 25 },
-                            visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+                            hidden: { opacity: 0, y: 25, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 200, damping: 20 } }
                           }}
                         >
                           {panel.headline}
                         </motion.h3>
 
-                        <motion.img
-                          src={panel.image}
-                          alt={panel.title}
-                          style={{ width: "100%", borderRadius: "16px", aspectRatio: "16/9", objectFit: "cover", marginBottom: "1.5rem" }}
+                        <motion.div
                           variants={{
                             hidden: { opacity: 0, scale: 0.95 },
-                            visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } }
+                            visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
                           }}
-                        />
+                          style={{ marginBottom: "1.5rem", borderRadius: "16px", overflow: "hidden" }}
+                          whileHover={{ scale: 1.02, borderRadius: "12px" }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                          <motion.img
+                            src={panel.image}
+                            alt={panel.title}
+                            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }}
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                          />
+                        </motion.div>
 
                         <motion.p 
                           className="expanded-desc"
                           style={{ textAlign: "left", margin: "0", maxWidth: "100%", fontSize: "1.1rem" }}
                           variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: 1 }
+                            hidden: { opacity: 0, y: 15, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 200, damping: 20 } }
                           }}
                         >
                           {panel.description}
@@ -235,44 +264,125 @@ export default function ModulesShowcase() {
               <motion.div
                 key={panel.id}
                 layout
+                initial="rest"
+                whileHover="hover"
+                animate={isActive ? "active" : "rest"}
+                variants={{
+                  rest: { y: 0, rotateX: 0, rotateY: 0, scale: 1, boxShadow: "0 8px 20px rgba(0,0,0,0.02)" },
+                  hover: isActive 
+                    ? { rotateX: 1, rotateY: -1, y: -6, scale: 1.01, boxShadow: `0 20px 40px ${panel.accentColor}30` }
+                    : { rotateX: 3, rotateY: -4, y: -4, scale: 1.01, boxShadow: "0 15px 30px rgba(0,0,0,0.08)" },
+                  active: { 
+                    y: -4, rotateX: 0, rotateY: 0, scale: 1, 
+                    boxShadow: [
+                      `0 15px 35px rgba(0,0,0,0.08)`, 
+                      `0 15px 50px ${panel.accentColor}40`, 
+                      `0 15px 35px rgba(0,0,0,0.08)`
+                    ],
+                    transition: {
+                      boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      default: { type: "spring", stiffness: 250, damping: 25, mass: 0.8 }
+                    }
+                  }
+                }}
+                transition={{ type: "spring", stiffness: 250, damping: 25, mass: 0.8 }}
                 onClick={() => setActivePanel(activePanel === panel.id ? null : panel.id)}
                 className={`tablet-panel ${isActive ? "col-span-2 active" : "col-span-1 collapsed"}`}
                 style={{ 
                   background: panel.gradient,
-                  gridColumn: isActive ? "span 2" : "span 1"
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 85,
-                  damping: 17
+                  gridColumn: isActive ? "span 2" : "span 1",
+                  transformPerspective: 1000
                 }}
               >
                 {/* Visual Glass Highlights */}
                 <div className="panel-highlight" />
 
                 {/* Collapsed Panel Content */}
-                {!isActive && (
-                  <div className="collapsed-tablet-view">
-                    <div className="collapsed-icon-wrap" style={{ color: panel.accentColor, borderColor: `${panel.accentColor}2a` }}>
-                      <Icon size={20} />
-                    </div>
-                    <div className="collapsed-info-block">
-                      <h4>{panel.title}</h4>
-                    </div>
-                    <ChevronRight size={16} className="collapsed-arrow-sub" />
-                  </div>
-                )}
+                <AnimatePresence>
+                  {!isActive && (
+                    <motion.div 
+                      className="collapsed-tablet-view"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                      exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                    >
+                      <div className="collapsed-icon-wrap" style={{ color: panel.accentColor, borderColor: `${panel.accentColor}2a` }}>
+                        <motion.div
+                          variants={{
+                            rest: { scale: 1, y: 0, rotate: 0 },
+                            hover: { scale: 1.05, y: -4, rotate: 0 },
+                            active: { scale: 1.1, y: 0, rotate: 8 }
+                          }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                          <Icon size={20} />
+                        </motion.div>
+                      </div>
+                      <div className="collapsed-info-block">
+                        <h4>{panel.title}</h4>
+                      </div>
+                      <ChevronRight size={16} className="collapsed-arrow-sub" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Expanded Panel Content */}
-                {isActive && (
-                  <div className="expanded-content">
-                    <div className="expanded-info" style={{ flex: 1, maxWidth: "100%", padding: "0" }}>
-                      <h3 className="expanded-headline" style={{ marginBottom: "1.5rem", textAlign: "left", fontSize: "1.6rem" }}>{panel.headline}</h3>
-                      <img src={panel.image} alt={panel.title} style={{ width: "100%", borderRadius: "12px", aspectRatio: "16/9", objectFit: "cover", marginBottom: "1.5rem" }} />
-                      <p className="expanded-desc" style={{ textAlign: "left", margin: "0", maxWidth: "100%", fontSize: "1rem" }}>{panel.description}</p>
-                    </div>
-</div>
-                )}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div 
+                      className="expanded-content"
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={{
+                        visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+                        hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } }
+                      }}
+                    >
+                      <div className="expanded-info" style={{ flex: 1, maxWidth: "100%", padding: "0" }}>
+                        <motion.h3 
+                          className="expanded-headline" 
+                          style={{ marginBottom: "1.5rem", textAlign: "left", fontSize: "1.6rem" }}
+                          variants={{
+                            hidden: { opacity: 0, y: 25, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 200, damping: 20 } }
+                          }}
+                        >
+                          {panel.headline}
+                        </motion.h3>
+                        
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, scale: 0.95 },
+                            visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
+                          }}
+                          style={{ marginBottom: "1.5rem", borderRadius: "12px", overflow: "hidden" }}
+                          whileHover={{ scale: 1.02, borderRadius: "8px" }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                          <motion.img 
+                            src={panel.image} 
+                            alt={panel.title} 
+                            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} 
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                          />
+                        </motion.div>
+
+                        <motion.p 
+                          className="expanded-desc" 
+                          style={{ textAlign: "left", margin: "0", maxWidth: "100%", fontSize: "1rem" }}
+                          variants={{
+                            hidden: { opacity: 0, y: 15, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 200, damping: 20 } }
+                          }}
+                        >
+                          {panel.description}
+                        </motion.p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             );
           })}
@@ -287,46 +397,123 @@ export default function ModulesShowcase() {
               <motion.div
                 key={panel.id}
                 layout
+                initial="rest"
+                whileHover="hover"
+                animate={isActive ? "active" : "rest"}
+                variants={{
+                  rest: { height: 80, y: 0, rotateX: 0, rotateY: 0, scale: 1, boxShadow: "0 4px 12px rgba(0,0,0,0.02)" },
+                  hover: isActive 
+                    ? { height: 600, rotateX: 0, rotateY: 0, y: -2, scale: 1.01, boxShadow: `0 15px 30px ${panel.accentColor}30` }
+                    : { height: 80, rotateX: 2, rotateY: -2, y: -2, scale: 1.01, boxShadow: "0 10px 20px rgba(0,0,0,0.08)" },
+                  active: { 
+                    height: 600, y: -2, rotateX: 0, rotateY: 0, scale: 1, 
+                    boxShadow: [
+                      `0 10px 25px rgba(0,0,0,0.08)`, 
+                      `0 10px 40px ${panel.accentColor}40`, 
+                      `0 10px 25px rgba(0,0,0,0.08)`
+                    ],
+                    transition: {
+                      boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      default: { type: "spring", stiffness: 250, damping: 25, mass: 0.8 }
+                    }
+                  }
+                }}
+                transition={{ type: "spring", stiffness: 250, damping: 25, mass: 0.8 }}
                 onClick={() => setActivePanel(activePanel === panel.id ? null : panel.id)}
                 className={`mobile-panel ${isActive ? "active" : "collapsed"}`}
-                style={{ background: panel.gradient }}
-                animate={{
-                  height: isActive ? 600 : 80
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 90,
-                  damping: 17
-                }}
+                style={{ background: panel.gradient, transformPerspective: 1000 }}
               >
                 {/* Visual Glass Highlights */}
                 <div className="panel-highlight" />
 
                 {/* Collapsed view */}
-                {!isActive && (
-                  <div className="collapsed-mobile-view">
-                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                      <div className="collapsed-icon-wrap" style={{ color: panel.accentColor, borderColor: `${panel.accentColor}2a` }}>
-                        <Icon size={18} />
+                <AnimatePresence>
+                  {!isActive && (
+                    <motion.div 
+                      className="collapsed-mobile-view"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                      exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                        <div className="collapsed-icon-wrap" style={{ color: panel.accentColor, borderColor: `${panel.accentColor}2a` }}>
+                          <motion.div
+                            variants={{
+                              rest: { scale: 1, y: 0, rotate: 0 },
+                              hover: { scale: 1.05, y: -4, rotate: 0 },
+                              active: { scale: 1.1, y: 0, rotate: 8 }
+                            }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          >
+                            <Icon size={18} />
+                          </motion.div>
+                        </div>
+                        <div>
+                          <h4>{panel.title}</h4>
+                        </div>
                       </div>
-                      <div>
-                        <h4>{panel.title}</h4>
-                      </div>
-                    </div>
-                    <ChevronRight size={14} className="collapsed-arrow-sub" />
-                  </div>
-                )}
+                      <ChevronRight size={14} className="collapsed-arrow-sub" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Expanded view */}
-                {isActive && (
-                  <div className="expanded-content">
-                    <div className="expanded-info" style={{ flex: 1, maxWidth: "100%", padding: "0" }}>
-                      <h3 className="expanded-headline" style={{ marginBottom: "1.5rem", textAlign: "left", fontSize: "1.6rem" }}>{panel.headline}</h3>
-                      <img src={panel.image} alt={panel.title} style={{ width: "100%", borderRadius: "12px", aspectRatio: "16/9", objectFit: "cover", marginBottom: "1.5rem" }} />
-                      <p className="expanded-desc" style={{ textAlign: "left", margin: "0", maxWidth: "100%", fontSize: "1rem" }}>{panel.description}</p>
-                    </div>
-</div>
-                )}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div 
+                      className="expanded-content"
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={{
+                        visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+                        hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } }
+                      }}
+                    >
+                      <div className="expanded-info" style={{ flex: 1, maxWidth: "100%", padding: "0" }}>
+                        <motion.h3 
+                          className="expanded-headline" 
+                          style={{ marginBottom: "1.5rem", textAlign: "left", fontSize: "1.6rem" }}
+                          variants={{
+                            hidden: { opacity: 0, y: 25, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 200, damping: 20 } }
+                          }}
+                        >
+                          {panel.headline}
+                        </motion.h3>
+
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, scale: 0.95 },
+                            visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
+                          }}
+                          style={{ marginBottom: "1.5rem", borderRadius: "12px", overflow: "hidden" }}
+                          whileHover={{ scale: 1.02, borderRadius: "8px" }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                          <motion.img 
+                            src={panel.image} 
+                            alt={panel.title} 
+                            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} 
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                          />
+                        </motion.div>
+
+                        <motion.p 
+                          className="expanded-desc" 
+                          style={{ textAlign: "left", margin: "0", maxWidth: "100%", fontSize: "1rem" }}
+                          variants={{
+                            hidden: { opacity: 0, y: 15, filter: "blur(4px)" },
+                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 200, damping: 20 } }
+                          }}
+                        >
+                          {panel.description}
+                        </motion.p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             );
           })}
