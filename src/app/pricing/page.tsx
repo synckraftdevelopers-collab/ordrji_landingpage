@@ -69,9 +69,9 @@ const COMPARISON_GROUPS = [
 const PRICING_FAQS = [
   { q: "Are there any hidden setup or installation fees?", a: "No. All our standard subscription setups are fully guided with no hidden installation fees. Setup and onboarding are included for free in the Growth, Scale, and Enterprise plans." },
   { q: "Can I upgrade or downgrade my plan at any time?", a: "Yes. You can upgrade, downgrade, or cancel your subscription at any time. If you choose an annual plan, you lock in a 20% discount. Downgrades or cancellations will take effect at the start of your next billing cycle." },
-  { q: "Do you charge order commissions on QR and table checkouts?", a: "Absolutely not. OrderJi believes that your restaurant revenue belongs entirely to you. We operate on a flat subscription pricing model. We never charge commission percentages or lookup fees on QR ordering, table reservations, or self-service kiosks." },
-  { q: "What hardware is compatible with OrderJi?", a: "OrderJi is built as a cloud platform that runs on any modern iPad, Android tablet, POS terminal, Windows PC, or macOS computer. It connects seamlessly with standard thermal receipt printers via Bluetooth, Wi-Fi, USB, or LAN." },
-  { q: "What is your legacy POS migration process?", a: "We make migrating painless. Our specialists export your menu structure, price lists, customer databases, and historical recipes from systems like Petpooja, Posist, Vyapar, or Toast and import them into OrderJi, usually completing the setup in less than 24 hours." }
+  { q: "Do you charge order commissions on QR and table checkouts?", a: "Absolutely not. Ordrji believes that your restaurant revenue belongs entirely to you. We operate on a flat subscription pricing model. We never charge commission percentages or lookup fees on QR ordering, table reservations, or self-service kiosks." },
+  { q: "What hardware is compatible with Ordrji?", a: "Ordrji is built as a cloud platform that runs on any modern iPad, Android tablet, POS terminal, Windows PC, or macOS computer. It connects seamlessly with standard thermal receipt printers via Bluetooth, Wi-Fi, USB, or LAN." },
+  { q: "What is your legacy POS migration process?", a: "We make migrating painless. Our specialists export your menu structure, price lists, customer databases, and historical recipes from systems like Petpooja, Posist, Vyapar, or Toast and import them into Ordrji, usually completing the setup in less than 24 hours." }
 ];
 
 export default function PricingPage() {

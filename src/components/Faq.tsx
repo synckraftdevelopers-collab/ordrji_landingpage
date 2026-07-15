@@ -10,23 +10,23 @@ interface FaqItem {
 
 const FAQS: FaqItem[] = [
   {
-    q: "Is OrderJi another POS billing software?",
-    a: "No. Traditional POS systems only act as legacy cash registers and receipt printers. OrderJi is a complete Restaurant Operating System (OS). It connects and synchronizes table QR menus, chef kitchen displays (KDS), automated WhatsApp/SMS marketing campaigns, live raw inventory tracking, and centralized accounting into a single unified cloud workspace."
+    q: "Is Ordrji another POS billing software?",
+    a: "No. Traditional POS systems only act as legacy cash registers and receipt printers. Ordrji is a complete Restaurant Operating System (OS). It connects and synchronizes table QR menus, chef kitchen displays (KDS), automated WhatsApp/SMS marketing campaigns, live raw inventory tracking, and centralized accounting into a single unified cloud workspace."
   },
   {
     q: "Do you charge order commissions on QR and table checkouts?",
-    a: "Absolutely not. OrderJi believes that your restaurant revenue belongs entirely to you. We operate on a flat subscription pricing model. We never charge commission percentages or lookup fees on QR ordering, table reservations, or self-service kiosks."
+    a: "Absolutely not. Ordrji believes that your restaurant revenue belongs entirely to you. We operate on a flat subscription pricing model. We never charge commission percentages or lookup fees on QR ordering, table reservations, or self-service kiosks."
   },
   {
     q: "Can we integrate food delivery aggregators like Swiggy and Zomato?",
-    a: "Yes. OrderJi is built to consolidate channel fragmentation. All incoming orders from Zomato, Swiggy, and your own custom web ordering stores flow directly into the central Live Feed console, printing automatically and dispatching directly to chef station displays."
+    a: "Yes. Ordrji is built to consolidate channel fragmentation. All incoming orders from Zomato, Swiggy, and your own custom web ordering stores flow directly into the central Live Feed console, printing automatically and dispatching directly to chef station displays."
   },
   {
     q: "What happens if our restaurant internet goes down?",
-    a: "OrderJi features local-cache offline safety loops. The billing terminal queues transaction invoices locally inside the browser. As soon as the network connection is restored, the queue syncs with the cloud database. Customers can continue QR scanning as long as their mobile data is active."
+    a: "Ordrji features local-cache offline safety loops. The billing terminal queues transaction invoices locally inside the browser. As soon as the network connection is restored, the queue syncs with the cloud database. Customers can continue QR scanning as long as their mobile data is active."
   },
   {
-    q: "Does OrderJi support multi-outlet franchises and warehouses?",
+    q: "Does Ordrji support multi-outlet franchises and warehouses?",
     a: "Yes. Our Scale and Enterprise plans feature centralized multi-outlet inventory dashboards. You can manage central supply warehouses, handle internal stock transfer requests, monitor recipe usage, and track material depletion forecasts across all branches."
   }
 ];

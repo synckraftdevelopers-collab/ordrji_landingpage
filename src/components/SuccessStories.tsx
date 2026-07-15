@@ -10,7 +10,7 @@ const CASES = [
     owner: "Chef Kabir Sen",
     role: "Founding Partner & Chef",
     quote:
-      "We were losing margins on manual table delays. Implementing OrderJi connected our QR menus directly to the line chefs. Table turn time dropped from 52 to 34 minutes, and order inaccuracies literally disappeared overnight.",
+      "We were losing margins on manual table delays. Implementing Ordrji connected our QR menus directly to the line chefs. Table turn time dropped from 52 to 34 minutes, and order inaccuracies literally disappeared overnight.",
     brandImage:
       "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800",
     ownerImage:
@@ -27,7 +27,7 @@ const CASES = [
     owner: "Meera Nair",
     role: "Director of Operations",
     quote:
-      "With five outlets, keeping tabs on dairy and roast wastage was a logistical nightmare. OrderJi's predictive inventory warnings tell us exactly what supplies to order, preventing stock leakage and saving us lakhs every month.",
+      "With five outlets, keeping tabs on dairy and roast wastage was a logistical nightmare. Ordrji's predictive inventory warnings tell us exactly what supplies to order, preventing stock leakage and saving us lakhs every month.",
     brandImage:
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800",
     ownerImage:
@@ -44,7 +44,7 @@ const CASES = [
     owner: "Arjun Malhotra",
     role: "General Manager",
     quote:
-      "Running a 300-cover banquet hall means coordinating dozens of servers and kitchen stations simultaneously. OrderJi's floor layout and KDS combination gave us real-time control we never had before. Guest satisfaction scores jumped by 40%.",
+      "Running a 300-cover banquet hall means coordinating dozens of servers and kitchen stations simultaneously. Ordrji's floor layout and KDS combination gave us real-time control we never had before. Guest satisfaction scores jumped by 40%.",
     brandImage:
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=800",
     ownerImage:
@@ -139,7 +139,7 @@ export default function SuccessStories() {
             Proven Operational Yield
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
-            Don&apos;t take our word for it. Read how top-tier restaurant groups use OrderJi OS to automate management.
+            Don&apos;t take our word for it. Read how top-tier restaurant groups use Ordrji OS to automate management.
           </p>
         </div>
 

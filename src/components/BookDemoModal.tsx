@@ -542,7 +542,7 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
                               id="bdm-phone"
                               name="phone"
                               required
-                              placeholder="+91 90044 02006"
+                              placeholder="+91 98677 99655"
                               value={formData.phone}
                               onChange={handleChange}
                               autoComplete="tel"

@@ -336,7 +336,7 @@ export default function RoleExperience() {
             Tailored Experiences for Every Role
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
-            OrderJi acts as a multi-headed operating system, changing its entire interface layout and data tools based on who is using it.
+            Ordrji acts as a multi-headed operating system, changing its entire interface layout and data tools based on who is using it.
           </p>
         </div>
 
@@ -388,7 +388,7 @@ export default function RoleExperience() {
                 <span className="window-dot yellow" />
                 <span className="window-dot green" />
               </div>
-              <span className="window-address">orderji_os_{currentRoleConfig.role.toLowerCase()}.app</span>
+              <span className="window-address">ordrji_os_{currentRoleConfig.role.toLowerCase()}.app</span>
             </div>
             <div className="role-workspace-view">
               {currentRoleConfig.widgets}

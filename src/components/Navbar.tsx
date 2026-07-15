@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Menu, X, ChevronDown } from "lucide-react";
+import { ArrowRight, Menu, X, ChevronDown, Search } from "lucide-react";
+import SearchRestaurantModal from "./SearchRestaurantModal";
 
 interface NavbarProps {
   onBookDemo?: () => void;
@@ -17,6 +18,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
   const [isMobileMenuOpen,  setIsMobileMenuOpen]  = useState(false);
   const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   useEffect(() => {
     const handleClose = () => setIsDesktopDropdownOpen(false);
@@ -86,8 +88,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <div
               className="pf-logo-placeholder"
               style={{
-                width: "64px",
-                height: "64px",
+                width: "90px",
+                height: "90px",
                 flexShrink: 0,
                 visibility: "hidden"
               }}
@@ -97,13 +99,13 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           <Link
             href="/"
             className={`pf-logo-link ${introPhase}`}
-            aria-label="OrderJi Home"
+            aria-label="Ordrji Home"
           >
             <Image
               src="/logo-icon.jpg"
-              alt="OrderJi"
-              width={120}
-              height={120}
+              alt="Ordrji"
+              width={160}
+              height={160}
               className="pf-logo-img"
               priority
             />
@@ -142,6 +144,13 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
 
           {/* ── CTA BUTTONS ───────────────────────────────────────────── */}
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
+            <button
+              onClick={() => setIsSearchModalOpen(true)}
+              className="pf-btn pf-nav-link"
+              style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.6rem 1rem", border: "1px solid var(--border-color)", borderRadius: "999px" }}
+            >
+              <Search size={14} /> Search Restaurants
+            </button>
             <button
               onClick={onBookDemo}
               className="btn-primary btn-red pf-btn"
@@ -205,6 +214,15 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
+                  setIsSearchModalOpen(true);
+                }}
+                className="btn-primary" style={{ justifyContent: "center", background: "#f8fafc", color: "#0f172a", border: "1px solid #e2e8f0" }}
+              >
+                <Search size={14} style={{ marginRight: 8 }} /> Search Restaurants
+              </button>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
                   onBookDemo?.();
                 }}
                 className="btn-primary btn-red" style={{ justifyContent: "center" }}
@@ -220,6 +238,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           </div>
         )}
       </header>
+
+      <SearchRestaurantModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
 
       {/* ── ALL STYLES ────────────────────────────────────────────────── */}
       <style jsx global>{`
@@ -279,11 +299,21 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
           transform: translate(0, 0) scale(1);
         }
+        @media (min-width: 992px) {
+          .pf-logo-link.move {
+            left: max(3.5rem, calc((100vw - 1280px) / 2 + 3.5rem));
+          }
+        }
         /* DONE phase — back in normal flow */
         .pf-logo-link.done {
           position: relative;
           top: auto; left: auto;
           transform: none;
+        }
+        @media (min-width: 992px) {
+          .pf-logo-link.done, .pf-logo-placeholder {
+            margin-left: 2rem;
+          }
         }
 
         /* logo image */
@@ -292,11 +322,11 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           transition: width 0.75s cubic-bezier(0.16,1,0.3,1),
                       height 0.75s cubic-bezier(0.16,1,0.3,1);
           /* center phase: large */
-          width: 120px; height: 120px;
+          width: 160px; height: 160px;
         }
         .pf-logo-link.move  .pf-logo-img,
         .pf-logo-link.done  .pf-logo-img {
-          width: 64px; height: 64px;
+          width: 90px; height: 90px;
         }
 
         /* wordmark hidden */

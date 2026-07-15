@@ -33,7 +33,7 @@ const CORE_VALUES = [
 ];
 
 const TIMELINE_EVENTS = [
-  { year: "2022", title: "The Spark", desc: "OrderJi was founded by restaurant operators and developers frustrated with legacy, disconnected cash registers that crashed during lunch rushes." },
+  { year: "2022", title: "The Spark", desc: "Ordrji was founded by restaurant operators and developers frustrated with legacy, disconnected cash registers that crashed during lunch rushes." },
   { year: "2023", title: "First 100 Outlets", desc: "Launched our cloud billing engine and standard Dine-In QR menus. Grew to support 100 busy cafes across Bengaluru." },
   { year: "2024", title: "Unified OS Launch", desc: "Integrated the Kitchen Display System (KDS) and predictive raw materials inventory tracking to create the first unified Restaurant OS." },
   { year: "2025", title: "3,500+ Outlets & Multi-City Sync", desc: "Expanded across 15 cities in India, supporting multi-chain franchise groups, QSRs, cloud kitchens, and fine dining formats." }
@@ -74,7 +74,7 @@ export default function AboutPage() {
               of Modern Restaurants.
             </h1>
             <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", lineHeight: "1.65", maxWidth: "680px", margin: "0 auto" }}>
-              We believe that restaurants deserve the same world-class software infrastructure as tech companies. OrderJi is designed to simplify kitchen workflows, eliminate channel fragmentation, and let staff focus on hospitality.
+              We believe that restaurants deserve the same world-class software infrastructure as tech companies. Ordrji is designed to simplify kitchen workflows, eliminate channel fragmentation, and let staff focus on hospitality.
             </p>
           </div>
         </section>
@@ -97,7 +97,7 @@ export default function AboutPage() {
                     We set out to change that. We believed that POS billing, kitchen coordinators (KDS), menu management, and inventory forecasts shouldn&apos;t live in isolated silos. They should live inside a single, unified database.
                   </p>
                   <p>
-                    Today, OrderJi supports over 3,500 outlets across India, from cozy cafe bistros to massive franchise brands, pushing millions of transactions daily with an uptime of 99.99%.
+                    Today, Ordrji supports over 3,500 outlets across India, from cozy cafe bistros to massive franchise brands, pushing millions of transactions daily with an uptime of 99.99%.
                   </p>
                 </div>
               </div>

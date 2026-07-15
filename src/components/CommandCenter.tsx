@@ -324,7 +324,7 @@ export default function CommandCenter() {
             Your Restaurant Operations
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
-            Ditch multiple disconnected screens. OrderJi connects customer actions, kitchen displays, and checkout terminals in real time.
+            Ditch multiple disconnected screens. Ordrji connects customer actions, kitchen displays, and checkout terminals in real time.
           </p>
         </div>
 
@@ -346,7 +346,7 @@ export default function CommandCenter() {
               <span className="window-dot green" />
             </div>
             <div className="dashboard-title">
-              <span>https://admin.orderji.io/dashboard</span>
+              <span>https://admin.ordrji.io/dashboard</span>
             </div>
             <div style={{ width: "60px" }} />
           </div>

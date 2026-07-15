@@ -88,7 +88,7 @@ export default function BookDemoPage() {
                 Experience the Future of Restaurant Work.
               </h1>
               <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", lineHeight: "1.6", marginBottom: "2rem" }}>
-                See how OrderJi connects your floor billing, mobile QR orders, kitchen screens, and warehouse recipes in one real-time cloud terminal.
+                See how Ordrji connects your floor billing, mobile QR orders, kitchen screens, and warehouse recipes in one real-time cloud terminal.
               </p>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "2.5rem" }}>
@@ -166,7 +166,7 @@ export default function BookDemoPage() {
                       <label className="field-label">Phone Number *</label>
                       <div className="input-box">
                         <Phone size={15} className="input-icon" />
-                        <input className="field-input" type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+91 90044 02006" />
+                        <input className="field-input" type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+91 98677 99655" />
                       </div>
                     </div>
 

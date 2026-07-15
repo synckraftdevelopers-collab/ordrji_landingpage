@@ -381,7 +381,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <p>Join over 3,500+ premium dining outlets, bars, and chains running commission-free table billing systems, automated kitchens, and inventory tracking on Ordrji.</p>
                 <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", marginTop: "1.5rem" }}>
                   <button className="btn-primary btn-red open-demo-btn">Book Free Demo</button>
-                  <a href="https://wa.me/919004402006?text=Hi%20Ordrji" target="_blank" rel="noopener noreferrer" className="btn-secondary">Contact Sales</a>
+                  <a href="https://wa.me/919867799655?text=Hi%20Ordrji" target="_blank" rel="noopener noreferrer" className="btn-secondary">Contact Sales</a>
                 </div>
               </div>
             </section>
