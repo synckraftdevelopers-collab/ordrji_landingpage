@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 
-interface Section { title: string; body: string; }
+interface Section { title: string; body: React.ReactNode; }
 
 interface LegalPageProps {
   badge:       string;
@@ -84,7 +84,7 @@ export default function LegalPage({ badge, title, subtitle, lastUpdated, section
           {sections.map((s, i) => (
             <div key={i} data-idx={i} className="legal-section">
               <h2 className="legal-section-title">{s.title}</h2>
-              <p className="legal-section-body">{s.body}</p>
+              <div className="legal-section-body">{s.body}</div>
             </div>
           ))}
         </div>
