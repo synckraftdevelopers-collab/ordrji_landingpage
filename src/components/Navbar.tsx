@@ -146,10 +146,23 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           <div className={`pf-actions ${linksVisible ? "pf-nav-visible" : "pf-nav-hidden"}`}>
             <button
               onClick={() => setIsSearchModalOpen(true)}
-              className="pf-btn pf-nav-link"
-              style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.6rem 1rem", border: "1px solid var(--border-color)", borderRadius: "999px" }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.5rem 1.1rem",
+                border: "1px solid rgba(148, 163, 184, 0.2)",
+                borderRadius: "999px",
+                background: "rgba(248, 250, 252, 0.65)",
+                color: "#64748b",
+                fontSize: "0.82rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s ease"
+              }}
+              className="pf-search-trigger"
             >
-              <Search size={14} /> Search Restaurants
+              <Search size={13} style={{ opacity: 0.8 }} /> Search Restaurants
             </button>
             <button
               onClick={onBookDemo}
@@ -216,9 +229,25 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
                   setIsMobileMenuOpen(false);
                   setIsSearchModalOpen(true);
                 }}
-                className="btn-primary" style={{ justifyContent: "center", background: "#f8fafc", color: "#0f172a", border: "1px solid #e2e8f0" }}
+                className="pf-search-trigger"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem",
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  border: "1px solid rgba(148, 163, 184, 0.2)",
+                  borderRadius: "999px",
+                  background: "rgba(248, 250, 252, 0.65)",
+                  color: "#64748b",
+                  fontSize: "0.875rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease"
+                }}
               >
-                <Search size={14} style={{ marginRight: 8 }} /> Search Restaurants
+                <Search size={14} style={{ opacity: 0.8 }} /> Search Restaurants
               </button>
               <button
                 onClick={() => {
@@ -484,6 +513,12 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           text-decoration: none;
         }
         .nav-link:hover { color: var(--accent-orange); }
+
+        .pf-search-trigger:hover {
+          border-color: rgba(148, 163, 184, 0.45) !important;
+          background: rgba(248, 250, 252, 0.95) !important;
+          color: #0f172a !important;
+        }
       `}</style>
     </>
   );

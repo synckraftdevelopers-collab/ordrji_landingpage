@@ -238,6 +238,10 @@ export default function Ecosystem() {
                     <circle cx="0" cy="0" r={NODE_R - 3} />
                   </clipPath>
                 ))}
+                {/* clip path for center hub logo */}
+                <clipPath id="hubClip">
+                  <circle cx="0" cy="0" r="56" />
+                </clipPath>
                 {/* animated dash-orbit ring gradient */}
                 <radialGradient id="orbitGlow" cx="50%" cy="50%" r="50%">
                   <stop offset="0%"   stopColor="#da0404" stopOpacity="0.25" />
@@ -279,8 +283,15 @@ export default function Ecosystem() {
                 {/* outer pulse ring */}
                 <circle cx="0" cy="0" r="70" fill="rgba(227,6,19,0.04)" className="eco-hub-pulse" />
                 <circle cx="0" cy="0" r="58" fill="var(--bg-card)" stroke="#da0404" strokeWidth="2" />
-                <text x="0" y="-10" textAnchor="middle" fontSize="7" fontWeight="700" letterSpacing="2" fill="#999" fontFamily="inherit">SYSTEM</text>
-                <text x="0" y="7"  textAnchor="middle" fontSize="10" fontWeight="800" fill="#da0404" fontFamily="inherit">ORDRJI OS</text>
+                <image
+                  href="/logo-icon.jpg"
+                  x="-56"
+                  y="-56"
+                  width="112"
+                  height="112"
+                  clipPath="url(#hubClip)"
+                  preserveAspectRatio="xMidYMid slice"
+                />
               </g>
 
               {/* Orbital nodes */}

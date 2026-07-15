@@ -116,29 +116,50 @@ function OrbNode({ p, rot }: { p: Partner; rot: number }) {
   return (
     <div
       title={p.name}
+      className="ig-orbital-node"
       style={{
         position: "absolute",
         left: nx, top: ny,
         transform: "translate(-50%, -50%)",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
-        whiteSpace: "nowrap"
+        display: "flex", 
+        alignItems: "center", 
+        gap: "6px",
+        padding: "5px 10px 5px 6px",
+        borderRadius: "99px",
+        background: "rgba(255, 255, 255, 0.96)",
+        border: "1px solid rgba(0, 0, 0, 0.08)",
+        boxShadow: "0 3px 8px rgba(0, 0, 0, 0.04)",
+        whiteSpace: "nowrap",
+        zIndex: 5,
+        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease",
       }}
     >
-      {!imgFailed ? (
-        <img
-          src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=32`}
-          alt={p.name} width={18} height={18}
-          loading="lazy"
-          style={{ objectFit: "contain", flexShrink: 0 }}
-          onError={() => setImgFailed(true)}
-        />
-      ) : (
-        <span style={{ fontSize: "10px", fontWeight: 800, color: p.color }}>{p.short}</span>
-      )}
+      <div style={{
+        width: 18, 
+        height: 18, 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center",
+        flexShrink: 0
+      }}>
+        {!imgFailed ? (
+          <img
+            src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=32`}
+            alt={p.name} width={16} height={16}
+            loading="lazy"
+            style={{ objectFit: "contain", borderRadius: "2px" }}
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <span style={{ fontSize: "9px", fontWeight: 800, color: p.color }}>{p.short}</span>
+        )}
+      </div>
       <span style={{ 
-        fontSize: "14px", fontWeight: 700, color: "#444", 
-        fontFamily: "Inter, sans-serif",
-        textShadow: "0 0 4px #fff, 0 0 8px #fff"
+        fontSize: "11.5px", 
+        fontWeight: 700, 
+        color: "#1e293b", 
+        fontFamily: "var(--font-sans, sans-serif)",
+        letterSpacing: "0.1px"
       }}>
         {p.name}
       </span>
@@ -163,7 +184,7 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
         {/* orbit rings */}
         {RADII.map((r, i) => (
           <circle key={i} cx={CX} cy={CY} r={r}
-            fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1" strokeDasharray="4 8" />
+            fill="none" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeDasharray="4 8" />
         ))}
 
         {/* spokes */}
@@ -174,7 +195,7 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
             <line key={i}
               x1={CX} y1={CY}
               x2={CX + r * Math.cos(a)} y2={CY + r * Math.sin(a)}
-              stroke={p.color} strokeWidth="0.7" strokeDasharray="3 6" opacity="0.3"
+              stroke="rgba(0,0,0,0.07)" strokeWidth="0.8" strokeDasharray="3 6"
             />
           );
         })}
@@ -517,6 +538,13 @@ export default function Integrations() {
           align-items: center;
           justify-content: center;
           box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .ig-orbital-node:hover {
+          transform: translate(-50%, -50%) scale(1.08) !important;
+          border-color: var(--accent-orange, #f97316) !important;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+          z-index: 15 !important;
         }
       
       `}</style>
