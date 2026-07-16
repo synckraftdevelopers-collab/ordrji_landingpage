@@ -101,7 +101,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* consistent section padding — all competitors use ~8rem vert rhythm */
-.section-padding { padding: 8rem 0; }
+.section-padding { padding: clamp(4rem, 10vw, 8rem) 0; }
 
 /* ── Divider line ────────────────────────────────────────────────── */
 .divider {

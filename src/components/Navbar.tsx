@@ -134,16 +134,23 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
                 Resources <ChevronDown size={12} />
               </Link>
               <div className="pf-dropdown-menu">
-                <Link href="/restaurants" className="pf-dropdown-link" style={{ fontWeight: 800, color: "#E30613", background: "rgba(227,6,19,0.05)" }}>
-                  🍴 Restaurant Directory
-                </Link>
-                <Link href="/faq" className="pf-dropdown-link">FAQs</Link>
-                <Link href="/blog" className="pf-dropdown-link">Blog</Link>
-                <Link href="/restaurant-pos-software-india" className="pf-dropdown-link">POS Software</Link>
-                <Link href="/restaurant-billing-software" className="pf-dropdown-link">Billing Engine</Link>
-                <Link href="/qr-ordering-system-for-restaurants" className="pf-dropdown-link">QR Ordering</Link>
-                <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory Intelligence & Predictions</Link>
-                <Link href="/how-ordrji-compares-to-legacy-pos-systems" className="pf-dropdown-link">Ordrji vs Legacy POS</Link>
+                <div className="pf-dropdown-col">
+                  <span className="pf-dropdown-heading">Resources</span>
+                  <Link href="/restaurants" className="pf-dropdown-link" style={{ fontWeight: 800, color: "#E30613", background: "rgba(227,6,19,0.05)" }}>
+                    🍴 Restaurant Directory
+                  </Link>
+                  <Link href="/faq" className="pf-dropdown-link">FAQs</Link>
+                  <Link href="/blog" className="pf-dropdown-link">Blog</Link>
+                  <Link href="/restaurant-pos-software-india" className="pf-dropdown-link">POS Software</Link>
+                  <Link href="/restaurant-billing-software" className="pf-dropdown-link">Billing Engine</Link>
+                </div>
+                <div className="pf-dropdown-divider" />
+                <div className="pf-dropdown-col">
+                  <span className="pf-dropdown-heading">Platform</span>
+                  <Link href="/qr-ordering-system-for-restaurants" className="pf-dropdown-link">QR Ordering</Link>
+                  <Link href="/restaurant-inventory-management-software" className="pf-dropdown-link">Inventory Intelligence & Predictions</Link>
+                  <Link href="/how-ordrji-compares-to-legacy-pos-systems" className="pf-dropdown-link">Ordrji vs Legacy POS</Link>
+                </div>
               </div>
             </div>
           </nav>
@@ -216,18 +223,21 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               <button 
                 onClick={() => setIsMobileResourcesOpen(v => !v)}
                 className="pf-mobile-link pf-mobile-dropdown-trigger"
-                style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer" }}
+                style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", minHeight: "44px" }}
               >
                 <span>Resources</span>
                 <ChevronDown size={16} style={{ transition: "transform 0.2s", transform: isMobileResourcesOpen ? "rotate(180deg)" : "none", color: "var(--text-secondary)" }} />
               </button>
               {isMobileResourcesOpen && (
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", paddingLeft: "1rem", marginTop: "0.85rem" }}>
+                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.8px", marginTop: "0.25rem" }}>Resources</span>
                   <Link href="/restaurants" className="pf-mobile-link" style={{ fontWeight: 800, color: "#E30613" }} onClick={() => setIsMobileMenuOpen(false)}>🍴 Restaurant Directory</Link>
                   <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>FAQs</Link>
                   <Link href="/blog" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
                   <Link href="/restaurant-pos-software-india" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>POS Software</Link>
                   <Link href="/restaurant-billing-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Billing Engine</Link>
+                  
+                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.8px", marginTop: "0.75rem" }}>Platform</span>
                   <Link href="/qr-ordering-system-for-restaurants" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>QR Ordering</Link>
                   <Link href="/restaurant-inventory-management-software" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Inventory Intelligence & Predictions</Link>
                   <Link href="/how-ordrji-compares-to-legacy-pos-systems" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Ordrji vs Legacy POS</Link>
@@ -370,6 +380,12 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         .pf-logo-link.done  .pf-logo-img {
           width: 90px; height: 90px;
         }
+        @media (max-width: 768px) {
+          .pf-logo-link.move  .pf-logo-img,
+          .pf-logo-link.done  .pf-logo-img {
+            width: 70px; height: 70px;
+          }
+        }
 
         /* wordmark hidden */
         .pf-logo-wordmark { display: none; }
@@ -379,6 +395,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           display: flex;
           align-items: center;
           gap: 2.5rem;
+        }
+        @media (max-width: 1024px) {
+          .pf-nav { gap: 1.5rem; }
         }
 
         .pf-nav-link {
@@ -413,20 +432,40 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           top: 100%;
           left: 50%;
           transform: translateX(-50%) translateY(8px);
-          background: var(--bg-card, #fdfaf4);
-          border: 1px solid var(--border-color);
-          border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-          min-width: 220px;
+          background: #ffffff;
+          border: 1px solid rgba(229, 231, 235, 0.5);
+          border-radius: 16px;
+          box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+          padding: 28px 32px;
+          display: flex;
+          flex-direction: row;
+          gap: 48px;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+          transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
           z-index: 100;
+        }
+        .pf-dropdown-col {
           display: flex;
           flex-direction: column;
-          padding: 0.5rem;
-          gap: 0.2rem;
+          gap: 0.4rem;
+          min-width: 240px;
+        }
+        .pf-dropdown-heading {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          margin-bottom: 0.75rem;
+          padding-left: 0.85rem;
+        }
+        .pf-dropdown-divider {
+          width: 1px;
+          background: #E5E7EB;
+          opacity: 0.8;
+          flex-shrink: 0;
         }
         .pf-nav-item-dropdown:hover .pf-dropdown-menu,
         .pf-nav-item-dropdown.dropdown-open .pf-dropdown-menu {
@@ -436,21 +475,20 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           transform: translateX(-50%) translateY(4px);
         }
         .pf-dropdown-link {
-          font-size: 0.8rem;
-          font-weight: 700;
+          font-size: 0.85rem;
+          font-weight: 600;
           letter-spacing: 0.3px;
-          text-transform: uppercase;
           color: var(--text-secondary);
           text-decoration: none;
-          padding: 0.5rem 0.85rem;
+          padding: 0.6rem 0.85rem;
           border-radius: 8px;
-          transition: background 0.15s, color 0.15s;
+          transition: all 0.2s ease;
           white-space: nowrap;
           display: block;
         }
         .pf-dropdown-link:hover {
           background: rgba(227,6,19,0.06);
-          color: var(--accent-orange);
+          color: #E30613;
         }
         .pf-nav-item-dropdown:hover .dropdown-trigger {
           color: var(--accent-orange);
@@ -501,6 +539,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           color: var(--text-secondary); text-decoration: none;
           letter-spacing: 0.3px;
           transition: color 0.2s;
+          display: flex;
+          align-items: center;
+          min-height: 44px;
         }
         .pf-mobile-link:hover { color: var(--accent-orange); }
         .pf-mobile-muted { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }

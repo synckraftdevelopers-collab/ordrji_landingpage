@@ -610,7 +610,7 @@ export default function ModulesShowcase() {
 
       <style jsx global>{`
         .showcase-section {
-          padding: 8rem 0;
+          padding: clamp(4rem, 10vw, 8rem) 0;
           background-color: var(--bg-primary);
           background-image: radial-gradient(rgba(227, 6, 19, 0.035) 1px, transparent 1px);
           background-size: 20px 20px;
@@ -663,7 +663,7 @@ export default function ModulesShowcase() {
         }
 
         .showcase-header h2 {
-          font-size: 2.8rem;
+          font-size: clamp(2rem, 5vw, 2.8rem);
           font-weight: 800;
           letter-spacing: -2px;
           line-height: 1.1;
