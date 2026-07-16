@@ -141,6 +141,7 @@ export default function TrustBar() {
       >
         <div className="tb-edge tb-edge-l" />
         <div className="tb-edge tb-edge-r" />
+        <MarqueeRow reverse={true} />
         <MarqueeRow reverse={false} />
       </motion.div>
 
@@ -149,7 +150,7 @@ export default function TrustBar() {
 
         /* ── section ─────────────────────────────────────────────────── */
         .tb-section {
-          padding: 5rem 0 0;
+          padding: 3rem 0 0;
           background-color: var(--bg-secondary);
           position: relative;
           overflow: hidden;
@@ -167,7 +168,7 @@ export default function TrustBar() {
         }
 
         /* ── eyebrow ─────────────────────────────────────────────────── */
-        .tb-eyebrow-clip { overflow: hidden; text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1; }
+        .tb-eyebrow-clip { overflow: hidden; text-align: center; margin-bottom: 1.5rem; position: relative; z-index: 1; }
 
         .tb-eyebrow {
           font-size: 0.7rem; font-weight: 800;
@@ -184,7 +185,7 @@ export default function TrustBar() {
         .tb-stats-row {
           display: flex; flex-wrap: wrap; justify-content: center;
           align-items: center; gap: 0;
-          margin-bottom: 2.5rem; position: relative; z-index: 1;
+          margin-bottom: 1rem; position: relative; z-index: 1;
           opacity: 0; transform: translateY(24px);
           transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
           transition-delay: 0.1s;
@@ -249,7 +250,7 @@ export default function TrustBar() {
 
         /* ── belt wrapper ────────────────────────────────────────────── */
         .tb-belt {
-          position: relative; padding: 2rem 0;
+          position: relative; padding: 0.5rem 0 1rem;
           background: var(--bg-secondary);
           overflow: hidden;
           opacity: 0; transform: translateY(16px);
@@ -267,7 +268,7 @@ export default function TrustBar() {
 
         /* ── marquee viewport + track ────────────────────────────────── */
         .tb-marquee-viewport {
-          overflow: hidden; margin-bottom: 1rem;
+          overflow: hidden; margin-bottom: 0.5rem;
         }
         .tb-marquee-viewport:last-child { margin-bottom: 0; }
 
@@ -278,10 +279,10 @@ export default function TrustBar() {
         .tb-marquee-track.tb-rev {
           animation: tbScrollRev 40s linear infinite;
         }
-        .tb-marquee-track:hover { animation-play-state: paused; }
+        .tb-belt:hover .tb-marquee-track { animation-play-state: paused; }
 
-        @keyframes tbScroll    { from { transform: translateX(0);     } to { transform: translateX(-50%); } }
-        @keyframes tbScrollRev { from { transform: translateX(-50%);  } to { transform: translateX(0);    } }
+        @keyframes tbScroll    { from { transform: translate3d(0, 0, 0);     } to { transform: translate3d(-50%, 0, 0); } }
+        @keyframes tbScrollRev { from { transform: translate3d(-50%, 0, 0);  } to { transform: translate3d(0, 0, 0);    } }
 
         /* ── icon items ──────────────────────────────────────────────── */
         .tb-icon-item {
