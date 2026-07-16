@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   BookOpen,
@@ -78,6 +78,29 @@ export default function AdminBlogsPage() {
   const [formDate, setFormDate] = useState("");
   const [uploading, setUploading] = useState(false);
 
+  // Social Links
+  const [formFacebookUrl, setFormFacebookUrl] = useState("");
+  const [formTwitterUrl, setFormTwitterUrl] = useState("");
+  const [formLinkedinUrl, setFormLinkedinUrl] = useState("");
+  const [formInstagramUrl, setFormInstagramUrl] = useState("");
+
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  const execRichCommand = (command: string, value: string = "") => {
+    if (typeof document === "undefined") return;
+    document.execCommand(command, false, value);
+    if (editorRef.current) {
+      setFormContent(editorRef.current.innerHTML);
+    }
+  };
+
+  const insertLink = () => {
+    const url = prompt("Enter link URL:");
+    if (url) {
+      execRichCommand("createLink", url);
+    }
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -153,11 +176,18 @@ export default function AdminBlogsPage() {
     setFormSlug("");
     setFormDescription("");
     setFormContent("");
+    if (editorRef.current) {
+      editorRef.current.innerHTML = "";
+    }
     setFormCoverImage(PRESET_IMAGES[0]);
     setFormCategoryId("tech");
     setFormTags("");
     setFormStatus("Published");
     setFormAuthor(activeUser);
+    setFormFacebookUrl("");
+    setFormTwitterUrl("");
+    setFormLinkedinUrl("");
+    setFormInstagramUrl("");
     const today = new Date().toISOString().split("T")[0];
     setFormDate(today);
   };
@@ -168,11 +198,18 @@ export default function AdminBlogsPage() {
     setFormSlug(post.slug);
     setFormDescription(post.description);
     setFormContent(post.content);
+    if (editorRef.current) {
+      editorRef.current.innerHTML = post.content || "";
+    }
     setFormCoverImage(post.coverImage);
     setFormCategoryId(post.categoryId);
     setFormTags(post.tags?.join(", ") || "");
     setFormStatus(post.status === "Published" ? "Published" : "Draft");
     setFormAuthor(post.createdBy || activeUser);
+    setFormFacebookUrl(post.facebookUrl || "");
+    setFormTwitterUrl(post.twitterUrl || "");
+    setFormLinkedinUrl(post.linkedinUrl || "");
+    setFormInstagramUrl(post.instagramUrl || "");
     
     // Parse date if present
     if (post.createdDate) {
@@ -213,6 +250,10 @@ export default function AdminBlogsPage() {
       status: formStatus,
       createdBy: formAuthor,
       createdDate: friendlyDate,
+      facebookUrl: formFacebookUrl,
+      twitterUrl: formTwitterUrl,
+      linkedinUrl: formLinkedinUrl,
+      instagramUrl: formInstagramUrl,
       summaryOfChanges: editingId ? "Updated via Simplified Editor" : "Created via Simplified Editor"
     };
 
@@ -602,26 +643,138 @@ export default function AdminBlogsPage() {
               {/* Content editor */}
               <div className="form-group span-2">
                 <div className="editor-toolbar-header">
-                  <label className="form-label" htmlFor="content-editor">Article Content (HTML allowed)</label>
+                  <label className="form-label">Article Content (WYSIWYG Rich Editor)</label>
                   
-                  <div className="html-toolbar">
-                    <button type="button" onClick={() => insertHTMLTag("b")} title="Bold text">B</button>
-                    <button type="button" onClick={() => insertHTMLTag("i")} title="Italic text">I</button>
-                    <button type="button" onClick={() => insertHTMLTag("h3")} title="Section Heading">H3</button>
-                    <button type="button" onClick={() => insertHTMLTag("ul")} title="Bullet List">List</button>
-                    <button type="button" onClick={() => insertHTMLTag("a")} title="Insert Link">Link</button>
+                  <div className="rich-editor-toolbar">
+                    <select
+                      className="rich-select"
+                      onChange={(e) => execRichCommand("formatBlock", e.target.value)}
+                      defaultValue="p"
+                      title="Text Style"
+                    >
+                      <option value="p">Paragraph</option>
+                      <option value="h1">Heading 1</option>
+                      <option value="h2">Heading 2</option>
+                      <option value="h3">Heading 3</option>
+                      <option value="blockquote">Quote</option>
+                    </select>
+
+                    <select
+                      className="rich-select"
+                      onChange={(e) => execRichCommand("fontSize", e.target.value)}
+                      defaultValue="3"
+                      title="Font Size"
+                    >
+                      <option value="1">1 (Extra Small)</option>
+                      <option value="2">2 (Small)</option>
+                      <option value="3">3 (Normal)</option>
+                      <option value="4">4 (Medium)</option>
+                      <option value="5">5 (Large)</option>
+                      <option value="6">6 (Extra Large)</option>
+                      <option value="7">7 (Huge)</option>
+                    </select>
+
+                    <div className="rich-color-picker-container" title="Text Color">
+                      <span style={{ fontSize: "0.8rem", marginRight: "0.2rem" }}>🎨</span>
+                      <input
+                        type="color"
+                        className="rich-color-picker"
+                        onChange={(e) => execRichCommand("foreColor", e.target.value)}
+                        defaultValue="#0f172a"
+                      />
+                    </div>
+
+                    <div className="rich-toolbar-divider" />
+
+                    <button type="button" onClick={() => execRichCommand("bold")} className="rich-btn font-bold" title="Bold">B</button>
+                    <button type="button" onClick={() => execRichCommand("italic")} className="rich-btn italic" title="Italic">I</button>
+                    <button type="button" onClick={() => execRichCommand("underline")} className="rich-btn underline" title="Underline">U</button>
+                    <button type="button" onClick={() => execRichCommand("strikeThrough")} className="rich-btn line-through" title="Strikethrough">S</button>
+                    
+                    <div className="rich-toolbar-divider" />
+
+                    <button type="button" onClick={() => execRichCommand("justifyLeft")} className="rich-btn" title="Align Left">←</button>
+                    <button type="button" onClick={() => execRichCommand("justifyCenter")} className="rich-btn" title="Align Center">↔</button>
+                    <button type="button" onClick={() => execRichCommand("justifyRight")} className="rich-btn" title="Align Right">→</button>
+                    
+                    <div className="rich-toolbar-divider" />
+
+                    <button type="button" onClick={() => execRichCommand("insertUnorderedList")} className="rich-btn" title="Bullet List">• List</button>
+                    <button type="button" onClick={() => execRichCommand("insertOrderedList")} className="rich-btn" title="Numbered List">1. List</button>
+                    <button type="button" onClick={insertLink} className="rich-btn" title="Insert Link">Link</button>
+                    <button type="button" onClick={() => execRichCommand("removeFormat")} className="rich-btn" title="Clear Formatting">Clear</button>
                   </div>
                 </div>
 
-                <textarea
-                  id="content-editor"
-                  className="form-textarea content-area"
-                  placeholder="Write paragraph HTML codes here..."
-                  rows={14}
-                  value={formContent}
-                  onChange={(e) => setFormContent(e.target.value)}
-                  required
+                <div 
+                  ref={editorRef}
+                  id="rich-content-editor"
+                  className="rich-editor-content-area"
+                  contentEditable
+                  onInput={(e) => setFormContent(e.currentTarget.innerHTML)}
+                  onBlur={(e) => setFormContent(e.currentTarget.innerHTML)}
+                  style={{
+                    minHeight: "350px",
+                    border: "2px solid #e2e8f0",
+                    borderRadius: "14px",
+                    padding: "1.25rem",
+                    outline: "none",
+                    background: "#fff",
+                    overflowY: "auto",
+                    color: "#0f172a"
+                  }}
                 />
+              </div>
+
+              {/* Social Media Links */}
+              <div className="form-group span-2" style={{ borderTop: "1px solid #e2e8f0", paddingTop: "1.5rem", marginTop: "1rem" }}>
+                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", marginBottom: "1rem" }}>Author Social Media Links</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="fb-link">Facebook Profile URL</label>
+                    <input
+                      id="fb-link"
+                      type="url"
+                      className="form-input"
+                      placeholder="e.g. https://facebook.com/author"
+                      value={formFacebookUrl}
+                      onChange={(e) => setFormFacebookUrl(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="tw-link">Twitter/X Profile URL</label>
+                    <input
+                      id="tw-link"
+                      type="url"
+                      className="form-input"
+                      placeholder="e.g. https://twitter.com/author"
+                      value={formTwitterUrl}
+                      onChange={(e) => setFormTwitterUrl(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="li-link">LinkedIn Profile URL</label>
+                    <input
+                      id="li-link"
+                      type="url"
+                      className="form-input"
+                      placeholder="e.g. https://linkedin.com/in/author"
+                      value={formLinkedinUrl}
+                      onChange={(e) => setFormLinkedinUrl(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="ig-link">Instagram Profile URL</label>
+                    <input
+                      id="ig-link"
+                      type="url"
+                      className="form-input"
+                      placeholder="e.g. https://instagram.com/author"
+                      value={formInstagramUrl}
+                      onChange={(e) => setFormInstagramUrl(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Status and Submission Actions */}
@@ -1041,39 +1194,101 @@ export default function AdminBlogsPage() {
         /* HTML content editor elements */
         .editor-toolbar-header {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.25rem;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+          margin-bottom: 0.5rem;
         }
 
-        .html-toolbar {
+        .rich-editor-toolbar {
           display: flex;
-          gap: 0.25rem;
+          flex-wrap: wrap;
+          gap: 0.35rem;
+          background: #f8fafc;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          padding: 0.5rem;
+          align-items: center;
+          width: 100%;
         }
 
-        .html-toolbar button {
+        .rich-select {
+          background: #fff;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          padding: 0.3rem 0.5rem;
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #334155;
+          cursor: pointer;
+          outline: none;
+        }
+
+        .rich-color-picker-container {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          background: #fff;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          padding: 0.2rem 0.4rem;
+          height: 30px;
+        }
+
+        .rich-color-picker {
+          border: none;
+          width: 20px;
+          height: 20px;
+          padding: 0;
+          background: none;
+          cursor: pointer;
+        }
+
+        .rich-toolbar-divider {
+          width: 1px;
+          height: 20px;
+          background: #cbd5e1;
+          margin: 0 0.25rem;
+        }
+
+        .rich-btn {
           background: #ffffff;
           border: 1px solid #cbd5e1;
-          border-radius: 4px;
-          padding: 0.2rem 0.5rem;
-          font-size: 0.68rem;
-          font-weight: 800;
+          border-radius: 6px;
+          min-width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+          font-weight: 700;
           cursor: pointer;
-          color: #475569;
+          color: #334155;
           transition: all 0.15s;
+          padding: 0 0.4rem;
         }
 
-        .html-toolbar button:hover {
+        .rich-btn:hover {
           border-color: var(--accent-orange);
           color: var(--accent-orange);
           background: rgba(227, 6, 19, 0.02);
         }
 
-        .content-area {
-          font-family: monospace;
-          line-height: 1.5;
-          font-size: 0.85rem;
+        .rich-editor-content-area {
+          line-height: 1.6;
+          font-size: 0.95rem;
+          color: #0f172a;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
         }
+
+        .rich-editor-content-area h1 { font-size: 1.8rem; font-weight: 800; margin: 1.5rem 0 0.75rem; }
+        .rich-editor-content-area h2 { font-size: 1.5rem; font-weight: 800; margin: 1.25rem 0 0.5rem; }
+        .rich-editor-content-area h3 { font-size: 1.25rem; font-weight: 800; margin: 1rem 0 0.5rem; }
+        .rich-editor-content-area p { margin-bottom: 1rem; }
+        .rich-editor-content-area ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .rich-editor-content-area ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .rich-editor-content-area blockquote { border-left: 4px solid var(--accent-orange); padding-left: 1rem; color: #475569; font-style: italic; margin: 1rem 0; }
+        .rich-editor-content-area a { color: var(--accent-orange); text-decoration: underline; font-weight: 600; }
 
         .form-actions-row {
           display: flex;

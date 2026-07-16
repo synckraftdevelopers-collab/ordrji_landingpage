@@ -293,6 +293,41 @@ export default async function BlogPostPage({ params }: Props) {
                   </div>
                 )}
 
+                {/* Social media follow links button stack */}
+                {(blog.facebookUrl || blog.twitterUrl || blog.linkedinUrl || blog.instagramUrl) && (
+                  <div className="post-author-socials-box" style={{ margin: "2rem 0", padding: "1.25rem", background: "#f8fafc", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+                    <h4 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0f172a", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "0.75rem" }}>
+                      🔗 Connect with the Author
+                    </h4>
+                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                      {blog.facebookUrl && (
+                        <a href={blog.facebookUrl} target="_blank" rel="noopener noreferrer" className="author-social-btn fb-btn" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#1877f2", color: "#fff", textDecoration: "none", fontSize: "0.82rem", fontWeight: 700, padding: "0.5rem 1rem", borderRadius: "8px", transition: "transform 0.15s" }}>
+                          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                          <span>Facebook</span>
+                        </a>
+                      )}
+                      {blog.twitterUrl && (
+                        <a href={blog.twitterUrl} target="_blank" rel="noopener noreferrer" className="author-social-btn tw-btn" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#000", color: "#fff", textDecoration: "none", fontSize: "0.82rem", fontWeight: 700, padding: "0.5rem 1rem", borderRadius: "8px", transition: "transform 0.15s" }}>
+                          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                          <span>Twitter/X</span>
+                        </a>
+                      )}
+                      {blog.linkedinUrl && (
+                        <a href={blog.linkedinUrl} target="_blank" rel="noopener noreferrer" className="author-social-btn li-btn" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#0a66c2", color: "#fff", textDecoration: "none", fontSize: "0.82rem", fontWeight: 700, padding: "0.5rem 1rem", borderRadius: "8px", transition: "transform 0.15s" }}>
+                          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                          <span>LinkedIn</span>
+                        </a>
+                      )}
+                      {blog.instagramUrl && (
+                        <a href={blog.instagramUrl} target="_blank" rel="noopener noreferrer" className="author-social-btn ig-btn" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)", color: "#fff", textDecoration: "none", fontSize: "0.82rem", fontWeight: 700, padding: "0.5rem 1rem", borderRadius: "8px", transition: "transform 0.15s" }}>
+                          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+                          <span>Instagram</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* FAQ Interactive Accordion if faqs exist */}
                 {blog.faqSchema && blog.faqSchema.length > 0 && (
                   <div className="faq-section">
