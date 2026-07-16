@@ -50,9 +50,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
   }, []);
 
   const navBg    = isScrolled ? "rgba(253,250,244,0.92)" : "transparent";
-  const navBlur  = isScrolled ? "blur(20px)"             : "none";
+  const navBlur  = isScrolled ? "blur(24px)"             : "none";
   const navBorder= isScrolled ? "1px solid var(--border-color)" : "1px solid transparent";
-  const navPad   = isScrolled ? "0.85rem 0" : "1.25rem 0";
+  const navPad   = isScrolled ? "0.5rem 0" : "1.25rem 0";
 
   /* nav links hidden during intro center phase */
   const linksVisible = introPhase !== "center";
@@ -300,8 +300,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         .pf-header {
           position: fixed; top: 0; left: 0; right: 0;
           z-index: 50;
-          transition: background 0.4s ease, padding 0.4s ease,
-                      border-color 0.4s ease, backdrop-filter 0.4s ease;
+          transition: background 0.5s cubic-bezier(0.22, 1, 0.36, 1), padding 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                      border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1), backdrop-filter 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .pf-nav-inner {
@@ -410,14 +410,15 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           position: relative;
           transition: color 0.2s ease;
         }
-        /* underline grow on hover — Posiflex-style */
+        /* underline grow on hover — premium style */
         .pf-nav-link::after {
           content: "";
           position: absolute;
-          bottom: -3px; left: 0; right: 100%;
-          height: 1.5px;
+          bottom: -4px; left: 0; right: 100%;
+          height: 2px;
+          border-radius: 2px;
           background: var(--accent-orange);
-          transition: right 0.25s cubic-bezier(0.16,1,0.3,1);
+          transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .pf-nav-link:hover { color: var(--accent-orange); }
         .pf-nav-link:hover::after { right: 0; }
@@ -443,7 +444,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+          transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           z-index: 100;
         }
         .pf-dropdown-col {

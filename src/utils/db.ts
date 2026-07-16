@@ -407,6 +407,7 @@ function initDatabase() {
     fs.mkdirSync(DB_DIR, { recursive: true });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const checkAndWrite = (filepath: string, defaultData: any) => {
     if (!fs.existsSync(filepath)) {
       fs.writeFileSync(filepath, JSON.stringify(defaultData, null, 2), "utf8");

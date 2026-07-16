@@ -286,19 +286,23 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
           font-family: inherit;
           font-size: 0.9rem;
           line-height: 1.4;
-          transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+          transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           -webkit-appearance: none;
         }
 
         .bdm-input::placeholder {
           color: #a8998a;
+          transition: opacity 0.3s ease;
         }
 
         .bdm-input:focus {
           outline: none;
           border-color: #da0404;
           background: #ffffff;
-          box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
+          box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.15);
+        }
+        .bdm-input:focus::placeholder {
+          opacity: 0.5;
         }
 
         .bdm-input:hover:not(:focus) {
@@ -317,19 +321,23 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
           line-height: 1.6;
           min-height: 90px;
           resize: vertical;
-          transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+          transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           -webkit-appearance: none;
         }
 
         .bdm-textarea::placeholder {
           color: #a8998a;
+          transition: opacity 0.3s ease;
         }
 
         .bdm-textarea:focus {
           outline: none;
           border-color: #da0404;
           background: #ffffff;
-          box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
+          box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.15);
+        }
+        .bdm-textarea:focus::placeholder {
+          opacity: 0.5;
         }
 
         .bdm-textarea:hover:not(:focus) {
@@ -363,17 +371,23 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
           font-size: 0.97rem;
           font-weight: 600;
           cursor: pointer;
-          transition: background 0.18s, box-shadow 0.18s, opacity 0.18s;
+          transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .bdm-submit:hover:not(:disabled) {
-          background: #bd040f;
-          box-shadow: 0 8px 20px -6px rgba(227, 6, 19, 0.45);
+          background: #be0303;
+          box-shadow: 0 12px 30px -8px rgba(227, 6, 19, 0.5);
+          transform: translateY(-2px) scale(1.02);
+        }
+        
+        .bdm-submit:active:not(:disabled) {
+          transform: translateY(0) scale(0.98);
         }
 
         .bdm-submit:disabled {
           opacity: 0.6;
           cursor: not-allowed;
+          transform: none;
         }
 
         /* ── Spinner ── */

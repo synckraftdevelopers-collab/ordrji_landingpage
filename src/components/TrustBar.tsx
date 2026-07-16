@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 /* ─── brand logos (real culinary brands - colorful original colors) ──────── */
 const BRANDS = [
   { name: "Virsa Restro", localImg: "/images/logos/virsa.jpg" },
@@ -73,7 +74,7 @@ function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
               aria-label={item.name}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", minWidth: "80px" }}
             >
-              <img src={item.localImg} alt={item.name} width={44} height={44} loading="lazy" className="tb-brand-logo" />
+              <Image src={item.localImg} alt={item.name} width={44} height={44} className="tb-brand-logo" />
               <span className="tb-brand-name">{item.name}</span>
             </div>
           );
@@ -139,8 +140,6 @@ export default function TrustBar() {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.5 }}
       >
-        <div className="tb-edge tb-edge-l" />
-        <div className="tb-edge tb-edge-r" />
         <MarqueeRow reverse={true} />
         <MarqueeRow reverse={false} />
       </motion.div>
@@ -251,20 +250,14 @@ export default function TrustBar() {
         /* ── belt wrapper ────────────────────────────────────────────── */
         .tb-belt {
           position: relative; padding: 0.5rem 0 1rem;
-          background: var(--bg-secondary);
+          background: transparent;
           overflow: hidden;
           opacity: 0; transform: translateY(16px);
           transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
+          -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+          mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
         }
         .tb-belt.tb-belt-in { opacity: 1; transform: translateY(0); }
-
-        /* edge fade masks */
-        .tb-edge {
-          position: absolute; top: 0; bottom: 0; width: 140px;
-          z-index: 5; pointer-events: none;
-        }
-        .tb-edge-l { left:  0; background: linear-gradient(to right,  var(--bg-secondary), transparent); }
-        .tb-edge-r { right: 0; background: linear-gradient(to left,   var(--bg-secondary), transparent); }
 
         /* ── marquee viewport + track ────────────────────────────────── */
         .tb-marquee-viewport {
@@ -290,7 +283,7 @@ export default function TrustBar() {
           justify-content: center;
           padding: 0.5rem 3.5rem;
           cursor: default;
-          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+          transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           opacity: 0.75;
         }
         .tb-icon-item:hover {

@@ -704,7 +704,7 @@ export default function ModulesShowcase() {
           position: relative;
           overflow: hidden;
           cursor: pointer;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
           display: flex;
           align-items: center;
@@ -712,8 +712,9 @@ export default function ModulesShowcase() {
         }
 
         .desktop-panel:hover {
-          border-color: rgba(0, 0, 0, 0.12);
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+          border-color: rgba(227, 6, 19, 0.25);
+          box-shadow: 0 15px 35px rgba(227, 6, 19, 0.08);
+          transform: translateY(-4px) scale(1.01);
         }
 
         .desktop-panel.active {
@@ -868,6 +869,15 @@ export default function ModulesShowcase() {
           min-width: 0;
         }
 
+        .expanded-visual-container img {
+          transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .desktop-panel:hover .expanded-visual-container img,
+        .tablet-panel:hover .expanded-visual-container img,
+        .mobile-panel:hover .expanded-visual-container img {
+          transform: scale(1.03);
+        }
+
         /* Tablet Layout Styles */
         .accordion-tablet {
           display: none;
@@ -889,6 +899,12 @@ export default function ModulesShowcase() {
           cursor: pointer;
           position: relative;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+          transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .tablet-panel:hover {
+          border-color: rgba(227, 6, 19, 0.25);
+          box-shadow: 0 12px 28px rgba(227, 6, 19, 0.08);
+          transform: translateY(-2px);
         }
 
         .tablet-panel.collapsed {
@@ -978,6 +994,11 @@ export default function ModulesShowcase() {
           cursor: pointer;
           position: relative;
           width: 100%;
+          transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .mobile-panel:hover {
+          border-color: rgba(227, 6, 19, 0.25);
+          box-shadow: 0 8px 24px rgba(227, 6, 19, 0.08);
         }
 
         .collapsed-mobile-view {

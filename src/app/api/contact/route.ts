@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 

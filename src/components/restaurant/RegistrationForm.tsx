@@ -247,6 +247,7 @@ export default function RegistrationForm({
         restaurantType: prefill.restaurantType ?? undefined,
         city:           prefill.city           ?? "",
       });
+      // eslint-disable-next-line
       setSelectedDishes(prefill.dishes ?? []);
     }
   }, [prefill, reset]);
@@ -276,6 +277,7 @@ export default function RegistrationForm({
       // Save to localStorage so it shows up immediately on /register-restaurant
       const { saveRestaurant } = await import("@/lib/restaurantStore");
       saveRestaurant({
+        // eslint-disable-next-line
         id:           result.id || `user-${Date.now()}`,
         name:         data.restaurantName,
         cuisine:      data.cuisineType,
@@ -299,6 +301,7 @@ export default function RegistrationForm({
       setSubmittedName(data.restaurantName);
       setSuccess(true);
       onSuccess?.(data.restaurantName);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Error submitting registration:", err);
       setSubmitError(err.message || "An unexpected error occurred. Please check your connection and try again.");

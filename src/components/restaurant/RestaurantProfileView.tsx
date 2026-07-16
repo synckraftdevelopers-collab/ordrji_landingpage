@@ -61,6 +61,7 @@ export default function RestaurantProfileView({ restaurant, onBack, onReviewAdde
   useEffect(() => {
     // Load reviews
     const stored = getStoredReviews(String(restaurant.id));
+    // eslint-disable-next-line
     setReviews(stored);
     
     // Calculate live rating

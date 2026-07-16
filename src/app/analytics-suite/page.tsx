@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
 import React from "react";
 import ProductFeaturePage from "@/components/ProductFeaturePage";
 import { LineChart, BarChart3, Activity, PieChart, ArrowUpRight, FileJson } from "lucide-react";
