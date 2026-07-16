@@ -388,6 +388,21 @@ export default function Footer() {
         }
         .ft-bottom-link:hover { color: rgba(255,255,255,0.7); }
 
+        @media (max-width: 639px) {
+          .ft-grid { text-align: center; }
+          .ft-brand-col { align-items: center; }
+          .ft-socials { justify-content: center; }
+          .ft-trust-row { justify-content: center; }
+          .ft-link-list { align-items: center; }
+          .ft-newsletter-col { align-items: center; }
+          .ft-bottom { flex-direction: column; text-align: center; }
+          .ft-bottom-links { justify-content: center; margin-top: 1rem; }
+          .ft-email-form { flex-direction: column; border-radius: 12px; width: 100%; background: transparent; border: none; gap: 0.5rem; }
+          .ft-email-form:focus-within { border-color: transparent; }
+          .ft-email-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; }
+          .ft-email-btn { width: 100%; height: 44px; border-radius: 8px; }
+        }
+
       `}</style>
     </footer>
   );

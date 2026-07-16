@@ -331,6 +331,32 @@ export default function Hero({ onBookDemo }: HeroProps) {
           align-items: flex-start;
         }
 
+        @media (max-width: 768px) {
+          .hero-text-block {
+            align-items: center;
+            text-align: center;
+          }
+          .hero-ctas {
+            flex-direction: column !important;
+          }
+          .hero-ctas > * {
+            width: 100%;
+            justify-content: center;
+          }
+          .hero-location-widget {
+            text-align: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+          }
+          .hero-metrics-summary {
+            justify-content: center;
+          }
+          .hide-mobile {
+            display: none;
+          }
+        }
+
         .badge {
           display: inline-flex;
           align-items: center;

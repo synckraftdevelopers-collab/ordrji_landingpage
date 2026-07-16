@@ -223,7 +223,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               <button 
                 onClick={() => setIsMobileResourcesOpen(v => !v)}
                 className="pf-mobile-link pf-mobile-dropdown-trigger"
-                style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer" }}
+                style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", minHeight: "44px" }}
               >
                 <span>Resources</span>
                 <ChevronDown size={16} style={{ transition: "transform 0.2s", transform: isMobileResourcesOpen ? "rotate(180deg)" : "none", color: "var(--text-secondary)" }} />
@@ -380,6 +380,12 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         .pf-logo-link.done  .pf-logo-img {
           width: 90px; height: 90px;
         }
+        @media (max-width: 768px) {
+          .pf-logo-link.move  .pf-logo-img,
+          .pf-logo-link.done  .pf-logo-img {
+            width: 70px; height: 70px;
+          }
+        }
 
         /* wordmark hidden */
         .pf-logo-wordmark { display: none; }
@@ -389,6 +395,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           display: flex;
           align-items: center;
           gap: 2.5rem;
+        }
+        @media (max-width: 1024px) {
+          .pf-nav { gap: 1.5rem; }
         }
 
         .pf-nav-link {
@@ -530,6 +539,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           color: var(--text-secondary); text-decoration: none;
           letter-spacing: 0.3px;
           transition: color 0.2s;
+          display: flex;
+          align-items: center;
+          min-height: 44px;
         }
         .pf-mobile-link:hover { color: var(--accent-orange); }
         .pf-mobile-muted { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }

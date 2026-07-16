@@ -73,8 +73,8 @@ function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
               aria-label={item.name}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", minWidth: "80px" }}
             >
-              <img src={item.localImg} alt={item.name} width={44} height={44} loading="lazy" style={{ objectFit: "contain", borderRadius: "8px" }} />
-              <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>{item.name}</span>
+              <img src={item.localImg} alt={item.name} width={44} height={44} loading="lazy" className="tb-brand-logo" />
+              <span className="tb-brand-name">{item.name}</span>
             </div>
           );
         })}
@@ -284,7 +284,6 @@ export default function TrustBar() {
         @keyframes tbScroll    { from { transform: translate3d(0, 0, 0);     } to { transform: translate3d(-50%, 0, 0); } }
         @keyframes tbScrollRev { from { transform: translate3d(-50%, 0, 0);  } to { transform: translate3d(0, 0, 0);    } }
 
-        /* ── icon items ──────────────────────────────────────────────── */
         .tb-icon-item {
           display: flex;
           align-items: center;
@@ -297,6 +296,21 @@ export default function TrustBar() {
         .tb-icon-item:hover {
           transform: scale(1.15);
           opacity: 1;
+        }
+
+        .tb-brand-logo {
+          width: 44px; height: 44px;
+          object-fit: contain; border-radius: 8px;
+        }
+        .tb-brand-name {
+          font-size: 13px; font-weight: 600; color: var(--text-secondary); white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+          .tb-icon-item { padding: 0.5rem 2rem; }
+          .tb-brand-logo { width: 34px; height: 34px; }
+          .tb-brand-name { font-size: 11px; }
+          .tb-edge { width: 80px; }
         }
 
       `}</style>
