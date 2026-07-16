@@ -82,7 +82,11 @@ export async function POST(req: NextRequest) {
       faqSchema = [],
       scheduledPublishDate,
       createdBy,
-      createdDate
+      createdDate,
+      facebookUrl = "",
+      twitterUrl = "",
+      linkedinUrl = "",
+      instagramUrl = ""
     } = body;
 
     if (!title || !description) {
@@ -168,7 +172,11 @@ export async function POST(req: NextRequest) {
       lastUpdatedDate: finalDateStr,
       lastUpdatedTime: timeStr,
       timezone: "Asia/Kolkata",
-      readingTime
+      readingTime,
+      facebookUrl,
+      twitterUrl,
+      linkedinUrl,
+      instagramUrl
     };
 
     if (status === "Published") {

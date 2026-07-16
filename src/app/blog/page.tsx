@@ -44,6 +44,7 @@ export default function BlogLandingPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -148,85 +149,102 @@ export default function BlogLandingPage() {
             <div className="empty-state">
               <p>No published posts available.</p>
             </div>
-          ) : (
-            <div className="turiya-blog-sections">
-              {categories.map(category => {
-                const categoryPosts = posts.filter(p => p.categoryId === category.id);
-                if (categoryPosts.length === 0) return null;
-                
-                return (
-                  <div key={category.id} className="turiya-blog-category-section">
-                    <h2 className="turiya-section-heading">{category.name}</h2>
-                    <div className="turiya-blog-grid">
-                      {categoryPosts.map((post) => (
-                        <article key={post.id} className="turiya-post-card">
-                          <Link href={"/blog/" + post.slug} className="turiya-post-image-link">
-                            <div className="turiya-post-image-wrap">
-                              <img src={post.coverImage} alt={post.title} className="turiya-post-image" />
-                            </div>
-                          </Link>
-                          <div className="turiya-post-content">
-                            <div className="turiya-post-category">
-                              <Link href="#">{category.name}</Link>
-                            </div>
-                            <h2 className="turiya-post-title">
-                              <Link href={"/blog/" + post.slug}>{post.title}</Link>
-                            </h2>
-                            <div className="turiya-post-meta">
-                              <div className="turiya-post-author">
-                                <UserCircle2 size={32} className="author-avatar-icon" />
-                                <span className="author-by">by</span>
-                                <span className="author-name">{post.createdBy}</span>
-                              </div>
-                              <div className="turiya-post-date">
-                                <time>{post.createdDate}</time>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                      ))}
-                    </div>
+          ) : (() => {
+            const filteredPosts = posts.filter(post => {
+              const query = searchQuery.toLowerCase().trim();
+              if (!query) return true;
+              return (
+                post.title.toLowerCase().includes(query) ||
+                post.description.toLowerCase().includes(query) ||
+                (post.content || "").toLowerCase().includes(query) ||
+                (post.createdBy || "").toLowerCase().includes(query)
+              );
+            });
+            const recentPosts = posts.slice(0, 5);
+
+            return (
+              <div className="blog-workspace">
+                {/* Left Column: Sidebar - Recently Uploaded */}
+                <aside className="blog-recent-sidebar">
+                  <h3 className="sidebar-title">Recently Uploaded</h3>
+                  <div className="recent-posts-list">
+                    {recentPosts.map((rp) => (
+                      <Link key={rp.id} href={`/blog/${rp.slug}`} className="recent-post-item">
+                        <img src={rp.coverImage} alt={rp.title} className="recent-post-thumb" />
+                        <div className="recent-post-info">
+                          <h4 className="recent-post-title">{rp.title}</h4>
+                          <span className="recent-post-date">{rp.createdDate}</span>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                );
-              })}
-              
-              {/* Fallback for posts without a valid category */}
-              {posts.filter(p => !categories.find(c => c.id === p.categoryId)).length > 0 && (
-                <div className="turiya-blog-category-section">
-                  <h2 className="turiya-section-heading">Other</h2>
-                  <div className="turiya-blog-grid">
-                    {posts.filter(p => !categories.find(c => c.id === p.categoryId)).map((post) => (
+                </aside>
+
+                {/* Right Column: Main area with search and grid */}
+                <section className="blog-main-area">
+                  {/* Premium Search Input */}
+                  <div className="blog-search-bar-wrap">
+                    <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5" style={{ flexShrink: 0 }}>
+                      <circle cx="11" cy="11" r="8"/>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input
+                      type="text"
+                      className="blog-search-input"
+                      placeholder="Search blogs by title, keywords or author..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {searchQuery && (
+                      <button onClick={() => setSearchQuery("")} className="search-clear-btn" title="Clear search">
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Articles Grid */}
+                  <div className="blog-articles-grid">
+                    {filteredPosts.map((post) => (
                       <article key={post.id} className="turiya-post-card">
                         <Link href={"/blog/" + post.slug} className="turiya-post-image-link">
                           <div className="turiya-post-image-wrap">
                             <img src={post.coverImage} alt={post.title} className="turiya-post-image" />
                           </div>
                         </Link>
-                        <div className="turiya-post-content">
-                          <div className="turiya-post-category">
-                            <Link href="#">Technology</Link>
+                        <div className="turiya-post-content" style={{ padding: "18px 0" }}>
+                          <div className="turiya-post-category" style={{ marginBottom: "8px" }}>
+                            <span style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", color: "var(--accent-red, #e30613)", letterSpacing: "0.4px" }}>
+                              {categories.find(c => c.id === post.categoryId)?.name || "Technology"}
+                            </span>
                           </div>
-                          <h2 className="turiya-post-title">
+                          <h2 className="turiya-post-title" style={{ fontSize: "1.25rem", marginBottom: "10px" }}>
                             <Link href={"/blog/" + post.slug}>{post.title}</Link>
                           </h2>
+                          <p style={{ fontSize: "0.85rem", color: "#64748b", lineHeight: 1.5, margin: "0 0 1rem", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                            {post.description}
+                          </p>
                           <div className="turiya-post-meta">
                             <div className="turiya-post-author">
-                              <UserCircle2 size={32} className="author-avatar-icon" />
-                              <span className="author-by">by</span>
-                              <span className="author-name">{post.createdBy}</span>
+                              <UserCircle2 size={24} className="author-avatar-icon" />
+                              <span className="author-name" style={{ fontSize: "0.78rem" }}>{post.createdBy}</span>
                             </div>
                             <div className="turiya-post-date">
-                              <time>{post.createdDate}</time>
+                              <time style={{ fontSize: "0.78rem" }}>{post.createdDate}</time>
                             </div>
                           </div>
                         </div>
                       </article>
                     ))}
+                    {filteredPosts.length === 0 && (
+                      <div className="no-search-results" style={{ gridColumn: "1/-1", padding: "4rem 1.5rem", textAlign: "center", border: "1px dashed #cbd5e1", borderRadius: "12px", background: "#f8fafc" }}>
+                        <p style={{ color: "#64748b", margin: 0 }}>No articles found matching &ldquo;<strong>{searchQuery}</strong>&rdquo;.</p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              )}
-            </div>
-          )}
+                </section>
+              </div>
+            );
+          })()}
         </div>
       </main>
 
@@ -305,6 +323,161 @@ export default function BlogLandingPage() {
 
       {/* Turiya Replicated Styles */}
       <style jsx global>{`
+        /* QueueBuster layout overrides */
+        .blog-workspace {
+          display: flex;
+          gap: 40px;
+          margin-top: 2rem;
+          width: 100%;
+        }
+
+        .blog-recent-sidebar {
+          width: 280px;
+          flex-shrink: 0;
+          position: sticky;
+          top: 100px;
+          height: fit-content;
+        }
+
+        .sidebar-title {
+          font-size: 1.05rem;
+          font-weight: 850;
+          color: #0f172a;
+          margin-top: 0;
+          margin-bottom: 1.25rem;
+          padding-bottom: 0.75rem;
+          border-bottom: 2px solid var(--accent-red, #e30613);
+          letter-spacing: -0.3px;
+        }
+
+        .recent-posts-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+
+        .recent-post-item {
+          display: flex;
+          gap: 0.85rem;
+          align-items: center;
+          text-decoration: none;
+          padding-bottom: 0.85rem;
+          border-bottom: 1px solid #f1f5f9;
+          transition: transform 0.15s;
+        }
+
+        .recent-post-item:hover {
+          transform: translateX(3px);
+        }
+
+        .recent-post-thumb {
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 8px;
+          background: #f1f5f9;
+          flex-shrink: 0;
+        }
+
+        .recent-post-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+          min-width: 0;
+        }
+
+        .recent-post-title {
+          font-size: 0.78rem;
+          font-weight: 750;
+          color: #1e293b;
+          margin: 0;
+          line-height: 1.35;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+        .recent-post-title:hover {
+          color: var(--accent-red, #e30613);
+        }
+
+        .recent-post-date {
+          font-size: 0.68rem;
+          color: #94a3b8;
+        }
+
+        .blog-main-area {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .blog-search-bar-wrap {
+          display: flex;
+          align-items: center;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 10px;
+          padding: 0.75rem 1.15rem;
+          gap: 0.75rem;
+          margin-bottom: 2rem;
+          position: relative;
+        }
+
+        .blog-search-bar-wrap:focus-within {
+          border-color: var(--accent-red, #e30613);
+          box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.08);
+          background: #ffffff;
+        }
+
+        .blog-search-input {
+          border: none;
+          background: transparent;
+          font-family: inherit;
+          font-size: 0.9rem;
+          color: #0f172a;
+          width: 100%;
+          outline: none;
+        }
+
+        .search-clear-btn {
+          background: #e2e8f0;
+          border: none;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.65rem;
+          cursor: pointer;
+          color: #64748b;
+          transition: background 0.15s;
+        }
+
+        .search-clear-btn:hover {
+          background: #cbd5e1;
+          color: #0f172a;
+        }
+
+        .blog-articles-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+          .blog-workspace {
+            flex-direction: column;
+            gap: 2rem;
+          }
+          .blog-recent-sidebar {
+            width: 100%;
+            position: static;
+          }
+        }
+
         .turiya-blog-root {
           background-color: #ffffff;
           min-height: 100vh;

@@ -72,6 +72,10 @@ export interface BlogPost {
   deletedDate?: string;
   timezone: string;
   readingTime: string;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  linkedinUrl?: string;
+  instagramUrl?: string;
 }
 
 export interface BlogRevision {

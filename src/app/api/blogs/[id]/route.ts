@@ -55,7 +55,11 @@ export async function PUT(
       scheduledPublishDate,
       summaryOfChanges = "Updated article details",
       createdBy,
-      createdDate
+      createdDate,
+      facebookUrl,
+      twitterUrl,
+      linkedinUrl,
+      instagramUrl
     } = body;
 
     const blogs = readTable<BlogPost>("blogs");
@@ -110,7 +114,11 @@ export async function PUT(
       lastEditedBy: user,
       lastUpdatedDate: dateStr,
       lastUpdatedTime: timeStr,
-      readingTime
+      readingTime,
+      facebookUrl: facebookUrl !== undefined ? facebookUrl : currentBlog.facebookUrl,
+      twitterUrl: twitterUrl !== undefined ? twitterUrl : currentBlog.twitterUrl,
+      linkedinUrl: linkedinUrl !== undefined ? linkedinUrl : currentBlog.linkedinUrl,
+      instagramUrl: instagramUrl !== undefined ? instagramUrl : currentBlog.instagramUrl
     };
 
     // Workflow dates handling
