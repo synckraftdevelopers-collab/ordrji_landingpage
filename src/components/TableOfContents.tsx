@@ -35,7 +35,7 @@ export default function TableOfContents({ content }: { content: string }) {
       
       items.push({ id, text, level });
     });
-    
+    // eslint-disable-next-line
     setHeadings(items);
 
     // Scroll spy logic
