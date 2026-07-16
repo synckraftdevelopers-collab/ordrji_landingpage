@@ -62,11 +62,15 @@ export default async function BlogPostPage({ params }: Props) {
   const role = cookieStore.get("ordrji_role")?.value || "Visitor";
 
   const blogs = readTable<BlogPost>("blogs");
-  const blog = blogs.find(b => b.slug === slug);
+  const blog = blogs.find(b => b.id === slug || b.slug === slug);
 
   if (!blog) {
     notFound();
   }
+
+  const publishedBlogs = blogs.filter(b => b.status === "Published");
+  const recentlyAdded = publishedBlogs.slice(0, 5);
+  const popularPosts = publishedBlogs.filter(b => b.isFeatured).slice(0, 5);
 
   // Security Access Check:
   // If blog is not Published, only allow Admin & Super Admin to see it
@@ -243,6 +247,44 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="sticky-sidebar-wrap">
                   <SocialShare title={blog.title} url={blog.canonicalUrl || `https://ordrji.com/blog/${slug}`} />
                   <TableOfContents content={blog.content} />
+
+                  {/* Recently Added Widget */}
+                  <div className="sidebar-widget" style={{ marginTop: "2rem", borderTop: "1px solid var(--border-color)", paddingTop: "1.5rem" }}>
+                    <h4 style={{ fontSize: "0.78rem", fontWeight: 800, textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.5px", marginBottom: "1rem" }}>
+                      Recently Added
+                    </h4>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                      {recentlyAdded.map(rp => (
+                        <Link key={rp.id} href={`/blog/${rp.slug}`} style={{ display: "flex", gap: "0.6rem", alignItems: "center", textDecoration: "none", color: "inherit" }} className="widget-post-link">
+                          <img src={rp.coverImage} alt={rp.title} style={{ width: "40px", height: "40px", borderRadius: "6px", objectFit: "cover", flexShrink: 0 }} />
+                          <div style={{ minWidth: 0 }}>
+                            <h5 style={{ fontSize: "0.74rem", fontWeight: 700, margin: 0, color: "var(--text-primary)", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                              {rp.title}
+                            </h5>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Popular Posts Widget */}
+                  <div className="sidebar-widget" style={{ marginTop: "2rem", borderTop: "1px solid var(--border-color)", paddingTop: "1.5rem" }}>
+                    <h4 style={{ fontSize: "0.78rem", fontWeight: 800, textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.5px", marginBottom: "1rem" }}>
+                      Popular Posts
+                    </h4>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                      {popularPosts.map(pp => (
+                        <Link key={pp.id} href={`/blog/${pp.slug}`} style={{ display: "flex", gap: "0.6rem", alignItems: "center", textDecoration: "none", color: "inherit" }} className="widget-post-link">
+                          <img src={pp.coverImage} alt={pp.title} style={{ width: "40px", height: "40px", borderRadius: "6px", objectFit: "cover", flexShrink: 0 }} />
+                          <div style={{ minWidth: 0 }}>
+                            <h5 style={{ fontSize: "0.74rem", fontWeight: 700, margin: 0, color: "var(--text-primary)", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                              {pp.title}
+                            </h5>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </aside>
 

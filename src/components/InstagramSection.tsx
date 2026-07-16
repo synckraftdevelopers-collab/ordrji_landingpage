@@ -105,7 +105,7 @@ export default function InstagramSection() {
 
         if (data && data.length > 0) {
           setPosts(
-            data.map((p) => ({
+            data.map((p: any) => ({
               id: p.id,
               src: p.media_url,
               alt: p.caption || "Instagram post",

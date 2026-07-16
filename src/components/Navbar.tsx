@@ -89,8 +89,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <div
               className="pf-logo-placeholder"
               style={{
-                width: "90px",
-                height: "90px",
+                width: "120px",
+                height: "120px",
                 flexShrink: 0,
                 visibility: "hidden"
               }}
@@ -374,16 +374,16 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           transition: width 0.75s cubic-bezier(0.16,1,0.3,1),
                       height 0.75s cubic-bezier(0.16,1,0.3,1);
           /* center phase: large */
-          width: 160px; height: 160px;
+          width: 220px; height: 220px;
         }
         .pf-logo-link.move  .pf-logo-img,
         .pf-logo-link.done  .pf-logo-img {
-          width: 90px; height: 90px;
+          width: 120px; height: 120px;
         }
         @media (max-width: 768px) {
           .pf-logo-link.move  .pf-logo-img,
           .pf-logo-link.done  .pf-logo-img {
-            width: 70px; height: 70px;
+            width: 90px; height: 90px;
           }
         }
 

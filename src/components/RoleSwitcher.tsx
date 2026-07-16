@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { Shield, ChevronDown, Check, Eye } from "lucide-react";
 
@@ -29,9 +29,17 @@ export default function RoleSwitcher() {
     return null;
   };
 
-  // Lazy initialization from cookies
-  const [activeRole, setActiveRole] = useState<string>(() => getCookie("ordrji_role") || "Visitor");
+  const [activeRole, setActiveRole] = useState<string>("Visitor");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const savedRole = getCookie("ordrji_role");
+    if (savedRole) {
+      setActiveRole(savedRole);
+    }
+  }, []);
 
   const handleRoleChange = useCallback((role: string, username: string) => {
     // Set cookies with a 1-day expiry
@@ -45,6 +53,10 @@ export default function RoleSwitcher() {
     // Refresh the page to trigger server component reload
     window.location.reload();
   }, []);
+
+  if (!mounted) {
+    return null; // Prevents SSR/hydration mismatch
+  }
 
   return (
     <div className="role-switcher-container">

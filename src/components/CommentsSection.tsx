@@ -34,7 +34,7 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
           return;
         }
 
-        const postId = postData.id;
+        const postId = (postData as any).id;
         setSupabasePostId(postId);
 
         // 2. Fetch comments for this UUID
@@ -48,7 +48,7 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
 
         if (data && data.length > 0) {
           setComments(
-            data.map((c) => ({
+            data.map((c: any) => ({
               id: c.id,
               name: c.author_name,
               comment: c.comment_text,
@@ -99,18 +99,19 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
           author_name: name.trim(),
           comment_text: commentText.trim(),
           is_approved: true, // Auto-approve so it shows up immediately
-        })
+        } as any)
         .select()
         .single();
 
       if (error) throw error;
 
       if (data) {
+        const commentData = data as any;
         const newComment: Comment = {
-          id: data.id,
-          name: data.author_name,
-          comment: data.comment_text,
-          date: new Date(data.created_at).toLocaleDateString("en-US", {
+          id: commentData.id,
+          name: commentData.author_name,
+          comment: commentData.comment_text,
+          date: new Date(commentData.created_at).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
             year: "numeric",

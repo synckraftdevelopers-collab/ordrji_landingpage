@@ -14,6 +14,7 @@ interface BlogPost {
   title: string;
   slug: string;
   description: string;
+  content?: string;
   coverImage: string;
   categoryId: string;
   tags: string[];
@@ -49,6 +50,7 @@ export default function BlogLandingPage() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isAdminPromptOpen, setIsAdminPromptOpen] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [promptError, setPromptError] = useState("");
   const [promptSuccess, setPromptSuccess] = useState(false);
@@ -56,38 +58,34 @@ export default function BlogLandingPage() {
 
   const handleAdminVerify = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!adminPassword) return;
+    if (!adminEmail || !adminPassword) return;
 
     setPromptLoading(true);
     setPromptError("");
 
     try {
-      let emailToTry = "admin@ordrji.com";
-      if (adminPassword === "Super@123") {
-        emailToTry = "superadmin@ordrji.com";
-      }
-
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: emailToTry, password: adminPassword })
+        body: JSON.stringify({ email: adminEmail, password: adminPassword })
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Incorrect admin password.");
+        throw new Error(data.error || "Incorrect email or password.");
       }
 
       setPromptSuccess(true);
       setTimeout(() => {
         setIsAdminPromptOpen(false);
+        setAdminEmail("");
         setAdminPassword("");
         setPromptSuccess(false);
         window.location.href = "/dashboard/admin/blogs";
       }, 1000);
     } catch (err: unknown) {
-      setPromptError(err instanceof Error ? err.message : "Invalid password.");
+      setPromptError(err instanceof Error ? err.message : "Invalid credentials.");
     } finally {
       setPromptLoading(false);
     }
@@ -261,6 +259,7 @@ export default function BlogLandingPage() {
               className="admin-modal-close"
               onClick={() => {
                 setIsAdminPromptOpen(false);
+                setAdminEmail("");
                 setAdminPassword("");
                 setPromptError("");
               }}
@@ -291,6 +290,22 @@ export default function BlogLandingPage() {
 
             <form onSubmit={handleAdminVerify} className="admin-modal-form">
               <div className="admin-form-group">
+                <label className="admin-form-label" htmlFor="admin-email-input">Admin Email / ID</label>
+                <input
+                  id="admin-email-input"
+                  type="email"
+                  className="admin-form-input"
+                  placeholder="Enter admin email ID"
+                  value={adminEmail}
+                  onChange={(e) => setAdminEmail(e.target.value)}
+                  disabled={promptLoading || promptSuccess}
+                  autoFocus
+                  required
+                  style={{ marginBottom: "1rem" }}
+                />
+              </div>
+
+              <div className="admin-form-group">
                 <label className="admin-form-label" htmlFor="admin-pass-input">Password</label>
                 <input
                   id="admin-pass-input"
@@ -300,7 +315,6 @@ export default function BlogLandingPage() {
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
                   disabled={promptLoading || promptSuccess}
-                  autoFocus
                   required
                 />
               </div>
@@ -309,11 +323,12 @@ export default function BlogLandingPage() {
                 type="submit"
                 className="admin-submit-btn"
                 disabled={promptLoading || promptSuccess}
+                style={{ marginTop: "1rem" }}
               >
                 {promptLoading ? (
                   <span className="spinner-loader" />
                 ) : (
-                  <span>Verify Password</span>
+                  <span>Sign In</span>
                 )}
               </button>
             </form>

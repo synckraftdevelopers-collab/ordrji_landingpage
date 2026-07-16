@@ -153,6 +153,11 @@ export default function RestaurantsPage() {
         reviews: reviewsCount,
         baseRating,
         baseReviewsCount,
+        swiggyUrl: undefined as string | undefined,
+        zomatoUrl: undefined as string | undefined,
+        phone: "" as string,
+        email: "" as string,
+        address: "" as string,
       };
     });
 

@@ -20,6 +20,7 @@ export interface StoredRestaurant {
   registeredAt: string;
   badge: string;
   badgeColor: string;
+  address?: string;
 }
 
 export interface RestaurantReview {

@@ -30,6 +30,10 @@ interface BlogPost {
   createdDate: string;
   createdTime?: string;
   readingTime: string;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  linkedinUrl?: string;
+  instagramUrl?: string;
 }
 
 interface Category {
@@ -82,6 +86,101 @@ export default function AdminBlogsPage() {
   const [formTwitterUrl, setFormTwitterUrl] = useState("");
   const [formLinkedinUrl, setFormLinkedinUrl] = useState("");
   const [formInstagramUrl, setFormInstagramUrl] = useState("");
+
+  // Admins management states
+  const [currentTab, setCurrentTab] = useState<"blogs" | "admins">("blogs");
+  const [users, setUsers] = useState<any[]>([]);
+  const [adminRows, setAdminRows] = useState([
+    { email: "", password: "", name: "", designation: "Admin Contributor", role: "Admin" }
+  ]);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("/api/auth/users");
+      if (res.ok) {
+        setUsers(await res.json());
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (currentTab === "admins") {
+      fetchUsers();
+    }
+  }, [currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleDeleteUser = async (userId: string, name: string) => {
+    if (userId === "user-super") {
+      alert("The primary Super Admin account cannot be deleted.");
+      return;
+    }
+    if (confirm(`Are you sure you want to delete the administrator account for "${name}"?`)) {
+      try {
+        const res = await fetch(`/api/auth/users?id=${userId}`, { method: "DELETE" });
+        if (res.ok) {
+          alert("Administrator account deleted successfully!");
+          fetchUsers();
+        } else {
+          const err = await res.json();
+          alert(`Error: ${err.error || "Failed to delete account"}`);
+        }
+      } catch (e) {
+        alert("An error occurred while deleting the account.");
+      }
+    }
+  };
+
+  const handleSaveAdmins = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    for (let i = 0; i < adminRows.length; i++) {
+      const row = adminRows[i];
+      if (!row.email.trim() || !row.password.trim() || !row.name.trim()) {
+        alert(`Please fill in the Name, Email, and Password for all rows. Row ${i + 1} is incomplete.`);
+        return;
+      }
+    }
+
+    try {
+      const res = await fetch("/api/auth/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(adminRows)
+      });
+
+      if (res.ok) {
+        alert("Administrators added successfully!");
+        setAdminRows([{ email: "", password: "", name: "", designation: "Admin Contributor", role: "Admin" }]);
+        fetchUsers();
+      } else {
+        const err = await res.json();
+        alert(`Error: ${err.error || "Failed to add administrators"}`);
+      }
+    } catch (e) {
+      alert("An error occurred while saving the administrator accounts.");
+    }
+  };
+
+  const handleAddRow = () => {
+    setAdminRows([...adminRows, { email: "", password: "", name: "", designation: "Admin Contributor", role: "Admin" }]);
+  };
+
+  const handleRemoveRow = (index: number) => {
+    if (adminRows.length === 1) return;
+    setAdminRows(adminRows.filter((_, idx) => idx !== index));
+  };
+
+  const handleRowChange = (index: number, field: string, value: string) => {
+    const updated = adminRows.map((row, idx) => {
+      if (idx === index) {
+        return { ...row, [field]: value };
+      }
+      return row;
+    });
+    setAdminRows(updated);
+  };
 
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -386,6 +485,14 @@ export default function AdminBlogsPage() {
         </div>
 
         <div className="header-actions">
+          <button 
+            type="button"
+            onClick={() => setCurrentTab(currentTab === "blogs" ? "admins" : "blogs")} 
+            className="btn-secondary flex-btn"
+            style={{ fontWeight: 800, borderColor: "var(--accent-orange)", background: "rgba(227,6,19,0.04)", color: "var(--accent-orange)" }}
+          >
+            {currentTab === "blogs" ? "Manage Admins 👥" : "Blogs Manager 📝"}
+          </button>
           <Link href="/dashboard/admin/leads" className="btn-secondary flex-btn" style={{ position: "relative" }}>
             <Bell size={14} />
             <span>Demo Leads</span>
@@ -412,414 +519,620 @@ export default function AdminBlogsPage() {
       </header>
 
       {/* Main Workspace split */}
-      <div className="cms-workspace-grid">
-        
-        {/* Left Side: Recent Articles Directory */}
-        <aside className="cms-directory-sidebar">
-          <div className="directory-header-row">
-            <h3>Directory</h3>
-            <button onClick={triggerNewBlog} className="btn-primary flex-btn write-btn">
-              <Plus size={14} />
-              <span>Write Post</span>
-            </button>
-          </div>
-
-          <div className="directory-posts-list">
-            {blogs.map((post) => (
-              <div key={post.id} className={`directory-card ${editingId === post.id ? "active-editing" : ""}`}>
-                <div className="dir-card-body">
-                  <h4>{post.title}</h4>
-                  <span className="dir-card-meta">
-                    By {post.createdBy || "Admin"} • {post.createdDate || "Today"}{post.createdTime ? ` at ${post.createdTime}` : ""}
-                  </span>
-                  <div className="dir-card-tags">
-                    <span className={`status-badge ${post.status.toLowerCase()}`}>
-                      {post.status}
-                    </span>
-                    <span className="cat-badge">
-                      {categories.find(c => c.id === post.categoryId)?.name || "Technology"}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="dir-card-actions" style={{ display: "flex", gap: "0.35rem" }}>
-                  <button 
-                    onClick={() => loadBlogToForm(post)} 
-                    className="dir-edit-btn"
-                    title="Load into Editor"
-                  >
-                    <Edit size={13} />
-                    <span>Edit</span>
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => handleDeleteBlog(post)} 
-                    className="dir-delete-btn"
-                    title="Delete Post"
-                  >
-                    <Trash2 size={13} />
-                    <span>Delete</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-            {blogs.length === 0 && (
-              <p className="no-posts-text">No articles found in the database. Click &ldquo;Write Post&rdquo; to seed your first post.</p>
-            )}
-          </div>
-        </aside>
-
-        {/* Right Side: Simple Creator/Editor Form */}
-        <main className="cms-editor-panel">
-          <form onSubmit={handleSaveBlog} className="editor-card">
-            <div className="editor-card-header">
-              <h2>{editingId ? "Modify Blog Article" : "Compose New Blog Article"}</h2>
-              <p>Fill out the fields to publish an insights article directly to the public resources portal.</p>
+      {currentTab === "blogs" ? (
+        <div className="cms-workspace-grid">
+          
+          {/* Left Side: Recent Articles Directory */}
+          <aside className="cms-directory-sidebar">
+            <div className="directory-header-row">
+              <h3>Directory</h3>
+              <button onClick={triggerNewBlog} className="btn-primary flex-btn write-btn">
+                <Plus size={14} />
+                <span>Write Post</span>
+              </button>
             </div>
 
-            <div className="editor-form-grid">
-              
-              {/* Row 1: Title & Slug */}
-              <div className="form-group span-2">
-                <label className="form-label" htmlFor="title-field">Article Title</label>
-                <input
-                  id="title-field"
-                  type="text"
-                  className="form-input"
-                  placeholder="e.g. How QR Code Ordering Increases Average Bill Value"
-                  value={formTitle}
-                  onChange={(e) => handleTitleChange(e.target.value)}
-                  required
-                />
+            <div className="directory-posts-list">
+              {blogs.map((post) => (
+                <div key={post.id} className={`directory-card ${editingId === post.id ? "active-editing" : ""}`}>
+                  <div className="dir-card-body">
+                    <h4>{post.title}</h4>
+                    <span className="dir-card-meta">
+                      By {post.createdBy || "Admin"} • {post.createdDate || "Today"}{post.createdTime ? ` at ${post.createdTime}` : ""}
+                    </span>
+                    <div className="dir-card-tags">
+                      <span className={`status-badge ${post.status.toLowerCase()}`}>
+                        {post.status}
+                      </span>
+                      <span className="cat-badge">
+                        {categories.find(c => c.id === post.categoryId)?.name || "Technology"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="dir-card-actions" style={{ display: "flex", gap: "0.35rem" }}>
+                    <button 
+                      onClick={() => loadBlogToForm(post)} 
+                      className="dir-edit-btn"
+                      title="Load into Editor"
+                    >
+                      <Edit size={13} />
+                      <span>Edit</span>
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => handleDeleteBlog(post)} 
+                      className="dir-delete-btn"
+                      title="Delete Post"
+                    >
+                      <Trash2 size={13} />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {blogs.length === 0 && (
+                <p className="no-posts-text">No articles found in the database. Click &ldquo;Write Post&rdquo; to seed your first post.</p>
+              )}
+            </div>
+          </aside>
+
+          {/* Right Side: Simple Creator/Editor Form */}
+          <main className="cms-editor-panel">
+            <form onSubmit={handleSaveBlog} className="editor-card">
+              <div className="editor-card-header">
+                <h2>{editingId ? "Modify Blog Article" : "Compose New Blog Article"}</h2>
+                <p>Fill out the fields to publish an insights article directly to the public resources portal.</p>
               </div>
 
-              <div className="form-group span-2">
-                <label className="form-label" htmlFor="slug-field">URL Slug (Auto Generated)</label>
-                <input
-                  id="slug-field"
-                  type="text"
-                  className="form-input slug-input"
-                  placeholder="e.g. qr-ordering-increases-sales"
-                  value={formSlug}
-                  onChange={(e) => setFormSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
-                  required
-                />
-              </div>
-
-              {/* Row 2: Author name & Publish Date */}
-              <div className="form-group">
-                <label className="form-label" htmlFor="author-field">Author Name</label>
-                <input
-                  id="author-field"
-                  type="text"
-                  className="form-input"
-                  placeholder="e.g. Rohan Mehta"
-                  value={formAuthor}
-                  onChange={(e) => setFormAuthor(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="date-field">Publish Date</label>
-                <input
-                  id="date-field"
-                  type="date"
-                  className="form-input"
-                  value={formDate}
-                  onChange={(e) => setFormDate(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Row 3: Category & Comma Tags */}
-              <div className="form-group">
-                <label className="form-label" htmlFor="category-field">Category Classification</label>
-                <select
-                  id="category-field"
-                  className="form-select"
-                  value={formCategoryId}
-                  onChange={(e) => setFormCategoryId(e.target.value)}
-                >
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="tags-field">Search Tags (Comma separated)</label>
-                <input
-                  id="tags-field"
-                  type="text"
-                  className="form-input"
-                  placeholder="pos, billing, qr-ordering"
-                  value={formTags}
-                  onChange={(e) => setFormTags(e.target.value)}
-                />
-              </div>
-
-              {/* Cover image url + presets selector */}
-              <div className="form-group span-2">
-                <label className="form-label">Cover Photo</label>
-                <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div className="editor-form-grid">
+                
+                {/* Row 1: Title & Slug */}
+                <div className="form-group span-2">
+                  <label className="form-label" htmlFor="title-field">Article Title</label>
                   <input
+                    id="title-field"
                     type="text"
                     className="form-input"
-                    placeholder="Paste cover photo URL or upload a file"
-                    value={formCoverImage}
-                    onChange={(e) => setFormCoverImage(e.target.value)}
+                    placeholder="e.g. How QR Code Ordering Increases Average Bill Value"
+                    value={formTitle}
+                    onChange={(e) => handleTitleChange(e.target.value)}
                     required
-                    style={{ flex: 1 }}
                   />
-                  <label 
-                    className="btn-secondary flex-btn" 
-                    style={{ 
-                      padding: "0.6rem 1rem", 
-                      fontSize: "0.85rem", 
-                      cursor: "pointer", 
-                      display: "flex", 
-                      alignItems: "center", 
-                      gap: "0.35rem",
-                      whiteSpace: "nowrap",
-                      border: "1px solid #cbd5e1",
-                      borderRadius: "6px",
-                      background: "#fff"
-                    }}
-                  >
-                    {uploading ? (
-                      <>
-                        <span className="cms-spinner" style={{ width: "12px", height: "12px", borderWidth: "2px" }} />
-                        <span>Uploading...</span>
-                      </>
-                    ) : (
-                      <>
-                        <ImageIcon size={14} />
-                        <span>Upload File</span>
-                      </>
-                    )}
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      style={{ display: "none" }} 
-                      onChange={handleFileUpload} 
-                      disabled={uploading}
-                    />
-                  </label>
                 </div>
-                
-                <div className="preset-images-picker">
-                  <span>Or select a preset:</span>
-                  <div className="preset-grid">
-                    {PRESET_IMAGES.map((img, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setFormCoverImage(img)}
-                        className={`preset-img-btn ${formCoverImage === img ? "selected" : ""}`}
-                        style={{ backgroundImage: `url(${img})` }}
-                        title="Pick Image"
-                      />
+
+                <div className="form-group span-2">
+                  <label className="form-label" htmlFor="slug-field">URL Slug (Auto Generated)</label>
+                  <input
+                    id="slug-field"
+                    type="text"
+                    className="form-input slug-input"
+                    placeholder="e.g. qr-ordering-increases-sales"
+                    value={formSlug}
+                    onChange={(e) => setFormSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
+                    required
+                  />
+                </div>
+
+                {/* Row 2: Author name & Publish Date */}
+                <div className="form-group">
+                  <label className="form-label" htmlFor="author-field">Author Name</label>
+                  <input
+                    id="author-field"
+                    type="text"
+                    className="form-input"
+                    placeholder="e.g. Rohan Mehta"
+                    value={formAuthor}
+                    onChange={(e) => setFormAuthor(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="date-field">Publish Date</label>
+                  <input
+                    id="date-field"
+                    type="date"
+                    className="form-input"
+                    value={formDate}
+                    onChange={(e) => setFormDate(e.target.value)}
+                    required
+                  />
+                </div>
+
+                {/* Row 3: Category & Comma Tags */}
+                <div className="form-group">
+                  <label className="form-label" htmlFor="category-field">Category Classification</label>
+                  <select
+                    id="category-field"
+                    className="form-select"
+                    value={formCategoryId}
+                    onChange={(e) => setFormCategoryId(e.target.value)}
+                  >
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="tags-field">Search Tags (Comma separated)</label>
+                  <input
+                    id="tags-field"
+                    type="text"
+                    className="form-input"
+                    placeholder="pos, billing, qr-ordering"
+                    value={formTags}
+                    onChange={(e) => setFormTags(e.target.value)}
+                  />
+                </div>
+
+                {/* Cover image url + presets selector */}
+                <div className="form-group span-2">
+                  <label className="form-label">Cover Photo</label>
+                  <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="Paste cover photo URL or upload a file"
+                      value={formCoverImage}
+                      onChange={(e) => setFormCoverImage(e.target.value)}
+                      required
+                      style={{ flex: 1 }}
+                    />
+                    <label 
+                      className="btn-secondary flex-btn" 
+                      style={{ 
+                        padding: "0.6rem 1rem", 
+                        fontSize: "0.85rem", 
+                        cursor: "pointer", 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: "0.35rem",
+                        whiteSpace: "nowrap",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "6px",
+                        background: "#fff"
+                      }}
+                    >
+                      {uploading ? (
+                        <>
+                          <span className="cms-spinner" style={{ width: "12px", height: "12px", borderWidth: "2px" }} />
+                          <span>Uploading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ImageIcon size={14} />
+                          <span>Upload File</span>
+                        </>
+                      )}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: "none" }} 
+                        onChange={handleFileUpload} 
+                        disabled={uploading}
+                      />
+                    </label>
+                  </div>
+                  
+                  <div className="preset-images-picker">
+                    <span>Or select a preset:</span>
+                    <div className="preset-grid">
+                      {PRESET_IMAGES.map((img, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setFormCoverImage(img)}
+                          className={`preset-img-btn ${formCoverImage === img ? "selected" : ""}`}
+                          style={{ backgroundImage: `url(${img})` }}
+                          title="Pick Image"
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Short Description */}
-              <div className="form-group span-2">
-                <label className="form-label" htmlFor="desc-field">Short Description (SEO Card summary)</label>
-                <textarea
-                  id="desc-field"
-                  className="form-textarea"
-                  placeholder="Summarize the article briefly for the search card preview..."
-                  rows={2}
-                  value={formDescription}
-                  onChange={(e) => setFormDescription(e.target.value)}
-                  required
-                />
-              </div>
+                {/* Short Description */}
+                <div className="form-group span-2">
+                  <label className="form-label" htmlFor="desc-field">Short Description (SEO Card summary)</label>
+                  <textarea
+                    id="desc-field"
+                    className="form-textarea"
+                    placeholder="Summarize the article briefly for the search card preview..."
+                    rows={2}
+                    value={formDescription}
+                    onChange={(e) => setFormDescription(e.target.value)}
+                    required
+                  />
+                </div>
 
-              {/* Content editor */}
-              <div className="form-group span-2">
-                <div className="editor-toolbar-header">
-                  <label className="form-label">Article Content (WYSIWYG Rich Editor)</label>
-                  
-                  <div className="rich-editor-toolbar">
-                    <select
-                      className="rich-select"
-                      onChange={(e) => execRichCommand("formatBlock", e.target.value)}
-                      defaultValue="p"
-                      title="Text Style"
-                    >
-                      <option value="p">Paragraph</option>
-                      <option value="h1">Heading 1</option>
-                      <option value="h2">Heading 2</option>
-                      <option value="h3">Heading 3</option>
-                      <option value="blockquote">Quote</option>
-                    </select>
+                {/* Content editor */}
+                <div className="form-group span-2">
+                  <div className="editor-toolbar-header">
+                    <label className="form-label">Article Content (WYSIWYG Rich Editor)</label>
+                    
+                    <div className="rich-editor-toolbar">
+                      <select
+                        className="rich-select"
+                        onChange={(e) => execRichCommand("formatBlock", e.target.value)}
+                        defaultValue="p"
+                        title="Text Style"
+                      >
+                        <option value="p">Paragraph</option>
+                        <option value="h1">Heading 1</option>
+                        <option value="h2">Heading 2</option>
+                        <option value="h3">Heading 3</option>
+                        <option value="blockquote">Quote</option>
+                      </select>
 
-                    <select
-                      className="rich-select"
-                      onChange={(e) => execRichCommand("fontSize", e.target.value)}
-                      defaultValue="3"
-                      title="Font Size"
-                    >
-                      <option value="1">1 (Extra Small)</option>
-                      <option value="2">2 (Small)</option>
-                      <option value="3">3 (Normal)</option>
-                      <option value="4">4 (Medium)</option>
-                      <option value="5">5 (Large)</option>
-                      <option value="6">6 (Extra Large)</option>
-                      <option value="7">7 (Huge)</option>
-                    </select>
+                      <select
+                        className="rich-select"
+                        onChange={(e) => execRichCommand("fontSize", e.target.value)}
+                        defaultValue="3"
+                        title="Font Size"
+                      >
+                        <option value="1">1 (Extra Small)</option>
+                        <option value="2">2 (Small)</option>
+                        <option value="3">3 (Normal)</option>
+                        <option value="4">4 (Medium)</option>
+                        <option value="5">5 (Large)</option>
+                        <option value="6">6 (Extra Large)</option>
+                        <option value="7">7 (Huge)</option>
+                      </select>
 
-                    <div className="rich-color-picker-container" title="Text Color">
-                      <span style={{ fontSize: "0.8rem", marginRight: "0.2rem" }}>🎨</span>
+                      <div className="rich-color-picker-container" title="Text Color">
+                        <span style={{ fontSize: "0.8rem", marginRight: "0.2rem" }}>🎨</span>
+                        <input
+                          type="color"
+                          className="rich-color-picker"
+                          onChange={(e) => execRichCommand("foreColor", e.target.value)}
+                          defaultValue="#0f172a"
+                        />
+                      </div>
+
+                      <div className="rich-toolbar-divider" />
+
+                      <button type="button" onClick={() => execRichCommand("bold")} className="rich-btn font-bold" title="Bold">B</button>
+                      <button type="button" onClick={() => execRichCommand("italic")} className="rich-btn italic" title="Italic">I</button>
+                      <button type="button" onClick={() => execRichCommand("underline")} className="rich-btn underline" title="Underline">U</button>
+                      <button type="button" onClick={() => execRichCommand("strikeThrough")} className="rich-btn line-through" title="Strikethrough">S</button>
+                      
+                      <div className="rich-toolbar-divider" />
+
+                      <button type="button" onClick={() => execRichCommand("justifyLeft")} className="rich-btn" title="Align Left">←</button>
+                      <button type="button" onClick={() => execRichCommand("justifyCenter")} className="rich-btn" title="Align Center">↔</button>
+                      <button type="button" onClick={() => execRichCommand("justifyRight")} className="rich-btn" title="Align Right">→</button>
+                      
+                      <div className="rich-toolbar-divider" />
+
+                      <button type="button" onClick={() => execRichCommand("insertUnorderedList")} className="rich-btn" title="Bullet List">• List</button>
+                      <button type="button" onClick={() => execRichCommand("insertOrderedList")} className="rich-btn" title="Numbered List">1. List</button>
+                      <button type="button" onClick={insertLink} className="rich-btn" title="Insert Link">Link</button>
+                      <button type="button" onClick={() => execRichCommand("removeFormat")} className="rich-btn" title="Clear Formatting">Clear</button>
+                    </div>
+                  </div>
+
+                  <div 
+                    ref={editorRef}
+                    id="rich-content-editor"
+                    className="rich-editor-content-area"
+                    contentEditable
+                    onInput={(e) => setFormContent(e.currentTarget.innerHTML)}
+                    onBlur={(e) => setFormContent(e.currentTarget.innerHTML)}
+                    style={{
+                      minHeight: "350px",
+                      border: "2px solid #e2e8f0",
+                      borderRadius: "14px",
+                      padding: "1.25rem",
+                      outline: "none",
+                      background: "#fff",
+                      overflowY: "auto",
+                      color: "#0f172a"
+                    }}
+                  />
+                </div>
+
+                {/* Social Media Links */}
+                <div className="form-group span-2" style={{ borderTop: "1px solid #e2e8f0", paddingTop: "1.5rem", marginTop: "1rem" }}>
+                  <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", marginBottom: "1rem" }}>Author Social Media Links</h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="fb-link">Facebook Profile URL</label>
                       <input
-                        type="color"
-                        className="rich-color-picker"
-                        onChange={(e) => execRichCommand("foreColor", e.target.value)}
-                        defaultValue="#0f172a"
+                        id="fb-link"
+                        type="url"
+                        className="form-input"
+                        placeholder="e.g. https://facebook.com/author"
+                        value={formFacebookUrl}
+                        onChange={(e) => setFormFacebookUrl(e.target.value)}
                       />
                     </div>
-
-                    <div className="rich-toolbar-divider" />
-
-                    <button type="button" onClick={() => execRichCommand("bold")} className="rich-btn font-bold" title="Bold">B</button>
-                    <button type="button" onClick={() => execRichCommand("italic")} className="rich-btn italic" title="Italic">I</button>
-                    <button type="button" onClick={() => execRichCommand("underline")} className="rich-btn underline" title="Underline">U</button>
-                    <button type="button" onClick={() => execRichCommand("strikeThrough")} className="rich-btn line-through" title="Strikethrough">S</button>
-                    
-                    <div className="rich-toolbar-divider" />
-
-                    <button type="button" onClick={() => execRichCommand("justifyLeft")} className="rich-btn" title="Align Left">←</button>
-                    <button type="button" onClick={() => execRichCommand("justifyCenter")} className="rich-btn" title="Align Center">↔</button>
-                    <button type="button" onClick={() => execRichCommand("justifyRight")} className="rich-btn" title="Align Right">→</button>
-                    
-                    <div className="rich-toolbar-divider" />
-
-                    <button type="button" onClick={() => execRichCommand("insertUnorderedList")} className="rich-btn" title="Bullet List">• List</button>
-                    <button type="button" onClick={() => execRichCommand("insertOrderedList")} className="rich-btn" title="Numbered List">1. List</button>
-                    <button type="button" onClick={insertLink} className="rich-btn" title="Insert Link">Link</button>
-                    <button type="button" onClick={() => execRichCommand("removeFormat")} className="rich-btn" title="Clear Formatting">Clear</button>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="tw-link">Twitter/X Profile URL</label>
+                      <input
+                        id="tw-link"
+                        type="url"
+                        className="form-input"
+                        placeholder="e.g. https://twitter.com/author"
+                        value={formTwitterUrl}
+                        onChange={(e) => setFormTwitterUrl(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="li-link">LinkedIn Profile URL</label>
+                      <input
+                        id="li-link"
+                        type="url"
+                        className="form-input"
+                        placeholder="e.g. https://linkedin.com/in/author"
+                        value={formLinkedinUrl}
+                        onChange={(e) => setFormLinkedinUrl(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="ig-link">Instagram Profile URL</label>
+                      <input
+                        id="ig-link"
+                        type="url"
+                        className="form-input"
+                        placeholder="e.g. https://instagram.com/author"
+                        value={formInstagramUrl}
+                        onChange={(e) => setFormInstagramUrl(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div 
-                  ref={editorRef}
-                  id="rich-content-editor"
-                  className="rich-editor-content-area"
-                  contentEditable
-                  onInput={(e) => setFormContent(e.currentTarget.innerHTML)}
-                  onBlur={(e) => setFormContent(e.currentTarget.innerHTML)}
-                  style={{
-                    minHeight: "350px",
-                    border: "2px solid #e2e8f0",
-                    borderRadius: "14px",
-                    padding: "1.25rem",
-                    outline: "none",
-                    background: "#fff",
-                    overflowY: "auto",
-                    color: "#0f172a"
-                  }}
-                />
-              </div>
-
-              {/* Social Media Links */}
-              <div className="form-group span-2" style={{ borderTop: "1px solid #e2e8f0", paddingTop: "1.5rem", marginTop: "1rem" }}>
-                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", marginBottom: "1rem" }}>Author Social Media Links</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="fb-link">Facebook Profile URL</label>
-                    <input
-                      id="fb-link"
-                      type="url"
-                      className="form-input"
-                      placeholder="e.g. https://facebook.com/author"
-                      value={formFacebookUrl}
-                      onChange={(e) => setFormFacebookUrl(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="tw-link">Twitter/X Profile URL</label>
-                    <input
-                      id="tw-link"
-                      type="url"
-                      className="form-input"
-                      placeholder="e.g. https://twitter.com/author"
-                      value={formTwitterUrl}
-                      onChange={(e) => setFormTwitterUrl(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="li-link">LinkedIn Profile URL</label>
-                    <input
-                      id="li-link"
-                      type="url"
-                      className="form-input"
-                      placeholder="e.g. https://linkedin.com/in/author"
-                      value={formLinkedinUrl}
-                      onChange={(e) => setFormLinkedinUrl(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="ig-link">Instagram Profile URL</label>
-                    <input
-                      id="ig-link"
-                      type="url"
-                      className="form-input"
-                      placeholder="e.g. https://instagram.com/author"
-                      value={formInstagramUrl}
-                      onChange={(e) => setFormInstagramUrl(e.target.value)}
-                    />
-                  </div>
+                {/* Status and Submission Actions */}
+                <div className="form-group">
+                  <label className="form-label" htmlFor="status-field">Status</label>
+                  <select
+                    id="status-field"
+                    className="form-select"
+                    value={formStatus}
+                    onChange={(e) => setFormStatus(e.target.value as "Draft" | "Published")}
+                  >
+                    <option value="Published">Publish (Visible to visitors)</option>
+                    <option value="Draft">Draft (Save privately)</option>
+                  </select>
                 </div>
-              </div>
 
-              {/* Status and Submission Actions */}
-              <div className="form-group">
-                <label className="form-label" htmlFor="status-field">Status</label>
-                <select
-                  id="status-field"
-                  className="form-select"
-                  value={formStatus}
-                  onChange={(e) => setFormStatus(e.target.value as "Draft" | "Published")}
-                >
-                  <option value="Published">Publish (Visible to visitors)</option>
-                  <option value="Draft">Draft (Save privately)</option>
-                </select>
-              </div>
+                <div className="form-actions-row">
+                  {editingId && (
+                    <>
+                      <button 
+                        type="button" 
+                        onClick={() => {
+                          const post = blogs.find(b => b.id === editingId);
+                          if (post) handleDeleteBlog(post);
+                        }} 
+                        className="btn-secondary delete-form-btn flex-btn"
+                      >
+                        <Trash2 size={14} />
+                        <span>Delete Article</span>
+                      </button>
+                      <button type="button" onClick={triggerNewBlog} className="btn-secondary cancel-btn">
+                        Discard Changes
+                      </button>
+                    </>
+                  )}
+                  <button type="submit" className="btn-primary btn-red save-btn">
+                    <Check size={14} style={{ marginRight: "4px" }} />
+                    <span>{editingId ? "Save Changes" : "Create & Publish"}</span>
+                  </button>
+                </div>
 
-              <div className="form-actions-row">
-                {editingId && (
-                  <>
-                    <button 
-                      type="button" 
-                      onClick={() => {
-                        const post = blogs.find(b => b.id === editingId);
-                        if (post) handleDeleteBlog(post);
-                      }} 
-                      className="btn-secondary delete-form-btn flex-btn"
-                    >
-                      <Trash2 size={14} />
-                      <span>Delete Article</span>
-                    </button>
-                    <button type="button" onClick={triggerNewBlog} className="btn-secondary cancel-btn">
-                      Discard Changes
-                    </button>
-                  </>
-                )}
-                <button type="submit" className="btn-primary btn-red save-btn">
-                  <Check size={14} style={{ marginRight: "4px" }} />
-                  <span>{editingId ? "Save Changes" : "Create & Publish"}</span>
-                </button>
               </div>
-
+            </form>
+          </main>
+        </div>
+      ) : (
+        <div className="cms-workspace-grid">
+          {/* Left Side: Admins List */}
+          <aside className="cms-directory-sidebar">
+            <div className="directory-header-row">
+              <h3>Administrator List</h3>
             </div>
-          </form>
-        </main>
+            <div className="directory-posts-list">
+              {users.filter(u => u.role === "Admin" || u.role === "Super Admin").map((userItem) => (
+                <div key={userItem.id} className="directory-card" style={{ display: "block" }}>
+                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginBottom: "0.5rem" }}>
+                    <img src={userItem.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"} alt={userItem.name} style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover" }} />
+                    <div style={{ minWidth: 0 }}>
+                      <h4 style={{ margin: 0, fontSize: "0.82rem", fontWeight: 800 }}>{userItem.name}</h4>
+                      <span style={{ fontSize: "0.68rem", color: "#64748b" }}>{userItem.email}</span>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.5rem" }}>
+                    <span className="status-badge published" style={{ fontSize: "0.58rem" }}>{userItem.role}</span>
+                    {userItem.id !== "user-super" && (
+                      <button 
+                        type="button" 
+                        onClick={() => handleDeleteUser(userItem.id, userItem.name)} 
+                        className="dir-delete-btn"
+                        style={{ padding: "0.2rem 0.4rem" }}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </aside>
 
-      </div>
+          {/* Right Side: Add Administrators Form */}
+          <main className="cms-editor-panel">
+            
+            {/* Table of Registered Administrators */}
+            <div className="editor-card" style={{ maxWidth: "1000px", marginBottom: "2rem" }}>
+              <div className="editor-card-header" style={{ marginBottom: "1rem" }}>
+                <h2>Registered Administrators</h2>
+                <p>Overview of active administrator accounts and their credentials.</p>
+              </div>
+
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem", textAlign: "left" }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc", borderBottom: "2px solid #e2e8f0" }}>
+                      <th style={{ padding: "0.75rem 1rem", fontWeight: 700, color: "#475569" }}>Name</th>
+                      <th style={{ padding: "0.75rem 1rem", fontWeight: 700, color: "#475569" }}>User ID / Email</th>
+                      <th style={{ padding: "0.75rem 1rem", fontWeight: 700, color: "#475569" }}>Password</th>
+                      <th style={{ padding: "0.75rem 1rem", fontWeight: 700, color: "#475569" }}>Role</th>
+                      <th style={{ padding: "0.75rem 1rem", fontWeight: 700, color: "#475569" }}>Designation</th>
+                      <th style={{ padding: "0.75rem 1rem", fontWeight: 700, color: "#475569", textAlign: "right" }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.filter(u => u.role === "Admin" || u.role === "Super Admin").map((userItem) => (
+                      <tr key={userItem.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                        <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#0f172a" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <img src={userItem.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"} alt="" style={{ width: "24px", height: "24px", borderRadius: "50%", objectFit: "cover" }} />
+                            <span>{userItem.name}</span>
+                          </div>
+                        </td>
+                        <td style={{ padding: "0.75rem 1rem", color: "#475569" }}>{userItem.email}</td>
+                        <td style={{ padding: "0.75rem 1rem", fontFamily: "monospace", color: "var(--accent-orange)", fontWeight: 700 }}>
+                          {userItem.password || "••••••••"}
+                        </td>
+                        <td style={{ padding: "0.75rem 1rem" }}>
+                          <span className={`status-badge ${userItem.role === "Super Admin" ? "published" : "draft"}`} style={{ fontSize: "0.65rem", padding: "0.15rem 0.4rem" }}>
+                            {userItem.role}
+                          </span>
+                        </td>
+                        <td style={{ padding: "0.75rem 1rem", color: "#64748b" }}>{userItem.designation}</td>
+                        <td style={{ padding: "0.75rem 1rem", textAlign: "right" }}>
+                          {userItem.id !== "user-super" ? (
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteUser(userItem.id, userItem.name)}
+                              className="dir-delete-btn"
+                              style={{ padding: "0.25rem 0.5rem", fontSize: "0.72rem" }}
+                            >
+                              Delete
+                            </button>
+                          ) : (
+                            <span style={{ fontSize: "0.72rem", color: "#94a3b8", fontStyle: "italic" }}>System Protected</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="editor-card" style={{ maxWidth: "1000px" }}>
+              <div className="editor-card-header">
+                <h2>Manage System Administrators</h2>
+                <p>Register new single or multiple administrator accounts with credentials for CMS logins.</p>
+              </div>
+
+              <form onSubmit={handleSaveAdmins}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                  {adminRows.map((row, idx) => (
+                    <div key={idx} style={{ padding: "1.25rem", background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: "12px", position: "relative" }}>
+                      {adminRows.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveRow(idx)}
+                          style={{ position: "absolute", top: "10px", right: "10px", background: "none", border: "none", color: "#ef4444", fontSize: "0.78rem", fontWeight: 700, cursor: "pointer" }}
+                        >
+                          ✕ Remove Row
+                        </button>
+                      )}
+                      <h4 style={{ fontSize: "0.82rem", fontWeight: 800, color: "#475569", marginBottom: "1rem" }}>Administrator #{idx + 1}</h4>
+                      
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
+                        <div className="form-group">
+                          <label className="form-label">Full Name</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            placeholder="e.g. Rohan Mehta"
+                            value={row.name}
+                            onChange={(e) => handleRowChange(idx, "name", e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label className="form-label">User Email / ID</label>
+                          <input
+                            type="email"
+                            className="form-input"
+                            placeholder="e.g. rohan@ordrji.com"
+                            value={row.email}
+                            onChange={(e) => handleRowChange(idx, "email", e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label className="form-label">Password</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            placeholder="Set secure password"
+                            value={row.password}
+                            onChange={(e) => handleRowChange(idx, "password", e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label className="form-label">Designation</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            placeholder="e.g. Content Lead"
+                            value={row.designation}
+                            onChange={(e) => handleRowChange(idx, "designation", e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label className="form-label">Role</label>
+                          <select
+                            className="form-select"
+                            value={row.role}
+                            onChange={(e) => handleRowChange(idx, "role", e.target.value)}
+                          >
+                            <option value="Admin">Admin</option>
+                            <option value="Super Admin">Super Admin</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <button
+                      type="button"
+                      onClick={handleAddRow}
+                      className="btn-secondary"
+                      style={{ padding: "0.6rem 1.25rem", borderRadius: "8px", fontSize: "0.85rem", fontWeight: 700 }}
+                    >
+                      ➕ Add Another Row
+                    </button>
+                    
+                    <button
+                      type="submit"
+                      className="btn-primary save-btn"
+                      style={{ padding: "0.6rem 1.5rem", borderRadius: "8px", fontSize: "0.85rem", fontWeight: 700 }}
+                    >
+                      Save Administrators
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </main>
+        </div>
+      )}
 
       <RoleSwitcher />
 

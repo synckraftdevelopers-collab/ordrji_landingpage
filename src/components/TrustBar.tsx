@@ -108,28 +108,6 @@ export default function TrustBar() {
           </motion.p>
         </div>
 
-        {/* ── Restroworks-style hero stat row ────────────────────────── */}
-        <motion.div 
-          className="tb-stats-row"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.2 }}
-        >
-          {STATS.map((s, i) => (
-            <React.Fragment key={s.label}>
-              <StatBlock s={s} started={inView} delay={i * 120} />
-              {i < STATS.length - 1 && <div className="tb-stat-divider" />}
-            </React.Fragment>
-          ))}
-        </motion.div>
-
-        {/* thin rule below stats */}
-        <motion.div 
-          className="tb-divider-line"
-          initial={{ opacity: 0, scaleX: 0.3 }}
-          animate={inView ? { opacity: 1, scaleX: 1 } : {}}
-          transition={{ type: "spring", stiffness: 100, damping: 25, delay: 0.4 }}
-        />
       </div>
 
       {/* ── Dual marquee belt with LARGE icons ─────────────────────────── */}
@@ -171,12 +149,15 @@ export default function TrustBar() {
         .tb-eyebrow-clip { overflow: hidden; text-align: center; margin-bottom: 1.5rem; position: relative; z-index: 1; }
 
         .tb-eyebrow {
-          font-size: 0.7rem; font-weight: 800;
-          letter-spacing: 3px; color: var(--text-muted);
+          font-size: clamp(1.1rem, 2.8vw, 1.8rem);
+          font-weight: 900;
+          letter-spacing: 2px; color: var(--text-muted);
           text-transform: uppercase;
           opacity: 0; transform: translateY(100%);
           transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
           display: inline-block;
+          line-height: 1.3;
+          padding: 0.2rem 0;
         }
         .tb-eyebrow.tb-reveal { opacity: 1; transform: translateY(0); }
 
@@ -299,17 +280,17 @@ export default function TrustBar() {
         }
 
         .tb-brand-logo {
-          width: 44px; height: 44px;
+          width: 64px; height: 64px;
           object-fit: contain; border-radius: 8px;
         }
         .tb-brand-name {
-          font-size: 13px; font-weight: 600; color: var(--text-secondary); white-space: nowrap;
+          font-size: 14px; font-weight: 600; color: var(--text-secondary); white-space: nowrap;
         }
 
         @media (max-width: 768px) {
-          .tb-icon-item { padding: 0.5rem 2rem; }
-          .tb-brand-logo { width: 34px; height: 34px; }
-          .tb-brand-name { font-size: 11px; }
+          .tb-icon-item { padding: 0.5rem 2.5rem; }
+          .tb-brand-logo { width: 48px; height: 48px; }
+          .tb-brand-name { font-size: 12px; }
           .tb-edge { width: 80px; }
         }
 
