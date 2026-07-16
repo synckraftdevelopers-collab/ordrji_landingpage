@@ -3,7 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 
 // GET — fetch all demo leads, newest first
 export async function GET() {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await (supabaseAdmin as any)
     .from("demo_leads")
     .select("*")
     .order("created_at", { ascending: false });
@@ -23,7 +23,7 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ success: false, error: "id and status are required" }, { status: 400 });
   }
 
-  const { error } = await supabaseAdmin
+  const { error } = await (supabaseAdmin as any)
     .from("demo_leads")
     .update({ status, notes: notes ?? undefined, updated_at: new Date().toISOString() })
     .eq("id", id);

@@ -203,7 +203,7 @@ export async function POST(req: NextRequest) {
       const mappedCatId = CATEGORY_MAP[categoryId || "tech"] || null;
       const mappedAuthId = AUTHOR_MAP[authorName] || null;
 
-      const { error: dbError } = await supabaseAdmin.from("blog_posts").insert({
+      const { error: dbError } = await (supabaseAdmin as any).from("blog_posts").insert({
         title,
         slug,
         description,

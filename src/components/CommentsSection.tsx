@@ -236,7 +236,7 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
         }
 
         .comment-input:focus {
-          border-color: var(--accent-orange);
+          border-color: #E30613;
           background: #ffffff;
         }
 

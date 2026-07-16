@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { error } = await supabaseAdmin.from("contact_messages").insert({
+    const { error } = await (supabaseAdmin as any).from("contact_messages").insert({
       name,
       email,
       phone: phone || null,

@@ -35,7 +35,7 @@ function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
       ) : (
         <motion.div
           className={`rr-upload-zone ${dragging ? "rr-upload-drag" : ""}`}
-          whileHover={{ borderColor: "#f97316", background: "#fff7ed" }}
+          whileHover={{ borderColor: "#E30613", background: "#fff5f5" }}
           onDragOver={e => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           onDrop={e => {

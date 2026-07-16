@@ -171,7 +171,7 @@ export default function ContactClient() {
                     <label className="field-label">Message *</label>
                     <textarea className="field-input" name="message" value={form.message} onChange={handle} required rows={5} placeholder="Tell us about your restaurant and what you need..." style={{ resize: "vertical" }} />
                   </div>
-                  <button type="submit" className="btn-primary" disabled={loading} style={{ justifyContent: "center", padding: "0.85rem", fontSize: "0.95rem", opacity: loading ? 0.7 : 1, background: "var(--accent-orange)" }}>
+                  <button type="submit" className="btn-primary" disabled={loading} style={{ justifyContent: "center", padding: "0.85rem", fontSize: "0.95rem", opacity: loading ? 0.7 : 1, background: "#E30613" }}>
                     {loading ? "Sending…" : <><Send size={16} /> Send Message</>}
                   </button>
                 </form>
@@ -199,7 +199,7 @@ export default function ContactClient() {
           outline: none; transition: border-color 0.2s, box-shadow 0.2s;
           width: 100%;
         }
-        .field-input:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(227,6,19,0.08); background: #fff; }
+        .field-input:focus { border-color: #E30613; box-shadow: 0 0 0 3px rgba(227,6,19,0.08); background: #fff; }
         .field-input::placeholder { color: var(--text-muted); }
         
         .hover-card:hover {
@@ -208,7 +208,7 @@ export default function ContactClient() {
         }
 
         .hover-link:hover {
-          color: var(--accent-orange) !important;
+          color: #E30613 !important;
         }
       `}</style>
     </>

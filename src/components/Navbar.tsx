@@ -121,17 +121,22 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <Link href="/pricing" className="pf-nav-link">Pricing</Link>
             <Link href="/how-to-use" className="pf-nav-link">How to Use</Link>
             <div className={`pf-nav-item-dropdown ${isDesktopDropdownOpen ? "dropdown-open" : ""}`}>
-              <span 
+              <Link 
+                href="/restaurants"
                 className="pf-nav-link dropdown-trigger" 
-                style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}
+                style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}
                 onClick={(e) => {
-                  e.stopPropagation();
+                  // Keep desktop navigation on click, dropdown will toggle on hover/focus depending on CSS,
+                  // but we also allow toggling dropdown with state if needed.
                   setIsDesktopDropdownOpen(v => !v);
                 }}
               >
                 Resources <ChevronDown size={12} />
-              </span>
+              </Link>
               <div className="pf-dropdown-menu">
+                <Link href="/restaurants" className="pf-dropdown-link" style={{ fontWeight: 800, color: "#E30613", background: "rgba(227,6,19,0.05)" }}>
+                  🍴 Restaurant Directory
+                </Link>
                 <Link href="/faq" className="pf-dropdown-link">FAQs</Link>
                 <Link href="/blog" className="pf-dropdown-link">Blog</Link>
                 <Link href="/restaurant-pos-software-india" className="pf-dropdown-link">POS Software</Link>
@@ -218,6 +223,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
               </button>
               {isMobileResourcesOpen && (
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", paddingLeft: "1rem", marginTop: "0.85rem" }}>
+                  <Link href="/restaurants" className="pf-mobile-link" style={{ fontWeight: 800, color: "#E30613" }} onClick={() => setIsMobileMenuOpen(false)}>🍴 Restaurant Directory</Link>
                   <Link href="/faq" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>FAQs</Link>
                   <Link href="/blog" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
                   <Link href="/restaurant-pos-software-india" className="pf-mobile-link" onClick={() => setIsMobileMenuOpen(false)}>POS Software</Link>

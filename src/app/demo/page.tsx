@@ -270,7 +270,7 @@ export default function BookDemoPage() {
           gap: 0.3rem;
           background: rgba(227, 6, 19, 0.06);
           border: 1px solid rgba(227, 6, 19, 0.18);
-          color: var(--accent-orange);
+          color: #E30613;
           padding: 0.25rem 0.75rem;
           border-radius: 9999px;
           font-size: 0.7rem;
@@ -309,7 +309,7 @@ export default function BookDemoPage() {
         }
 
         .input-box:focus-within .input-icon {
-          color: var(--accent-orange);
+          color: #E30613;
         }
 
         .field-input {
@@ -326,7 +326,7 @@ export default function BookDemoPage() {
         }
 
         .field-input:focus {
-          border-color: var(--accent-orange);
+          border-color: #E30613;
           box-shadow: 0 0 0 3px rgba(227,6,19,0.08);
           background: #fff;
         }
@@ -353,7 +353,7 @@ export default function BookDemoPage() {
         }
 
         .btn-orange {
-          background: var(--accent-orange) !important;
+          background: #E30613 !important;
           color: #fff !important;
           border: 1px solid transparent !important;
         }

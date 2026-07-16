@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     }
 
     // Insert main registration
-    const { data: reg, error: regError } = await supabaseAdmin
+    const { data: reg, error: regError } = await (supabaseAdmin as any)
       .from("restaurant_registrations")
       .insert({
         restaurant_name: data.restaurantName,
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
         dish_name: dish,
       }));
 
-      const { error: dishesError } = await supabaseAdmin
+      const { error: dishesError } = await (supabaseAdmin as any)
         .from("restaurant_dishes")
         .insert(dishesToInsert);
 

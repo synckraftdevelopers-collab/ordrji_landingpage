@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
 
       // 2. Save to Supabase media_assets table
       try {
-        await supabaseAdmin.from("media_assets").insert({
+        await (supabaseAdmin as any).from("media_assets").insert({
           url: fileUrl,
           name: originalName,
           mime_type: file.type || "image/jpeg",
@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
 
     // Save to Supabase media_assets table as well
     try {
-      await supabaseAdmin.from("media_assets").insert({
+      await (supabaseAdmin as any).from("media_assets").insert({
         url,
         name,
         mime_type: type,

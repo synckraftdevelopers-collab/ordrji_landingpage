@@ -57,7 +57,7 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
             {/* Timeline */}
             <div className="rr-modal-timeline">
               {[
-                { dot: "#f97316", label: "Submitted",       sub: "Just now" },
+                { dot: "#E30613", label: "Submitted",       sub: "Just now" },
                 { dot: "#3b82f6", label: "Under Review",    sub: "Within 24 hrs" },
                 { dot: "#16a34a", label: "Live on Ordrji",  sub: "After approval" },
               ].map((s, i) => (
@@ -131,12 +131,12 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
             .rr-modal-actions { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; margin-top: .5rem; }
             .rr-modal-btn-primary {
               display: inline-flex; align-items: center; gap: .4rem;
-              background: #f97316; color: #fff;
+              background: #E30613; color: #fff;
               padding: .7rem 1.5rem; border-radius: 9999px;
               font-weight: 700; font-size: .875rem; text-decoration: none;
               transition: background .2s, transform .2s;
             }
-            .rr-modal-btn-primary:hover { background: #ea6a0a; transform: translateY(-1px); }
+            .rr-modal-btn-primary:hover { background: #bd040f; transform: translateY(-1px); }
             .rr-modal-btn-secondary {
               display: inline-flex; align-items: center; gap: .4rem;
               background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0;

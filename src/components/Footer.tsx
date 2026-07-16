@@ -343,7 +343,7 @@ export default function Footer() {
 
         .ft-email-btn {
           width: 38px; height: 38px; flex-shrink: 0;
-          background: var(--accent-orange);
+          background: #E30613;
           border: none; cursor: pointer;
           display: flex; align-items: center; justify-content: center;
           color: #fff;

@@ -506,11 +506,12 @@ export default function RegistrationForm({
         .rr-section-header { display: flex; align-items: flex-start; gap: .9rem; margin-bottom: 1.75rem; }
         .rr-section-num {
           width: 36px; height: 36px; border-radius: 10px;
-          background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1.5px solid #fed7aa;
-          color: #f97316; font-size: .7rem; font-weight: 900;
+          background: linear-gradient(135deg, #fff5f5, #ffe2e2); border: 1.5px solid #fca5a5;
+          color: #E30613; font-size: .7rem; font-weight: 900;
           display: flex; align-items: center; justify-content: center; flex-shrink: 0; letter-spacing: .5px;
         }
         .rr-section-title { font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0 0 .2rem; letter-spacing: -.2px; }
+        .rr-section-num { color: #E30613 !important; }
         .rr-section-sub { font-size: .8rem; color: #64748b; margin: 0; }
 
         /* ── Field ──────────────────────────────────────────── */
@@ -520,7 +521,7 @@ export default function RegistrationForm({
         @media (min-width: 768px) { .rr-grid-4 { grid-template-columns: repeat(4,1fr); } }
         .rr-field { display: flex; flex-direction: column; gap: .4rem; }
         .rr-label { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 700; color: #374151; letter-spacing: .1px; }
-        .rr-label-icon { color: #f97316; }
+        .rr-label-icon { color: #E30613; }
         .rr-optional { font-weight: 400; color: #94a3b8; margin-left: .2rem; }
         .rr-input {
           width: 100%; padding: .72rem .95rem;
@@ -529,7 +530,7 @@ export default function RegistrationForm({
           background: #fafafa; outline: none;
           transition: border-color .2s, box-shadow .2s, background .2s;
         }
-        .rr-input:focus { border-color: #f97316; background: #fff; box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
+        .rr-input:focus { border-color: #E30613; background: #fff; box-shadow: 0 0 0 3px rgba(227,6,19,.1); }
         .rr-input-err { border-color: #ef4444 !important; background: #fff5f5 !important; }
         .rr-input::placeholder { color: #94a3b8; }
         .rr-textarea { resize: vertical; min-height: 70px; }
@@ -546,10 +547,10 @@ export default function RegistrationForm({
         .rr-radio-pill { padding: .45rem 1rem; border-radius: 9999px; border: 1.5px solid; font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .2s; }
         .rr-pill-veg  { border-color: #86efac; color: #16a34a; background: #f0fdf4; }
         .rr-pill-nveg { border-color: #fca5a5; color: #dc2626; background: #fff5f5; }
-        .rr-pill-both { border-color: #fde68a; color: #b45309; background: #fffbeb; }
+        .rr-pill-both { border-color: #fca5a5; color: #E30613; background: #fff5f5; }
         .rr-radio-label input:checked + .rr-pill-veg  { background: #dcfce7; box-shadow: 0 0 0 2px #16a34a; }
         .rr-radio-label input:checked + .rr-pill-nveg { background: #fee2e2; box-shadow: 0 0 0 2px #dc2626; }
-        .rr-radio-label input:checked + .rr-pill-both { background: #fef3c7; box-shadow: 0 0 0 2px #b45309; }
+        .rr-radio-label input:checked + .rr-pill-both { background: #fee2e2; box-shadow: 0 0 0 2px #E30613; }
       `}</style>
 
       <style jsx global>{`
@@ -561,11 +562,11 @@ export default function RegistrationForm({
           font-family: inherit; cursor: pointer; transition: border-color .2s, box-shadow .2s, background .2s;
         }
         .rr-sselect-trigger:hover { border-color: #cbd5e1; }
-        .rr-sselect-open { border-color: #f97316 !important; background: #fff !important; box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
+        .rr-sselect-open { border-color: #E30613 !important; background: #fff !important; box-shadow: 0 0 0 3px rgba(227,6,19,.1); }
         .rr-sselect-placeholder { font-size: .875rem; color: #94a3b8; }
         .rr-sselect-value { font-size: .875rem; color: #0f172a; font-weight: 600; }
         .rr-sselect-arrow { color: #94a3b8; transition: transform .2s; flex-shrink: 0; }
-        .rr-sselect-arrow.rotated { transform: rotate(180deg); color: #f97316; }
+        .rr-sselect-arrow.rotated { transform: rotate(180deg); color: #E30613; }
         .rr-sselect-menu {
           position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 200;
           background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px;
@@ -587,8 +588,8 @@ export default function RegistrationForm({
           display: flex; align-items: center; justify-content: space-between;
           transition: background .15s, color .15s;
         }
-        .rr-sselect-option:hover { background: #fff7ed; color: #f97316; }
-        .rr-sselect-selected { background: #fff7ed; color: #f97316; font-weight: 700; }
+        .rr-sselect-option:hover { background: #fff5f5; color: #E30613; }
+        .rr-sselect-selected { background: #fff5f5; color: #E30613; font-weight: 700; }
         .rr-sselect-empty { font-size: .8rem; color: #94a3b8; text-align: center; padding: 1rem; margin: 0; }
 
         /* ── Dishes Multi-Select ────────────────────────────── */
@@ -600,18 +601,18 @@ export default function RegistrationForm({
           transition: border-color .2s, box-shadow .2s, background .2s;
         }
         .rr-dishes-trigger:hover { border-color: #cbd5e1; background: #fff; }
-        .rr-dishes-icon { color: #f97316; flex-shrink: 0; }
+        .rr-dishes-icon { color: #E30613; flex-shrink: 0; }
         .rr-dishes-placeholder { font-size: .875rem; color: #94a3b8; }
         .rr-dishes-placeholder-hidden { display: none; }
         .rr-dishes-tags { display: flex; flex-wrap: wrap; gap: .45rem; }
         .rr-dish-tag {
           display: inline-flex; align-items: center; gap: .35rem;
-          background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1px solid #fed7aa;
-          color: #c2410c; padding: .3rem .7rem; border-radius: 9999px;
+          background: linear-gradient(135deg, #fff5f5, #ffe2e2); border: 1px solid #fca5a5;
+          color: #b91c1c; padding: .3rem .7rem; border-radius: 9999px;
           font-size: .75rem; font-weight: 700;
         }
         .rr-dish-tag-remove {
-          background: none; border: none; cursor: pointer; color: #f97316; padding: 0;
+          background: none; border: none; cursor: pointer; color: #E30613; padding: 0;
           display: flex; align-items: center; transition: color .15s;
         }
         .rr-dish-tag-remove:hover { color: #dc2626; }
@@ -626,7 +627,7 @@ export default function RegistrationForm({
           font-size: .78rem; font-weight: 600; color: #374151; background: #f8fafc;
           cursor: pointer; font-family: inherit; transition: all .15s;
         }
-        .rr-dishes-option:hover { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+        .rr-dishes-option:hover { background: #fff5f5; border-color: #fca5a5; color: #b91c1c; }
       `}</style>
 
       <style jsx global>{`
@@ -637,9 +638,9 @@ export default function RegistrationForm({
           display: flex; flex-direction: column; align-items: center; gap: .6rem;
           background: #fafafa; transition: all .2s;
         }
-        .rr-upload-drag { border-color: #f97316 !important; background: #fff7ed !important; }
+        .rr-upload-drag { border-color: #E30613 !important; background: #fff5f5 !important; }
         .rr-upload-text { font-size: .85rem; color: #64748b; text-align: center; margin: 0; }
-        .rr-upload-text span { color: #f97316; font-weight: 700; }
+        .rr-upload-text span { color: #E30613; font-weight: 700; }
         .rr-upload-hint { font-size: .7rem; color: #94a3b8; margin: 0; }
         .rr-upload-preview { position: relative; width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
         .rr-upload-remove {
@@ -659,20 +660,20 @@ export default function RegistrationForm({
         /* ── Terms ──────────────────────────────────────────── */
         .rr-terms-list { display: flex; flex-direction: column; gap: .85rem; }
         .rr-check-label { display: flex; align-items: flex-start; gap: .65rem; font-size: .875rem; color: #374151; cursor: pointer; line-height: 1.5; }
-        .rr-check-label input[type="checkbox"] { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #cbd5e1; flex-shrink: 0; margin-top: 2px; accent-color: #f97316; cursor: pointer; }
-        .rr-link { color: #f97316; font-weight: 600; text-decoration: underline; }
+        .rr-check-label input[type="checkbox"] { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #cbd5e1; flex-shrink: 0; margin-top: 2px; accent-color: #E30613; cursor: pointer; }
+        .rr-link { color: #E30613; font-weight: 600; text-decoration: underline; }
         /* ── Submit ─────────────────────────────────────────── */
         .rr-submit {
           padding: 1rem; border-radius: 12px;
-          background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+          background: linear-gradient(135deg, #E30613 0%, #bd040f 100%);
           color: #fff; font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
           display: flex; align-items: center; justify-content: center; gap: .55rem;
-          box-shadow: 0 8px 24px rgba(249,115,22,.35);
+          box-shadow: 0 8px 24px rgba(227,6,19,.35);
           transition: background .2s, box-shadow .2s, transform .2s;
           margin: 1.5rem 2.25rem 2.25rem;
           width: calc(100% - 4.5rem);
         }
-        .rr-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(249,115,22,.45); }
+        .rr-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(227,6,19,.45); }
         .rr-submit:disabled { opacity: .7; cursor: not-allowed; }
         .rr-spin { animation: rrSpin .7s linear infinite; }
         @keyframes rrSpin { to { transform: rotate(360deg); } }
@@ -684,8 +685,8 @@ export default function RegistrationForm({
         .rr-sidebar-sub { font-size: .78rem; color: #94a3b8; margin: 0 0 1.25rem; }
         .rr-benefits-list { display: flex; flex-direction: column; gap: .75rem; }
         .rr-benefit { display: flex; align-items: flex-start; gap: .75rem; padding: .8rem; background: #fafafa; border: 1px solid #f1f5f9; border-radius: 12px; transition: border-color .2s, background .2s; }
-        .rr-benefit:hover { border-color: #fed7aa; background: #fff7ed; }
-        .rr-benefit-icon { width: 34px; height: 34px; border-radius: 9px; background: #fff7ed; border: 1px solid #fed7aa; color: #f97316; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .rr-benefit:hover { border-color: #fca5a5; background: #fff5f5; }
+        .rr-benefit-icon { width: 34px; height: 34px; border-radius: 9px; background: #fff5f5; border: 1px solid #fca5a5; color: #E30613; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .rr-benefit-title { font-size: .82rem; font-weight: 700; color: #0f172a; margin: 0 0 .15rem; }
         .rr-benefit-desc { font-size: .72rem; color: #64748b; margin: 0; line-height: 1.45; }
         .rr-sidebar-badge { display: flex; align-items: center; gap: .5rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 9999px; padding: .5rem 1rem; font-size: .75rem; font-weight: 600; color: #166534; margin-top: 1.25rem; justify-content: center; }

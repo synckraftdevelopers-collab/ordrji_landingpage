@@ -14,8 +14,8 @@
   --bg-dark-card:  rgba(255,255,255,0.06);
 
   /* ── Brand Accent Colors ─────────────────────────────────────── */
-  --accent-orange:     #c2410c;
-  --accent-orange-rgb: 194, 65, 12;
+  --accent-orange:     #E30613;
+  --accent-orange-rgb: 227, 6, 19;
   --accent-blue:       #0284c7;
   --accent-blue-rgb:   2, 132, 199;
   --accent-purple:     #7c3aed;
@@ -51,7 +51,7 @@
   /* ── Shadow ──────────────────────────────────────────────────── */
   --shadow-card:  0 4px 24px -4px rgba(0,0,0,0.08), 0 0 1px rgba(0,0,0,0.04);
   --shadow-float: 0 20px 40px -12px rgba(0,0,0,0.12);
-  --shadow-cta:   0 10px 24px -6px rgba(194,65,12,0.45);
+  --shadow-cta:   0 10px 24px -6px rgba(227,6,19,0.45);
 }
 
 /* ── Base Resets ─────────────────────────────────────────────────── */

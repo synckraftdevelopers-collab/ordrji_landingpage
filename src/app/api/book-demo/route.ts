@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     }
 
     // ── Save lead to Supabase FIRST (always) ─────────────────
-    const { error: dbError } = await supabaseAdmin
+    const { error: dbError } = await (supabaseAdmin as any)
       .from("demo_leads")
       .insert({
         full_name:       fullName,

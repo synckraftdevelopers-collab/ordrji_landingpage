@@ -169,7 +169,7 @@ export async function PUT(
         } catch (e) {}
       }
 
-      const { error: dbError } = await supabaseAdmin
+      const { error: dbError } = await (supabaseAdmin as any)
         .from("blog_posts")
         .update({
           title: title !== undefined ? title : undefined,
@@ -260,7 +260,7 @@ export async function DELETE(
     // Delete in Supabase blog_posts database table (Hard Delete)
     try {
       const { supabaseAdmin } = await import("@/lib/supabase");
-      const { error: dbError } = await supabaseAdmin
+      const { error: dbError } = await (supabaseAdmin as any)
         .from("blog_posts")
         .delete()
         .eq("slug", blog.slug);
@@ -289,7 +289,7 @@ export async function DELETE(
     // Soft delete in Supabase blog_posts database table
     try {
       const { supabaseAdmin } = await import("@/lib/supabase");
-      const { error: dbError } = await supabaseAdmin
+      const { error: dbError } = await (supabaseAdmin as any)
         .from("blog_posts")
         .update({ status: "Deleted" })
         .eq("slug", blog.slug);
@@ -342,7 +342,7 @@ export async function POST(
       // Restore to Draft on Supabase
       try {
         const { supabaseAdmin } = await import("@/lib/supabase");
-        const { error: dbError } = await supabaseAdmin
+        const { error: dbError } = await (supabaseAdmin as any)
           .from("blog_posts")
           .update({ status: "Draft" })
           .eq("slug", blog.slug);

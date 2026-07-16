@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Query is required" }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin.from("coverage_searches").insert({
+    const { error } = await (supabaseAdmin as any).from("coverage_searches").insert({
       query,
       location_type: type || null,
       state_code: stateCode || null,
