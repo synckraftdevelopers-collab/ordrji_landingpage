@@ -25,7 +25,7 @@ function RegisterRestaurantContent() {
   }, [searchParams]);
 
   return (
-    <>
+    <div className="register-restaurant-page">
       <Navbar
         onBookDemo={() => setIsDemoOpen(true)}
       />
@@ -56,7 +56,7 @@ function RegisterRestaurantContent() {
 
       <Footer />
       <BookDemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
-    </>
+    </div>
   );
 }
 

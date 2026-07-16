@@ -41,7 +41,7 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 260, delay: 0.15 }}
             >
-              <CheckCircle2 size={52} color="#16a34a" />
+              <CheckCircle2 size={52} color="#E30613" />
             </motion.div>
 
             <h2 className="rr-modal-title">Thank You!</h2>
@@ -100,7 +100,7 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
               transition: background .2s;
             }
             .rr-modal-close:hover { background: #e2e8f0; }
-            .rr-modal-icon { margin-bottom: .25rem; filter: drop-shadow(0 4px 12px rgba(22,163,74,.25)); }
+            .rr-modal-icon { margin-bottom: .25rem; filter: drop-shadow(0 4px 12px rgba(227,6,19,.25)); }
             .rr-modal-title {
               font-size: 1.75rem; font-weight: 800; letter-spacing: -.5px;
               color: #0f172a; margin: 0;

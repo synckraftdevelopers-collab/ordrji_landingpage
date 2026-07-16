@@ -656,3 +656,79 @@ a { color: inherit; text-decoration: none; }
   .htu-steps-section, .htu-video-section,
   .htu-faq-section, .htu-cta-section { padding: 3rem 0; }
 }
+
+/* ── REGISTER RESTAURANT PAGE - BRAND RED ICONS (#E30613) ── */
+.register-restaurant-page svg {
+  color: #E30613 !important;
+  stroke: #E30613 !important;
+  transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease, opacity 0.2s ease !important;
+}
+
+/* For icons that use fill (like solid CheckCircle, Star, etc.) */
+.register-restaurant-page svg[fill]:not([fill="none"]),
+.register-restaurant-page svg path[fill]:not([fill="none"]),
+.register-restaurant-page svg circle[fill]:not([fill="none"]),
+.register-restaurant-page svg rect[fill]:not([fill="none"]),
+.register-restaurant-page svg polygon[fill]:not([fill="none"]) {
+  fill: #E30613 !important;
+}
+
+/* Hover State */
+.register-restaurant-page a:hover svg,
+.register-restaurant-page button:hover svg,
+.register-restaurant-page svg:hover,
+.register-restaurant-page .pf-btn:hover svg,
+.register-restaurant-page .btn-primary:hover svg,
+.register-restaurant-page .ft-social-btn:hover svg,
+.register-restaurant-page .rr-upload-zone:hover svg {
+  color: #C40011 !important;
+  stroke: #C40011 !important;
+}
+
+.register-restaurant-page a:hover svg[fill]:not([fill="none"]),
+.register-restaurant-page button:hover svg[fill]:not([fill="none"]),
+.register-restaurant-page svg:hover[fill]:not([fill="none"]),
+.register-restaurant-page .pf-btn:hover svg[fill]:not([fill="none"]),
+.register-restaurant-page .btn-primary:hover svg[fill]:not([fill="none"]),
+.register-restaurant-page .ft-social-btn:hover svg[fill]:not([fill="none"]),
+.register-restaurant-page .rr-upload-zone:hover svg[fill]:not([fill="none"]) {
+  fill: #C40011 !important;
+}
+
+/* Active State */
+.register-restaurant-page a:active svg,
+.register-restaurant-page button:active svg,
+.register-restaurant-page svg:active,
+.register-restaurant-page .pf-btn:active svg,
+.register-restaurant-page .btn-primary:active svg,
+.register-restaurant-page .ft-social-btn:active svg,
+.register-restaurant-page .rr-upload-zone:active svg {
+  color: #A8000F !important;
+  stroke: #A8000F !important;
+}
+
+.register-restaurant-page a:active svg[fill]:not([fill="none"]),
+.register-restaurant-page button:active svg[fill]:not([fill="none"]),
+.register-restaurant-page svg:active[fill]:not([fill="none"]),
+.register-restaurant-page .pf-btn:active svg[fill]:not([fill="none"]),
+.register-restaurant-page .btn-primary:active svg[fill]:not([fill="none"]),
+.register-restaurant-page .ft-social-btn:active svg[fill]:not([fill="none"]),
+.register-restaurant-page .rr-upload-zone:active svg[fill]:not([fill="none"]) {
+  fill: #A8000F !important;
+}
+
+/* Disabled State (40% opacity of primary brand red) */
+.register-restaurant-page button:disabled svg,
+.register-restaurant-page [disabled] svg,
+.register-restaurant-page .disabled svg {
+  opacity: 0.4 !important;
+  color: #E30613 !important;
+  stroke: #E30613 !important;
+}
+
+.register-restaurant-page button:disabled svg[fill]:not([fill="none"]),
+.register-restaurant-page [disabled] svg[fill]:not([fill="none"]),
+.register-restaurant-page .disabled svg[fill]:not([fill="none"]) {
+  opacity: 0.4 !important;
+  fill: #E30613 !important;
+}

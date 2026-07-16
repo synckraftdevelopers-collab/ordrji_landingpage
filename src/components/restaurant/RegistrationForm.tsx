@@ -467,7 +467,7 @@ export default function RegistrationForm({
                     ))}
                   </div>
                   <div className="rr-sidebar-badge">
-                    <CheckCircle2 size={14} color="#16a34a" />
+                    <CheckCircle2 size={14} color="#E30613" />
                     <span>100% Free · No commission charges</span>
                   </div>
                 </div>

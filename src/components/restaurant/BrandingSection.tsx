@@ -45,7 +45,7 @@ function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
           }}
           onClick={() => inputRef.current?.click()}
         >
-          <Upload size={28} color="#f97316" />
+          <Upload size={28} color="#E30613" />
           <p className="rr-upload-text">Drag & drop or <span>click to upload</span></p>
           <p className="rr-upload-hint">{hint}</p>
           <input ref={inputRef} type="file" accept="image/*" style={{ display: "none" }}
