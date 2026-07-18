@@ -12,6 +12,15 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(users);
 }
 
+interface AdminInput {
+  email?: string;
+  password?: string;
+  name?: string;
+  role?: UserAccount["role"];
+  designation?: string;
+  bio?: string;
+}
+
 // POST - Add one or multiple new administrators
 export async function POST(req: NextRequest) {
   const role = req.cookies.get("ordrji_role")?.value || "Visitor";
@@ -21,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const usersListToAdd: any[] = Array.isArray(body) ? body : [body];
+    const usersListToAdd: AdminInput[] = Array.isArray(body) ? body : [body];
     
     if (usersListToAdd.length === 0) {
       return NextResponse.json({ error: "No users provided to add." }, { status: 400 });
@@ -56,7 +65,7 @@ export async function POST(req: NextRequest) {
       // Sync to Supabase
       try {
         const { supabaseAdmin } = await import("@/lib/supabase");
-        const { error: dbError } = await (supabaseAdmin as any).from("admin_users").insert({
+        const { error: dbError } = await (supabaseAdmin.from("admin_users") as any).insert({
           id: newUser.id,
           email: newUser.email,
           password: newUser.password,
@@ -77,8 +86,9 @@ export async function POST(req: NextRequest) {
 
     writeTable("users", currentUsers);
     return NextResponse.json({ success: true, count: usersListToAdd.length });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to process request" }, { status: 500 });
+  } catch (err: unknown) {
+    const errMsg = err instanceof Error ? err.message : "Failed to process request";
+    return NextResponse.json({ error: errMsg }, { status: 500 });
   }
 }
 
@@ -114,7 +124,7 @@ export async function DELETE(req: NextRequest) {
     // Sync delete to Supabase
     try {
       const { supabaseAdmin } = await import("@/lib/supabase");
-      const { error: dbError } = await (supabaseAdmin as any).from("admin_users").delete().eq("id", userId);
+      const { error: dbError } = await supabaseAdmin.from("admin_users").delete().eq("id", userId);
       if (dbError) {
         console.error("Error deleting user from Supabase:", dbError);
       }
@@ -123,7 +133,8 @@ export async function DELETE(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to delete user" }, { status: 500 });
+  } catch (err: unknown) {
+    const errMsg = err instanceof Error ? err.message : "Failed to delete user";
+    return NextResponse.json({ error: errMsg }, { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ export default function ScrollReveal({
 
   const offset = getDirectionOffset();
 
-  const variants = {
+  const variants: Variants = {
     hidden: { 
       opacity: 0, 
       ...offset 

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Search, Star, Utensils, ChevronRight } from "lucide-react";
 import { 
-  getStoredRestaurants, getRestaurantRating, SEED_IDS, StoredRestaurant 
+  getStoredRestaurants, getRestaurantRating, SEED_IDS 
 } from "@/lib/restaurantStore";
 import RestaurantProfileView from "./restaurant/RestaurantProfileView";
 
@@ -82,9 +82,7 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
 
   useEffect(() => {
     if (!isOpen) {
-      // eslint-disable-next-line
       setQuery("");
-      // eslint-disable-next-line
       setSelectedRestaurant(null);
     }
   }, [isOpen]);

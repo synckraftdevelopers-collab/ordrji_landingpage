@@ -1,6 +1,6 @@
 import React from "react";
 import ProductFeaturePage from "@/components/ProductFeaturePage";
-import { Zap, Shield, WifiOff, Scissors, SplitSquareVertical, Keyboard } from "lucide-react";
+import { Zap, Shield, WifiOff, Scissors, Keyboard } from "lucide-react";
 
 export const metadata = {
   title: "Restaurant Billing Engine & POS | Ordrji",

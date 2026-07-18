@@ -348,7 +348,7 @@ export default function RoleExperience() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.2 }}
         >
-          {roles.map((r, idx) => (
+          {roles.map((r) => (
             <motion.button
               key={r.role}
               onClick={() => setActiveRole(r.role)}

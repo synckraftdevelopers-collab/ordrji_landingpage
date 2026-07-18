@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import ProductFeaturePage from "@/components/ProductFeaturePage";
-import { LineChart, BarChart3, Activity, PieChart, ArrowUpRight, FileJson } from "lucide-react";
+import { LineChart, BarChart3, Activity, PieChart, FileJson } from "lucide-react";
 
 export const metadata = {
   title: "Restaurant Analytics Suite | Ordrji",

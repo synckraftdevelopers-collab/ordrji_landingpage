@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 type Category = "software" | "hardware" | "payment";
 
@@ -88,22 +88,7 @@ const SIZE   = 580;
 const CX     = SIZE / 2;
 const CY     = SIZE / 2;
 const RADII  = [135, 235];
-const NODE_R = 24;
 const SPEED  = 35;
-
-/* ── chip logo ─────────────────────────────────────────────────────────── */
-function ChipLogo({ domain, name, color }: { domain: string; name: string; color: string }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) return <span style={{ width: 14, height: 14, borderRadius: "50%", background: color, flexShrink: 0, display: "inline-block" }} />;
-  return (
-    <Image
-      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
-      alt={name} width={14} height={14} unoptimized
-      style={{ objectFit: "contain", flexShrink: 0, borderRadius: "2px" }}
-      onError={() => setFailed(true)}
-    />
-  );
-}
 
 /* ── single orbital node ───────────────────────────────────────────────── */
 function OrbNode({ p, rot }: { p: Partner; rot: number }) {
@@ -124,34 +109,28 @@ function OrbNode({ p, rot }: { p: Partner; rot: number }) {
         display: "flex", 
         alignItems: "center", 
         gap: "6px",
-        padding: "5px 10px 5px 6px",
-        borderRadius: "99px",
-        background: "rgba(255, 255, 255, 0.96)",
-        border: "1px solid rgba(0, 0, 0, 0.08)",
-        boxShadow: "0 3px 8px rgba(0, 0, 0, 0.04)",
         whiteSpace: "nowrap",
         zIndex: 5,
-        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease",
+        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
       <div style={{
-        width: 18, 
-        height: 18, 
+        width: 24, 
+        height: 24, 
         display: "flex", 
         alignItems: "center", 
         justifyContent: "center",
         flexShrink: 0
       }}>
         {!imgFailed ? (
-          <img
-            src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=32`}
-            alt={p.name} width={16} height={16}
-            loading="lazy"
-            style={{ objectFit: "contain", borderRadius: "2px" }}
+          <Image
+            src={`https://www.google.com/s2/favicons?domain=${p.logo}&sz=64`}
+            alt={p.name} width={22} height={22}
+            style={{ objectFit: "contain", borderRadius: "3px" }}
             onError={() => setImgFailed(true)}
           />
         ) : (
-          <span style={{ fontSize: "9px", fontWeight: 800, color: p.color }}>{p.short}</span>
+          <span style={{ fontSize: "10px", fontWeight: 800, color: p.color }}>{p.short}</span>
         )}
       </div>
       <span style={{ 
@@ -168,7 +147,7 @@ function OrbNode({ p, rot }: { p: Partner; rot: number }) {
 }
 
 /* ── SVG rings + spokes + hub ──────────────────────────────────────────── */
-function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
+function Orbital({ partners, rot, ringColor }: { partners: Partner[]; rot: number; ringColor: string }) {
   return (
     <div style={{ position: "relative", width: SIZE, height: SIZE, maxWidth: "100%" }}>
       {/* SVG — behind nodes */}
@@ -177,31 +156,18 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
         <defs>
           <clipPath id="igHub"><circle cx={CX} cy={CY} r="42" /></clipPath>
           <filter id="igHubF" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor="#c2410c" floodOpacity="0.2" />
+            <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor={ringColor} floodOpacity="0.2" />
           </filter>
         </defs>
 
         {/* orbit rings */}
         {RADII.map((r, i) => (
           <circle key={i} cx={CX} cy={CY} r={r}
-            fill="none" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeDasharray="4 8" />
+            fill="none" stroke={ringColor} strokeWidth="1" strokeOpacity="0.2" strokeDasharray="4 6" style={{ transition: "stroke 0.4s ease" }} />
         ))}
 
-        {/* spokes */}
-        {partners.map((p, i) => {
-          const r = RADII[p.ring];
-          const a = ((p.startAngle + rot) * Math.PI) / 180;
-          return (
-            <line key={i}
-              x1={CX} y1={CY}
-              x2={CX + r * Math.cos(a)} y2={CY + r * Math.sin(a)}
-              stroke="rgba(0,0,0,0.07)" strokeWidth="0.8" strokeDasharray="3 6"
-            />
-          );
-        })}
-
         {/* hub glow pulse */}
-        <circle cx={CX} cy={CY} r="68" fill="rgba(194,65,12,0.06)" className="igHubPulse" />
+        <circle cx={CX} cy={CY} r="68" fill={`${ringColor}10`} className="igHubPulse" style={{ transition: "fill 0.4s ease" }} />
 
         {/* center html hub will be added outside SVG */}
       </svg>
@@ -213,9 +179,10 @@ function Orbital({ partners, rot }: { partners: Partner[]; rot: number }) {
         <div style={{
           width: 110, height: 110, borderRadius: "50%", background: "#fff", 
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 8px 24px rgba(227,6,19,0.3)", overflow: "hidden"
+          boxShadow: `0 8px 24px ${ringColor}33`, overflow: "hidden",
+          transition: "box-shadow 0.4s ease"
         }}>
-          <img src="/logo-icon.jpg" alt="Ordrji Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <Image src="/logo-icon.jpg" alt="Ordrji Logo" width={110} height={110} style={{ objectFit: "cover" }} />
         </div>
       </div>
 
@@ -232,7 +199,6 @@ export default function Integrations() {
   const [tab,    setTab]    = useState<Category>("software");
   const [rot,    setRot]    = useState(0);
   const [inView, setInView] = useState(false);
-  const [show,   setShow]   = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -248,7 +214,6 @@ export default function Integrations() {
     if (tickRef.current) rafId.current = requestAnimationFrame(tickRef.current);
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
@@ -263,7 +228,12 @@ export default function Integrations() {
   }, [inView, tick]);
 
   const partners  = PARTNERS[tab];
-  const activeCat = CATS.find(c => c.key === tab)!;
+  let ringColor = "#4b5563";
+  if (tab === "hardware") {
+    ringColor = "#0284c7";
+  } else if (tab === "payment") {
+    ringColor = "#c2410c";
+  }
 
   return (
     <section className="ig-section" ref={sectionRef}>
@@ -281,7 +251,7 @@ export default function Integrations() {
             transition={{ type: "spring", stiffness: 180, damping: 25 }}
           >
             {mounted ? (
-              <Orbital partners={partners} rot={rot} />
+              <Orbital partners={partners} rot={rot} ringColor={ringColor} />
             ) : (
               <div style={{ width: SIZE, height: SIZE }} />
             )}
@@ -351,7 +321,7 @@ export default function Integrations() {
         /* ── section ─────────────────────────────────────── */
         .ig-section {
           padding: 8rem 0;
-          background: var(--bg-primary);
+          background: #FAF9F6;
           position: relative;
           overflow: hidden;
           z-index: 10;

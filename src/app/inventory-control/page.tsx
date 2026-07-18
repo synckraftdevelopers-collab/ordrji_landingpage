@@ -1,6 +1,6 @@
 import React from "react";
 import ProductFeaturePage from "@/components/ProductFeaturePage";
-import { Package, Scale, AlertTriangle, FileSpreadsheet, PieChart, Truck } from "lucide-react";
+import { Scale, AlertTriangle, FileSpreadsheet, PieChart, Truck } from "lucide-react";
 
 export const metadata = {
   title: "Inventory Control | Ordrji",

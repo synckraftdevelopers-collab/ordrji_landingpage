@@ -82,12 +82,28 @@ function IgIcon({ size = 20, gradient = false }: { size?: number; gradient?: boo
   );
 }
 
+interface InstagramPostItem {
+  id: string | number;
+  src: string;
+  alt: string;
+  date: string;
+  postUrl: string;
+}
+
+interface SupabaseInstagramPost {
+  id: string;
+  media_url: string;
+  caption?: string | null;
+  published_at?: string | null;
+  permalink: string;
+}
+
 import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
 
 export default function InstagramSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [posts, setPosts] = useState(POSTS);
+  const [posts, setPosts] = useState<InstagramPostItem[]>(POSTS);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -105,7 +121,7 @@ export default function InstagramSection() {
 
         if (data && data.length > 0) {
           setPosts(
-            data.map((p: any) => ({
+            (data as SupabaseInstagramPost[]).map((p) => ({
               id: p.id,
               src: p.media_url,
               alt: p.caption || "Instagram post",

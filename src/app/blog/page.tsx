@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
@@ -34,16 +35,9 @@ interface Category {
   isEnabled: boolean;
 }
 
-interface Tag {
-  id: string;
-  name: string;
-  slug: string;
-}
-
 export default function BlogLandingPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -95,9 +89,8 @@ export default function BlogLandingPage() {
     async function loadData() {
       try {
         setLoading(true);
-        const [catsRes, tagsRes, blogsRes] = await Promise.all([
+        const [catsRes, blogsRes] = await Promise.all([
           fetch("/api/categories"),
-          fetch("/api/tags"),
           fetch("/api/blogs?status=Published")
         ]);
 
@@ -105,7 +98,6 @@ export default function BlogLandingPage() {
           const catsData = await catsRes.json();
           setCategories(catsData.filter((c: Category) => c.isEnabled));
         }
-        if (tagsRes.ok) setTags(await tagsRes.json());
         if (blogsRes.ok) setPosts(await blogsRes.json());
       } catch (err) {
         console.error("Failed to load blog data:", err);
@@ -168,7 +160,7 @@ export default function BlogLandingPage() {
                   <div className="recent-posts-list">
                     {recentPosts.map((rp) => (
                       <Link key={rp.id} href={`/blog/${rp.slug}`} className="recent-post-item">
-                        <img src={rp.coverImage} alt={rp.title} className="recent-post-thumb" />
+                        <Image src={rp.coverImage} alt={rp.title} width={48} height={48} className="recent-post-thumb" />
                         <div className="recent-post-info">
                           <h4 className="recent-post-title">{rp.title}</h4>
                           <span className="recent-post-date">{rp.createdDate}</span>
@@ -206,7 +198,7 @@ export default function BlogLandingPage() {
                       <article key={post.id} className="turiya-post-card">
                         <Link href={"/blog/" + post.slug} className="turiya-post-image-link">
                           <div className="turiya-post-image-wrap">
-                            <img src={post.coverImage} alt={post.title} className="turiya-post-image" />
+                            <Image src={post.coverImage} alt={post.title} width={600} height={400} className="turiya-post-image" />
                           </div>
                         </Link>
                         <div className="turiya-post-content" style={{ padding: "18px 0" }}>

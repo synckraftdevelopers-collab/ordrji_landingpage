@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -128,7 +128,7 @@ export default function RestaurantsPage() {
         deliveryTime: `${r.openingTime}–${r.closingTime}`,
         avgCost: r.avgCost, 
         dishes: r.dishes,
-        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
+        image: r.coverImageUrl || r.logoUrl || "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
         badge: "New", 
         badgeColor: "#7c3aed",
         open: true, 
@@ -140,7 +140,8 @@ export default function RestaurantsPage() {
         email: r.email,
         address: r.address,
         baseRating: 0,
-        baseReviewsCount: 0
+        baseReviewsCount: 0,
+        logoUrl: r.logoUrl
       };
     });
 
@@ -159,11 +160,12 @@ export default function RestaurantsPage() {
         phone: "" as string,
         email: "" as string,
         address: "" as string,
+        logoUrl: undefined as string | undefined
       };
     });
 
     return [...extraMapped, ...demoMapped];
-  }, [extraRestaurants, refreshKey]);
+  }, [extraRestaurants]);
 
   const openRegister = (p?: RestaurantPrefill) => {
     setPrefill(p);
@@ -310,6 +312,11 @@ export default function RestaurantsPage() {
                         {/* Image */}
                         <div className="rl-card-img-wrap">
                           <Image src={r.image} alt={r.name} className="rl-card-img" width={600} height={185} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                          {r.logoUrl && (
+                            <div className="rl-card-logo-overlay">
+                              <Image src={r.logoUrl} alt={`${r.name} logo`} width={38} height={38} style={{ objectFit: "cover", borderRadius: "50%" }} />
+                            </div>
+                          )}
                           {r.badge && (
                             <span className="rl-card-badge" style={{ background: r.badgeColor }}>{r.badge}</span>
                           )}
@@ -392,6 +399,11 @@ export default function RestaurantsPage() {
                         {/* Image */}
                         <div className="rl-card-img-wrap">
                           <Image src={r.image} alt={r.name} className="rl-card-img" width={600} height={185} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                          {r.logoUrl && (
+                            <div className="rl-card-logo-overlay">
+                              <Image src={r.logoUrl} alt={`${r.name} logo`} width={38} height={38} style={{ objectFit: "cover", borderRadius: "50%" }} />
+                            </div>
+                          )}
                           {r.badge && (
                             <span className="rl-card-badge" style={{ background: r.badgeColor }}>{r.badge}</span>
                           )}
@@ -593,6 +605,7 @@ export default function RestaurantsPage() {
         .rl-card { background:#fff;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.04);transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column;cursor:pointer; }
         .rl-card:hover { transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.08);border-color:rgba(227,6,19,.25); }
         .rl-card-img-wrap { position:relative;height:185px;overflow:hidden;background:#0f172a;flex-shrink:0; }
+        .rl-card-logo-overlay { position:absolute; bottom:.5rem; left:.7rem; z-index:10; background:#fff; border-radius:50%; width:38px; height:38px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.15); overflow:hidden; border:2px solid #fff; }
         .rl-card-img { width:100%;height:100%;object-fit:cover;transition:transform .4s; }
         .rl-card:hover .rl-card-img { transform:scale(1.05); }
         .rl-card-badge { position:absolute;top:.7rem;left:.7rem;color:#fff;padding:.22rem .65rem;border-radius:9999px;font-size:.66rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase; }

@@ -11,7 +11,25 @@ interface Comment {
   date: string;
 }
 
-export default function CommentsSection({ blogId, blogSlug }: { blogId: string; blogSlug: string }) {
+interface SupabasePostData {
+  id: string;
+}
+
+interface SupabaseCommentData {
+  id: string;
+  author_name: string;
+  comment_text: string;
+  created_at: string;
+}
+
+interface InsertCommentPayload {
+  blog_post_id: string | null;
+  author_name: string;
+  comment_text: string;
+  is_approved: boolean;
+}
+
+export default function CommentsSection({ blogSlug }: { blogSlug: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [commentText, setCommentText] = useState("");
@@ -34,7 +52,7 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
           return;
         }
 
-        const postId = (postData as any).id;
+        const postId = (postData as SupabasePostData).id;
         setSupabasePostId(postId);
 
         // 2. Fetch comments for this UUID
@@ -48,7 +66,7 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
 
         if (data && data.length > 0) {
           setComments(
-            data.map((c: any) => ({
+            (data as SupabaseCommentData[]).map((c) => ({
               id: c.id,
               name: c.author_name,
               comment: c.comment_text,
@@ -92,21 +110,21 @@ export default function CommentsSection({ blogId, blogSlug }: { blogId: string; 
 
     setSubmitting(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("blog_comments")
         .insert({
           blog_post_id: supabasePostId,
           author_name: name.trim(),
           comment_text: commentText.trim(),
           is_approved: true, // Auto-approve so it shows up immediately
-        } as any)
+        } as InsertCommentPayload)
         .select()
         .single();
 
       if (error) throw error;
 
       if (data) {
-        const commentData = data as any;
+        const commentData = data as SupabaseCommentData;
         const newComment: Comment = {
           id: commentData.id,
           name: commentData.author_name,

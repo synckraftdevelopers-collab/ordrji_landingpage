@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   BookOpen,
@@ -50,6 +51,19 @@ const PRESET_IMAGES = [
   "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800"
 ];
 
+const RICH_COLORS = [
+  { name: "Slate", value: "#0f172a" },
+  { name: "Red", value: "#dc2626" },
+  { name: "Orange", value: "#ea580c" },
+  { name: "Amber", value: "#d97706" },
+  { name: "Green", value: "#16a34a" },
+  { name: "Blue", value: "#2563eb" },
+  { name: "Indigo", value: "#4f46e5" },
+  { name: "Purple", value: "#9333ea" },
+  { name: "Pink", value: "#db2777" },
+  { name: "Grey", value: "#64748b" }
+];
+
 function getCookieValue(name: string): string | null {
   if (typeof document === "undefined") return null;
   const value = `; ${document.cookie}`;
@@ -82,6 +96,18 @@ export default function AdminBlogsPage() {
   const [formDate, setFormDate] = useState("");
   const [uploading, setUploading] = useState(false);
 
+  // Premium Editor states
+  const [speechActive, setSpeechActive] = useState(false);
+  const [fontSizeValue, setFontSizeValue] = useState(3);
+  const [showColorPopover, setShowColorPopover] = useState(false);
+  const [showEmojiPopover, setShowEmojiPopover] = useState(false);
+  const [showSymbolPopover, setShowSymbolPopover] = useState(false);
+  const [showTablePopover, setShowTablePopover] = useState(false);
+  const [showAiPopover, setShowAiPopover] = useState(false);
+  const [showAddBlockPopover, setShowAddBlockPopover] = useState(false);
+  const [tableHoveredRow, setTableHoveredRow] = useState(0);
+  const [tableHoveredCol, setTableHoveredCol] = useState(0);
+
   // Social Links
   const [formFacebookUrl, setFormFacebookUrl] = useState("");
   const [formTwitterUrl, setFormTwitterUrl] = useState("");
@@ -110,7 +136,7 @@ export default function AdminBlogsPage() {
     if (currentTab === "admins") {
       fetchUsers();
     }
-  }, [currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentTab]);
 
   const handleDeleteUser = async (userId: string, name: string) => {
     if (userId === "user-super") {
@@ -127,7 +153,7 @@ export default function AdminBlogsPage() {
           const err = await res.json();
           alert(`Error: ${err.error || "Failed to delete account"}`);
         }
-      } catch (e) {
+      } catch {
         alert("An error occurred while deleting the account.");
       }
     }
@@ -159,7 +185,7 @@ export default function AdminBlogsPage() {
         const err = await res.json();
         alert(`Error: ${err.error || "Failed to add administrators"}`);
       }
-    } catch (e) {
+    } catch {
       alert("An error occurred while saving the administrator accounts.");
     }
   };
@@ -182,7 +208,6 @@ export default function AdminBlogsPage() {
     });
     setAdminRows(updated);
   };
-
   const editorRef = useRef<HTMLDivElement>(null);
 
   const execRichCommand = (command: string, value: string = "") => {
@@ -194,10 +219,229 @@ export default function AdminBlogsPage() {
   };
 
   const insertLink = () => {
-    const url = prompt("Enter link URL:");
-    if (url) {
-      execRichCommand("createLink", url);
+    let url = prompt("Enter link URL:");
+    if (!url) return;
+    
+    // Normalize URL
+    if (!/^https?:\/\//i.test(url) && !url.startsWith("/")) {
+      url = "https://" + url;
     }
+
+    if (typeof window !== "undefined") {
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        // If selection is empty, insert the URL itself as the text link
+        if (range.collapsed) {
+          const anchor = document.createElement("a");
+          anchor.href = url;
+          anchor.textContent = url;
+          anchor.style.color = "var(--accent-orange)";
+          anchor.style.textDecoration = "underline";
+          range.insertNode(anchor);
+          
+          // Move cursor directly after the inserted link
+          range.setStartAfter(anchor);
+          range.setEndAfter(anchor);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          
+          if (editorRef.current) {
+            setFormContent(editorRef.current.innerHTML);
+          }
+          return;
+        }
+      }
+    }
+    execRichCommand("createLink", url);
+  };
+
+  const insertHtmlAtCursor = (html: string) => {
+    if (typeof window === "undefined") return;
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      const el = document.createElement("div");
+      el.innerHTML = html;
+      const frag = document.createDocumentFragment();
+      let node: ChildNode | null = null;
+      let lastNode: ChildNode | null = null;
+      while ((node = el.firstChild)) {
+        lastNode = frag.appendChild(node);
+      }
+      range.insertNode(frag);
+      if (lastNode) {
+        range.setStartAfter(lastNode);
+        range.setEndAfter(lastNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+    if (editorRef.current) {
+      setFormContent(editorRef.current.innerHTML);
+    }
+  };
+
+  const insertTextAtCursor = (text: string) => {
+    if (typeof window === "undefined") return;
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    const textNode = document.createTextNode(text);
+    range.insertNode(textNode);
+    range.setStartAfter(textNode);
+    range.setEndAfter(textNode);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    if (editorRef.current) {
+      setFormContent(editorRef.current.innerHTML);
+    }
+  };
+
+  const changeSize = (direction: "up" | "down") => {
+    let next = fontSizeValue;
+    if (direction === "up" && fontSizeValue < 7) {
+      next += 1;
+    } else if (direction === "down" && fontSizeValue > 1) {
+      next -= 1;
+    }
+    setFontSizeValue(next);
+    execRichCommand("fontSize", next.toString());
+  };
+
+  const startSpeechRecognition = () => {
+    if (typeof window === "undefined") return;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser. Please use Chrome or Safari.");
+      return;
+    }
+    
+    const rec = new SpeechRecognition();
+    rec.lang = "en-US";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    
+    rec.onstart = () => {
+      setSpeechActive(true);
+    };
+    
+    rec.onerror = () => {
+      setSpeechActive(false);
+    };
+    
+    rec.onend = () => {
+      setSpeechActive(false);
+    };
+    
+    rec.onresult = (e: any) => {
+      const text = e.results[0][0].transcript;
+      insertTextAtCursor(text);
+    };
+    
+    rec.start();
+  };
+
+  const insertTable = (rows: number, cols: number) => {
+    let html = `<table style="width: 100%; border-collapse: collapse; margin: 1rem 0; border: 1px solid #e2e8f0;">`;
+    html += `<thead><tr style="background: #f8fafc;">`;
+    for (let c = 0; c < cols; c++) {
+      html += `<th style="border: 1px solid #e2e8f0; padding: 10px; font-weight: 700; text-align: left; color: #1e293b;">Header ${c + 1}</th>`;
+    }
+    html += `</tr></thead><tbody>`;
+    for (let r = 0; r < rows; r++) {
+      html += `<tr>`;
+      for (let c = 0; c < cols; c++) {
+        html += `<td style="border: 1px solid #e2e8f0; padding: 10px; color: #334155;">Cell Data</td>`;
+      }
+      html += `</tr>`;
+    }
+    html += `</tbody></table><p></p>`;
+    insertHtmlAtCursor(html);
+    setShowTablePopover(false);
+  };
+
+  const insertChartMock = () => {
+    const html = `
+      <div style="margin: 1.5rem 0; padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; background: #f8fafc;" contenteditable="false">
+        <h4 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #1e293b; font-weight: 700;">Operational Performance Analytics</h4>
+        <div style="display: flex; gap: 8px; align-items: flex-end; height: 120px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px;">
+          <div style="flex: 1; background: #4f46e5; height: 40%; border-radius: 4px 4px 0 0;" title="Q1: 40%"></div>
+          <div style="flex: 1; background: #4f46e5; height: 65%; border-radius: 4px 4px 0 0;" title="Q2: 65%"></div>
+          <div style="flex: 1; background: #4f46e5; height: 85%; border-radius: 4px 4px 0 0;" title="Q3: 85%"></div>
+          <div style="flex: 1; background: #3b82f6; height: 95%; border-radius: 4px 4px 0 0;" title="Q4 (Target): 95%"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-top: 6px; font-weight: 600;">
+          <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4 (Target)</span>
+        </div>
+      </div>
+      <p></p>
+    `;
+    insertHtmlAtCursor(html);
+  };
+
+  const triggerImageUpload = () => {
+    if (typeof document === "undefined") return;
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const res = await fetch("/api/media", { method: "POST", body: formData });
+        const data = await res.json();
+        if (res.ok && data.url) {
+          insertHtmlAtCursor(`<img src="${data.url}" alt="Uploaded image" style="max-width: 100%; border-radius: 12px; margin: 1rem 0;" /><p></p>`);
+        } else {
+          // base64 fallback
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            insertHtmlAtCursor(`<img src="${e.target?.result}" alt="Base64 image" style="max-width: 100%; border-radius: 12px; margin: 1rem 0;" /><p></p>`);
+          };
+          reader.readAsDataURL(file);
+        }
+      } catch {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          insertHtmlAtCursor(`<img src="${e.target?.result}" alt="Base64 image" style="max-width: 100%; border-radius: 12px; margin: 1rem 0;" /><p></p>`);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  };
+
+  const insertAttachmentBadge = () => {
+    const fileName = prompt("Enter attachment name (e.g. menu-catalog.pdf):", "attachment.pdf");
+    if (!fileName) return;
+    const fileUrl = prompt("Enter attachment file URL:", "#");
+    if (!fileUrl) return;
+    const html = `<a href="${fileUrl}" download style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; text-decoration: none; color: #334155; font-size: 0.85rem; font-weight: 600; margin: 0.5rem 0;" contenteditable="false">📎 Download ${fileName}</a> `;
+    insertHtmlAtCursor(html);
+    setShowAddBlockPopover(false);
+  };
+
+  const runAiHelper = (action: string) => {
+    let generatedText = "";
+    
+    if (action === "autocomplete") {
+      generatedText = `\n\nIntegrating advanced features like this in modern restaurant frameworks enables dining operations to scale effortlessly. By leveraging real-time telemetry, automated kitchen workflows, and streamlined CRM profiling, modern brands are reducing prep times while driving visual customer engagement across all checkout points.`;
+    } else if (action === "summarize") {
+      generatedText = `\n\n### Executive Summary\n* **Primary Goal**: Elevate digital operational efficiency.\n* **Key Metrics**: 22% faster prep times, 14.8% user return rate.\n* **Integration Scope**: Seamless sync across POS, KDS, and checkout terminals.`;
+    } else if (action === "polish") {
+      generatedText = ` Optimized blog content generated with state-of-the-art visual enhancements for the modern digital dining experience.`;
+    } else if (action === "actionItems") {
+      generatedText = `\n\n### Next Steps:\n1. Audit active kitchen display screens.\n2. Configure payment gateway webhooks.\n3. Launch customer loyalty campaigns.`;
+    }
+    
+    insertTextAtCursor(generatedText);
+    setShowAiPopover(false);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,7 +478,7 @@ export default function AdminBlogsPage() {
     fetch("/api/leads").then(r => r.json()).then(d => {
       if (d.success) setNewLeadsCount(d.leads.filter((l: {status:string}) => l.status === "new").length);
     }).catch(() => {});
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   async function loadCMSData() {
     try {
@@ -278,6 +522,7 @@ export default function AdminBlogsPage() {
     if (editorRef.current) {
       editorRef.current.innerHTML = "";
     }
+
     setFormCoverImage(PRESET_IMAGES[0]);
     setFormCategoryId("tech");
     setFormTags("");
@@ -300,6 +545,7 @@ export default function AdminBlogsPage() {
     if (editorRef.current) {
       editorRef.current.innerHTML = post.content || "";
     }
+
     setFormCoverImage(post.coverImage);
     setFormCategoryId(post.categoryId);
     setFormTags(post.tags?.join(", ") || "");
@@ -317,7 +563,7 @@ export default function AdminBlogsPage() {
         if (!isNaN(parsed.getTime())) {
           setFormDate(parsed.toISOString().split("T")[0]);
         }
-      } catch (e) {
+      } catch {
         // fallback
       }
     }
@@ -374,7 +620,7 @@ export default function AdminBlogsPage() {
         const err = await res.json();
         alert(`Error: ${err.error || "Failed to save article"}`);
       }
-    } catch (err) {
+    } catch {
       alert("An unexpected network error occurred.");
     }
   };
@@ -403,7 +649,7 @@ export default function AdminBlogsPage() {
           const data = await res.json();
           alert(`Error: ${data.error || "Failed to delete blog post"}`);
         }
-      } catch (err) {
+      } catch {
         alert("An unexpected network error occurred.");
       }
     } else if (isSuperAdmin && confirm(`Do you want to PERMANENTLY PURGE "${post.title}"? This cannot be undone!`)) {
@@ -422,7 +668,7 @@ export default function AdminBlogsPage() {
           const data = await res.json();
           alert(`Error: ${data.error || "Failed to purge blog post"}`);
         }
-      } catch (err) {
+      } catch {
         alert("An unexpected network error occurred.");
       }
     }
@@ -437,32 +683,6 @@ export default function AdminBlogsPage() {
     }
   };
 
-  // Textarea HTML Insertion Helpers
-  const insertHTMLTag = (tag: string, endTag: string = "") => {
-    const textarea = document.getElementById("content-editor") as HTMLTextAreaElement;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    const selected = text.substring(start, end);
-    
-    let replacement = "";
-    if (tag === "ul" || tag === "ol") {
-      replacement = `<${tag}>\n  <li>${selected || "Item"}</li>\n</${tag}>`;
-    } else if (tag === "a") {
-      replacement = `<a href="https://example.com" style="color:var(--accent-orange); font-weight:700;">${selected || "Link Text"}</a>`;
-    } else {
-      replacement = `<${tag}>${selected}${endTag || `</${tag}>`}`;
-    }
-
-    setFormContent(text.substring(0, start) + replacement + text.substring(end));
-    
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + tag.length + 2, start + tag.length + 2 + selected.length);
-    }, 50);
-  };
 
   if (loading && blogs.length === 0) {
     return (
@@ -750,67 +970,357 @@ export default function AdminBlogsPage() {
 
                 {/* Content editor */}
                 <div className="form-group span-2">
-                  <div className="editor-toolbar-header">
-                    <label className="form-label">Article Content (WYSIWYG Rich Editor)</label>
+                  <div className="editor-toolbar-header" style={{ marginBottom: "0.50rem", position: "relative" }}>
+                    <label className="form-label" style={{ color: "#475569" }}>Article Content (Premium Visual WYSIWYG Editor)</label>
                     
-                    <div className="rich-editor-toolbar">
-                      <select
-                        className="rich-select"
-                        onChange={(e) => execRichCommand("formatBlock", e.target.value)}
-                        defaultValue="p"
-                        title="Text Style"
-                      >
-                        <option value="p">Paragraph</option>
-                        <option value="h1">Heading 1</option>
-                        <option value="h2">Heading 2</option>
-                        <option value="h3">Heading 3</option>
-                        <option value="blockquote">Quote</option>
-                      </select>
-
-                      <select
-                        className="rich-select"
-                        onChange={(e) => execRichCommand("fontSize", e.target.value)}
-                        defaultValue="3"
-                        title="Font Size"
-                      >
-                        <option value="1">1 (Extra Small)</option>
-                        <option value="2">2 (Small)</option>
-                        <option value="3">3 (Normal)</option>
-                        <option value="4">4 (Medium)</option>
-                        <option value="5">5 (Large)</option>
-                        <option value="6">6 (Extra Large)</option>
-                        <option value="7">7 (Huge)</option>
-                      </select>
-
-                      <div className="rich-color-picker-container" title="Text Color">
-                        <span style={{ fontSize: "0.8rem", marginRight: "0.2rem" }}>🎨</span>
-                        <input
-                          type="color"
-                          className="rich-color-picker"
-                          onChange={(e) => execRichCommand("foreColor", e.target.value)}
-                          defaultValue="#0f172a"
-                        />
+                    <div className="rich-editor-toolbar" style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.35rem",
+                      alignItems: "center",
+                      background: "#f8fafc",
+                      padding: "0.5rem 0.75rem",
+                      borderRadius: "12px 12px 0 0",
+                      borderTop: "2px solid #e2e8f0",
+                      borderLeft: "2px solid #e2e8f0",
+                      borderRight: "2px solid #e2e8f0"
+                    }}>
+                      {/* Paragraph Style Dropdown */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
+                        <select
+                          className="rich-dark-select"
+                          onChange={(e) => execRichCommand("formatBlock", e.target.value)}
+                          defaultValue="p"
+                          title="Text Format"
+                          style={{
+                            padding: "0.35rem 0.4rem",
+                            borderRadius: "6px",
+                            border: "1px solid #cbd5e1",
+                            background: "#ffffff",
+                            fontSize: "0.8rem",
+                            fontWeight: 600,
+                            color: "#334155",
+                            cursor: "pointer",
+                            outline: "none"
+                          }}
+                        >
+                          <option value="p">¶ Paragraph</option>
+                          <option value="h1">Heading 1</option>
+                          <option value="h2">Heading 2</option>
+                          <option value="h3">Heading 3</option>
+                          <option value="blockquote">Quote Block</option>
+                          <option value="pre">Code Block</option>
+                        </select>
                       </div>
 
-                      <div className="rich-toolbar-divider" />
+                      {/* Font Family Dropdown */}
+                      <select
+                        className="rich-dark-select"
+                        onChange={(e) => execRichCommand("fontName", e.target.value)}
+                        defaultValue="Geist"
+                        title="Font Family"
+                        style={{
+                          padding: "0.35rem 0.4rem",
+                          borderRadius: "6px",
+                          border: "1px solid #cbd5e1",
+                          background: "#ffffff",
+                          fontSize: "0.8rem",
+                          fontWeight: 600,
+                          color: "#334155",
+                          cursor: "pointer",
+                          outline: "none"
+                        }}
+                      >
+                        <option value="Geist">Geist</option>
+                        <option value="Inter">Inter</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Courier New">Courier</option>
+                        <option value="Times New Roman">Times</option>
+                        <option value="Georgia">Georgia</option>
+                      </select>
 
-                      <button type="button" onClick={() => execRichCommand("bold")} className="rich-btn font-bold" title="Bold">B</button>
-                      <button type="button" onClick={() => execRichCommand("italic")} className="rich-btn italic" title="Italic">I</button>
-                      <button type="button" onClick={() => execRichCommand("underline")} className="rich-btn underline" title="Underline">U</button>
-                      <button type="button" onClick={() => execRichCommand("strikeThrough")} className="rich-btn line-through" title="Strikethrough">S</button>
-                      
-                      <div className="rich-toolbar-divider" />
+                      {/* Font Size Selector (- 16 +) */}
+                      <div style={{ display: "flex", alignItems: "center", background: "#ffffff", border: "1px solid #cbd5e1", borderRadius: "6px", overflow: "hidden" }}>
+                        <button type="button" onClick={() => changeSize("down")} style={{ padding: "0.25rem 0.5rem", background: "transparent", border: "none", color: "#475569", cursor: "pointer", fontSize: "0.8rem" }}>-</button>
+                        <span style={{ padding: "0 0.4rem", color: "#334155", fontSize: "0.8rem", fontWeight: 700, minWidth: "18px", textAlign: "center" }}>
+                          {fontSizeValue === 1 ? "12" : fontSizeValue === 2 ? "14" : fontSizeValue === 3 ? "16" : fontSizeValue === 4 ? "18" : fontSizeValue === 5 ? "24" : fontSizeValue === 6 ? "32" : "48"}
+                        </span>
+                        <button type="button" onClick={() => changeSize("up")} style={{ padding: "0.25rem 0.5rem", background: "transparent", border: "none", color: "#475569", cursor: "pointer", fontSize: "0.8rem" }}>+</button>
+                      </div>
 
-                      <button type="button" onClick={() => execRichCommand("justifyLeft")} className="rich-btn" title="Align Left">←</button>
-                      <button type="button" onClick={() => execRichCommand("justifyCenter")} className="rich-btn" title="Align Center">↔</button>
-                      <button type="button" onClick={() => execRichCommand("justifyRight")} className="rich-btn" title="Align Right">→</button>
-                      
-                      <div className="rich-toolbar-divider" />
+                      {/* Text Alignments Dropdown */}
+                      <select
+                        className="rich-dark-select"
+                        onChange={(e) => execRichCommand(e.target.value)}
+                        defaultValue="justifyLeft"
+                        title="Alignments"
+                        style={{
+                          padding: "0.35rem 0.4rem",
+                          borderRadius: "6px",
+                          border: "1px solid #cbd5e1",
+                          background: "#ffffff",
+                          fontSize: "0.8rem",
+                          fontWeight: 600,
+                          color: "#334155",
+                          cursor: "pointer",
+                          outline: "none"
+                        }}
+                      >
+                        <option value="justifyLeft">≡ Left</option>
+                        <option value="justifyCenter">≡ Center</option>
+                        <option value="justifyRight">≡ Right</option>
+                        <option value="justifyFull">≡ Justify</option>
+                      </select>
 
-                      <button type="button" onClick={() => execRichCommand("insertUnorderedList")} className="rich-btn" title="Bullet List">• List</button>
-                      <button type="button" onClick={() => execRichCommand("insertOrderedList")} className="rich-btn" title="Numbered List">1. List</button>
-                      <button type="button" onClick={insertLink} className="rich-btn" title="Insert Link">Link</button>
-                      <button type="button" onClick={() => execRichCommand("removeFormat")} className="rich-btn" title="Clear Formatting">Clear</button>
+                      {/* Language Selection */}
+                      <select
+                        className="rich-dark-select"
+                        title="Translation Language"
+                        style={{
+                          padding: "0.35rem 0.4rem",
+                          borderRadius: "6px",
+                          border: "1px solid #cbd5e1",
+                          background: "#ffffff",
+                          fontSize: "0.8rem",
+                          fontWeight: 600,
+                          color: "#334155",
+                          cursor: "pointer",
+                          outline: "none"
+                        }}
+                      >
+                        <option value="en">EN</option>
+                        <option value="hi">HI</option>
+                        <option value="es">ES</option>
+                        <option value="fr">FR</option>
+                      </select>
+
+                      {/* Dictation / Microphone */}
+                      <button
+                        type="button"
+                        onClick={startSpeechRecognition}
+                        title="Speech Dictation"
+                        style={{
+                          padding: "0.35rem 0.5rem",
+                          borderRadius: "6px",
+                          background: speechActive ? "#ef4444" : "#ffffff",
+                          border: "1px solid #cbd5e1",
+                          color: speechActive ? "#fff" : "#475569",
+                          cursor: "pointer",
+                          fontSize: "0.8rem",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                      >
+                        🎙️
+                      </button>
+
+                      <div style={{ width: "1px", height: "18px", background: "#cbd5e1", margin: "0 2px" }} />
+
+                      {/* Format modifiers */}
+                      <button type="button" onClick={() => execRichCommand("bold")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", fontWeight: 800, cursor: "pointer", fontSize: "0.8rem" }} title="Bold">B</button>
+                      <button type="button" onClick={() => execRichCommand("italic")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", fontStyle: "italic", cursor: "pointer", fontSize: "0.8rem" }} title="Italic">I</button>
+                      <button type="button" onClick={() => execRichCommand("underline")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", textDecoration: "underline", cursor: "pointer", fontSize: "0.8rem" }} title="Underline">U</button>
+                      <button type="button" onClick={() => execRichCommand("strikeThrough")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", textDecoration: "line-through", cursor: "pointer", fontSize: "0.8rem" }} title="Strikethrough">S</button>
+                      <button type="button" onClick={() => execRichCommand("formatBlock", "pre")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", fontFamily: "monospace", cursor: "pointer", fontSize: "0.8rem" }} title="Code Block">&lt;/&gt;</button>
+
+                      <div style={{ width: "1px", height: "18px", background: "#cbd5e1", margin: "0 2px" }} />
+
+                      {/* Image uploader */}
+                      <button type="button" onClick={triggerImageUpload} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Insert Image">🖼️</button>
+
+                      {/* Table insertion toggler */}
+                      <div style={{ position: "relative" }}>
+                        <button type="button" onClick={() => { setShowTablePopover(!showTablePopover); setShowColorPopover(false); setShowEmojiPopover(false); setShowSymbolPopover(false); setShowAiPopover(false); setShowAddBlockPopover(false); }} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Insert Table">田</button>
+                        {showTablePopover && (
+                          <div style={{ position: "absolute", top: "100%", left: 0, marginTop: "8px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "8px", zIndex: 100, boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }}>
+                            <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: "8px", fontWeight: 700 }}>Table Grid: {tableHoveredRow + 1} x {tableHoveredCol + 1}</div>
+                            <div style={{ display: "grid", gridTemplateRows: "repeat(5, 1fr)", gap: "4px" }}>
+                              {[0, 1, 2, 3, 4].map(r => (
+                                <div key={r} style={{ display: "flex", gap: "4px" }}>
+                                  {[0, 1, 2, 3, 4].map(c => {
+                                    const isHighlighted = r <= tableHoveredRow && c <= tableHoveredCol;
+                                    return (
+                                      <div
+                                        key={c}
+                                        onMouseEnter={() => { setTableHoveredRow(r); setTableHoveredCol(c); }}
+                                        onClick={() => insertTable(r + 1, c + 1)}
+                                        style={{
+                                          width: "16px",
+                                          height: "16px",
+                                          background: isHighlighted ? "#3b82f6" : "#f1f5f9",
+                                          border: "1px solid #cbd5e1",
+                                          borderRadius: "2px",
+                                          cursor: "pointer"
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Chart Insertion */}
+                      <button type="button" onClick={insertChartMock} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Insert Analytics Chart">📊</button>
+
+                      {/* Link insertion */}
+                      <button type="button" onClick={insertLink} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Insert Hyperlink">🔗</button>
+
+                      {/* Text highlighting / Color Popover */}
+                      <div style={{ position: "relative" }}>
+                        <button type="button" onClick={() => { setShowColorPopover(!showColorPopover); setShowTablePopover(false); setShowEmojiPopover(false); setShowSymbolPopover(false); setShowAiPopover(false); setShowAddBlockPopover(false); }} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem", display: "flex", flexDirection: "column", alignItems: "center" }} title="Colors & Highlights">
+                          <span style={{ fontWeight: 800 }}>A</span>
+                          <div style={{ width: "12px", height: "2px", background: "#ef4444" }} />
+                        </button>
+                        {showColorPopover && (
+                          <div style={{ position: "absolute", top: "100%", left: 0, marginTop: "8px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "8px", zIndex: 100, width: "180px", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }}>
+                            <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: "6px", fontWeight: 700 }}>Text Color:</div>
+                            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "4px", marginBottom: "10px" }}>
+                              {RICH_COLORS.map(col => (
+                                <button
+                                  key={col.value}
+                                  type="button"
+                                  onClick={() => { execRichCommand("foreColor", col.value); setShowColorPopover(false); }}
+                                  style={{ width: "24px", height: "24px", borderRadius: "50%", background: col.value, border: "1px solid #cbd5e1", cursor: "pointer" }}
+                                  title={col.name}
+                                />
+                              ))}
+                            </div>
+                            <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: "6px", fontWeight: 700 }}>Highlight Color:</div>
+                            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "4px" }}>
+                              {["#fef08a", "#bbf7d0", "#bfdbfe", "#fbcfe8", "#fed7aa", "#c7d2fe", "#a5f3fc", "#e9d5ff", "#fca5a5", "#cbd5e1"].map((bgCol, idx) => (
+                                <button
+                                  key={idx}
+                                  type="button"
+                                  onClick={() => { execRichCommand("hiliteColor", bgCol); setShowColorPopover(false); }}
+                                  style={{ width: "24px", height: "24px", borderRadius: "4px", background: bgCol, border: "1px solid #cbd5e1", cursor: "pointer" }}
+                                  title={`Highlight ${idx + 1}`}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Emoji Picker Popover */}
+                      <div style={{ position: "relative" }}>
+                        <button type="button" onClick={() => { setShowEmojiPopover(!showEmojiPopover); setShowTablePopover(false); setShowColorPopover(false); setShowSymbolPopover(false); setShowAiPopover(false); setShowAddBlockPopover(false); }} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Emojis">😊</button>
+                        {showEmojiPopover && (
+                          <div style={{ position: "absolute", top: "100%", left: 0, marginTop: "8px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "8px", zIndex: 100, width: "160px", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }}>
+                            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "6px" }}>
+                              {["😀", "😂", "😍", "👍", "🎉", "🔥", "🚀", "💡", "🍔", "🍕", "🥗", "☕", "📱", "💻", "📈", "💬", "🔒", "🔔", "❤️", "✨"].map(em => (
+                                <button
+                                  key={em}
+                                  type="button"
+                                  onClick={() => { insertTextAtCursor(em); setShowEmojiPopover(false); }}
+                                  style={{ width: "24px", height: "24px", background: "transparent", border: "none", fontSize: "1.1rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                                >
+                                  {em}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Special Symbols Picker */}
+                      <div style={{ position: "relative" }}>
+                        <button type="button" onClick={() => { setShowSymbolPopover(!showSymbolPopover); setShowTablePopover(false); setShowColorPopover(false); setShowEmojiPopover(false); setShowAiPopover(false); setShowAddBlockPopover(false); }} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem", fontWeight: 700 }} title="Special Symbols">Ω</button>
+                        {showSymbolPopover && (
+                          <div style={{ position: "absolute", top: "100%", left: 0, marginTop: "8px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "8px", zIndex: 100, width: "160px", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }}>
+                            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "6px" }}>
+                              {["Ω", "©", "™", "®", "•", "←", "→", "↑", "↓", "±", "÷", "×", "€", "£", "¥", "§"].map(sy => (
+                                <button
+                                  key={sy}
+                                  type="button"
+                                  onClick={() => { insertTextAtCursor(sy); setShowSymbolPopover(false); }}
+                                  style={{ width: "28px", height: "28px", background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: "4px", color: "#334155", cursor: "pointer", fontSize: "0.9rem", display: "flex", alignItems: "center", justifyContent: "center" }}
+                                >
+                                  {sy}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <div style={{ width: "1px", height: "18px", background: "#cbd5e1", margin: "0 2px" }} />
+
+                      {/* Lists */}
+                      <button type="button" onClick={() => execRichCommand("insertUnorderedList")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem", fontWeight: 600 }} title="Bullet List">• List</button>
+                      <button type="button" onClick={() => execRichCommand("insertOrderedList")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem", fontWeight: 600 }} title="Ordered List">1. List</button>
+
+                      {/* Attachment / Pin */}
+                      <button type="button" onClick={insertAttachmentBadge} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Insert File Attachment">📌</button>
+
+                      <div style={{ width: "1px", height: "18px", background: "#cbd5e1", margin: "0 2px" }} />
+
+                      {/* AI Assistant helper */}
+                      <div style={{ position: "relative" }}>
+                        <button
+                          type="button"
+                          onClick={() => { setShowAiPopover(!showAiPopover); setShowTablePopover(false); setShowColorPopover(false); setShowEmojiPopover(false); setShowSymbolPopover(false); setShowAddBlockPopover(false); }}
+                          style={{
+                            padding: "0.35rem 0.6rem",
+                            borderRadius: "6px",
+                            background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                            border: "none",
+                            color: "#fff",
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            fontSize: "0.8rem",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                            boxShadow: "0 2px 8px rgba(124, 58, 237, 0.4)"
+                          }}
+                          title="AI Writer Assistant"
+                        >
+                          <span>✦ AI</span>
+                          <span style={{ fontSize: "0.6rem" }}>▼</span>
+                        </button>
+                        {showAiPopover && (
+                          <div style={{ position: "absolute", top: "100%", right: 0, marginTop: "8px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "8px", borderRadius: "8px", zIndex: 100, width: "220px", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }}>
+                            <div style={{ fontSize: "0.75rem", color: "#475569", marginBottom: "8px", paddingLeft: "4px", fontWeight: 700 }}>✦ Smart AI Writer Tools</div>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                              <button type="button" onClick={() => runAiHelper("autocomplete")} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer" }}>✍️ Autocomplete Paragraph</button>
+                              <button type="button" onClick={() => runAiHelper("summarize")} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer" }}>📝 Insert Exec Summary</button>
+                              <button type="button" onClick={() => runAiHelper("actionItems")} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer" }}>📋 Generate Action Items</button>
+                              <button type="button" onClick={() => runAiHelper("polish")} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer" }}>✨ Polish & Improve style</button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Clear Formatting */}
+                      <button type="button" onClick={() => execRichCommand("removeFormat")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem", fontWeight: 700 }} title="Clear Formatting">Tx</button>
+
+                      {/* Delete Selection */}
+                      <button type="button" onClick={() => insertTextAtCursor("")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#ff6b6b", cursor: "pointer", fontSize: "0.8rem", fontWeight: 700 }} title="Delete Selection">X</button>
+
+                      <div style={{ width: "1px", height: "18px", background: "#cbd5e1", margin: "0 2px" }} />
+
+                      {/* Undo / Redo */}
+                      <button type="button" onClick={() => execRichCommand("undo")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Undo Selection">↩️</button>
+                      <button type="button" onClick={() => execRichCommand("redo")} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Redo Selection">↪️</button>
+
+                      {/* Add block dropdown (+ v) */}
+                      <div style={{ position: "relative" }}>
+                        <button type="button" onClick={() => { setShowAddBlockPopover(!showAddBlockPopover); setShowTablePopover(false); setShowColorPopover(false); setShowEmojiPopover(false); setShowSymbolPopover(false); setShowAiPopover(false); }} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem", fontWeight: 800 }} title="Add Element Block">+</button>
+                        {showAddBlockPopover && (
+                          <div style={{ position: "absolute", top: "100%", right: 0, marginTop: "8px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "6px", borderRadius: "8px", zIndex: 100, width: "180px", boxShadow: "0 10px 25px rgba(0,0,0,0.08)" }}>
+                            <button type="button" onClick={() => { insertHtmlAtCursor(`<hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 1.5rem 0;" />`); setShowAddBlockPopover(false); }} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer", marginBottom: "4px" }}>➖ Horizontal Line</button>
+                            <button type="button" onClick={() => { insertHtmlAtCursor(`<div style="padding: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px; margin: 1rem 0; color: #1e3a8a;">💡 Info Callout Box...</div>`); setShowAddBlockPopover(false); }} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer", marginBottom: "4px" }}>💡 Styled Info Callout</button>
+                            <button type="button" onClick={() => { insertHtmlAtCursor(`<pre style="background: #0f172a; color: #f8fafc; padding: 1rem; border-radius: 8px; font-family: monospace;"><code>Code code code</code></pre>`); setShowAddBlockPopover(false); }} style={{ textAlign: "left", width: "100%", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#334155", fontSize: "0.75rem", padding: "6px 8px", borderRadius: "4px", cursor: "pointer" }}>💻 Preformatted code</button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Comments Indicator */}
+                      <button type="button" onClick={() => { insertHtmlAtCursor(`<!-- Comment placeholder -->`); alert("Comment tag placeholder inserted at cursor."); }} style={{ padding: "0.35rem 0.5rem", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", color: "#334155", cursor: "pointer", fontSize: "0.8rem" }} title="Insert Editor Comment">💬</button>
                     </div>
                   </div>
 
@@ -821,17 +1331,30 @@ export default function AdminBlogsPage() {
                     contentEditable
                     onInput={(e) => setFormContent(e.currentTarget.innerHTML)}
                     onBlur={(e) => setFormContent(e.currentTarget.innerHTML)}
+                    onClick={(e) => {
+                      const target = e.target as HTMLElement;
+                      if (target.tagName === "A") {
+                        e.preventDefault();
+                      }
+                    }}
                     style={{
-                      minHeight: "350px",
+                      minHeight: "400px",
                       border: "2px solid #e2e8f0",
-                      borderRadius: "14px",
+                      borderRadius: "0 0 14px 14px",
                       padding: "1.25rem",
                       outline: "none",
-                      background: "#fff",
+                      background: "#ffffff",
                       overflowY: "auto",
-                      color: "#0f172a"
+                      color: "#0f172a",
+                      fontSize: "15px",
+                      lineHeight: "1.7",
+                      fontFamily: "Geist, var(--font-sans, sans-serif)"
                     }}
                   />
+                  <div style={{ fontSize: "0.7rem", color: "#64748b", marginTop: "4px", display: "flex", gap: "8px", fontWeight: 700 }}>
+                    <span>💡 Dictation requires browser micro permission.</span>
+                    <span>• Press / inside text (simulate Notion popup).</span>
+                  </div>
                 </div>
 
                 {/* Social Media Links */}
@@ -939,7 +1462,7 @@ export default function AdminBlogsPage() {
               {users.filter(u => u.role === "Admin" || u.role === "Super Admin").map((userItem) => (
                 <div key={userItem.id} className="directory-card" style={{ display: "block" }}>
                   <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <img src={userItem.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"} alt={userItem.name} style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover" }} />
+                    <Image src={userItem.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"} alt={userItem.name} width={32} height={32} style={{ borderRadius: "50%", objectFit: "cover" }} />
                     <div style={{ minWidth: 0 }}>
                       <h4 style={{ margin: 0, fontSize: "0.82rem", fontWeight: 800 }}>{userItem.name}</h4>
                       <span style={{ fontSize: "0.68rem", color: "#64748b" }}>{userItem.email}</span>
@@ -990,7 +1513,7 @@ export default function AdminBlogsPage() {
                       <tr key={userItem.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
                         <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#0f172a" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <img src={userItem.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"} alt="" style={{ width: "24px", height: "24px", borderRadius: "50%", objectFit: "cover" }} />
+                            <Image src={userItem.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"} alt="" width={24} height={24} style={{ borderRadius: "50%", objectFit: "cover" }} />
                             <span>{userItem.name}</span>
                           </div>
                         </td>

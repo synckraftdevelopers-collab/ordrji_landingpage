@@ -21,6 +21,8 @@ export interface StoredRestaurant {
   badge: string;
   badgeColor: string;
   address?: string;
+  logoUrl?: string;
+  coverImageUrl?: string;
 }
 
 export interface RestaurantReview {

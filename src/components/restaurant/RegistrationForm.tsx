@@ -265,6 +265,8 @@ export default function RegistrationForm({
         body: JSON.stringify({
           ...data,
           selectedDishes,
+          logoUrl: logo,
+          coverImageUrl: cover,
         }),
       });
 
@@ -296,6 +298,8 @@ export default function RegistrationForm({
         registeredAt: new Date().toISOString(),
         badge:        "New",
         badgeColor:   "#7c3aed",
+        logoUrl:      logo || undefined,
+        coverImageUrl: cover || undefined,
       });
 
       setSubmittedName(data.restaurantName);

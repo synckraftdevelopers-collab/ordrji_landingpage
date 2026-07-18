@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readTable, writeTable, logActivity, Tag } from "@/utils/db";
 
 // GET - List tags
-export async function GET(_req: NextRequest) {
+export async function GET() {
   const tags = readTable<Tag>("tags");
   return NextResponse.json(tags);
 }

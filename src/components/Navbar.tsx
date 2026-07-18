@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Menu, X, ChevronDown, Search } from "lucide-react";
 import SearchRestaurantModal from "./SearchRestaurantModal";
 
@@ -125,7 +125,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
                 href="/restaurants"
                 className="pf-nav-link dropdown-trigger" 
                 style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}
-                onClick={(e) => {
+                onClick={() => {
                   // Keep desktop navigation on click, dropdown will toggle on hover/focus depending on CSS,
                   // but we also allow toggling dropdown with state if needed.
                   setIsDesktopDropdownOpen(v => !v);

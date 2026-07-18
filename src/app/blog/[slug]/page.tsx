@@ -8,8 +8,9 @@ import SocialShare from "@/components/SocialShare";
 import CommentsSection from "@/components/CommentsSection";
 import RoleSwitcher from "@/components/RoleSwitcher";
 import { readTable, BlogPost, Category, Tag, Author } from "@/utils/db";
-import { Clock, Calendar, Tag as TagIcon, ArrowLeft, User, Sparkles, CheckCircle2 } from "lucide-react";
+import { Clock, Calendar, Tag as TagIcon, ArrowLeft, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import BlogPostStyles from "./BlogPostStyles";
 
 interface Props {
@@ -210,7 +211,7 @@ export default async function BlogPostPage({ params }: Props) {
               {/* Meta row */}
               <div className="post-meta-row">
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <img src={author.avatar} alt={author.name} className="meta-author-img" />
+                  <Image src={author.avatar} alt={author.name} width={40} height={40} className="meta-author-img" />
                   <div>
                     <span className="meta-author-name">By {author.name}</span>
                     <span className="meta-author-title">{author.designation}</span>
@@ -234,7 +235,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Cover Image */}
           <div className="container" style={{ maxWidth: 1000, margin: "2rem auto" }}>
             <div className="cover-img-wrapper">
-              <img src={blog.coverImage} alt={blog.title} className="post-cover-img" />
+              <Image src={blog.coverImage} alt={blog.title} width={1000} height={500} className="post-cover-img" priority />
             </div>
           </div>
 
@@ -256,7 +257,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                       {recentlyAdded.map(rp => (
                         <Link key={rp.id} href={`/blog/${rp.slug}`} style={{ display: "flex", gap: "0.6rem", alignItems: "center", textDecoration: "none", color: "inherit" }} className="widget-post-link">
-                          <img src={rp.coverImage} alt={rp.title} style={{ width: "40px", height: "40px", borderRadius: "6px", objectFit: "cover", flexShrink: 0 }} />
+                          <Image src={rp.coverImage} alt={rp.title} width={40} height={40} style={{ borderRadius: "6px", objectFit: "cover", flexShrink: 0 }} />
                           <div style={{ minWidth: 0 }}>
                             <h5 style={{ fontSize: "0.74rem", fontWeight: 700, margin: 0, color: "var(--text-primary)", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                               {rp.title}
@@ -275,7 +276,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                       {popularPosts.map(pp => (
                         <Link key={pp.id} href={`/blog/${pp.slug}`} style={{ display: "flex", gap: "0.6rem", alignItems: "center", textDecoration: "none", color: "inherit" }} className="widget-post-link">
-                          <img src={pp.coverImage} alt={pp.title} style={{ width: "40px", height: "40px", borderRadius: "6px", objectFit: "cover", flexShrink: 0 }} />
+                          <Image src={pp.coverImage} alt={pp.title} width={40} height={40} style={{ borderRadius: "6px", objectFit: "cover", flexShrink: 0 }} />
                           <div style={{ minWidth: 0 }}>
                             <h5 style={{ fontSize: "0.74rem", fontWeight: 700, margin: 0, color: "var(--text-primary)", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                               {pp.title}
@@ -302,7 +303,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <div className="gallery-grid">
                       {blog.galleryImages.map((img, i) => (
                         <div key={i} className="gallery-item-wrap">
-                          <img src={img} alt={`Gallery ${i}`} className="gallery-img" />
+                          <Image src={img} alt={`Gallery ${i}`} width={400} height={300} className="gallery-img" />
                         </div>
                       ))}
                     </div>
@@ -391,7 +392,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {/* Detailed Author Card */}
                 <div className="author-card-panel shadow-sm">
                   <div className="author-card-layout">
-                    <img src={author.avatar} alt={author.name} className="author-card-img" />
+                    <Image src={author.avatar} alt={author.name} width={80} height={80} className="author-card-img" />
                     <div>
                       <span className="author-card-role-title">Written by</span>
                       <h4 className="author-card-name">{author.name}</h4>
@@ -425,7 +426,7 @@ export default async function BlogPostPage({ params }: Props) {
                 </div>
 
                 {/* Persistent Comments Section */}
-                <CommentsSection blogId={blog.id} blogSlug={blog.slug} />
+                <CommentsSection blogSlug={blog.slug} />
               </article>
             </div>
 
@@ -436,7 +437,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="related-grid">
                   {relatedPosts.map(post => (
                     <Link key={post.id} href={`/blog/${post.slug}`} className="related-card shadow-sm">
-                      <img src={post.coverImage} alt={post.title} className="related-img" />
+                      <Image src={post.coverImage} alt={post.title} width={300} height={200} className="related-img" />
                       <div className="related-body">
                         <h4 className="related-title">{post.title}</h4>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>

@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import Link from "next/link";
 import { Shield, ChevronDown, Check, Eye } from "lucide-react";
 
 interface RoleOption {

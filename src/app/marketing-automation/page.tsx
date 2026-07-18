@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import ProductFeaturePage from "@/components/ProductFeaturePage";
-import { Megaphone, Users, Gift, MessageSquare, Target, Sparkles, Trophy } from "lucide-react";
+import { Users, Gift, MessageSquare, Target, Sparkles, Trophy } from "lucide-react";
 
 export const metadata = {
   title: "Marketing Automation | Ordrji",

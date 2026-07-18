@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookDemoModal from "@/components/BookDemoModal";
 import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
-import FinalCTA from "@/components/FinalCTA";
 import { 
-  Heart, Shield, Users, Trophy, Sparkles, Target, Zap, 
+  Heart, Shield, Users, Sparkles, Target, Zap, 
   ChefHat, BarChart3, TrendingUp, Store, Lock, LifeBuoy,
   CheckCircle2, Clock
 } from "lucide-react";

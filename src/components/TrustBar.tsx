@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 /* ─── brand logos (real culinary brands - colorful original colors) ──────── */
@@ -14,49 +14,6 @@ const BRANDS = [
   { name: "New Eagle Restaurant", localImg: "/images/logos/eagle.jpg" },
   { name: "Gulmohar Fine Dine", localImg: "/images/logos/gulmohar.jpg" }
 ];
-
-/* ─── stats (Restroworks-style — large hero number + label) ──────────────── */
-interface Stat { prefix: string; base: number; suffix: string; label: string; }
-const STATS: Stat[] = [
-  { prefix: "",   base: 3500, suffix: "+",    label: "Restaurants Active"   },
-  { prefix: "₹",  base: 120,  suffix: " Cr+", label: "Monthly Order Value"  },
-  { prefix: "",   base: 99,   suffix: ".99%", label: "Platform Uptime"      },
-  { prefix: "",   base: 22,   suffix: "+",    label: "Cities Covered"       },
-];
-
-/* ─── count-up hook ───────────────────────────────────────────────────────── */
-function useCountUp(target: number, duration = 2000, started = false) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!started) return;
-    let startTs: number | null = null;
-    let raf: number;
-    const tick = (ts: number) => {
-      if (!startTs) startTs = ts;
-      const pct   = Math.min((ts - startTs) / duration, 1);
-      const eased = 1 - Math.pow(1 - pct, 4);   // quartic ease-out
-      setVal(Math.floor(eased * target));
-      if (pct < 1) raf = requestAnimationFrame(tick);
-      else setVal(target);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration, started]);
-  return val;
-}
-
-/* ─── single stat number block ───────────────────────────────────────────── */
-function StatBlock({ s, started, delay }: { s: Stat; started: boolean; delay: number }) {
-  const v = useCountUp(s.base, 2000, started);
-  return (
-    <div className="tb-stat-block" style={{ animationDelay: `${delay}ms` }}>
-      <span className="tb-stat-num">
-        {s.prefix}{started ? v : 0}{s.suffix}
-      </span>
-      <span className="tb-stat-label">{s.label}</span>
-    </div>
-  );
-}
 
 /* ─── marquee row ─────────────────────────────────────────────────────────── */
 function MarqueeRow({ reverse = false }: { reverse?: boolean }) {

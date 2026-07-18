@@ -1,6 +1,6 @@
 import React from "react";
 import ProductFeaturePage from "@/components/ProductFeaturePage";
-import { Monitor, Clock, ChefHat, CheckSquare, Bell, Flame } from "lucide-react";
+import { Monitor, Clock, CheckSquare, Bell, Flame } from "lucide-react";
 
 export const metadata = {
   title: "Kitchen Display System (KDS) | Ordrji",

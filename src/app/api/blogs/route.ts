@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { readTable, writeTable, logActivity, BlogPost, BlogRevision } from "@/utils/db";
 
@@ -141,7 +141,7 @@ export async function POST(req: NextRequest) {
           );
           createdAtTimestamp = combined.toISOString();
         }
-      } catch (e) {}
+      } catch {}
     }
 
     const newBlog: BlogPost = {

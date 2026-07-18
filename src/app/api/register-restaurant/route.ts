@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react/no-unescaped-entities, @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 
@@ -48,6 +48,8 @@ export async function POST(request: Request) {
         pincode: data.pincode,
         cuisine_type: data.cuisineType,
         restaurant_type: data.restaurantType,
+        logo_url: data.logoUrl || null,
+        cover_image_url: data.coverImageUrl || null,
         swiggy_url: data.swiggyUrl || null,
         zomato_url: data.zomatoUrl || null,
         opening_time: data.openingTime,

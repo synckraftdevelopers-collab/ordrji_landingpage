@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { TrendingUp, Users, Zap, BarChart2, CheckCircle } from "lucide-react";
 
 interface EcosystemNode {
@@ -103,9 +103,7 @@ export default function Ecosystem() {
 
   // scroll-in state
   const sectionRef   = useRef<HTMLElement>(null);
-  const [inView, setInView]       = useState(false);
   const [detailVisible, setDetailVisible] = useState(false);
-  const [svgVisible, setSvgVisible]       = useState(false);
   const [countersStarted, setCountersStarted] = useState(false);
 
   // Intersection Observer — triggers all animations
@@ -115,9 +113,7 @@ export default function Ecosystem() {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setInView(true);
           setTimeout(() => setDetailVisible(true), 100);
-          setTimeout(() => setSvgVisible(true), 300);
           setTimeout(() => setCountersStarted(true), 200);
           obs.disconnect();
         }
