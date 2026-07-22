@@ -234,7 +234,7 @@ export default function RegistrationForm({
   const [selectedDishes, setSelectedDishes] = useState<string[]>(prefill?.dishes ?? []);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const { register, handleSubmit, control, reset, formState: { errors } } = useForm<RegistrationFormData>({
+  const { register, handleSubmit, control, reset, setValue, watch, formState: { errors } } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
   });
 
@@ -294,7 +294,7 @@ export default function RegistrationForm({
         closingTime:  data.closingTime,
         ownerName:    data.ownerName,
         phone:        data.phone,
-        email:        data.email,
+        email:        data.email || "",
         registeredAt: new Date().toISOString(),
         badge:        "New",
         badgeColor:   "#7c3aed",
@@ -325,7 +325,7 @@ export default function RegistrationForm({
           <div className="rr-form-col">
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
-              <RestaurantInfo register={register} errors={errors} />
+              <RestaurantInfo register={register} errors={errors} setValue={setValue} watch={watch} />
 
               {/* Cuisine & Dishes section with custom components */}
               <div className="rr-section">
@@ -505,10 +505,14 @@ export default function RegistrationForm({
 
         .rr-form-col {
           background: #fff; border: 1px solid #e2e8f0;
-          border-radius: 24px; overflow: hidden;
+          border-radius: 24px; overflow: visible;
           box-shadow: 0 8px 40px -8px rgba(0,0,0,.08);
+          position: relative;
         }
-        .rr-section { padding: 2rem 2.25rem; border-bottom: 1px solid #f1f5f9; }
+        .rr-section { padding: 2rem 2.25rem; border-bottom: 1px solid #f1f5f9; position: relative; }
+        @media (max-width: 600px) {
+          .rr-section { padding: 1.5rem 1.1rem; }
+        }
         .rr-section:last-of-type { border-bottom: none; }
         .rr-section-header { display: flex; align-items: flex-start; gap: .9rem; margin-bottom: 1.75rem; }
         .rr-section-num {
@@ -524,8 +528,9 @@ export default function RegistrationForm({
         /* ── Field ──────────────────────────────────────────── */
         .rr-grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.1rem; margin-bottom: 1.1rem; }
         @media (min-width: 600px) { .rr-grid-2 { grid-template-columns: 1fr 1fr; } }
-        .rr-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-bottom: 1.1rem; }
-        @media (min-width: 768px) { .rr-grid-4 { grid-template-columns: repeat(4,1fr); } }
+        .rr-grid-4 { display: grid; grid-template-columns: 1fr; gap: 1.1rem; margin-bottom: 1.1rem; }
+        @media (min-width: 540px) { .rr-grid-4 { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 900px) { .rr-grid-4 { grid-template-columns: repeat(4,1fr); } }
         .rr-field { display: flex; flex-direction: column; gap: .4rem; }
         .rr-label { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 700; color: #374151; letter-spacing: .1px; }
         .rr-label-icon { color: #E30613; }
@@ -575,7 +580,7 @@ export default function RegistrationForm({
         .rr-sselect-arrow { color: #94a3b8; transition: transform .2s; flex-shrink: 0; }
         .rr-sselect-arrow.rotated { transform: rotate(180deg); color: #E30613; }
         .rr-sselect-menu {
-          position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 200;
+          position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 1000 !important;
           background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px;
           box-shadow: 0 16px 40px -8px rgba(0,0,0,.14); overflow: hidden;
         }
@@ -624,7 +629,7 @@ export default function RegistrationForm({
         }
         .rr-dish-tag-remove:hover { color: #dc2626; }
         .rr-dishes-menu {
-          position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 200;
+          position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 1000 !important;
           background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px;
           box-shadow: 0 16px 40px -8px rgba(0,0,0,.14); overflow: hidden;
         }

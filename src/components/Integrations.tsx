@@ -149,47 +149,49 @@ function OrbNode({ p, rot }: { p: Partner; rot: number }) {
 /* ── SVG rings + spokes + hub ──────────────────────────────────────────── */
 function Orbital({ partners, rot, ringColor }: { partners: Partner[]; rot: number; ringColor: string }) {
   return (
-    <div style={{ position: "relative", width: SIZE, height: SIZE, maxWidth: "100%" }}>
-      {/* SVG — behind nodes */}
-      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE}
-        style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden>
-        <defs>
-          <clipPath id="igHub"><circle cx={CX} cy={CY} r="42" /></clipPath>
-          <filter id="igHubF" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor={ringColor} floodOpacity="0.2" />
-          </filter>
-        </defs>
+    <div className="ig-orbital-outer">
+      <div className="ig-orbital-scaler" style={{ position: "relative", width: SIZE, height: SIZE }}>
+        {/* SVG — behind nodes */}
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE}
+          style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden>
+          <defs>
+            <clipPath id="igHub"><circle cx={CX} cy={CY} r="42" /></clipPath>
+            <filter id="igHubF" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor={ringColor} floodOpacity="0.2" />
+            </filter>
+          </defs>
 
-        {/* orbit rings */}
-        {RADII.map((r, i) => (
-          <circle key={i} cx={CX} cy={CY} r={r}
-            fill="none" stroke={ringColor} strokeWidth="1" strokeOpacity="0.2" strokeDasharray="4 6" style={{ transition: "stroke 0.4s ease" }} />
-        ))}
+          {/* orbit rings */}
+          {RADII.map((r, i) => (
+            <circle key={i} cx={CX} cy={CY} r={r}
+              fill="none" stroke={ringColor} strokeWidth="1" strokeOpacity="0.2" strokeDasharray="4 6" style={{ transition: "stroke 0.4s ease" }} />
+          ))}
 
-        {/* hub glow pulse */}
-        <circle cx={CX} cy={CY} r="68" fill={`${ringColor}10`} className="igHubPulse" style={{ transition: "fill 0.4s ease" }} />
+          {/* hub glow pulse */}
+          <circle cx={CX} cy={CY} r="68" fill={`${ringColor}10`} className="igHubPulse" style={{ transition: "fill 0.4s ease" }} />
 
-        {/* center html hub will be added outside SVG */}
-      </svg>
+          {/* center html hub will be added outside SVG */}
+        </svg>
 
-      {/* HTML center hub */}
-      <div style={{
-        position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 10
-      }}>
+        {/* HTML center hub */}
         <div style={{
-          width: 110, height: 110, borderRadius: "50%", background: "#fff", 
-          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          boxShadow: `0 8px 24px ${ringColor}33`, overflow: "hidden",
-          transition: "box-shadow 0.4s ease"
+          position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 10
         }}>
-          <Image src="/logo-icon.jpg" alt="Ordrji Logo" width={110} height={110} style={{ objectFit: "cover" }} />
+          <div style={{
+            width: 110, height: 110, borderRadius: "50%", background: "#fff", 
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+            boxShadow: `0 8px 24px ${ringColor}33`, overflow: "hidden",
+            transition: "box-shadow 0.4s ease"
+          }}>
+            <Image src="/logo-icon.jpg" alt="Ordrji Logo" width={110} height={110} style={{ objectFit: "cover" }} />
+          </div>
         </div>
-      </div>
 
-      {/* HTML nodes — on top */}
-      {partners.map((p, i) => (
-        <OrbNode key={`${p.name}-${i}`} p={p} rot={rot} />
-      ))}
+        {/* HTML nodes — on top */}
+        {partners.map((p, i) => (
+          <OrbNode key={`${p.name}-${i}`} p={p} rot={rot} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -247,7 +249,7 @@ export default function Integrations() {
             initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
             onViewportEnter={() => setInView(true)}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25 }}
           >
             {mounted ? (
@@ -262,7 +264,7 @@ export default function Integrations() {
             className="ig-right"
             initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.2 }}
           >
             <div className="ig-tabs-accordion">
@@ -341,10 +343,37 @@ export default function Integrations() {
         /* ── left col (orbital) ──────────────────────────── */
         .ig-left {
           display: flex; justify-content: center; align-items: center;
-          opacity: 0; transform: translateX(-24px) scale(0.97);
           transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1);
+          width: 100%; max-width: 100%; overflow: hidden;
         }
         .ig-left.ig-left-in { opacity: 1; transform: translateX(0) scale(1); }
+
+        .ig-orbital-outer {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-width: 580px;
+        }
+
+        @media (max-width: 640px) {
+          .ig-left {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+          }
+          .ig-orbital-outer {
+            width: calc(100vw - 32px);
+            height: calc(100vw - 32px);
+            max-width: 100vw;
+          }
+          .ig-orbital-scaler {
+            transform: scale(calc((100vw - 32px) / 580));
+            transform-origin: center center;
+            flex-shrink: 0;
+          }
+        }
 
         /* hub pulse animation */
         .igHubPulse {
@@ -359,7 +388,6 @@ export default function Integrations() {
         /* ── right col (content) ─────────────────────────── */
         .ig-right {
           display: flex; flex-direction: column; gap: 1.4rem;
-          opacity: 0; transform: translateX(20px);
           transition: opacity .7s ease .1s, transform .7s cubic-bezier(.16,1,.3,1) .1s;
         }
         .ig-right.ig-right-in { opacity: 1; transform: translateX(0); }

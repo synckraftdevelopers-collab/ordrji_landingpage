@@ -9,9 +9,10 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   prefill?: RestaurantPrefill;
+  onSuccess?: (restaurantName: string) => void;
 }
 
-export default function RegisterRestaurantModal({ isOpen, onClose, prefill }: Props) {
+export default function RegisterRestaurantModal({ isOpen, onClose, prefill, onSuccess }: Props) {
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -98,6 +99,7 @@ export default function RegisterRestaurantModal({ isOpen, onClose, prefill }: Pr
               <RegistrationForm
                 prefill={prefill}
                 onSuccessModalClose={onClose}
+                onSuccess={onSuccess}
               />
             </motion.div>
           </div>

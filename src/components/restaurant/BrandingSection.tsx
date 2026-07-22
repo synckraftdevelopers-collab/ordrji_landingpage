@@ -18,8 +18,11 @@ function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith("image/")) return;
-    const url = URL.createObjectURL(file);
-    onChange(url);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      onChange(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (

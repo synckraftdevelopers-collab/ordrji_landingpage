@@ -165,7 +165,7 @@ function FlipCard({
           t2 = setTimeout(() => setFlipped(false), 400 + delay + 1600);
         }
       },
-      { threshold: 0.15 }   // fire as soon as 15% is visible — works on all screen sizes
+      { threshold: 0.01 }   // fire as soon as 1% is visible — works on all screen sizes
     );
     obs.observe(el);
     return () => {
@@ -329,7 +329,7 @@ export default function Pricing() {
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setInView(true); setTimeout(() => setHdrIn(true), 60); obs.disconnect(); }
-    }, { threshold: 0.08 });
+    }, { threshold: 0.01 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -455,7 +455,6 @@ export default function Pricing() {
         /* ── header scroll-in ────────────────────────────────────────── */
         .pricing-header {
           position: relative; z-index: 2;
-          opacity: 0; transform: translateY(26px);
           transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
         }
         .pricing-hdr-in { opacity: 1; transform: translateY(0); }
@@ -568,7 +567,6 @@ export default function Pricing() {
           perspective: 1200px;
           /* match tallest face so grid rows are consistent */
           min-height: 650px;
-          opacity: 0; transform: translateY(40px) rotateX(6deg);
           transition:
             opacity   0.65s cubic-bezier(0.16,1,0.3,1),
             transform 0.65s cubic-bezier(0.16,1,0.3,1);

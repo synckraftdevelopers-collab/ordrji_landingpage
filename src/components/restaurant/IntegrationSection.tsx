@@ -12,7 +12,7 @@ interface Props {
 }
 
 function PlatformField({ label, logo, placeholder, fieldName, register, error }: {
-  label: string; logo: string; placeholder: string;
+  label: string; logo: React.ReactNode; placeholder: string;
   fieldName: "swiggyUrl" | "zomatoUrl";
   register: UseFormRegister<RegistrationFormData>;
   error?: string;
@@ -24,12 +24,13 @@ function PlatformField({ label, logo, placeholder, fieldName, register, error }:
         {label} <span className="rr-optional">(Optional)</span>
       </label>
       <div className="rr-input-prefix-wrap">
-        <span className="rr-input-prefix"><Link2 size={14} /></span>
+        <span className="rr-input-prefix" style={{ display: "flex", alignItems: "center" }}>{logo}</span>
         <input
           type="url"
           className={`rr-input rr-input-prefixed ${error ? "rr-input-err" : ""}`}
           placeholder={placeholder}
           {...register(fieldName)}
+          style={{ paddingLeft: "2.5rem" }}
         />
       </div>
       {error && <span className="rr-error">{error}</span>}
@@ -61,7 +62,15 @@ export default function IntegrationSection({ register, errors }: Props) {
       <div className="rr-grid-2">
         <PlatformField
           label="Swiggy Restaurant URL"
-          logo="🟠"
+          logo={
+            <img
+              src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64"
+              alt="Swiggy"
+              width={18}
+              height={18}
+              style={{ display: "inline-block", verticalAlign: "middle", borderRadius: "4px", marginRight: "4px" }}
+            />
+          }
           placeholder="https://www.swiggy.com/restaurants/your-restaurant-name"
           fieldName="swiggyUrl"
           register={register}
@@ -69,7 +78,15 @@ export default function IntegrationSection({ register, errors }: Props) {
         />
         <PlatformField
           label="Zomato Restaurant URL"
-          logo="🔴"
+          logo={
+            <img
+              src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64"
+              alt="Zomato"
+              width={18}
+              height={18}
+              style={{ display: "inline-block", verticalAlign: "middle", borderRadius: "4px", marginRight: "4px" }}
+            />
+          }
           placeholder="https://www.zomato.com/city/restaurant-name"
           fieldName="zomatoUrl"
           register={register}

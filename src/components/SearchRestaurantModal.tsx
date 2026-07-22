@@ -1,16 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Search, Star, Utensils, ChevronRight } from "lucide-react";
-import { 
-  getStoredRestaurants, getRestaurantRating, SEED_IDS 
-} from "@/lib/restaurantStore";
-import RestaurantProfileView from "./restaurant/RestaurantProfileView";
+import { X, Search, Star, Utensils, ChevronRight, Loader2 } from "lucide-react";
+import { getRestaurantRating, SEED_IDS } from "@/lib/restaurantStore";
+import { useRouter } from "next/navigation";
 
-/* ─── Demo Seed Restaurants Data ─────────────────────────────────── */
+/* ─── Demo seed restaurants ──────────────────────────────────────── */
 const DEMO_RESTAURANTS = [
   {
     id: 1, name: "Spice Garden", cuisine: "North Indian", type: "both" as const,
@@ -76,14 +73,30 @@ interface Props {
 }
 
 export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
-  const [selectedRestaurant, setSelectedRestaurant] = useState<any>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  // Supabase-fetched restaurants
+  const [supabaseRestaurants, setSupabaseRestaurants] = useState<any[]>([]);
+  const [loadingSupabase, setLoadingSupabase] = useState(false);
+
+  // Fetch from Supabase whenever modal opens
+  useEffect(() => {
+    if (!isOpen) return;
+    setLoadingSupabase(true);
+    fetch("/api/restaurants")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setSupabaseRestaurants(data.restaurants ?? []);
+      })
+      .catch(err => console.error("Failed to fetch restaurants:", err))
+      .finally(() => setLoadingSupabase(false));
+  }, [isOpen, refreshKey]);
 
   useEffect(() => {
     if (!isOpen) {
       setQuery("");
-      setSelectedRestaurant(null);
     }
   }, [isOpen]);
 
@@ -94,19 +107,39 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !selectedRestaurant) onClose();
-      else if (e.key === "Escape" && selectedRestaurant) setSelectedRestaurant(null);
+      if (e.key === "Escape") onClose();
     };
     if (isOpen) window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [isOpen, onClose, selectedRestaurant]);
+  }, [isOpen, onClose]);
 
-  // Combined list with dynamically computed live ratings
+  // Build combined restaurant list: Supabase registered + demo seeds
   const allRestaurants = useMemo(() => {
-    const extraRestaurants = getStoredRestaurants().filter(r => !SEED_IDS.includes(r.id));
-    
-    const extraMapped = extraRestaurants.map(r => {
+    // Map Supabase restaurants to display shape
+    const supabaseMapped = supabaseRestaurants.map((r: any, index: number) => {
       const { rating, reviewsCount } = getRestaurantRating(String(r.id), 0, 0);
+      const fallbackLogos = [
+        "/images/logos/kitchen365.jpg",
+        "/images/logos/mirabel.jpg",
+        "/images/logos/upabove.jpg",
+        "/images/logos/gulmohar.jpg",
+        "/images/logos/eagle.jpg",
+        "/images/logos/mansarovar.jpg",
+        "/images/logos/shivai.jpg",
+        "/images/logos/virsa.jpg"
+      ];
+      const fallbackCovers = [
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=600"
+      ];
+      const assignedLogo = r.logoUrl && !r.logoUrl.startsWith("blob:")
+        ? r.logoUrl
+        : fallbackLogos[index % fallbackLogos.length];
+      const assignedCover = r.coverImageUrl || fallbackCovers[index % fallbackCovers.length];
+
       return {
         id: r.id,
         name: r.name,
@@ -116,12 +149,12 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
         area: r.area,
         rating,
         reviewsCount,
-        deliveryTime: `${r.openingTime}–${r.closingTime}`,
+        deliveryTime: r.openingTime && r.closingTime ? `${r.openingTime}–${r.closingTime}` : "–",
         avgCost: r.avgCost,
-        dishes: r.dishes,
-        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
-        badge: "New",
-        badgeColor: "#7c3aed",
+        dishes: r.dishes ?? [],
+        image: assignedCover,
+        badge: r.badge || "Registered",
+        badgeColor: r.badgeColor || "#059669",
         open: true,
         swiggy: !!r.swiggyUrl,
         zomato: !!r.zomatoUrl,
@@ -130,31 +163,47 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
         phone: r.phone,
         email: r.email,
         address: r.address,
+        logoUrl: assignedLogo,
+        coverImageUrl: r.coverImageUrl,
         baseRating: 0,
-        baseReviewsCount: 0
+        baseReviewsCount: 0,
+        ownerName: r.ownerName,
+        registeredAt: r.registeredAt,
       };
     });
 
+    // Demo seed restaurants
     const demoMapped = DEMO_RESTAURANTS.map(r => {
+      const stringId = "seed-" + r.id;
       const baseRating = [4.5, 4.7, 4.2, 4.6, 4.8, 4.3, 4.4, 4.6][(r.id - 1) % 8];
       const baseReviewsCount = [312, 528, 184, 401, 762, 256, 190, 334][(r.id - 1) % 8];
-      const { rating, reviewsCount } = getRestaurantRating(String(r.id), baseRating, baseReviewsCount);
+      const { rating, reviewsCount } = getRestaurantRating(stringId, baseRating, baseReviewsCount);
       return {
         ...r,
+        id: stringId,
         rating,
         reviewsCount,
         baseRating,
         baseReviewsCount,
         avgCost: [450, 200, 550, 300, 380, 600, 150, 700][(r.id - 1) % 8],
-        deliveryTime: ["25–35 min", "20–30 min", "30–40 min", "15–25 min", "35–45 min", "25–35 min", "20–30 min", "40–50 min"][(r.id - 1) % 8],
+        deliveryTime: ["25–35 min","20–30 min","30–40 min","15–25 min","35–45 min","25–35 min","20–30 min","40–50 min"][(r.id - 1) % 8],
         swiggy: [true, true, false, true, true, false, true, false][(r.id - 1) % 8],
-        zomato: [true, false, true, true, true, true, false, true][(r.id - 1) % 8]
+        zomato: [true, false, true, true, true, true, false, true][(r.id - 1) % 8],
+        swiggyUrl: undefined as string | undefined,
+        zomatoUrl: undefined as string | undefined,
+        logoUrl: undefined as string | undefined,
+        coverImageUrl: undefined as string | undefined,
+        phone: "" as string,
+        email: "" as string,
+        address: "" as string,
+        ownerName: "" as string,
+        registeredAt: "" as string,
       };
     });
 
-    return [...extraMapped, ...demoMapped];
+    return [...supabaseMapped, ...demoMapped];
     // eslint-disable-next-line
-  }, [isOpen, refreshKey]);
+  }, [supabaseRestaurants, refreshKey]);
 
   // Filter list by query
   const filtered = useMemo(() => {
@@ -165,7 +214,7 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
       r.cuisine.toLowerCase().includes(q) ||
       r.city.toLowerCase().includes(q) ||
       r.area.toLowerCase().includes(q) ||
-      r.dishes.some(d => d.toLowerCase().includes(q))
+      r.dishes.some((d: string) => d.toLowerCase().includes(q))
     );
   }, [query, allRestaurants]);
 
@@ -262,6 +311,20 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
           display: flex;
           flex-direction: column;
           gap: 2.5rem;
+        }
+
+        @media (max-width: 600px) {
+          .rrm-picker {
+            margin: 1rem auto 1.5rem;
+            padding: 0 0.5rem;
+          }
+          .rrm-picker-head {
+            padding: 1.25rem 1rem;
+          }
+          .rrm-picker-list-container {
+            padding: 1.25rem 1rem;
+            max-height: 72vh;
+          }
         }
 
         .rrm-section-title {
@@ -429,6 +492,14 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
           gap: 0.4rem;
         }
 
+        .rrm-card-logo-overlay {
+          position: absolute; bottom: -12px; left: 12px; z-index: 10;
+          width: 34px; height: 34px; border-radius: 50%;
+          background: #fff; padding: 2px;
+          box-shadow: 0 4px 10px rgba(0,0,0,.15);
+          display: flex; align-items: center; justify-content: center;
+        }
+
         .rrm-section-empty {
           background: #fff;
           border: 1.5px dashed #e2e8f0;
@@ -484,16 +555,6 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
             >
               <div className="rrm-picker-card">
                 
-                {/* ─── Profile Sub-view Mode ─── */}
-                {selectedRestaurant ? (
-                  <RestaurantProfileView 
-                    restaurant={selectedRestaurant} 
-                    onBack={() => setSelectedRestaurant(null)} 
-                    onReviewAdded={() => {
-                      setRefreshKey(k => k + 1);
-                    }}
-                  />
-                ) : (
                   /* ─── Search List Mode ─── */
                   <>
                     <div className="rrm-picker-head">
@@ -520,7 +581,13 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
                     </div>
 
                     <div className="rrm-picker-list-container">
-                      {totalResultsCount === 0 ? (
+                      {loadingSupabase ? (
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem", padding: "4rem 1rem", color: "#94a3b8" }}>
+                          <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
+                          <p style={{ margin: 0, fontSize: "0.88rem", fontWeight: 600 }}>Loading restaurants…</p>
+                          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                        </div>
+                      ) : totalResultsCount === 0 ? (
                         <div className="rrm-no-results">
                           <Utensils size={36} color="#cbd5e1" />
                           <p>No restaurants match &ldquo;{query}&rdquo;</p>
@@ -544,16 +611,22 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
                                   <div 
                                     key={r.id} 
                                     className="rrm-card"
-                                    onClick={() => setSelectedRestaurant(r)}
+                                    onClick={() => {
+                                      onClose();
+                                      router.push(`/restaurants/${r.id}`);
+                                    }}
                                   >
                                     <div className="rrm-card-img-wrap">
-                                      <Image 
-                                        src={r.image} 
+                                      <img 
+                                        src={r.image || "/placeholder-restaurant.jpg"} 
                                         alt={r.name} 
-                                        width={400} 
-                                        height={145} 
                                         style={{ objectFit: "cover", width: "100%", height: "100%" }} 
                                       />
+                                      {r.logoUrl && (
+                                        <div className="rrm-card-logo-overlay">
+                                          <img src={r.logoUrl} alt={`${r.name} logo`} style={{ objectFit: "cover", borderRadius: "50%", width: "30px", height: "30px" }} />
+                                        </div>
+                                      )}
                                       {r.badge && (
                                         <span className="rrm-card-badge" style={{ background: r.badgeColor }}>
                                           {r.badge}
@@ -574,7 +647,7 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
                                       <p className="rrm-card-cuisine">{r.cuisine}</p>
                                       <p className="rrm-card-meta">📍 {r.area}, {r.city}</p>
                                       <div className="rrm-card-dishes">
-                                        {r.dishes.slice(0, 3).map(d => (
+                                        {r.dishes.slice(0, 3).map((d: string) => (
                                           <span key={d} className="rrm-card-dish">{d}</span>
                                         ))}
                                       </div>
@@ -603,14 +676,15 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
                                   <div 
                                     key={r.id} 
                                     className="rrm-card"
-                                    onClick={() => setSelectedRestaurant(r)}
+                                    onClick={() => {
+                                      onClose();
+                                      router.push(`/restaurants/${r.id}`);
+                                    }}
                                   >
                                     <div className="rrm-card-img-wrap">
-                                      <Image 
+                                      <img 
                                         src={r.image} 
                                         alt={r.name} 
-                                        width={400} 
-                                        height={145} 
                                         style={{ objectFit: "cover", width: "100%", height: "100%" }} 
                                       />
                                       {r.badge && (
@@ -633,7 +707,7 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
                                       <p className="rrm-card-cuisine">{r.cuisine}</p>
                                       <p className="rrm-card-meta">📍 {r.area}, {r.city}</p>
                                       <div className="rrm-card-dishes">
-                                        {r.dishes.slice(0, 3).map(d => (
+                                        {r.dishes.slice(0, 3).map((d: string) => (
                                           <span key={d} className="rrm-card-dish">{d}</span>
                                         ))}
                                       </div>
@@ -656,7 +730,6 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
                       </p>
                     </div>
                   </>
-                )}
               </div>
             </motion.div>
           </div>

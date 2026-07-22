@@ -75,7 +75,7 @@ export default function SuccessStories() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setInView(true); obs.disconnect(); } },
-      { threshold: 0.15 }
+      { threshold: 0.01 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -249,8 +249,6 @@ export default function SuccessStories() {
         /* ── header + wrapper scroll-in ────────────────────────────────── */
         .ss-header,
         .ss-slider-wrap {
-          opacity: 0;
-          transform: translateY(28px);
           transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .ss-header.ss-fadein,

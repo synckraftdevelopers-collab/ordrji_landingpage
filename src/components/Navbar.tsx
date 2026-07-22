@@ -49,10 +49,10 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navBg    = isScrolled ? "rgba(253,250,244,0.92)" : "transparent";
-  const navBlur  = isScrolled ? "blur(24px)"             : "none";
-  const navBorder= isScrolled ? "1px solid var(--border-color)" : "1px solid transparent";
-  const navPad   = isScrolled ? "0.5rem 0" : "1.25rem 0";
+  const navBg    = isScrolled ? "rgba(253,250,244,0.95)" : "rgba(253,250,244,0.85)";
+  const navBlur  = "blur(20px)";
+  const navBorder= isScrolled ? "1px solid var(--border-color)" : "1px solid rgba(0, 0, 0, 0.05)";
+  const navPad   = isScrolled ? "0.4rem 0" : "0.75rem 0";
 
   /* nav links hidden during intro center phase */
   const linksVisible = introPhase !== "center";
@@ -105,8 +105,8 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
             <Image
               src="/logo-icon.jpg"
               alt="Ordrji"
-              width={160}
-              height={160}
+              width={384}
+              height={384}
               className="pf-logo-img"
               priority
             />
@@ -347,14 +347,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         /* MOVE phase — animate to top-left */
         .pf-logo-link.move {
           position: fixed;
-          top: 1.25rem;
+          top: 0.6rem;
           left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
           transform: translate(0, 0) scale(1);
-        }
-        @media (min-width: 992px) {
-          .pf-logo-link.move {
-            left: max(3.5rem, calc((100vw - 1280px) / 2 + 3.5rem));
-          }
         }
         /* DONE phase — back in normal flow */
         .pf-logo-link.done {
@@ -362,19 +357,14 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           top: auto; left: auto;
           transform: none;
         }
-        @media (min-width: 992px) {
-          .pf-logo-link.done, .pf-logo-placeholder {
-            margin-left: 2rem;
-          }
-        }
 
         /* logo image */
         .pf-logo-img {
-          object-fit: contain; border-radius: 10px;
+          object-fit: contain; border-radius: 8px;
           transition: width 0.75s cubic-bezier(0.16,1,0.3,1),
                       height 0.75s cubic-bezier(0.16,1,0.3,1);
           /* center phase: large */
-          width: 220px; height: 220px;
+          width: 180px; height: 180px;
         }
         .pf-logo-link.move  .pf-logo-img,
         .pf-logo-link.done  .pf-logo-img {
@@ -383,7 +373,7 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
         @media (max-width: 768px) {
           .pf-logo-link.move  .pf-logo-img,
           .pf-logo-link.done  .pf-logo-img {
-            width: 90px; height: 90px;
+            width: 120px; height: 120px;
           }
         }
 

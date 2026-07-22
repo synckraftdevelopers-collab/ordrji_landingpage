@@ -118,7 +118,7 @@ export default function Ecosystem() {
           obs.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.01 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -152,7 +152,7 @@ export default function Ecosystem() {
           style={{ textAlign: "center", marginBottom: "3.5rem" }}
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
 
@@ -179,7 +179,7 @@ export default function Ecosystem() {
             className="node-detail-panel glass-card"
             initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.2 }}
           >
             {activeNode && (
@@ -231,7 +231,7 @@ export default function Ecosystem() {
             style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.3 }}
           >
             <svg

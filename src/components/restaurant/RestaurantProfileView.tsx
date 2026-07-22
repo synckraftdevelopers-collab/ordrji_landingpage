@@ -10,6 +10,7 @@ import {
 import { 
   RestaurantReview, getStoredReviews, saveReview, getRestaurantRating 
 } from "@/lib/restaurantStore";
+import { SwiggyIcon, ZomatoIcon } from "@/components/BrandIcons";
 
 interface RestaurantProfileViewProps {
   restaurant: {
@@ -138,6 +139,7 @@ export default function RestaurantProfileView({ restaurant, onBack, onReviewAdde
           alt={restaurant.name}
           fill
           priority
+          unoptimized
           className="rp-hero-img"
         />
         <div className="rp-hero-overlay" />
@@ -265,8 +267,11 @@ export default function RestaurantProfileView({ restaurant, onBack, onReviewAdde
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="delivery-link swiggy-btn"
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
                 >
-                  <span className="btn-brand">🟠 Swiggy</span>
+                  <span className="btn-brand flex-center gap-1.5" style={{ display: "inline-flex", alignItems: "center" }}>
+                    <SwiggyIcon size={18} style={{ marginRight: "6px" }} /> Swiggy
+                  </span>
                   <span className="btn-action">Order Now <ExternalLink size={12} /></span>
                 </a>
 
@@ -275,8 +280,11 @@ export default function RestaurantProfileView({ restaurant, onBack, onReviewAdde
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="delivery-link zomato-btn"
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
                 >
-                  <span className="btn-brand">🔴 Zomato</span>
+                  <span className="btn-brand flex-center gap-1.5" style={{ display: "inline-flex", alignItems: "center" }}>
+                    <ZomatoIcon size={18} style={{ marginRight: "6px" }} /> Zomato
+                  </span>
                   <span className="btn-action">Order Now <ExternalLink size={12} /></span>
                 </a>
               </div>

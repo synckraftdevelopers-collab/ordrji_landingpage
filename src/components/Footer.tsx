@@ -92,7 +92,7 @@ export default function Footer() {
           className="ft-grid"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
 

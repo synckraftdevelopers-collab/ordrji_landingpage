@@ -314,7 +314,7 @@ export default function ModulesShowcase() {
           className="showcase-header"
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
 

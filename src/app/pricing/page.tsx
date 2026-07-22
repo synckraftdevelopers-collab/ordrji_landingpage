@@ -94,7 +94,7 @@ export default function PricingPage() {
     <>
       <Navbar onBookDemo={() => setIsDemoModalOpen(true)} onRegister={() => setIsRegisterModalOpen(true)} />
       
-      <main style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "6rem" }}>
+      <main style={{ minHeight: "100vh", background: "var(--bg-primary)", paddingTop: "7.5rem" }}>
         
         {/* Banner Hero */}
         <div style={{ textAlign: "center", padding: "4rem 1.5rem 2rem", position: "relative" }}>

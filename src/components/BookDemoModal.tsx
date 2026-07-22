@@ -146,6 +146,13 @@ export default function BookDemoModal({ isOpen, onClose }: BookDemoModalProps) {
           scrollbar-width: thin;
         }
 
+        @media (max-width: 480px) {
+          .bdm-card {
+            padding: 1.75rem 1.1rem;
+            border-radius: 18px;
+          }
+        }
+
         @media (min-width: 600px) {
           .bdm-card {
             padding: 2.75rem 3rem;

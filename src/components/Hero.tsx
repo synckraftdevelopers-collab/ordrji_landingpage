@@ -259,9 +259,14 @@ export default function Hero({ onBookDemo }: HeroProps) {
           width: 100%;
           display: flex;
           align-items: center;
-          padding: 8rem 0 5rem 0;
+          padding: 10.5rem 0 5rem 0;
           overflow: hidden;
           background-color: var(--bg-primary);
+        }
+        @media (max-width: 768px) {
+          .hero-section {
+            padding: 8.5rem 0 4rem 0;
+          }
         }
 
         .hero-slider {

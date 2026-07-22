@@ -11,7 +11,6 @@ export async function POST(request: Request) {
     const requiredFields = [
       "restaurantName",
       "ownerName",
-      "email",
       "phone",
       "address",
       "city",
@@ -39,7 +38,7 @@ export async function POST(request: Request) {
       .insert({
         restaurant_name: data.restaurantName,
         owner_name: data.ownerName,
-        email: data.email,
+        email: data.email || null,
         phone: data.phone,
         address: data.address,
         city: data.city,

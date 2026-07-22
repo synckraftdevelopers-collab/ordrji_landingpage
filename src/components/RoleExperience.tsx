@@ -93,7 +93,7 @@ interface RoleConfig {
 
 export default function RoleExperience() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+  const isInView = useInView(sectionRef, { once: true, amount: "some" });
   const [activeRole, setActiveRole] = useState<RoleName>("Owner");
 
 
@@ -313,7 +313,7 @@ export default function RoleExperience() {
           style={{ textAlign: "center", marginBottom: "4rem" }}
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
 
@@ -327,10 +327,10 @@ export default function RoleExperience() {
 
         {/* Count-up stat row */}
         <motion.div 
-          className="re-stats-row"
+          className={`re-stats-row ${isInView ? "re-stats-started" : ""}`}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.1 }}
         >
           <ReCountStatBadge icon={<User />} value={5} suffix=" roles" label="Dedicated interfaces" color="#da0404" started={isInView} delay={0} />
@@ -345,7 +345,7 @@ export default function RoleExperience() {
           className="role-tabs-bar glass-card"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.2 }}
         >
           {roles.map((r) => (
@@ -371,7 +371,7 @@ export default function RoleExperience() {
           style={{ borderTopColor: currentRoleConfig.color }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.3 }}
         >
           <div className="role-info-sidebar">
@@ -418,8 +418,6 @@ export default function RoleExperience() {
 
         /* ── Header animation ── */
         .re-header {
-          opacity: 0;
-          transform: translateY(28px);
           transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .re-header-in {

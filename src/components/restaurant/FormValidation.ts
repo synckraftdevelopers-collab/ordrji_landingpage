@@ -11,8 +11,9 @@ export const registrationSchema = z.object({
   /* Section 1 — Restaurant Info */
   restaurantName: z.string().min(2, "Restaurant name must be at least 2 characters"),
   ownerName:      z.string().min(2, "Owner name must be at least 2 characters"),
-  email:          z.string().email("Enter a valid email address"),
+  email:          z.string().email("Enter a valid email address").optional().or(z.literal("")),
   phone:          z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
+  googleMapsUrl:  urlSchema,
   address:        z.string().min(5, "Enter a complete address"),
   city:           z.string().min(2, "City is required"),
   district:       z.string().min(2, "District is required"),

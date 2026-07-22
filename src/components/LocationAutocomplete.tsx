@@ -266,8 +266,8 @@ export default function LocationAutocomplete({
             background: "var(--bg-card, #fff)",
             border: "1px solid var(--border-color, #e0e0e0)",
             borderRadius: "12px",
-            boxShadow: "0 10px 25px rgba(0, 0, 0, 0.08)",
-            zIndex: 1000,
+            boxShadow: "0 14px 35px rgba(0, 0, 0, 0.16)",
+            zIndex: 9999,
             maxHeight: "350px",
             overflowY: "auto",
           }}
@@ -406,6 +406,10 @@ export default function LocationAutocomplete({
           animation: autocompSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
           border-color: var(--border-color) !important;
           background: #fdfaf4 !important;
+          z-index: 9999 !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
         }
         @keyframes autocompSlide {
           from { opacity: 0; transform: translateY(-4px); }

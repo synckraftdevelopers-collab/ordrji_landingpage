@@ -11,80 +11,15 @@ import RegisterRestaurantModal from "@/components/RegisterRestaurantModal";
 import { RestaurantPrefill } from "@/components/restaurant/RegistrationForm";
 import {
   Search, MapPin, Star, Clock, Utensils, Filter, X,
-  ArrowRight, Leaf, Flame, Zap, PlusCircle, ChevronRight
+  ArrowRight, Leaf, Flame, Zap, PlusCircle, ChevronRight,
+  Loader2
 } from "lucide-react";
 import { 
-  getStoredRestaurants, StoredRestaurant, SEED_IDS, getRestaurantRating 
+  getStoredRestaurants, StoredRestaurant, SEED_IDS, getRestaurantRating, RESTAURANTS 
 } from "@/lib/restaurantStore";
 import RestaurantProfileView from "@/components/restaurant/RestaurantProfileView";
-
-/* ─── Demo Data ──────────────────────────────────────────────────── */
-const RESTAURANTS = [
-  {
-    id: 1, name: "Spice Garden", cuisine: "North Indian", type: "both" as const,
-    city: "Mumbai", area: "Andheri West", rating: 4.5, reviews: 312,
-    deliveryTime: "25–35 min", avgCost: 450,
-    dishes: ["Biryani", "Butter Chicken", "Dal Makhani", "Naan", "Lassi"],
-    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&q=80&w=600",
-    badge: "Popular", badgeColor: "#E30613", open: true, swiggy: true, zomato: true,
-  },
-  {
-    id: 2, name: "The Dosa House", cuisine: "South Indian", type: "veg" as const,
-    city: "Bengaluru", area: "Koramangala", rating: 4.7, reviews: 528,
-    deliveryTime: "20–30 min", avgCost: 200,
-    dishes: ["Masala Dosa", "Idli Sambhar", "Vada", "Filter Coffee", "Rava Upma"],
-    image: "https://images.unsplash.com/photo-1567337710282-00832b415979?auto=format&fit=crop&q=80&w=600",
-    badge: "Top Rated", badgeColor: "#16a34a", open: true, swiggy: true, zomato: false,
-  },
-  {
-    id: 3, name: "Dragon Palace", cuisine: "Chinese", type: "both" as const,
-    city: "Delhi", area: "Connaught Place", rating: 4.2, reviews: 184,
-    deliveryTime: "30–40 min", avgCost: 550,
-    dishes: ["Hakka Noodles", "Manchurian", "Spring Roll", "Fried Rice", "Momos"],
-    image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&q=80&w=600",
-    badge: "", badgeColor: "", open: true, swiggy: false, zomato: true,
-  },
-  {
-    id: 4, name: "Chai & Bites Cafe", cuisine: "Cafe", type: "veg" as const,
-    city: "Pune", area: "Kalyani Nagar", rating: 4.6, reviews: 401,
-    deliveryTime: "15–25 min", avgCost: 300,
-    dishes: ["Masala Chai", "Sandwich", "Croissant", "Cold Coffee", "Waffles"],
-    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=600",
-    badge: "New", badgeColor: "#7c3aed", open: true, swiggy: true, zomato: true,
-  },
-  {
-    id: 5, name: "Biryani Brothers", cuisine: "Biryani", type: "nonveg" as const,
-    city: "Hyderabad", area: "Banjara Hills", rating: 4.8, reviews: 762,
-    deliveryTime: "35–45 min", avgCost: 380,
-    dishes: ["Chicken Biryani", "Mutton Biryani", "Prawn Biryani", "Raita", "Kebab"],
-    image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=600",
-    badge: "Trending", badgeColor: "#dc2626", open: true, swiggy: true, zomato: true,
-  },
-  {
-    id: 6, name: "Pizza Peak", cuisine: "Pizza", type: "both" as const,
-    city: "Chennai", area: "T. Nagar", rating: 4.3, reviews: 256,
-    deliveryTime: "25–35 min", avgCost: 600,
-    dishes: ["Margherita", "Pepperoni", "BBQ Chicken", "Garlic Bread", "Pasta"],
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
-    badge: "", badgeColor: "", open: false, swiggy: false, zomato: true,
-  },
-  {
-    id: 7, name: "Street Bites", cuisine: "Street Food", type: "veg" as const,
-    city: "Jaipur", area: "MI Road", rating: 4.4, reviews: 190,
-    deliveryTime: "20–30 min", avgCost: 150,
-    dishes: ["Pav Bhaji", "Vada Pav", "Samosa", "Chole Bhature", "Jalebi"],
-    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&q=80&w=600",
-    badge: "Budget Friendly", badgeColor: "#0284c7", open: true, swiggy: true, zomato: false,
-  },
-  {
-    id: 8, name: "The Mughal Table", cuisine: "Mughlai", type: "nonveg" as const,
-    city: "Lucknow", area: "Hazratganj", rating: 4.6, reviews: 334,
-    deliveryTime: "40–50 min", avgCost: 700,
-    dishes: ["Nihari", "Galouti Kebab", "Sheermal", "Korma", "Phirni"],
-    image: "https://images.unsplash.com/photo-1567337710282-00832b415979?auto=format&fit=crop&q=80&w=600",
-    badge: "Premium", badgeColor: "#b45309", open: true, swiggy: false, zomato: true,
-  },
-];
+import { useRouter } from "next/navigation";
+import { SwiggyIcon, ZomatoIcon } from "@/components/BrandIcons";
 
 const CUISINES = ["All","North Indian","South Indian","Chinese","Cafe","Biryani","Pizza","Street Food","Mughlai"];
 const TYPES = [
@@ -95,6 +30,7 @@ const TYPES = [
 ];
 
 export default function RestaurantsPage() {
+  const router = useRouter();
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [prefill, setPrefill] = useState<RestaurantPrefill | undefined>(undefined);
@@ -104,18 +40,49 @@ export default function RestaurantsPage() {
   const [showFilters, setShowFilters] = useState(false);
   
   const [extraRestaurants, setExtraRestaurants] = useState<StoredRestaurant[]>([]);
-  const [selectedRestaurant, setSelectedRestaurant] = useState<any>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [loadingBackend, setLoadingBackend] = useState(false);
 
   // Load registered restaurants on mount and refresh triggers
   useEffect(() => {
-    setExtraRestaurants(getStoredRestaurants().filter(r => !SEED_IDS.includes(r.id)));
+    setLoadingBackend(true);
+    fetch("/api/restaurants")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setExtraRestaurants(data.restaurants ?? []);
+        }
+      })
+      .catch(err => console.error("Failed to fetch restaurants:", err))
+      .finally(() => setLoadingBackend(false));
   }, [refreshKey]);
 
   // Build combined list: user-registered first, then demo seed, with dynamically calculated ratings
   const allRestaurants = useMemo(() => {
-    const extraMapped = extraRestaurants.map(r => {
+    const extraMapped = extraRestaurants.map((r, index) => {
       const { rating, reviewsCount } = getRestaurantRating(String(r.id), 0, 0);
+      const fallbackLogos = [
+        "/images/logos/kitchen365.jpg",
+        "/images/logos/mirabel.jpg",
+        "/images/logos/upabove.jpg",
+        "/images/logos/gulmohar.jpg",
+        "/images/logos/eagle.jpg",
+        "/images/logos/mansarovar.jpg",
+        "/images/logos/shivai.jpg",
+        "/images/logos/virsa.jpg"
+      ];
+      const fallbackCovers = [
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=600",
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=600"
+      ];
+      const assignedLogo = r.logoUrl && !r.logoUrl.startsWith("blob:")
+        ? r.logoUrl
+        : fallbackLogos[index % fallbackLogos.length];
+      const assignedCover = r.coverImageUrl || fallbackCovers[index % fallbackCovers.length];
+
       return {
         id: r.id, 
         name: r.name, 
@@ -125,10 +92,10 @@ export default function RestaurantsPage() {
         area: r.area, 
         rating, 
         reviews: reviewsCount,
-        deliveryTime: `${r.openingTime}–${r.closingTime}`,
+        deliveryTime: r.openingTime && r.closingTime ? `${r.openingTime}–${r.closingTime}` : "—",
         avgCost: r.avgCost, 
         dishes: r.dishes,
-        image: r.coverImageUrl || r.logoUrl || "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
+        image: assignedCover,
         badge: "New", 
         badgeColor: "#7c3aed",
         open: true, 
@@ -141,16 +108,18 @@ export default function RestaurantsPage() {
         address: r.address,
         baseRating: 0,
         baseReviewsCount: 0,
-        logoUrl: r.logoUrl
+        logoUrl: assignedLogo
       };
     });
 
     const demoMapped = RESTAURANTS.map(r => {
+      const stringId = "seed-" + r.id;
       const baseRating = [4.5, 4.7, 4.2, 4.6, 4.8, 4.3, 4.4, 4.6][(r.id - 1) % 8];
       const baseReviewsCount = [312, 528, 184, 401, 762, 256, 190, 334][(r.id - 1) % 8];
-      const { rating, reviewsCount } = getRestaurantRating(String(r.id), baseRating, baseReviewsCount);
+      const { rating, reviewsCount } = getRestaurantRating(stringId, baseRating, baseReviewsCount);
       return {
         ...r,
+        id: stringId,
         rating,
         reviews: reviewsCount,
         baseRating,
@@ -299,7 +268,11 @@ export default function RestaurantsPage() {
                 <h2 className="rl-section-title">
                   Registered Partners <span className="rl-section-count">{registeredPartners.length}</span>
                 </h2>
-                {registeredPartners.length === 0 ? (
+                {loadingBackend ? (
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "180px", width: "100%" }}>
+                    <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} color="#E30613" />
+                  </div>
+                ) : registeredPartners.length === 0 ? (
                   <div className="rl-empty-section">
                     <p>No registered partners match your filters</p>
                     <span>Click &ldquo;Add Your Restaurant&rdquo; to add your store!</span>
@@ -307,14 +280,14 @@ export default function RestaurantsPage() {
                 ) : (
                   <div className="rl-grid">
                     {registeredPartners.map(r => (
-                      <div key={r.id} className="rl-card" onClick={() => setSelectedRestaurant(r)}>
+                      <div key={r.id} className="rl-card" onClick={() => window.open(`/restaurants/${r.id}`, "_blank")}>
 
                         {/* Image */}
                         <div className="rl-card-img-wrap">
-                          <Image src={r.image} alt={r.name} className="rl-card-img" width={600} height={185} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                          <img src={r.image} alt={r.name} className="rl-card-img" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                           {r.logoUrl && (
                             <div className="rl-card-logo-overlay">
-                              <Image src={r.logoUrl} alt={`${r.name} logo`} width={38} height={38} style={{ objectFit: "cover", borderRadius: "50%" }} />
+                              <img src={r.logoUrl} alt={`${r.name} logo`} style={{ objectFit: "cover", borderRadius: "50%", width: "38px", height: "38px" }} />
                             </div>
                           )}
                           {r.badge && (
@@ -367,8 +340,8 @@ export default function RestaurantsPage() {
 
                           {/* Order links */}
                           <div className="rl-card-links" onClick={e => e.stopPropagation()}>
-                            {r.swiggy && <a href={r.swiggyUrl || "https://swiggy.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-swiggy">🟠 Swiggy</a>}
-                            {r.zomato && <a href={r.zomatoUrl || "https://zomato.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-zomato">🔴 Zomato</a>}
+                            {r.swiggy && <a href={r.swiggyUrl || "https://swiggy.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-swiggy" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}><SwiggyIcon size={14} style={{ marginRight: "6px" }} /> Swiggy</a>}
+                            {r.zomato && <a href={r.zomatoUrl || "https://zomato.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-zomato" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}><ZomatoIcon size={14} style={{ marginRight: "6px" }} /> Zomato</a>}
                             {!r.swiggy && !r.zomato && <span className="rl-no-delivery">No delivery links</span>}
                           </div>
 
@@ -394,14 +367,14 @@ export default function RestaurantsPage() {
                 ) : (
                   <div className="rl-grid">
                     {featuredOutlets.map(r => (
-                      <div key={r.id} className="rl-card" onClick={() => setSelectedRestaurant(r)}>
+                      <div key={r.id} className="rl-card" onClick={() => window.open(`/restaurants/${r.id}`, "_blank")}>
 
                         {/* Image */}
                         <div className="rl-card-img-wrap">
-                          <Image src={r.image} alt={r.name} className="rl-card-img" width={600} height={185} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                          <img src={r.image} alt={r.name} className="rl-card-img" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                           {r.logoUrl && (
                             <div className="rl-card-logo-overlay">
-                              <Image src={r.logoUrl} alt={`${r.name} logo`} width={38} height={38} style={{ objectFit: "cover", borderRadius: "50%" }} />
+                              <img src={r.logoUrl} alt={`${r.name} logo`} style={{ objectFit: "cover", borderRadius: "50%", width: "38px", height: "38px" }} />
                             </div>
                           )}
                           {r.badge && (
@@ -454,8 +427,8 @@ export default function RestaurantsPage() {
 
                           {/* Order links */}
                           <div className="rl-card-links" onClick={e => e.stopPropagation()}>
-                            {r.swiggy && <a href={r.swiggyUrl || "https://swiggy.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-swiggy">🟠 Swiggy</a>}
-                            {r.zomato && <a href={r.zomatoUrl || "https://zomato.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-zomato">🔴 Zomato</a>}
+                            {r.swiggy && <a href={r.swiggyUrl || "https://swiggy.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-swiggy" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}><SwiggyIcon size={14} style={{ marginRight: "6px" }} /> Swiggy</a>}
+                            {r.zomato && <a href={r.zomatoUrl || "https://zomato.com"} target="_blank" rel="noopener noreferrer" className="rl-order-btn rl-zomato" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}><ZomatoIcon size={14} style={{ marginRight: "6px" }} /> Zomato</a>}
                             {!r.swiggy && !r.zomato && <span className="rl-no-delivery">No delivery</span>}
                           </div>
 
@@ -485,32 +458,9 @@ export default function RestaurantsPage() {
         </section>
       </main>
 
-      {/* ─── Restaurant Profile Modal Overlay ─── */}
-      {selectedRestaurant && (
-        <div className="rl-profile-modal-root">
-          <div className="rl-profile-modal-overlay" onClick={() => setSelectedRestaurant(null)} />
-          <div className="rl-profile-modal-card">
-            <button 
-              className="rl-profile-modal-close" 
-              onClick={() => setSelectedRestaurant(null)}
-              aria-label="Close"
-            >
-              <X size={17} />
-            </button>
-            <RestaurantProfileView 
-              restaurant={selectedRestaurant} 
-              onBack={() => setSelectedRestaurant(null)}
-              onReviewAdded={() => {
-                setRefreshKey(k => k + 1);
-              }}
-            />
-          </div>
-        </div>
-      )}
-
       <Footer />
       <BookDemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
-      <RegisterRestaurantModal isOpen={registerOpen} onClose={() => setRegisterOpen(false)} prefill={prefill} />
+      <RegisterRestaurantModal isOpen={registerOpen} onClose={() => setRegisterOpen(false)} prefill={prefill} onSuccess={() => setRefreshKey(k => k + 1)} />
 
       <style jsx global>{`
         /* Hero */
@@ -694,6 +644,7 @@ export default function RestaurantsPage() {
           transition: background .18s, color .18s, transform .18s;
         }
         .rl-profile-modal-close:hover { background: #f0ebe0; color: #1e1b18; transform: scale(1.08); }
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
     </>
   );

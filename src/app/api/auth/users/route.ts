@@ -65,17 +65,19 @@ export async function POST(req: NextRequest) {
       // Sync to Supabase
       try {
         const { supabaseAdmin } = await import("@/lib/supabase");
-        const { error: dbError } = await (supabaseAdmin.from("admin_users") as any).insert({
-          id: newUser.id,
-          email: newUser.email,
-          password: newUser.password,
-          name: newUser.name,
-          role: newUser.role,
-          designation: newUser.designation,
-          bio: newUser.bio,
-          avatar: newUser.avatar,
-          registered_at: new Date().toISOString()
-        });
+        const { error: dbError } = await (supabaseAdmin as any)
+          .from("admin_users")
+          .insert({
+            id: newUser.id,
+            email: newUser.email,
+            password: newUser.password,
+            name: newUser.name,
+            role: newUser.role,
+            designation: newUser.designation,
+            bio: newUser.bio,
+            avatar: newUser.avatar,
+            registered_at: new Date().toISOString()
+          });
         if (dbError) {
           console.error("Error saving user to Supabase:", dbError);
         }

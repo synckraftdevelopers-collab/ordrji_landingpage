@@ -129,7 +129,7 @@ export default function Problems() {
           style={{ textAlign: "center", marginBottom: "4rem" }}
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
           <h2 style={{ fontSize: "clamp(2rem, 4.5vw, 2.5rem)", fontWeight: 800, letterSpacing: "-1.2px", marginTop: "0.5rem" }}>
@@ -148,7 +148,7 @@ export default function Problems() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: "some" }}
         >
           {PAIN_POINTS.map((item, idx) => (
             <ProblemCard key={idx} item={item} variants={itemVariants} />
