@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CheckCircle2, Loader2, Eye, TrendingUp, Star,
   Share2, ThumbsUp, Zap, Search, X, ChevronDown, Utensils,
-  Users
+  Users, Plus
 } from "lucide-react";
 
 import { registrationSchema, RegistrationFormData } from "./FormValidation";
@@ -126,8 +126,23 @@ function DishesMultiSelect({
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
 
+  const toTitleCase = (str: string) => {
+    return str.replace(/\b\w/g, c => c.toUpperCase());
+  };
+
+  const queryLower = query.trim().toLowerCase();
+  
   const filtered = DISH_SUGGESTIONS.filter(d =>
-    !value.includes(d) && d.toLowerCase().includes(query.toLowerCase())
+    !value.some(val => val.toLowerCase() === d.toLowerCase()) && 
+    d.toLowerCase().includes(queryLower)
+  );
+
+  const hasExactSuggestionMatch = DISH_SUGGESTIONS.some(
+    d => d.toLowerCase() === queryLower
+  );
+
+  const isAlreadySelected = value.some(
+    val => val.toLowerCase() === queryLower
   );
 
   useEffect(() => {
@@ -139,7 +154,10 @@ function DishesMultiSelect({
   }, []);
 
   const addDish = (dish: string) => {
-    onChange([...value, dish]);
+    const formatted = toTitleCase(dish);
+    if (!value.some(val => val.toLowerCase() === formatted.toLowerCase())) {
+      onChange([...value, formatted]);
+    }
     setQuery("");
   };
 
@@ -185,15 +203,34 @@ function DishesMultiSelect({
               <Search size={13} className="rr-sselect-search-icon" />
               <input
                 className="rr-sselect-search"
-                placeholder="Search dishes..."
+                placeholder="Search or type custom dish..."
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 onClick={e => e.stopPropagation()}
+                onKeyDown={e => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    const trimmed = query.trim();
+                    if (trimmed && !isAlreadySelected) {
+                      addDish(trimmed);
+                    }
+                  }
+                }}
                 autoFocus
               />
             </div>
             <div className="rr-dishes-options">
-              {filtered.length === 0 && <p className="rr-sselect-empty">No dishes found</p>}
+              {query.trim() && !isAlreadySelected && !hasExactSuggestionMatch && (
+                <button 
+                  type="button" 
+                  className="rr-dishes-option" 
+                  onClick={() => addDish(query.trim())}
+                  style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "var(--accent-orange, #E30613)", fontWeight: 700 }}
+                >
+                  <Plus size={12} /> Add "{toTitleCase(query.trim())}"
+                </button>
+              )}
+              {filtered.length === 0 && !query.trim() && <p className="rr-sselect-empty">No dishes found</p>}
               {filtered.slice(0, 12).map(d => (
                 <button key={d} type="button" className="rr-dishes-option" onClick={() => addDish(d)}>
                   {d}
@@ -228,6 +265,12 @@ export default function RegistrationForm({
 }) {
   const [logo,        setLogo]        = useState<string | null>(null);
   const [cover,       setCover]       = useState<string | null>(null);
+  const [image1,      setImage1]      = useState<string | null>(null);
+  const [image2,      setImage2]      = useState<string | null>(null);
+  const [logoFile,    setLogoFile]    = useState<File | null>(null);
+  const [coverFile,   setCoverFile]   = useState<File | null>(null);
+  const [image1File,  setImage1File]  = useState<File | null>(null);
+  const [image2File,  setImage2File]  = useState<File | null>(null);
   const [submitting,  setSubmitting]  = useState(false);
   const [success,     setSuccess]     = useState(false);
   const [submittedName, setSubmittedName] = useState("");
@@ -257,7 +300,55 @@ export default function RegistrationForm({
     setSubmitting(true);
     setSubmitError(null);
 
+    const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
+    const allowedMimeTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+    const validateImage = (file: File, typeLabel: string) => {
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error(`${typeLabel} file "${file.name}" exceeds the 5 MB size limit.`);
+      }
+      const ext = file.name.split('.').pop()?.toLowerCase();
+      if (!ext || !allowedExtensions.includes(ext) || !allowedMimeTypes.includes(file.type)) {
+        throw new Error(`${typeLabel} file "${file.name}" has an invalid format. Only JPG, JPEG, PNG, and WEBP are allowed.`);
+      }
+    };
+
+    const fileToBase64 = (file: File): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+      });
+    };
+
     try {
+      let logoData: string | null = null;
+      let coverData: string | null = null;
+      let image1Data: string | null = null;
+      let image2Data: string | null = null;
+
+      if (logoFile) {
+        validateImage(logoFile, "Logo");
+        logoData = await fileToBase64(logoFile);
+      }
+
+      if (coverFile) {
+        validateImage(coverFile, "Cover");
+        coverData = await fileToBase64(coverFile);
+      }
+
+      if (image1File) {
+        validateImage(image1File, "Restaurant Image 1");
+        image1Data = await fileToBase64(image1File);
+      }
+
+      if (image2File) {
+        validateImage(image2File, "Restaurant Image 2");
+        image2Data = await fileToBase64(image2File);
+      }
+
+      // Submit form data
       const response = await fetch("/api/register-restaurant", {
         method: "POST",
         headers: {
@@ -266,8 +357,14 @@ export default function RegistrationForm({
         body: JSON.stringify({
           ...data,
           selectedDishes,
-          logoUrl: logo,
-          coverImageUrl: cover,
+          logoData,
+          logoName: logoFile ? logoFile.name : null,
+          coverData,
+          coverName: coverFile ? coverFile.name : null,
+          image1Data,
+          image1Name: image1File ? image1File.name : null,
+          image2Data,
+          image2Name: image2File ? image2File.name : null,
         }),
       });
 
@@ -299,8 +396,8 @@ export default function RegistrationForm({
         registeredAt: new Date().toISOString(),
         badge:        "New",
         badgeColor:   "#7c3aed",
-        logoUrl:      logo || undefined,
-        coverImageUrl: cover || undefined,
+        logoUrl:      result.logoUrl || undefined,
+        coverImageUrl: result.coverImageUrl || undefined,
       });
 
       setSubmittedName(data.restaurantName);
@@ -388,7 +485,28 @@ export default function RegistrationForm({
                 </div>
               </div>
 
-              <BrandingSection logo={logo} cover={cover} onLogoChange={setLogo} onCoverChange={setCover} />
+              <BrandingSection
+                logo={logo}
+                cover={cover}
+                image1={image1}
+                image2={image2}
+                onLogoChange={(file, preview) => {
+                  setLogoFile(file);
+                  setLogo(preview);
+                }}
+                onCoverChange={(file, preview) => {
+                  setCoverFile(file);
+                  setCover(preview);
+                }}
+                onImage1Change={(file, preview) => {
+                  setImage1File(file);
+                  setImage1(preview);
+                }}
+                onImage2Change={(file, preview) => {
+                  setImage2File(file);
+                  setImage2(preview);
+                }}
+              />
               <IntegrationSection register={register} errors={errors} />
               <BusinessSection register={register} errors={errors} />
 

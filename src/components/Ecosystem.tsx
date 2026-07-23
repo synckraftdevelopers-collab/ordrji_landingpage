@@ -151,7 +151,7 @@ export default function Ecosystem() {
           className="eco-header"
           style={{ textAlign: "center", marginBottom: "3.5rem" }}
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "none" }}
           viewport={{ once: true, amount: "some" }}
           transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
         >
@@ -178,7 +178,7 @@ export default function Ecosystem() {
           <motion.div
             className="node-detail-panel glass-card"
             initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "none" }}
             viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.2 }}
           >
@@ -230,7 +230,7 @@ export default function Ecosystem() {
           <motion.div
             style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
             initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "none" }}
             viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.3 }}
           >

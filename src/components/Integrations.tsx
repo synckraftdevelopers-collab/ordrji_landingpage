@@ -148,9 +148,56 @@ function OrbNode({ p, rot }: { p: Partner; rot: number }) {
 
 /* ── SVG rings + spokes + hub ──────────────────────────────────────────── */
 function Orbital({ partners, rot, ringColor }: { partners: Partner[]; rot: number; ringColor: string }) {
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width || entry.target.getBoundingClientRect().width;
+        if (width > 0) {
+          const targetWidth = width < SIZE ? width - 32 : width;
+          setScale(Math.min(1, targetWidth / SIZE));
+        }
+      }
+    });
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="ig-orbital-outer">
-      <div className="ig-orbital-scaler" style={{ position: "relative", width: SIZE, height: SIZE }}>
+    <div 
+      className="ig-orbital-outer" 
+      ref={containerRef} 
+      style={{ 
+        width: "100%", 
+        height: SIZE * scale, 
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <div 
+        className="ig-orbital-scaler" 
+        style={{ 
+          position: "absolute", 
+          left: "50%",
+          top: "50%",
+          width: SIZE, 
+          height: SIZE,
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: "center center",
+          flexShrink: 0
+        }}
+      >
         {/* SVG — behind nodes */}
         <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE}
           style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden>
@@ -247,7 +294,7 @@ export default function Integrations() {
           <motion.div 
             className="ig-left"
             initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "none" }}
             onViewportEnter={() => setInView(true)}
             viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25 }}
@@ -263,7 +310,7 @@ export default function Integrations() {
           <motion.div 
             className="ig-right"
             initial={{ opacity: 0, x: 40, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "none" }}
             viewport={{ once: true, amount: "some" }}
             transition={{ type: "spring", stiffness: 180, damping: 25, delay: 0.2 }}
           >
@@ -361,17 +408,7 @@ export default function Integrations() {
           .ig-left {
             width: 100% !important;
             max-width: 100% !important;
-            overflow: hidden !important;
-          }
-          .ig-orbital-outer {
-            width: calc(100vw - 32px);
-            height: calc(100vw - 32px);
-            max-width: 100vw;
-          }
-          .ig-orbital-scaler {
-            transform: scale(calc((100vw - 32px) / 580));
-            transform-origin: center center;
-            flex-shrink: 0;
+            overflow: visible !important;
           }
         }
 

@@ -107,6 +107,8 @@ create table restaurant_registrations (
   restaurant_type   text not null check (restaurant_type in ('veg','nonveg','both')),
   logo_url          text,
   cover_image_url   text,
+  restaurant_image_1_url text,
+  restaurant_image_2_url text,
   swiggy_url        text,
   zomato_url        text,
   opening_time      text not null,
@@ -120,6 +122,14 @@ create table restaurant_registrations (
   created_at        timestamptz not null default now(),
   updated_at        timestamptz not null default now()
 );
+```
+
+#### SQL Migration (For existing tables)
+If you already created the table, run the following SQL command in your **Supabase Dashboard SQL Editor** to add these two image columns:
+```sql
+alter table restaurant_registrations 
+add column restaurant_image_1_url text,
+add column restaurant_image_2_url text;
 ```
 
 ---

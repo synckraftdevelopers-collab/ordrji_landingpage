@@ -59,6 +59,8 @@ export default function BillingEnginePage() {
           boxShadow: "0 30px 60px rgba(0,0,0,0.4), 0 0 0 8px #2c2c2e",
           border: "1px solid #444",
           display: "flex",
+          width: "100%",
+          maxWidth: "600px",
           height: "400px",
           transform: "perspective(1000px) rotateY(-5deg)",
           transformOrigin: "center right",

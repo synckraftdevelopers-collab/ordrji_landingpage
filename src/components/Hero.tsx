@@ -23,6 +23,18 @@ export default function Hero({ onBookDemo }: HeroProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedLocName, setSelectedLocName] = useState("");
   const [locationDetails, setLocationDetails] = useState<SearchResult | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => {
+      window.removeEventListener("resize", checkDesktop);
+    };
+  }, []);
 
   // Global subtle camera movement
   const globalMouseX = useMotionValue(0.5);
@@ -34,6 +46,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
   const globalRotateX = useTransform(smoothGlobalY, [0, 1], [2, -2]);
 
   const handleGlobalMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!isDesktop) return;
     const x = e.clientX / (typeof window !== "undefined" ? window.innerWidth : 1000);
     const y = e.clientY / (typeof window !== "undefined" ? window.innerHeight : 1000);
     globalMouseX.set(x);
@@ -52,7 +65,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
   }, []);
 
   return (
-    <section className="hero-section" onMouseMove={handleGlobalMove} style={{ perspective: "2000px" }}>
+    <section className="hero-section" onMouseMove={handleGlobalMove} style={{ perspective: isDesktop ? "2000px" : "none" }}>
       {/* Cinematic Image Slider with Ken Burns Effect */}
       <div className="hero-slider">
         {HERO_IMAGES.map((img, index) => (
@@ -68,25 +81,25 @@ export default function Hero({ onBookDemo }: HeroProps) {
       <motion.div 
         className="container hero-content"
         style={{
-          rotateX: globalRotateX,
-          rotateY: globalRotateY,
-          transformStyle: "preserve-3d"
+          rotateX: isDesktop ? globalRotateX : 0,
+          rotateY: isDesktop ? globalRotateY : 0,
+          transformStyle: isDesktop ? "preserve-3d" : "flat"
         }}
       >
-        <div className="hero-grid" style={{ transformStyle: "preserve-3d" }}>
+        <div className="hero-grid" style={{ transformStyle: isDesktop ? "preserve-3d" : "flat" }}>
           {/* Headline and CTAs */}
           
           <motion.div 
             className="hero-text-block"
             initial={{ opacity: 0, filter: "blur(10px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
+            animate={{ opacity: 1, filter: "none" }}
             transition={{ duration: 0.8, staggerChildren: 0.15 }}
           >
             <motion.h1 
               className="hero-title" 
               style={{ fontSize: "clamp(1.9rem, 4.2vw, 3.1rem)", lineHeight: "1.2", letterSpacing: "-1.5px" }}
               initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              animate={{ opacity: 1, y: 0, filter: "none" }}
               transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
             >
               Restaurant POS, Billing, KOT &amp; <br className="hide-mobile" />
@@ -98,7 +111,7 @@ export default function Hero({ onBookDemo }: HeroProps) {
               className="hero-subtitle" 
               style={{ fontSize: "1.05rem", lineHeight: "1.6" }}
               initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              animate={{ opacity: 1, y: 0, filter: "none" }}
               transition={{ type: "spring", stiffness: 200, damping: 25, delay: 0.1 }}
             >
               Ordrji helps restaurants, cafes, QSRs, cloud kitchens and bakeries manage billing, kitchen orders, QR ordering, inventory, customer data and reports from one simple system.
@@ -237,14 +250,14 @@ export default function Hero({ onBookDemo }: HeroProps) {
           <motion.div 
             className="hero-visual-block"
             initial={{ opacity: 0, scale: 0.92, filter: "blur(12px)", y: 20 }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }}
+            animate={{ opacity: 1, scale: 1, filter: "none", y: 0 }}
             transition={{ type: "spring", stiffness: 180, damping: 22, delay: 0.35 }}
           >
             <motion.div 
               className="chef-image-wrapper"
-              whileHover={{ rotateX: 4, rotateY: -4, scale: 1.02 }}
+              whileHover={isDesktop ? { rotateX: 4, rotateY: -4, scale: 1.02 } : { scale: 1.02 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              style={{ perspective: 1000, cursor: "pointer" }}
+              style={{ perspective: isDesktop ? 1000 : undefined, cursor: "pointer" }}
             >
               <Image src="/hero.png?v=2" alt="Ordrji OS Hero" width={480} height={480} className="chef-hero-img" style={{ width: "100%", height: "auto" }} priority unoptimized />
             </motion.div>
@@ -330,9 +343,22 @@ export default function Hero({ onBookDemo }: HeroProps) {
         }
 
         .hero-text-block {
+          position: relative;
+          z-index: 20;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+        }
+
+        .hero-visual-block {
+          position: relative;
+          z-index: 10;
+        }
+
+        @media (max-width: 1023px) {
+          .hero-content, .hero-grid {
+            transform-style: flat !important;
+          }
         }
 
         @media (max-width: 768px) {

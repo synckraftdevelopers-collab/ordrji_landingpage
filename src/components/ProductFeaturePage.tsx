@@ -47,15 +47,13 @@ export default function ProductFeaturePage({
       {/* Hero Section */}
       <main style={{ paddingTop: "140px", paddingBottom: "80px", overflow: "hidden" }}>
         <div className="container">
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: heroVisual ? "1fr 1fr" : "1fr", 
-            gap: "4rem", 
-            alignItems: "center",
-            maxWidth: heroVisual ? "1200px" : "800px",
-            margin: "0 auto",
-            textAlign: heroVisual ? "left" : "center"
-          }}>
+          <div 
+            className={`pf-hero-grid ${!heroVisual ? "no-visual" : ""}`}
+            style={{ 
+              alignItems: "center",
+              margin: "0 auto",
+            }}
+          >
             <div className="hero-text-col">
               {heroIcon && !heroVisual && (
                 <div style={{ 
@@ -105,12 +103,82 @@ export default function ProductFeaturePage({
 
         {/* Inline styles for responsive stacking */}
         <style dangerouslySetInnerHTML={{__html: `
+          .pf-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            text-align: left;
+            transition: all 0.3s ease;
+          }
+          .pf-hero-grid.no-visual {
+            grid-template-columns: 1fr;
+            max-width: 800px;
+            text-align: center;
+          }
           @media (max-width: 900px) {
+            .pf-hero-grid {
+              grid-template-columns: 1fr !important;
+              gap: 2.5rem !important;
+              text-align: center !important;
+            }
             .hero-text-col { text-align: center; }
             .hero-text-col > div { justify-content: center !important; }
-            .hero-visual-col { margin-top: 2rem; }
-            .container > div[style*="grid-template-columns"] {
+            .hero-visual-col {
+              margin-top: 1.5rem;
+              width: 100%;
+              max-width: 480px;
+              margin-left: auto;
+              margin-right: auto;
+            }
+            /* Flatten 3D perspective transforms on mobile to avoid layout clipping */
+            .hero-visual-col > div {
+              transform: none !important;
+              max-width: 100% !important;
+              margin: 0 auto !important;
+            }
+            /* Make double columns inside visual mockups stack vertically on mobile */
+            .hero-visual-col div[style*="grid-template-columns: 1fr 1fr"],
+            .hero-visual-col div[style*="grid-template-columns:1fr 1fr"] {
               grid-template-columns: 1fr !important;
+            }
+          }
+          @media (max-width: 600px) {
+            .hero-visual-col {
+              transform: scale(0.9);
+              transform-origin: top center;
+              margin-bottom: -40px; /* offset scale vertical shift */
+            }
+            /* Hide the right-side Checkout Pane inside the POS dashboard on small screens */
+            .hero-visual-col div[style*="width: 260px"],
+            .hero-visual-col div[style*="width:260px"] {
+              display: none !important;
+            }
+            /* Re-grid the POS items from 3 columns to 2 columns on small screens */
+            .hero-visual-col div[style*="grid-template-columns: 1fr 1fr 1fr"],
+            .hero-visual-col div[style*="grid-template-columns:1fr 1fr 1fr"] {
+              grid-template-columns: 1fr 1fr !important;
+            }
+          }
+          @media (max-width: 420px) {
+            .hero-visual-col {
+              transform: scale(0.8);
+              transform-origin: top center;
+              margin-bottom: -80px;
+            }
+            .pf-benefits-card {
+              padding: 2rem 1.5rem !important;
+            }
+            .pf-benefits-card h2 {
+              font-size: 1.8rem !important;
+              margin-bottom: 1.5rem !important;
+            }
+          }
+          @media (max-width: 350px) {
+            .hero-visual-col {
+              transform: scale(0.72);
+              transform-origin: top center;
+              margin-bottom: -110px;
             }
           }
         `}} />
@@ -129,7 +197,7 @@ export default function ProductFeaturePage({
             <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem" }}>Everything you need to run your operations smoothly.</p>
           </div>
           
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
             {features.map((f, i) => (
               <div key={i} style={{ 
                 background: "var(--bg-card)", 
@@ -159,9 +227,9 @@ export default function ProductFeaturePage({
       {/* Key Benefits List */}
       <section style={{ padding: "6rem 0", background: "var(--bg-primary)" }}>
         <div className="container">
-          <div style={{ maxWidth: "900px", margin: "0 auto", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "24px", padding: "4rem" }}>
+          <div className="pf-benefits-card" style={{ maxWidth: "900px", margin: "0 auto", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "24px", padding: "4rem" }}>
             <h2 style={{ fontSize: "2.2rem", fontWeight: 800, marginBottom: "2rem", textAlign: "center" }}>Why choose Ordrji for this?</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
               {benefits.map((benefit, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
                   <CheckCircle2 color={heroColor} size={24} style={{ flexShrink: 0, marginTop: "2px" }} />

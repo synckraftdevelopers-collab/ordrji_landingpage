@@ -49,9 +49,9 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navBg    = isScrolled ? "rgba(253,250,244,0.95)" : "rgba(253,250,244,0.85)";
-  const navBlur  = "blur(20px)";
-  const navBorder= isScrolled ? "1px solid var(--border-color)" : "1px solid rgba(0, 0, 0, 0.05)";
+  const navBg    = isScrolled ? "rgba(253, 250, 244, 0.95)" : "transparent";
+  const navBlur  = isScrolled ? "blur(20px)" : "none";
+  const navBorder= isScrolled ? "1px solid var(--border-color)" : "1px solid transparent";
   const navPad   = isScrolled ? "0.4rem 0" : "0.75rem 0";
 
   /* nav links hidden during intro center phase */

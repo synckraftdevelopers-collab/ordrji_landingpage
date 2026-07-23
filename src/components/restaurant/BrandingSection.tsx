@@ -9,7 +9,7 @@ interface UploadZoneProps {
   label: string;
   hint: string;
   value: string | null;
-  onChange: (url: string | null) => void;
+  onChange: (file: File | null, url: string | null) => void;
 }
 
 function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
@@ -17,12 +17,17 @@ function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
   const [dragging, setDragging] = useState(false);
 
   const handleFile = (file: File) => {
-    if (!file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      onChange(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Invalid file format. Allowed formats: JPG, JPEG, PNG, WEBP.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size exceeds 5MB limit.");
+      return;
+    }
+    const previewUrl = URL.createObjectURL(file);
+    onChange(file, previewUrl);
   };
 
   return (
@@ -31,7 +36,7 @@ function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
       {value ? (
         <motion.div className="rr-upload-preview" initial={{ opacity: 0, scale: .95 }} animate={{ opacity: 1, scale: 1 }}>
           <Image src={value} alt={label} fill style={{ objectFit: "cover", borderRadius: "12px" }} />
-          <button className="rr-upload-remove" onClick={() => onChange(null)} type="button" aria-label="Remove image">
+          <button className="rr-upload-remove" onClick={() => onChange(null, null)} type="button" aria-label="Remove image">
             <X size={14} />
           </button>
         </motion.div>
@@ -62,18 +67,31 @@ function UploadZone({ label, hint, value, onChange }: UploadZoneProps) {
 interface Props {
   logo: string | null;
   cover: string | null;
-  onLogoChange: (v: string | null) => void;
-  onCoverChange: (v: string | null) => void;
+  image1: string | null;
+  image2: string | null;
+  onLogoChange: (file: File | null, v: string | null) => void;
+  onCoverChange: (file: File | null, v: string | null) => void;
+  onImage1Change: (file: File | null, v: string | null) => void;
+  onImage2Change: (file: File | null, v: string | null) => void;
 }
 
-export default function BrandingSection({ logo, cover, onLogoChange, onCoverChange }: Props) {
+export default function BrandingSection({ 
+  logo, 
+  cover, 
+  image1,
+  image2,
+  onLogoChange, 
+  onCoverChange,
+  onImage1Change,
+  onImage2Change
+}: Props) {
   return (
     <div className="rr-section">
       <div className="rr-section-header">
         <span className="rr-section-num">03</span>
         <div>
           <h3 className="rr-section-title">Restaurant Branding</h3>
-          <p className="rr-section-sub">Upload your logo and cover image</p>
+          <p className="rr-section-sub">Upload your logo, cover image, and two restaurant showcase images</p>
         </div>
       </div>
 
@@ -89,6 +107,21 @@ export default function BrandingSection({ logo, cover, onLogoChange, onCoverChan
           hint="PNG, JPG up to 5MB · Recommended 1200×400px"
           value={cover}
           onChange={onCoverChange}
+        />
+      </div>
+
+      <div className="rr-grid-2" style={{ marginTop: "1.5rem" }}>
+        <UploadZone
+          label="Restaurant Image 1"
+          hint="PNG, JPG up to 5MB · Recommended 800×600px"
+          value={image1}
+          onChange={onImage1Change}
+        />
+        <UploadZone
+          label="Restaurant Image 2"
+          hint="PNG, JPG up to 5MB · Recommended 800×600px"
+          value={image2}
+          onChange={onImage2Change}
         />
       </div>
     </div>
