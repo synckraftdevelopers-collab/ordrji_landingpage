@@ -231,6 +231,7 @@ export default function RegistrationForm({
   const [submitting,  setSubmitting]  = useState(false);
   const [success,     setSuccess]     = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [submittedId,   setSubmittedId]   = useState("");
   const [selectedDishes, setSelectedDishes] = useState<string[]>(prefill?.dishes ?? []);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -303,6 +304,7 @@ export default function RegistrationForm({
       });
 
       setSubmittedName(data.restaurantName);
+      setSubmittedId(result.id || "");
       setSuccess(true);
       onSuccess?.(data.restaurantName);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -485,6 +487,7 @@ export default function RegistrationForm({
       <SuccessModal
         isOpen={success}
         restaurantName={submittedName}
+        restaurantId={submittedId}
         onClose={() => {
           setSuccess(false);
           onSuccessModalClose?.();

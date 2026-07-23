@@ -280,7 +280,7 @@ export default function RestaurantsPage() {
                 ) : (
                   <div className="rl-grid">
                     {registeredPartners.map(r => (
-                      <div key={r.id} className="rl-card" onClick={() => window.open(`/restaurants/${r.id}`, "_blank")}>
+                      <div key={r.id} className="rl-card" onClick={() => router.push(`/restaurants/${r.id}`)}>
 
                         {/* Image */}
                         <div className="rl-card-img-wrap">
@@ -367,7 +367,7 @@ export default function RestaurantsPage() {
                 ) : (
                   <div className="rl-grid">
                     {featuredOutlets.map(r => (
-                      <div key={r.id} className="rl-card" onClick={() => window.open(`/restaurants/${r.id}`, "_blank")}>
+                      <div key={r.id} className="rl-card" onClick={() => router.push(`/restaurants/${r.id}`)}>
 
                         {/* Image */}
                         <div className="rl-card-img-wrap">

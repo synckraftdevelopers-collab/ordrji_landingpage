@@ -2,16 +2,17 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, Home, ClipboardList, X } from "lucide-react";
+import { CheckCircle2, Home, ClipboardList, X, Utensils } from "lucide-react";
 import Link from "next/link";
 
 interface SuccessModalProps {
   isOpen: boolean;
   restaurantName: string;
+  restaurantId?: string;
   onClose: () => void;
 }
 
-export default function SuccessModal({ isOpen, restaurantName, onClose }: SuccessModalProps) {
+export default function SuccessModal({ isOpen, restaurantName, restaurantId, onClose }: SuccessModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -70,12 +71,19 @@ export default function SuccessModal({ isOpen, restaurantName, onClose }: Succes
             </div>
 
             <div className="rr-modal-actions">
-              <Link href="/" className="rr-modal-btn-primary">
+              {restaurantId && (
+                <Link href={`/restaurants/${restaurantId}`} className="rr-modal-btn-primary" onClick={onClose} style={{ background: "#16a34a" }}>
+                  <Utensils size={16} /> View Restaurant Page
+                </Link>
+              )}
+              <Link href="/" className={restaurantId ? "rr-modal-btn-secondary" : "rr-modal-btn-primary"}>
                 <Home size={16} /> Go to Home
               </Link>
-              <button className="rr-modal-btn-secondary" onClick={onClose}>
-                <ClipboardList size={16} /> Track Status
-              </button>
+              {!restaurantId && (
+                <button className="rr-modal-btn-secondary" onClick={onClose}>
+                  <ClipboardList size={16} /> Track Status
+                </button>
+              )}
             </div>
           </motion.div>
 

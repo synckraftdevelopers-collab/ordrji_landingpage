@@ -554,8 +554,6 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
               onClick={e => e.stopPropagation()}
             >
               <div className="rrm-picker-card">
-                
-                  /* ─── Search List Mode ─── */
                   <>
                     <div className="rrm-picker-head">
                       <div>

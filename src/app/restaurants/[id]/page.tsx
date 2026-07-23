@@ -126,7 +126,7 @@ export default function RestaurantDetailPage() {
       <Navbar onBookDemo={() => setIsDemoOpen(true)} onRegister={() => setRegisterOpen(true)} />
 
       <main style={{ background: "#f8fafc", minHeight: "100vh", paddingTop: "5.5rem", paddingBottom: "4rem" }}>
-        <div className="container" style={{ maxWidth: "980px" }}>
+        <div style={{ width: "100%", maxWidth: "100%" }}>
           
           {loading ? (
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
@@ -134,7 +134,7 @@ export default function RestaurantDetailPage() {
               <p style={{ marginTop: "1rem", color: "#64748b", fontWeight: 600 }}>Loading restaurant profile...</p>
             </div>
           ) : !restaurant ? (
-            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "24px", padding: "4rem 2rem", textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.03)" }}>
+            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "24px", padding: "4rem 2rem", textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.03)", maxWidth: "600px", margin: "0 auto" }}>
               <Utensils size={48} color="#cbd5e1" style={{ marginBottom: "1rem" }} />
               <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.5rem" }}>Restaurant Not Found</h2>
               <p style={{ color: "#64748b", margin: "0 0 1.5rem" }}>The restaurant you are looking for does not exist or has been removed.</p>
