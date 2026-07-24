@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: "Ordrji — The Restaurant Operating System of the Future",
   description: "Beyond POS. Run your entire restaurant—POS, QR Ordering, Kitchen Display, Billing, CRM, Inventory, and Analytics—from a single dashboard. Designed for premium dining.",
   icons: {
-    icon: "/logo-icon.jpg",
-    apple: "/logo-icon.jpg",
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
