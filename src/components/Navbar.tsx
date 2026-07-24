@@ -344,18 +344,22 @@ export default function Navbar({ onBookDemo }: NavbarProps) {
           left: 50%;
           transform: translate(-50%, -50%) scale(1);
         }
-        /* MOVE phase — animate to top-left */
+        /* MOVE phase — animate to top-left but shifted slightly right */
         .pf-logo-link.move {
           position: fixed;
           top: 0.6rem;
-          left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+          left: max(3rem, calc((100vw - 1280px) / 2 + 3rem));
           transform: translate(0, 0) scale(1);
         }
-        /* DONE phase — back in normal flow */
+        /* DONE phase — back in normal flow but shifted slightly right */
         .pf-logo-link.done {
           position: relative;
           top: auto; left: auto;
           transform: none;
+          margin-left: 1.5rem;
+        }
+        .pf-logo-placeholder {
+          margin-left: 1.5rem;
         }
 
         /* logo image */
