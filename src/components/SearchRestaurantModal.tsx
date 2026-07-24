@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Search, Star, Utensils, ChevronRight, Loader2 } from "lucide-react";
-import { getRestaurantRating, SEED_IDS } from "@/lib/restaurantStore";
+import { getRestaurantRating, SEED_IDS, StoredRestaurant } from "@/lib/restaurantStore";
 import { useRouter } from "next/navigation";
 
 /* ─── Demo seed restaurants ──────────────────────────────────────── */
@@ -78,25 +78,39 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
   const [refreshKey, setRefreshKey] = useState(0);
 
   // Supabase-fetched restaurants
-  const [supabaseRestaurants, setSupabaseRestaurants] = useState<any[]>([]);
+  const [supabaseRestaurants, setSupabaseRestaurants] = useState<StoredRestaurant[]>([]);
   const [loadingSupabase, setLoadingSupabase] = useState(false);
 
-  // Fetch from Supabase whenever modal opens
   useEffect(() => {
     if (!isOpen) return;
-    setLoadingSupabase(true);
-    fetch("/api/restaurants")
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) setSupabaseRestaurants(data.restaurants ?? []);
-      })
-      .catch(err => console.error("Failed to fetch restaurants:", err))
-      .finally(() => setLoadingSupabase(false));
+    let isMounted = true;
+    const fetchRestaurants = async () => {
+      await Promise.resolve();
+      if (!isMounted) return;
+      setLoadingSupabase(true);
+      try {
+        const res = await fetch("/api/restaurants");
+        const data = await res.json();
+        if (isMounted && data.success) {
+          setSupabaseRestaurants(data.restaurants ?? []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch restaurants:", err);
+      } finally {
+        if (isMounted) setLoadingSupabase(false);
+      }
+    };
+    fetchRestaurants();
+    return () => { isMounted = false; };
   }, [isOpen, refreshKey]);
 
   useEffect(() => {
     if (!isOpen) {
-      setQuery("");
+      const resetQuery = async () => {
+        await Promise.resolve();
+        setQuery("");
+      };
+      resetQuery();
     }
   }, [isOpen]);
 
@@ -116,7 +130,7 @@ export default function SearchRestaurantModal({ isOpen, onClose }: Props) {
   // Build combined restaurant list: Supabase registered + demo seeds
   const allRestaurants = useMemo(() => {
     // Map Supabase restaurants to display shape
-    const supabaseMapped = supabaseRestaurants.map((r: any, index: number) => {
+    const supabaseMapped = supabaseRestaurants.map((r: StoredRestaurant, index: number) => {
       const { rating, reviewsCount } = getRestaurantRating(String(r.id), 0, 0);
       const fallbackLogos = [
         "/images/logos/kitchen365.jpg",

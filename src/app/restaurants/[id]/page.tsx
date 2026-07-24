@@ -19,22 +19,31 @@ export default function RestaurantDetailPage() {
 
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
-  const [extraRestaurants, setExtraRestaurants] = useState<any[]>([]);
+  const [extraRestaurants, setExtraRestaurants] = useState<StoredRestaurant[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
   // Load all restaurants to search for the specific one
   useEffect(() => {
-    setLoading(true);
-    fetch("/api/restaurants")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
+    let isMounted = true;
+    const fetchRestaurants = async () => {
+      await Promise.resolve();
+      if (!isMounted) return;
+      setLoading(true);
+      try {
+        const res = await fetch("/api/restaurants");
+        const data = await res.json();
+        if (isMounted && data.success) {
           setExtraRestaurants(data.restaurants ?? []);
         }
-      })
-      .catch((err) => console.error("Failed to fetch restaurants:", err))
-      .finally(() => setLoading(false));
+      } catch (err) {
+        console.error("Failed to fetch restaurants:", err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+    fetchRestaurants();
+    return () => { isMounted = false; };
   }, [refreshKey]);
 
   // Combine and find the specific restaurant
@@ -42,7 +51,7 @@ export default function RestaurantDetailPage() {
     if (!id) return null;
 
     // Build extra mapped
-    const extraMapped = extraRestaurants.map((r: any, index: number) => {
+    const extraMapped = extraRestaurants.map((r: StoredRestaurant, index: number) => {
       const { rating, reviewsCount } = getRestaurantRating(String(r.id), 0, 0);
       const fallbackLogos = [
         "/images/logos/kitchen365.jpg",
@@ -96,7 +105,7 @@ export default function RestaurantDetailPage() {
     });
 
     // Build demo mapped
-    const demoMapped = RESTAURANTS.map((r: any) => {
+    const demoMapped = RESTAURANTS.map((r: typeof RESTAURANTS[0]) => {
       const stringId = "seed-" + r.id;
       const baseRating = [4.5, 4.7, 4.2, 4.6, 4.8, 4.3, 4.4, 4.6][(r.id - 1) % 8];
       const baseReviewsCount = [312, 528, 184, 401, 762, 256, 190, 334][(r.id - 1) % 8];

@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       // Sync to Supabase
       try {
         const { supabaseAdmin } = await import("@/lib/supabase");
-        const { error: dbError } = await (supabaseAdmin as any)
+        const { error: dbError } = await supabaseAdmin
           .from("admin_users")
           .insert({
             id: newUser.id,
