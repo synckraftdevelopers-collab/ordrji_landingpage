@@ -227,7 +227,7 @@ function DishesMultiSelect({
                   onClick={() => addDish(query.trim())}
                   style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "var(--accent-orange, #E30613)", fontWeight: 700 }}
                 >
-                  <Plus size={12} /> Add "{toTitleCase(query.trim())}"
+                  <Plus size={12} /> Add &quot;{toTitleCase(query.trim())}&quot;
                 </button>
               )}
               {filtered.length === 0 && !query.trim() && <p className="rr-sselect-empty">No dishes found</p>}

@@ -110,7 +110,7 @@ export default function CommentsSection({ blogSlug }: { blogSlug: string }) {
 
     setSubmitting(true);
     try {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from("blog_comments")
         .insert({
           blog_post_id: supabasePostId,
